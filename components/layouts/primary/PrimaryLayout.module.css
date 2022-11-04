@@ -1,0 +1,8 @@
+.galaxy_cont {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    /* background-image: url('../../../public/galaxy-wallpaper.jpg'); */
+    background-size: cover;
+    display: block;
+}

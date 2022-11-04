@@ -4,7 +4,31 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    scroll-behavior: smooth
 }
+
+*{ margin: 0; padding: 0; box-sizing: border-box; transition: .2s cubic-bezier(0.13, 0.77, 0.33, 1);}
+a{ text-decoration: none; color: inherit;}
+li{ list-style: none; }
+
+/* :root {
+	--taggie: #9300ff;
+	--bordes: hsla(0,0%,100%,.2)
+} */
+/* 
+::-webkit-scrollbar{width:9px;position:absolute; background-color: rgb(242, 242, 242); height: 4px;}
+::-webkit-scrollbar:hover{width:9px}
+::-webkit-scrollbar-track{background:rgb(242, 242, 242);transition:background .2s}
+::-webkit-scrollbar-track:hover{}
+::-webkit-scrollbar-thumb{background:rgba(138, 138, 138, 0.8);transition:background .2s;border-radius: 4px;}
+::-webkit-scrollbar-thumb:hover{background:hsla(0,0%,47%,.95)} */
+
+
+
+@media (max-width: 800px) {
+	html{overflow-x: none; }
+}
+
 
 a {
   color: inherit;
