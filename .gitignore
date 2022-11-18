@@ -7,6 +7,10 @@
 
 # testing
 /coverage
+components/cards/Card/FreeCard1.stories.tsx
+components/cards/Card/FreeCard1.mocks.ts
+components/cards/Card/FreeCard2.mocks.ts
+components/cards/Card/FreeCard3.mocks.ts
 
 # next.js
 /.next/
