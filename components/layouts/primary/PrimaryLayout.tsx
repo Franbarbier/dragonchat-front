@@ -16,10 +16,14 @@ const PrimaryLayout: React.FC<IPrimaryLayout> = ({
         <title>Dragonchat Free</title>
       </Head>
       <div {...divProps} className={styles.galaxy_cont}>
-        <main className="px-5 cards-cont">
+        <main className="px-5">
           {children}
         </main>
       </div>
+
+      {/* <ModalContainer>
+
+      </ModalContainer> */}
     </>
   );
 };

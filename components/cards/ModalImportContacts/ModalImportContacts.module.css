@@ -1,0 +1,94 @@
+.table_cont{
+    max-height: 60vh;
+    overflow: auto;
+}
+.table_cont::-webkit-scrollbar{
+    width: 4px;
+    position:absolute;
+    background-color: #5d3770;
+    height: 4px;
+}
+
+.table_cont::-webkit-scrollbar-track{
+    background:#291051;
+    transition:background .2s
+}
+.table_cont::-webkit-scrollbar-track:hover{}
+.table_cont::-webkit-scrollbar-thumb{
+    background:rgba(138, 138, 138, 0.8);
+    transition:background .2s;
+    border-radius: 4px;
+}
+.table_cont::-webkit-scrollbar-thumb:hover{
+    background:hsla(0,0%,47%,.95)
+}
+.labelFile{
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #e17846;
+    border: 1px dashed #e17846;
+    padding: 8px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-bottom: 3%;
+
+}
+
+.saveOrEdit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5%
+}
+.saveOrEdit .labelFile, .saveOrEdit button{
+    width: 47%;
+}
+.saveOrEdit button{
+    margin: 0!important;
+    margin-bottom: 3%!important;
+    padding: 8px 0!important;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.infoIcon{
+    margin-right: 10px;
+    border-radius: 50px;
+    border: 1px solid #ddd;
+    padding: 3px 8px;
+    font-size: 10px;
+}
+.infoCsv>div{
+    margin-bottom: 5%;
+    padding-bottom: 5%;
+    border-bottom: 1px solid rgba(232, 232, 232, 0.307);
+    position: relative;
+
+}
+.infoCsv img{
+    position: absolute;
+    top: 20%;
+    left: 100%;
+    display: none;
+}
+.ejPlantilla:hover ~ img{
+    display: block;
+}
+.infoTxt{
+    color: #ddd;
+    font-weight: 100;
+    font-size: 0.8em;
+}
+.ejPlantilla{
+    border-bottom: 1px solid #e17846;
+    /* cursor: url('../../../public/plantilla-ejemplo.jpg'), auto;; */
+    font-weight: bold;
+}
+
+.ejDownload{
+    border-bottom: 1px solid #e17846;
+    cursor: pointer;
+    font-weight: bold
+}

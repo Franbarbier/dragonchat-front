@@ -1,0 +1,12 @@
+.qrCard_cont p{
+    color: #fff;
+    text-align: center;
+    font-size: 0.9em;
+    margin: 3% 0 8%;
+
+}
+.qrCard_cont img{
+    display: block;
+    margin: auto;
+
+}

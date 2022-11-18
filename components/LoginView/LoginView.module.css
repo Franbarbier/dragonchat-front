@@ -1,0 +1,65 @@
+.login_options{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10%;
+}
+
+.rememberMe{
+    display: flex;
+    align-items: center;
+    font-weight: 100;
+    font-size: 0.85em;
+}
+.rememberMe>div{
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--violeta1);
+    background-color: var(--rosita1);
+    border-radius: 50px;
+    margin-right: 10px;
+    cursor: pointer;
+
+}
+.forget{
+    color: var(--amarillo);
+    font-size: 0.85em;
+    cursor: pointer;
+}
+.googleInit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    background-color: white;
+    padding: 8px 0px;
+    width: 100%;
+    border: 1px solid var(--violeta1);
+    border-radius: 5px;
+    margin: 3% 0;
+    cursor: pointer
+}
+.googleInit>img{
+    margin-right: 10px;
+}
+.noAccount hr{
+    margin-top: 10%;
+    height: 2px;
+    border: none;
+    background-image: radial-gradient( rgb(134 91 255), rgba(255,255,255,0)) ;
+    margin-bottom: 5%;
+}
+.noAccount>div{
+    font-size: 0.9em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.noAccount button{
+    color: var(--amarillo);
+    margin-left: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}

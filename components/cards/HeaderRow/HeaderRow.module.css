@@ -1,0 +1,12 @@
+.table_headers{
+    margin-top: 7%;
+    margin-bottom: 4%;
+    display: flex;
+    justify-content: space-between;
+}
+.table_headers h6{
+    font-weight: 400;
+    color: var(--rosita1);
+    text-align: center;
+}
+

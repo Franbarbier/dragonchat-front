@@ -1,0 +1,14 @@
+
+.orangeBtn{
+    display: block;
+    text-align: center;
+    background: linear-gradient(0, #c21c3b, #f9bd4f);
+    border-radius: 5px;
+    border: 1px solid #e17846;
+    width: 100%;
+    padding: 2% 0;
+    cursor: pointer;
+    margin-top: 3%;
+    font-size: 0.9em;
+    
+}

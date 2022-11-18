@@ -1,20 +1,33 @@
+@font-face {
+  font-family: 'Space Mono';
+  src: url('../public/SpaceMono/SpaceMono-Regular.ttf');
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: 'Space Mono', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    scroll-behavior: smooth
+  /* font-family: 'Space Mono'; */
+  scroll-behavior: smooth
+}
+input, select, button, textarea {
+  font-family: 'Space Mono';
+
 }
 
 *{ margin: 0; padding: 0; box-sizing: border-box; transition: .2s cubic-bezier(0.13, 0.77, 0.33, 1);}
 a{ text-decoration: none; color: inherit;}
 li{ list-style: none; }
 
-/* :root {
-	--taggie: #9300ff;
-	--bordes: hsla(0,0%,100%,.2)
-} */
+:root {
+	--rosita1: #9f5bc3;
+	--rosita2: #d78ffd;
+  --violeta1: #422a93;
+  --amarillo: #fffb11;
+	
+}
 /* 
 ::-webkit-scrollbar{width:9px;position:absolute; background-color: rgb(242, 242, 242); height: 4px;}
 ::-webkit-scrollbar:hover{width:9px}
@@ -23,7 +36,9 @@ li{ list-style: none; }
 ::-webkit-scrollbar-thumb{background:rgba(138, 138, 138, 0.8);transition:background .2s;border-radius: 4px;}
 ::-webkit-scrollbar-thumb:hover{background:hsla(0,0%,47%,.95)} */
 
-
+.column50{width: 50%;}
+/* .column50{width: 50%;}
+.column50{width: 50%;} */
 
 @media (max-width: 800px) {
 	html{overflow-x: none; }
