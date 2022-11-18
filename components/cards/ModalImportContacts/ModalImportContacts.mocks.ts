@@ -1,9 +1,10 @@
-import { ICardsCont } from './CardsCont';
+import { IModalImportContacts } from './ModalImportContacts';
 
-const base: ICardsCont = {
-    sampleTextProp: 'ESte es el card cont',
+const base: IModalImportContacts = {
+    setModalImport : () => {},
+    uploadContacts: () => {}
 }
 
-export const mockCardsContProps = {
+export const mockModalImportProps = {
     base
 }
