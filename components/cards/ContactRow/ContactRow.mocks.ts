@@ -1,9 +1,10 @@
-import { ICardsCont } from './CardsCont';
+import { IContactRow } from './ContactRow';
 
-const base: ICardsCont = {
-    sampleTextProp: 'ESte es el card cont',
+const base: IContactRow = {
+    contact : {name: '', wpp: ''},
+    campos : ['Campo1', 'Campo2']
 }
 
-export const mockCardsContProps = {
+export const mockContactRowProps = {
     base
 }
