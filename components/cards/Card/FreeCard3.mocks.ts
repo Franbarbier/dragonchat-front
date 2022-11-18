@@ -1,7 +1,14 @@
 import { IFreeCard3 } from './SendFree';
 
 const base: IFreeCard3 = {
-    sampleTextProp: 'Hello World!',
+    sampleTextProp : 'string',
+    setActiveCard: () => {},
+    activeCard : 3,
+    contactos : [{
+        name: 'asd',
+        wpp: '5491136'
+    }],
+    setContactos : () => {}
 }
 
 export const mockFreeCard1Props = {

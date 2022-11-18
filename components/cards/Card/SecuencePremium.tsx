@@ -8,9 +8,14 @@ export interface ISecuenceMessage {
     
 }
 
+interface IChat {
+    message? : string,
+    color?: string
+}
+
 const SecuenceMessage: React.FC<ISecuenceMessage> = ({ setActiveCard, activeCard }) => {
 
-    const [chat, setChat] = useState<object[]>([])
+    const [chat, setChat] = useState<IChat[]>([])
 
     const [modalAddMessage, setModalAddMessage] = useState('')
     const [red_new_message, setRed_new_message] = useState('')
@@ -74,8 +79,8 @@ const SecuenceMessage: React.FC<ISecuenceMessage> = ({ setActiveCard, activeCard
                             {chat.map(message => (
 
                                 <div className={styles.message_cont}>
-                                <div className={`${message.color == "blue" ? `${styles.blue_message} ${styles.blue_type}` : `${styles.red_message} ${styles.red_type}` } ${styles.message}`} >
-                                    {console.log(message.color)}
+                                <div className={`${styles.message}  ${message.color == "blue" ? `${styles.blue_message} ${styles.blue_type}` : `${styles.red_message}
+                                        ${styles.red_type}` }`}>
                                     <div>
                                         <p>{message.message}</p>
                                     </div>

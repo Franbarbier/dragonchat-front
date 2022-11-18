@@ -1,9 +1,13 @@
 import { IFreeCard2 } from './MessageFree';
 
 const base: IFreeCard2 = {
-    sampleTextProp: 'Hello World!',
+    sampleTextProp : 'string',
+    setActiveCard: () => {},
+    activeCard : 2,
+    mensaje : 'string',
+    setMensaje: (m) => {},
 }
 
-export const mockFreeCard1Props = {
+export const mockFreeCard2Props = {
     base
 }
