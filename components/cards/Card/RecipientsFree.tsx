@@ -16,7 +16,7 @@ export interface IFreeCard1 {
     sampleTextProp : string;
     setActiveCard: (id: number) => void;
     activeCard : number;
-    contactos : [ContactInfo];
+    contactos : ContactInfo[];
     handleNewContact: (newContact: ContactInfo) => void;
     handleDeleteContact : (contact: ContactInfo) => void;
     handleRenderModal : (render: boolean) => void

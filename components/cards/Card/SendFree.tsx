@@ -9,7 +9,7 @@ export interface IFreeCard3 {
     sampleTextProp : string;
     setActiveCard: (id: number) => void;
     activeCard : number;
-    contactos : [ContactInfo];
+    contactos : ContactInfo[];
     setContactos : (contactos: ContactInfo[]) => void
 }
 
