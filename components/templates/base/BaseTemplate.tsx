@@ -1,6 +1,6 @@
 import styles from './BaseTemplate.module.css';
 
-export interFace IBaseTemplate {
+export interface IBaseTemplate {
     sampleTextProp : string;
 }
 

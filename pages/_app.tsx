@@ -3,8 +3,9 @@ import '../styles/globals.css';
 import { NextPageWithLayout } from './page';
 
 interface AppPropsWithLayout extends AppProps {
-  Component: NextPageWithLayout;
+  Component: NextPageWithLayout
 }
+
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 

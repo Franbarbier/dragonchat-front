@@ -1,7 +1,7 @@
-import { ILoginView } from './LoginView.mocks';
+import { ILoginView } from './LoginView';
 
 const base: ILoginView = {
-    sampleTextProp: 'ESte es el card cont',
+  
 }
 
 export const mockLoginViewProps = {

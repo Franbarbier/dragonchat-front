@@ -1,9 +1,14 @@
-import { ICardsCont } from './CardsCont';
+import { IMainCont } from './MainCont';
 
-const base: ICardsCont = {
-    sampleTextProp: 'ESte es el card cont',
+const Test : any = () => {
+    return 'Compa!'
+};
+
+const base: IMainCont = {
+    width: 50,
+    children : Test
 }
 
-export const mockCardsContProps = {
+export const mockMainContProps = {
     base
 }

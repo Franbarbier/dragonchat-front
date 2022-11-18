@@ -1,7 +1,7 @@
-import { IInputGral } from './CardTitle.mocks';
+import { ICardTitle } from './CardTitle';
 
-const base: IInputGral = {
-    sampleTextProp: 'ESte es el card cont',
+const base: ICardTitle = {
+    text: 'ESte es el card cont',
 }
 
 export const mockInputGralProps = {

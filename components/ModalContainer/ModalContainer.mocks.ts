@@ -1,7 +1,12 @@
-import { IModalContainer } from './ModalContainer'
+import { IModalContainer } from './ModalContainer';
+
+const Test : any = () => {
+    return 'Compa!'
+};
 
 const base: IModalContainer = {
-    sampleTextProp: 'ESte es el card cont',
+    children : Test,
+    closeModal : ()=> console.log('Cerradpo')
 }
 
 export const mockCardsContProps = {

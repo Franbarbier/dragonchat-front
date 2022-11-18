@@ -1,7 +1,10 @@
-import { IInputGral } from './InputGral.mocks';
+import { IInputGral } from './InputGral';
 
 const base: IInputGral = {
-    sampleTextProp: 'ESte es el card cont',
+    type : "text",
+    placeholder : "Hola",
+    name : "text1",
+    value : "Este es el val"
 }
 
 export const mockInputGralProps = {

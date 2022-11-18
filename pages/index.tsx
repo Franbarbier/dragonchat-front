@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
-import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
-import CardsCont from '../components/cards/CardsContFree';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 // import Search from '../components/utility/search/Search';
 import { NextPageWithLayout } from './page';
+
+
 
 const Home: NextPageWithLayout = () => {
   const { locale } = useRouter();
