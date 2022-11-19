@@ -21,7 +21,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   const [isFile, setIsFile] = useState<boolean>(false);
 
 
-  const parseFile = file => {
+  const parseFile = file  => {
     Papa.parse(file, {
       header: true,
       complete: results => {
@@ -40,7 +40,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   }, []);
 
   
-  function renameKeys(newArr:Array) {
+  function renameKeys(newArr:Array<any>) {
     for (let index = 0; index < newArr.length; index++) {
       var element = newArr[index];
       element.wpp = element["Número"]
