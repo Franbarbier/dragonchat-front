@@ -9,6 +9,6 @@ const base: IModalContainer = {
     closeModal : ()=> console.log('Cerradpo')
 }
 
-export const mockCardsContProps = {
+export const mockModalContainerProps = {
     base
 }

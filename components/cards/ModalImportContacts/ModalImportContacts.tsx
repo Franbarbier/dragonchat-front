@@ -80,7 +80,7 @@ return (
           {isFile ?
 
             <div className={styles.saveOrEdit}>
-              <label className={styles.labelFile} for="csvInput">Cambiar .CSV</label>
+              <label className={styles.labelFile} htmlFor="csvInput">Cambiar .CSV</label>
               {/* <button className={styles.uploadContacts} for="csvInput">Subir contactos</button> */}
               <OrangeBtn text="Subir contactos" onClick={()=>{
                                                             uploadContacts(parsedCsvData)
@@ -99,7 +99,7 @@ return (
                 También podes descargarlo haciendo <span className={styles.ejDownload}><a href="/Plantilla DragonChat - Importar contactos.csv" >click acá</a></span>.</span>
               </div>
 
-              <label className={styles.labelFile} for="csvInput">Agregar .CSV</label>
+              <label className={styles.labelFile} htmlFor="csvInput">Agregar .CSV</label>
             </div>
           </>
           }
