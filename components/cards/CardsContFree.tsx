@@ -3,6 +3,7 @@ import ModalContainer from '../ModalContainer/ModalContainer';
 import { mockFreeCard1Props } from './Card/FreeCard3.mocks';
 import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
+import SecuenceMessage from './Card/SecuencePremium';
 import FreeCard3 from './Card/SendFree';
 import styles from './CardsCont.module.css';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
@@ -70,13 +71,17 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         handleDeleteContact={handleDeleteContact}
                         handleRenderModal={handleRenderModal}
                     />
-                    <FreeCard2
+                    <SecuenceMessage
+                        setActiveCard={(val:any)=>setActiveCard(val)}
+                        activeCard={activeCard}
+                    />
+                    {/* <FreeCard2
                         {...mockFreeCard1Props.base}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         mensaje={mensaje}
                         setMensaje={setMensaje}
-                    />
+                    /> */}
 
                     <div className={styles. ruleta}>
 

@@ -378,7 +378,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     display: flex;
     flex-direction: column;
 }
-.message{
+.SecuencePremiumCard .message{
     width: fit-content;
     max-width: 60%;
     font-size: 0.8em;
@@ -388,7 +388,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     position: relative;
     font-weight: 300;
 }
-.message img{
+.SecuencePremiumCard .message img{
     width: 20px;
     cursor: pointer;
     position: absolute;
@@ -397,21 +397,21 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     display: none;
     opacity: 0.8;
 }
-.message img:hover{
+.SecuencePremiumCard .message img:hover{
     opacity: 1;
 }
-.message.blue_message img{
+.SecuencePremiumCard .message.blue_message img{
     right: 105%;
 }
-.message.red_message img{
+.SecuencePremiumCard .message.red_message img{
     left: 105%;
 }
-.message_cont{
+.SecuencePremiumCard .message_cont{
     display: flex;
     flex-direction: column;
 }
 
-.message_cont:hover img{
+.SecuencePremiumCard .message_cont:hover img{
     display: block;
 }
 .blue_message{

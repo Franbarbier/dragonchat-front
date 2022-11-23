@@ -21,7 +21,7 @@ const SecuenceMessage: React.FC<ISecuenceMessage> = ({ setActiveCard, activeCard
     const [red_new_message, setRed_new_message] = useState('')
     const [blue_new_message, setBlue_new_message] = useState('')
 
-    const idCard = 1
+    const idCard = 2
 
     function addMessage(message:string, color:string){
         setChat( [...chat, {message, color}] )
@@ -31,7 +31,13 @@ const SecuenceMessage: React.FC<ISecuenceMessage> = ({ setActiveCard, activeCard
 
 
     return (
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} 
+        <div
+        // id="SecuencePremiumCard"
+        // className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} 
+
+        className={`${styles.card} ${styles.SecuencePremiumCard} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`}
+        id={`${styles['card'+idCard]}`}
+
         onClick={()=>{
             setModalAddMessage('')
         }}
