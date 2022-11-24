@@ -1,19 +1,19 @@
 @font-face {
-  font-family: 'Space Mono';
-  src: url('../public/SpaceMono/SpaceMono-Regular.ttf');
+  font-family: 'Orbitron';
+  src: url('../public/Orbitron/Orbitron-VariableFont_wght.ttf');
 }
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Space Mono', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  /* font-family: 'Space Mono'; */
+  /* font-family: 'Orbitron'; */
   scroll-behavior: smooth
 }
 input, select, button, textarea {
-  font-family: 'Space Mono';
+  font-family: 'Orbitron';
 
 }
 
