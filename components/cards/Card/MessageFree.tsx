@@ -1,4 +1,4 @@
-import CardTitle from '../../CardTitle/CardTitle';
+import CardTitle from '../CardTitle/CardTitle';
 import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {

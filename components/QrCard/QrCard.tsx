@@ -1,6 +1,6 @@
 import styles from './QrCard.module.css';
 
-import CardTitle from "../CardTitle/CardTitle";
+import CardTitle from "../cards/CardTitle/CardTitle";
 
 export interface IQrCard {
     qr_url : string;

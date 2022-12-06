@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CardTitle from '../../CardTitle/CardTitle';
+import CardTitle from '../CardTitle/CardTitle';
 import styles from './FreeCard.module.css';
 
 export interface ISecuenceMessage {

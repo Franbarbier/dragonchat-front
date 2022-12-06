@@ -9,9 +9,6 @@
     z-index: 0;
 }
 
-.card_table_cont{
-    
-}
 
 .nextCard, .prevCard{
     position: absolute;
@@ -59,4 +56,49 @@
 .arrow_disabled{
     opacity: 0.3;
     cursor: inherit!important;
+}
+.dragon1{
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 17%;
+}
+.dragon2{
+    position: absolute;
+    top: 60%;
+    right: 15%;
+    width: 17%;
+    transform: rotateY(180deg);
+}
+.ruleta_cont{
+    position: absolute;
+    left: 50%;
+    bottom: 0%;
+}
+.ruleta_cont>div{
+    background: black;
+    padding: 15px;
+    width: 150px;
+    height: 150px;
+    border-radius: 250px;
+    position: relative;
+    transform: rotate(0deg);
+}
+.ruleta_cont>div>div>div:nth-child(1){
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.ruleta_cont>div>div>div:nth-child(2){
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+}
+.ruleta_cont>div>div>div:nth-child(3){
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
 }

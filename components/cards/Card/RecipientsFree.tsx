@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import CardTitle from '../../CardTitle/CardTitle';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
+import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
 

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import { mockFreeCard1Props } from './Card/FreeCard3.mocks';
-import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
 import SecuenceMessage from './Card/SecuencePremium';
 import FreeCard3 from './Card/SendFree';
 import styles from './CardsCont.module.css';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 
+const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
     sampleTextProp : string;
@@ -33,6 +33,9 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [contactos, setContactos] = useState<ContactInfo[]>([])
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
+
+    const [apareceGif, setApareceGif] = useState<boolean>(false)
+
     
     function handleNewContact(newContact:ContactInfo) {
         setContactos([...contactos, newContact])
@@ -48,8 +51,10 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     }
 
     useEffect(()=>{
-        console.log(contactos)
-    },[contactos])
+        setTimeout(() => {
+            setApareceGif(true)
+        }, 800);
+    },[])
 
     return (
         <div>
@@ -83,9 +88,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         setMensaje={setMensaje}
                     /> */}
 
-                    <div className={styles. ruleta}>
-
-                    </div>
+                    
 
             </div>
             <div className={`${styles.nextCard} ${activeCard == 3 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard < 3) setActiveCard(activeCard+1) } }>
@@ -94,6 +97,28 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
             <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard > 1) setActiveCard(activeCard-1) } }>
                 <button>{'<'}</button>
             </div>
+
+            {/* <div className={styles.ruleta_cont}>
+                <div>
+                    <div>
+                        <div>
+                            <p>Uno</p>
+                        </div>
+                        <div>
+                            <p>Dos</p>
+                        </div>
+                        <div>
+                            <p>Tres</p>
+                        </div>
+                    </div>
+                </div>
+            </div> */}
+
+            <img className={styles.dragon1} src="/dragon_anim.gif" />
+            {apareceGif &&
+                <img className={styles.dragon2} src="/dragon_anim.gif" />
+            }
+            
 
             {modalImport &&
                 <div className={styles.modal_position_card1}>

@@ -5,6 +5,8 @@ export interface IInputGral {
     placeholder? : string;
     name? : string;
     value? : string | number;
+    classes? : string[];
+    onChange? : (val: string) => void
 
 }
 
@@ -12,13 +14,13 @@ export interface IInputGral {
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const InputGral: React.FC<IInputGral> = ({ type='text', placeholder="", name="", value="" }) => {
+const InputGral: React.FC<IInputGral> = ({ type='text', placeholder="", name="", value="" , onChange, classes=[]}) => {
 
   
    
     return (
         <div className={styles.input_cont} >
-            <input placeholder={placeholder} type={type} name={name} value={value}/>
+            <input className={ classes.map(clase => `${clase} `  ) } placeholder={placeholder} type={type} name={name} value={value} onChange={ event => onChange(event.target.value)}/>
         </div>
     
     );

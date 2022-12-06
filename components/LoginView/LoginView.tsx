@@ -1,4 +1,7 @@
-import CardTitle from '../CardTitle/CardTitle';
+import Router from 'next/router';
+import { useState } from 'react';
+import { login } from '../../actions/users';
+import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './LoginView.module.css';
@@ -13,15 +16,48 @@ export interface ILoginView {
 
 const LoginView: React.FC<ILoginView> = ({  }) => {
 
-  
+    const [email, setEmail] = useState('')
+    const [pass, setPass] = useState('')
+
+    async function handleLogin(e) {
+        e.preventDefault()
+        if (email != "" && pass != "") {
+            
+            const onSuccess = () => {
+                if (login_status?.status == 200 ) {
+
+                    const login_storage = {
+                        status : 200,
+                        access_token : login_status?.data.access_token,
+                        user_id : login_status?.data.user_id,
+                        wpp_connected : false
+                    }
+
+                    localStorage.setItem( "dragonchat_login" , JSON.stringify(login_storage))
+                    Router.push('/')
+
+                }else{
+                    alert('Los datos son incorrectos.')
+                }
+            }
+            const login_status = await login({email, password: pass})
+            onSuccess()
+
+
+        }else{
+            alert('Los datos estan incompletos')
+        }
+    }
+
+    
    
     return (
         <div className={styles.login_cont} >
-            <div>
+            <form>
                 <CardTitle text="Ingresa al futuro" />
                 <div>
-                    <InputGral placeholder='E-mail' type="email" />
-                    <InputGral placeholder='Contraseña' type="password"/>
+                    <InputGral placeholder='E-mail' type="email" value={email} onChange={ setEmail } />
+                    <InputGral placeholder='Contraseña' type="password" value={pass} onChange={ setPass }/>
                 </div>
                 <div className={styles.login_options}>
                     <div className={styles.rememberMe}>
@@ -36,7 +72,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 </div>
 
                 <div>
-                    <OrangeBtn text="Iniciar sesión" onClick={ ()=>{} }/>
+                    <OrangeBtn text="Iniciar sesión" onClick={ handleLogin }/>
                     <button className={styles.googleInit}>
                         <img src="/buscar.png" width="18px" />
                         <span>Iniciar sesión con Google</span>
@@ -51,7 +87,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     </div>
                 </div>
 
-            </div>
+            </form>
         </div>
     
     );
