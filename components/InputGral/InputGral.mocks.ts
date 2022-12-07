@@ -4,7 +4,8 @@ const base: IInputGral = {
     type : "text",
     placeholder : "Hola",
     name : "text1",
-    value : "Este es el val"
+    value : "Este es el val",
+    onChange : ()=>{ return 'jaja' } 
 }
 
 export const mockInputGralProps = {
