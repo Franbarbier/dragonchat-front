@@ -6,7 +6,7 @@ export interface IInputGral {
     name? : string;
     value? : string | number;
     classes? : string[];
-    onChange? : (val: string) => void
+    onChange: (e: string) => void;
 
 }
 
@@ -20,7 +20,7 @@ const InputGral: React.FC<IInputGral> = ({ type='text', placeholder="", name="",
    
     return (
         <div className={styles.input_cont} >
-            <input className={ classes.map(clase => `${clase} `  ) } placeholder={placeholder} type={type} name={name} value={value} onChange={ event => onChange(event.target.value)}/>
+            <input className={ classes.join(' ') } placeholder={placeholder} type={type} name={name} value={value} onChange={ (e)=>{ onChange(e.target.value) } }/>
         </div>
     
     );
