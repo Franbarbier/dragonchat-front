@@ -1,0 +1,13 @@
+version: '3'
+services:
+  front-next:
+    image: dragonchat-front
+    container_name: dragonchat-front
+    build: .
+    ports:
+      - 5004:5004
+    networks:
+      - nginx-proxy-manager_npm
+networks:
+  nginx-proxy-manager_npm:
+    external: true
