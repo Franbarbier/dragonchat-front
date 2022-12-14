@@ -6,6 +6,9 @@ services:
     build: .
     ports:
       - 5004:5004
+    volumes:
+      - '.:/home/app-frontend'
+      - '/home/app-frontend/node_modules'
     networks:
       - nginx-proxy-manager_npm
 networks:
