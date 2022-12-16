@@ -30,8 +30,13 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     
     // const [activeCard, setActiveCard] = useState<IdCard>(1)
     const [activeCard, setActiveCard] = useState<number>(1)
-    const [contactos, setContactos] = useState<ContactInfo[]>([])
-    const [mensaje, setMensaje] = useState<string>('')
+    const [contactos, setContactos] = useState<ContactInfo[]>(
+        [{name: 'fran', wpp: '5491134536136'},
+        {name: 'cona', wpp: '5491162200367'},
+        {name: 'Error', wpp: '65 53 6'},
+        {name: 'frano', wpp: '5491134536136'},
+        {name: 'fran 2', wpp: '5491134536136'}] )
+    const [mensaje, setMensaje] = useState<string>('lala')
     const [modalImport, setModalImport] = useState<boolean>(false)
 
     const [apareceGif, setApareceGif] = useState<boolean>(false)

@@ -45,16 +45,21 @@ export const sendMessage = async (bodyContent) => {
     
 
     // const onSuccess = () => {
-    //     console.log(messageResponse)
-    //     return messageResponse
-    // }
-
-    return await fetch("http://api-sender.dragonchat.io/api/v1/message/send-basic", {
-        method: "POST",
-        body: bodyContent,
-        headers: headersList
-    });
-    // onSuccess()
+        // }
+        
+        const messageResponse = await fetch("http://api-sender.dragonchat.io/api/v1/message/send-basic", {
+            method: "POST",
+            body: bodyContent,
+            headers: headersList
+        });
+        // var messageResponse_format;
+        // if (messageResponse?.status == 200) {
+        //     console.log("message respondes: ",messageResponse)
+        //     messageResponse_format = messageResponse
+        // }else{
+        //     messageResponse_format = "Nada"
+        // }
+        return messageResponse
 }
 
 

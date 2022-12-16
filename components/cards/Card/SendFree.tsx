@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { sendMessage } from '../../../actions/cardsFree';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
@@ -22,6 +22,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     const [sending, setSending] = useState<boolean>(false)
     const [isSent, setIsSent] = useState<boolean>(false)
     const [contactosStatus, setContactosStatus] = useState(contactos)
+    const [counter, setCounter] = useState<number>(0)
 
  
     async function startSending() {
@@ -47,20 +48,19 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                 "message": mensaje,
                 "number": destinatario.wpp
             });
-            
-            console.log(bodyContent)
-            
+                        
             const onSuccess = () => {
                 console.log(sentMessage)
                 console.log("en teoria ya esta")
-                setTimeout(() => {
                         
                     if (sentMessage?.status == 200) {
                         newContacts[index].status = "success";
                         setContactos(newContacts)
+                    }else{
+                        newContacts[index].status = "error";
+                        setContactos(newContacts)
                     }
-                }, 300);
-                
+                    setCounter(counter + 1)
                     
             }
 
@@ -71,6 +71,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                     
     }
 
+    useEffect(()=>{
+        console.log(counter)
+    },[counter])
     
 
 
@@ -86,8 +89,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
                 <HeaderRow campos={["Número", "Apodo"]} key="header-row-sendFree"/>
                 
+                    {counter}
                 <div className={`${styles.table_rows} ${styles.enviando_table}`}>
-
                     {contactos.map((contact, index)=>(
                         // ${contact.status == "pending" && styles.fireLoader}
                             <div className={`${styles.row_card}  ${contact.status == "success" && styles.success}`} key={contact.name+index} >
@@ -111,7 +114,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                         <span>{contact.name}</span>
                                     </div>
                                 </div>
-                                
+                                <div className="column50">
+                                    <div>
+                                        <span>{contact.status}</span>
+                                    </div>
+                                </div>
                                 <div className={styles.estado_envio}>
                                     {contact.status == "success" && '✔️'}
                                     {contact.status == "error" && '❌'}
