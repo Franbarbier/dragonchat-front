@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import { mockFreeCard1Props } from './Card/FreeCard3.mocks';
+import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
-import SecuenceMessage from './Card/SecuencePremium';
 import FreeCard3 from './Card/SendFree';
 import styles from './CardsCont.module.css';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
@@ -50,11 +50,11 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
         setModalImport(render)
     }
 
+    
+
     useEffect(()=>{
-        setTimeout(() => {
-            setApareceGif(true)
-        }, 800);
-    },[])
+        console.log(contactos)
+    }, [contactos])
 
     return (
         <div>
@@ -66,6 +66,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         activeCard={activeCard}
                         contactos={contactos}
                         setContactos={setContactos}
+                        mensaje={mensaje}
                     />
                     <FreeCard1 
                         {...mockFreeCard1Props.base}
@@ -76,17 +77,13 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         handleDeleteContact={handleDeleteContact}
                         handleRenderModal={handleRenderModal}
                     />
-                    <SecuenceMessage
-                        setActiveCard={(val:any)=>setActiveCard(val)}
-                        activeCard={activeCard}
-                    />
-                    {/* <FreeCard2
+                    <FreeCard2
                         {...mockFreeCard1Props.base}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         mensaje={mensaje}
                         setMensaje={setMensaje}
-                    /> */}
+                    />
 
                     
 
@@ -115,9 +112,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
             </div> */}
 
             <img className={styles.dragon1} src="/dragon_anim.gif" />
-            {apareceGif &&
-                <img className={styles.dragon2} src="/dragon_anim.gif" />
-            }
+            <img className={styles.dragon2} src="/dragon_anim.gif" />
+            
             
 
             {modalImport &&

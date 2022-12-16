@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 5004",
     "lint": "next lint",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",

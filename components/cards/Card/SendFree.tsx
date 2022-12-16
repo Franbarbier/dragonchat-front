@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { sendMessage } from '../../../actions/cardsFree';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
@@ -10,53 +11,68 @@ export interface IFreeCard3 {
     setActiveCard: (id: number) => void;
     activeCard : number;
     contactos : ContactInfo[];
+    mensaje: string ;
     setContactos : (contactos: ContactInfo[]) => void
 }
 
-const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos, setContactos }) => {
+const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje }) => {
     
     let idCard = 3;
 
     const [sending, setSending] = useState<boolean>(false)
     const [isSent, setIsSent] = useState<boolean>(false)
+    const [contactosStatus, setContactosStatus] = useState(contactos)
 
-
-  
+ 
     async function startSending() {
         
         setSending(true)
 
-        // funcion auxiliar para emular el envio de mensajes
-        var i = 0;
+        
 
-        function myLoop() {
+        for (let index = 0; index < contactos.length; index++) {
+            const destinatario = contactos[index];
 
-        var newContacts = [...contactos]
-        newContacts[i].status = "pending"
-        setContactos(newContacts)
-
-        setTimeout(function() {
             var newContacts = [...contactos]
-            newContacts[i].status = "success"
+
+            newContacts[index].status = "pending";
             setContactos(newContacts)
+
             
-
-            i++;                    
-            if (i < contactos.length) {
-                myLoop();
-            }else{
-                setSending(false)
-                setIsSent (true)
-                alert('Mensajes enviados!')
+            
+            let bodyContent = JSON.stringify({
+                // "user": "234t",
+                "user": "messi",
+                "name": destinatario.name,
+                "message": mensaje,
+                "number": destinatario.wpp
+            });
+            
+            console.log(bodyContent)
+            
+            const onSuccess = () => {
+                console.log(sentMessage)
+                console.log("en teoria ya esta")
+                setTimeout(() => {
+                    
+                    if (sentMessage?.status == 200) {
+                        newContacts[index].status = "success";
+                        setContactos(newContacts)
+                    }
+                }, 300);
                 
+                    
             }
-        }, 5000)
-}
 
-myLoop();                   
+            const sentMessage = await sendMessage(bodyContent)
+            onSuccess()  
+        }
 
-
+                    
     }
+
+    
+
 
 
     return (
@@ -68,12 +84,14 @@ myLoop();
             </div>
             <div className={styles.card_table_cont}>
 
-                <HeaderRow campos={["Número", "Apodo"]} />
+                <HeaderRow campos={["Número", "Apodo"]} key="header-row-sendFree"/>
                 
                 <div className={`${styles.table_rows} ${styles.enviando_table}`}>
 
                     {contactos.map((contact, index)=>(
-                            <div className={`${styles.row_card} ${contact.status == "pending" && styles.fireLoader} ${contact.status == "success" && styles.sent}`} key={contact.name+index}>
+                        // ${contact.status == "pending" && styles.fireLoader}
+                            <div className={`${styles.row_card}  ${contact.status == "success" && styles.success}`} key={contact.name+index} >
+                                {/* {console.log(contact.status)} */}
 
                                 {contact.status == "pending" && 
                                     <aside className={styles.fuegoLoader}>
@@ -93,6 +111,7 @@ myLoop();
                                         <span>{contact.name}</span>
                                     </div>
                                 </div>
+                                
                                 <div className={styles.estado_envio}>
                                     {contact.status == "success" && '✔️'}
                                     {contact.status == "error" && '❌'}

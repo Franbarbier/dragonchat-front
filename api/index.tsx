@@ -8,12 +8,12 @@ import axios from 'axios';
 // }
 const headers = ''
 
-const ENDPOINT = 'http://api-user.dragonchat.io/api/v1/auth/';
+const ENDPOINT = 'http://api-user.dragonchat.io/api/v1/';
 
-const url_users = ''
-
-export const login = (user) => axios.post(`${ENDPOINT}login`, user );
-export const signup = (user) => axios.post(`${ENDPOINT}signup`, user );
+// USERS
+const url_users = 'auth/'
+export const login = (user) => axios.post(`${ENDPOINT}${url_users}login`, user );
+export const signup = (user) => axios.post(`${ENDPOINT}${url_users}signup`, user );
 
 // export const getUsers = (filtros) => axios.get(url_users, {...filtros, headers});
 // export const deleteUser = (id) => axios.delete(`${url_users}/${id}`, {headers});
@@ -28,3 +28,28 @@ export const signup = (user) => axios.post(`${ENDPOINT}signup`, user );
 //     console.log(res)
 //     return res
 // }
+
+
+// SEND MESSAGE
+
+const url_message = 'http://api-sender.dragonchat.io/api/v1/message/'
+
+let headersList = {
+    "Accept": "/",
+    "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+    "Content-Type": "application/json"
+}
+
+// export const sendMessage = (bodyContent) => axios.post(`${url_message}send-basic`, bodyContent, headersList );
+export const sendMessage = async (bodyContent) => {
+    
+    return await fetch("http://api-sender.dragonchat.io/api/v1/message/send-basic", {
+        method: "POST",
+        body: bodyContent,
+        headers: headersList
+    });
+
+}
+
+
+

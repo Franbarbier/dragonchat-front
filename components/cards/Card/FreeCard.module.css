@@ -105,7 +105,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     position: relative;
     z-index: 2;
 }
-.row_card.sent{
+.row_card.success{
     background-color: #5a575e;
     background-color: rgba(220, 114, 69, 0.439);
     color: white;
