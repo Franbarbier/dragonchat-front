@@ -8,7 +8,8 @@ const base: IFreeCard3 = {
         name: 'asd',
         wpp: '5491136'
     }],
-    setContactos : () => {}
+    setContactos : () => {},
+    mensaje : "Hola compaion"
 }
 
 export const mockFreeCard1Props = {

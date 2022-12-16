@@ -43,12 +43,18 @@ let headersList = {
 // export const sendMessage = (bodyContent) => axios.post(`${url_message}send-basic`, bodyContent, headersList );
 export const sendMessage = async (bodyContent) => {
     
+
+    // const onSuccess = () => {
+    //     console.log(messageResponse)
+    //     return messageResponse
+    // }
+
     return await fetch("http://api-sender.dragonchat.io/api/v1/message/send-basic", {
         method: "POST",
         body: bodyContent,
         headers: headersList
     });
-
+    // onSuccess()
 }
 
 

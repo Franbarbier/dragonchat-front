@@ -54,7 +54,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                 console.log(sentMessage)
                 console.log("en teoria ya esta")
                 setTimeout(() => {
-                    
+                        
                     if (sentMessage?.status == 200) {
                         newContacts[index].status = "success";
                         setContactos(newContacts)

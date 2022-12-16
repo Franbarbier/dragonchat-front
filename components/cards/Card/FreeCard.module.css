@@ -81,7 +81,6 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     background:#291051;
     transition:background .2s
 }
-.table_rows::-webkit-scrollbar-track:hover{}
 .table_rows::-webkit-scrollbar-thumb{
     background:rgba(138, 138, 138, 0.8);
     transition:background .2s;
