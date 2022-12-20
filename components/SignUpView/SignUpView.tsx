@@ -84,7 +84,7 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
                     <hr />
                     
                     <div>
-                        <span>Ya tienes una cuenta?</span><button>Iniciar sesión</button>
+                        <span>Ya tienes una cuenta?</span><button><a href='/login'>Iniciar sesión</a></button>
                     </div>
                 </div>
 

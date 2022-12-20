@@ -23,8 +23,11 @@
 }
 .forget{
     color: var(--amarillo);
-    font-size: 0.85em;
+    font-size: 0.75em;
     cursor: pointer;
+    border-bottom: 1px solid var(--amarillo);
+    display: block;
+    margin-top: 10px;
 }
 .googleInit{
     display: flex;

@@ -127,13 +127,13 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 
 }
 .row_card:hover .delete_contact{
-    transform: translateY(-50%) scale(1);
+    transform: scale(1);
     opacity: 0.7;
 }
 
 .delete_contact:hover{
     opacity: 1!important;
-    transform: translateY(-50%) scale(1.1)!important;
+    transform: scale(1.1)!important;
 }
 .row_card{
     display: flex;

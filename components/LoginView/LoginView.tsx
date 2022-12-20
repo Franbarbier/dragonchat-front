@@ -1,10 +1,13 @@
+
 import Router from 'next/router';
 import { useState } from 'react';
+
 import { login } from '../../actions/users';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './LoginView.module.css';
+
 
 export interface ILoginView {
 
@@ -60,12 +63,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     <InputGral placeholder='Contraseña' type="password" value={pass} onChange={ setPass }/>
                 </div>
                 <div className={styles.login_options}>
-                    <div className={styles.rememberMe}>
-                        <div>
-                            <div></div>
-                        </div>
-                        <span>Recordarme</span> 
-                    </div>
+                    
                     <div className={styles.forget}>
                         <p>Olvidé mi contraseña</p>
                     </div>
@@ -83,7 +81,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     <hr />
                     
                     <div>
-                        <span>No tienes una cuenta?</span><button>Regístrate</button>
+                        <span>No tienes una cuenta?</span><button><a href='/signup'>Regístrate</a></button>
                     </div>
                 </div>
 
