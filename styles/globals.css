@@ -25,6 +25,8 @@ li{ list-style: none; }
 	--rosita1: #9f5bc3;
 	--rosita2: #d78ffd;
   --violeta1: #422a93;
+  --violeta2: #10011c;
+  --violeta2t: rgba(16, 1, 28, 0.889);
   --amarillo: #fffb11;
 	
 }

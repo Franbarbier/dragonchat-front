@@ -5,6 +5,7 @@ import InputGral from '../InputGral/InputGral';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './SignUpView.module.css';
 
+
 export interface ISignUpView {
 
 }

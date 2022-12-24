@@ -1,0 +1,49 @@
+
+#wpp_btn_cont{
+    position: fixed;
+    bottom: 7%;
+    right: 2%;
+}
+#wpp_btn_cont>div{
+    position: relative;
+}
+#wpp_btn_cont>div>div{
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    transform: translateY(-50%);
+    width: 64px;
+}
+#wpp_btn_cont>div>div img{
+    width: 100%;
+}
+#wpp_btn_cont>div>span{
+    position: absolute;
+    top: 50%;
+    right: 75px;
+    width: 20vw;
+    font-size: 0.7em;
+    font-weight: 100;
+    letter-spacing: 1px;
+    color: var(--amarillo);
+    transform: translateY(-50%);
+    background-color: var(--violeta2t);
+    border: 1px solid var(--amarillo);
+    border-radius: 5px;
+    padding: 10px;
+
+    animation-name: wppMsj;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes wppMsj {
+  0% {display: none; opacity: 0}
+  33% {display: block; opacity: 0}
+  45% {display: block; opacity: 1;}
+  66% {display: block; opacity: 1;}
+  75% {display: none; opacity: 0}
+  100% {display: none; opacity: 0}
+}
+
