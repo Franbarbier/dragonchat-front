@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import io from 'socket.io-client';
+// const { io } = require("socket.io-client");
+
 import Config from '../Config/Config';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import WppBtn from '../WppBtn/WppBtn';
@@ -39,15 +42,19 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     
     // const { Server } = require("socket.io");
 
+    const socket = io("http://api-sender.dragonchat.io/", {
+    withCredentials: true,
+    // extraHeaders: {
+    //     "my-custom-header": "abcd"
+    // }
+    });
+
+    socket.on("connect", () => {
+        console.log(socket.id)
+    });
 
 
-    // const socket = io("http://api-sender.dragonchat.io/");
-
-    // socket.on("connect", () => {
-    //     console.log(socket.id); 
-    // });
-
-
+    
     
     function handleNewContact(newContact:ContactInfo) {
         setContactos([...contactos, newContact])
@@ -64,10 +71,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
     
 
-    useEffect(()=>{
-        console.log(contactos)
-    }, [contactos])
-
     
     return (
         <div>
@@ -81,8 +84,10 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         setContactos={setContactos}
                         mensaje={mensaje}
                     />
+
                     <FreeCard1 
                         {...mockFreeCard1Props.base}
+                        
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={contactos}
@@ -90,8 +95,10 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         handleDeleteContact={handleDeleteContact}
                         handleRenderModal={handleRenderModal}
                     />
+
                     <FreeCard2
                         {...mockFreeCard1Props.base}
+                        
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         mensaje={mensaje}

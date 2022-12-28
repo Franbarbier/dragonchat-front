@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { useState } from 'react';
 import styles from './Config.module.css';
 
@@ -18,7 +19,8 @@ const Config: React.FC<IConfig> = ({  }) => {
 
     }
     function handleLogout(){
-
+        localStorage.removeItem( "dragonchat_login" )
+        Router.push('/login')
     }
 
     return (
@@ -33,8 +35,8 @@ const Config: React.FC<IConfig> = ({  }) => {
                             <div>
                                 <p onClick={ ()=>{ handleDesvWpp } }>Desvincular Whatsapp</p>
                             </div>
-                            <div>
-                                <p onClick={ ()=>{ handleLogout } }>Cerrar sesión</p>
+                            <div onClick={ handleLogout }>
+                                <p>Cerrar sesión</p>
                             </div>
                         </div>
                     }

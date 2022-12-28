@@ -37,8 +37,22 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
         wpp : ''
     })
   
+    const regex = new RegExp(/[^\d]/g);
     
+    function handleAddContact(e){
+        e.preventDefault()
 
+        console.log(newContact.name)
+        if (newContact.name != '' && newContact.wpp != '') {
+            handleNewContact(newContact)
+            setNewContact({
+                name: '',
+                wpp: ''
+            })
+        }else{
+            alert('Ingresar datos del contacto.')
+        }
+    }
    
 
     return (
@@ -81,29 +95,19 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
                     <div className={styles.options_cont}>
                         <form className={styles.new_contact}>
                             <input placeholder='Número' onChange={(e)=>{
-                                setNewContact({...newContact, wpp :  e.target.value})
+                                
+                                setNewContact({...newContact, wpp :  e.target.value.replace(regex, '') })
                                 } } value={newContact.wpp}/>
                                 
                             <input placeholder='Apodo' onChange={(e)=>{
                                 setNewContact({...newContact, name :  e.target.value})
                                 } } value={newContact.name}/>
-                            <button onClick={ (e)=>{
-                                e.preventDefault()
-                                if (newContact.name != '' && newContact.wpp != '') {
-                                    handleNewContact(newContact)
-                                    setNewContact({
-                                        name: '',
-                                        wpp: ''
-                                    })
-                                }else{
-                                    alert('Ingresar datos del contacto.')
-                                }
-                            } } ><span>+</span></button>
+                            <button onClick={ (e)=>{ handleAddContact(e) } } ><span>+</span></button>
 
                         </form>
                         
                         {/* <button className={styles.importBtn}>Importar contactos</button> */}
-                        <OrangeBtn text="Importar contacto" onClick={ ()=> {handleRenderModal(true)} }/>
+                        <OrangeBtn text="Importar contactos" onClick={ ()=> {handleRenderModal(true)} }/>
 
 
                     </div>
