@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import io from 'socket.io-client';
-// const { io } = require("socket.io-client");
 
 import Config from '../Config/Config';
 import ModalContainer from '../ModalContainer/ModalContainer';
@@ -40,14 +39,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     
-    // const { Server } = require("socket.io");
 
-    const socket = io("http://api-sender.dragonchat.io/", {
-    withCredentials: true,
-    // extraHeaders: {
-    //     "my-custom-header": "abcd"
-    // }
-    });
+    const socket = io("http://api-sender.dragonchat.io");
 
     socket.on("connect", () => {
         console.log(socket.id)
