@@ -1,12 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import io from 'socket.io-client';
+// const { io } = require("socket.io-client");
+
+import Config from '../Config/Config';
 import ModalContainer from '../ModalContainer/ModalContainer';
+import WppBtn from '../WppBtn/WppBtn';
 import { mockFreeCard1Props } from './Card/FreeCard3.mocks';
 import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
 import FreeCard3 from './Card/SendFree';
 import styles from './CardsCont.module.css';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
-
 const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
@@ -34,8 +38,23 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
 
-    const [apareceGif, setApareceGif] = useState<boolean>(false)
+    const [wppMessage, setWppMessage] = useState<boolean>(false)
+    
+    // const { Server } = require("socket.io");
 
+    const socket = io("http://api-sender.dragonchat.io/", {
+    withCredentials: true,
+    // extraHeaders: {
+    //     "my-custom-header": "abcd"
+    // }
+    });
+
+    socket.on("connect", () => {
+        console.log(socket.id)
+    });
+
+
+    
     
     function handleNewContact(newContact:ContactInfo) {
         setContactos([...contactos, newContact])
@@ -52,10 +71,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
     
 
-    useEffect(()=>{
-        console.log(contactos)
-    }, [contactos])
-
+    
     return (
         <div>
             <div className={styles.cards_cont}>
@@ -68,8 +84,10 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         setContactos={setContactos}
                         mensaje={mensaje}
                     />
+
                     <FreeCard1 
                         {...mockFreeCard1Props.base}
+                        
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={contactos}
@@ -77,8 +95,10 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         handleDeleteContact={handleDeleteContact}
                         handleRenderModal={handleRenderModal}
                     />
+
                     <FreeCard2
                         {...mockFreeCard1Props.base}
+                        
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         mensaje={mensaje}
@@ -113,9 +133,10 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
             <img className={styles.dragon1} src="/dragon_anim.gif" />
             <img className={styles.dragon2} src="/dragon_anim.gif" />
-            
-            
 
+            <WppBtn />
+            <Config />
+            
             {modalImport &&
                 <div className={styles.modal_position_card1}>
                     <div>

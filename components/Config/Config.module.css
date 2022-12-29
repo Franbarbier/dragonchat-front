@@ -1,0 +1,47 @@
+
+#configBtn{
+    position: fixed;
+    top: 3%;
+    right: 2%;
+}
+
+.config_icon{
+    width: 54px;
+    height: 54px;
+
+    background-color: var(--violeta2t);
+    border: 1px solid var(--amarillo);
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+}
+.config_icon img{
+    width: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.menu_config{
+    right: 0%;
+    top: 120%;
+    background-color: var(--violeta2t);
+    border: 1px solid var(--amarillo);
+    border-radius: 5px;
+    position: absolute;
+    padding: 10px 20px;
+    width: 25vw;
+}
+.menu_config>div{
+    text-align: center;
+    margin: 15px auto;
+    letter-spacing: 1px;
+}
+.menu_config>div p{
+    cursor: pointer;
+}
+.menu_config>div:hover{
+    font-weight: 600;
+    color: #e17846
+}
+
