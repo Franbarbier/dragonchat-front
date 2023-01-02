@@ -1,12 +1,10 @@
+import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
-
-
-
 
 interface IModalImport {
     modalImport : boolean;
@@ -103,12 +101,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
                                 setNewContact({...newContact, name :  e.target.value})
                                 } } value={newContact.name}/>
                             <button onClick={ (e)=>{ handleAddContact(e) } } ><span>+</span></button>
-
+                            
                         </form>
-                        
-                        {/* <button className={styles.importBtn}>Importar contactos</button> */}
-                        <OrangeBtn text="Importar contactos" onClick={ ()=> {handleRenderModal(true)} }/>
-
+                            
+                        <button className={styles.importBtn} onClick={ ()=> {handleRenderModal(true)} }><FontAwesomeIcon icon={faFileCsv} /></button>
 
                     </div>
                 </div>
