@@ -59,7 +59,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
 
 
 
-  const campos = ["Número", "Apodo"]
+  const campos = ["Nombre", "Número"]
 
 return (
         <div>
@@ -81,7 +81,6 @@ return (
 
             <div className={styles.saveOrEdit}>
               <label className={styles.labelFile} htmlFor="csvInput">Cambiar .CSV</label>
-              {/* <button className={styles.uploadContacts} for="csvInput">Subir contactos</button> */}
               <OrangeBtn text="Subir contactos" onClick={()=>{
                                                             uploadContacts(parsedCsvData)
                                                             setModalImport(false)
@@ -92,8 +91,7 @@ return (
             <div className={styles.infoCsv}>
               <div>
                 <span className={styles.infoIcon}>i</span>
-                <span className={styles.infoTxt}>Asegúrate que la primera fila de cada columna sea <span>"Número"</span> y "Nombre". </span>
-                {/* <br /> */}
+                <span className={styles.infoTxt}>Asegúrate que la primera fila de cada columna sea <span>"Nombre"</span> y "Número". </span>
                 <span className={styles.infoTxt}>Este es un <span className={styles.ejPlantilla}>ejemplo de plantilla</span>.
                 <img src='/plantilla-ejemplo.jpg' width="200px"/>
                 También podes descargarlo haciendo <span className={styles.ejDownload}><a href="/Plantilla DragonChat - Importar contactos.csv" >click acá</a></span>.</span>
@@ -106,6 +104,7 @@ return (
 
           <input
               onChange={ (e)=>{ onDrop(e.target.files) } }
+              className={styles.csvInput}
               id="csvInput"
               name="file"
               type="File"

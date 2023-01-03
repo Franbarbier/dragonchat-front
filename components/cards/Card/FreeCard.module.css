@@ -118,6 +118,16 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     text-align: center;
     display: block;
 }
+
+.row_card span.contact_example{
+    color: #c2c2c2;
+    opacity: 0.35;
+    font-size: 0.8em;
+    font-weight: 100;
+    text-align: center;
+    display: block;
+}
+
 .delete_contact{
     position: absolute;
     right: 2%;
@@ -174,15 +184,15 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     background: #8651a1;
 
 }
-.options_cont>form input:first-child{
+.options_cont>form input:nth-child(2){
     padding-left: 25px;
 }
-#card1 .options_cont>form:first-child::after{
+#card1 .options_cont>form:first-child::before{
     content: '+';
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 49%;
+    left: 48.5%;
 }
 .options_cont>form input::placeholder {
     color: #c2c2c2;

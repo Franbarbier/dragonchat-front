@@ -62,12 +62,14 @@
     top: 15%;
     left: 15%;
     width: 17%;
+    max-width: 200px;
 }
 .dragon2{
     position: absolute;
     top: 60%;
     right: 15%;
     width: 17%;
+    max-width: 200px;
     transform: rotateY(180deg);
 }
 .ruleta_cont{
