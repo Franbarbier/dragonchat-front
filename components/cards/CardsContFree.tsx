@@ -40,7 +40,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     
 
-    const socket = io("http://localhost:5002/");
+    const socket = io("http://api-sender.dragonchat.io");
 
     socket.emit('create-session', {
         id: '235',
