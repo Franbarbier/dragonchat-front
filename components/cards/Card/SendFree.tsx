@@ -39,7 +39,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
             
             let bodyContent = JSON.stringify({
                 // "user": "234t",
-                "user": "enzof24",
+                "user": "messi",
                 "name": destinatario.name,
                 "message": mensaje,
                 "number": destinatario.wpp
