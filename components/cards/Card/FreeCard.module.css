@@ -177,12 +177,12 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 .options_cont>form input:first-child{
     padding-left: 25px;
 }
-#card1 .options_cont>form:first-child::before{
+#card1 .options_cont>form:first-child::after{
     content: '+';
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 2.7%;
+    left: 49%;
 }
 .options_cont>form input::placeholder {
     color: #c2c2c2;

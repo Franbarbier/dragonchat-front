@@ -64,7 +64,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
                 </div>
                 <div className={styles.card_table_cont}>
                     
-                    <HeaderRow campos={["Número", "Apodo"]} />
+                    <HeaderRow campos={["Apodo", "Número"]} />
 
                     <div className={styles.table_rows}>
 
@@ -72,12 +72,12 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
                             <div className={styles.row_card}>
                                 <div className="column50">
                                     <div>
-                                        <span>+{contact.wpp}</span>
+                                        <span>{contact.name}</span>
                                     </div>
                                 </div>
                                 <div className="column50">
                                     <div>
-                                        <span>{contact.name}</span>
+                                        <span>+{contact.wpp}</span>
                                     </div>
                                 </div>
                                 <div className={styles.delete_contact}
@@ -92,14 +92,13 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
                     </div>
                     <div className={styles.options_cont}>
                         <form className={styles.new_contact}>
+                            <input placeholder='Apodo' onChange={(e)=>{
+                                setNewContact({...newContact, name :  e.target.value})
+                                } } value={newContact.name}/>
                             <input placeholder='Número' onChange={(e)=>{
                                 
                                 setNewContact({...newContact, wpp :  e.target.value.replace(regex, '') })
                                 } } value={newContact.wpp}/>
-                                
-                            <input placeholder='Apodo' onChange={(e)=>{
-                                setNewContact({...newContact, name :  e.target.value})
-                                } } value={newContact.name}/>
                             <button onClick={ (e)=>{ handleAddContact(e) } } ><span>+</span></button>
                             
                         </form>
