@@ -11,17 +11,17 @@
     cursor: pointer;
     position: absolute;
     top: 50%;
-    right: 0%;
+    right: -25px;
     transform: translateY(-50%);
     width: 64px;
 }
 #wpp_btn_cont>div>div img{
-    width: 100%;
+    width: 65%;
 }
 #wpp_btn_cont>div>span{
     position: absolute;
     top: 50%;
-    right: 75px;
+    right: 45px;
     width: 20vw;
     font-size: 0.7em;
     font-weight: 100;
@@ -47,3 +47,14 @@
   100% {display: none; opacity: 0}
 }
 
+@media (min-width: 769px) {
+    #wpp_btn_cont>div>div{
+        right: 0%;
+    }
+    #wpp_btn_cont>div>div img{
+        width: 100%;
+    }
+    #wpp_btn_cont>div>span{
+        right: 75px;
+    }
+}

@@ -12,8 +12,8 @@
 
 .nextCard, .prevCard{
     position: absolute;
-    width: 48px;
-    height: 48px;
+    width: 25px;
+    height: 25px;
     background: linear-gradient(0 , #90ca46, #d5dd32);
     display: block;
     top: 50vh;
@@ -44,11 +44,11 @@
 }
 
 .nextCard{
-    left: 68vw;
+    left: 86vw;
     
 }
 .prevCard{
-    left: 28vw;
+    left: 8vw;
 }
 .arrow_disabled button{
     cursor: inherit!important;
@@ -58,19 +58,10 @@
     cursor: inherit!important;
 }
 .dragon1{
-    position: absolute;
-    top: 15%;
-    left: 15%;
-    width: 17%;
-    max-width: 200px;
+    display: none;
 }
 .dragon2{
-    position: absolute;
-    top: 60%;
-    right: 15%;
-    width: 17%;
-    max-width: 200px;
-    transform: rotateY(180deg);
+    display: none;
 }
 .ruleta_cont{
     position: absolute;
@@ -103,4 +94,39 @@
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
+}
+
+
+@media (min-width: 769px) {
+    .nextCard, .prevCard{
+        width: 48px;
+        height: 48px;
+        
+    }
+    
+    .nextCard{
+        left: 68vw;
+        
+    }
+    .prevCard{
+        left: 28vw;
+    }
+
+    .dragon1{
+        display: block;
+        position: absolute;
+        top: 15%;
+        left: 15%;
+        width: 17%;
+        max-width: 200px;
+    }
+    .dragon2{
+        display: block;
+        position: absolute;
+        top: 60%;
+        right: 15%;
+        width: 17%;
+        max-width: 200px;
+        transform: rotateY(180deg);
+    }
 }
