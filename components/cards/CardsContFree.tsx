@@ -44,16 +44,11 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
     socket.on("connect", () => {
         console.log(socket.id)
-        if (socket.id) {
-            socket.on("connection_qr", (arg) => {
-                console.log(arg); // world
-                console.log("a ver?"); // world
-            });
-            
-        }
+       
     });
-    
-    
+    socket.on('connection_qr', function (data) {
+        console.log("data:", data)
+    });
 
 
     
