@@ -40,30 +40,25 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     
 
-    const socket = io("http://api-sender.dragonchat.io");
+    const socket = io("http://localhost:5002/");
 
-    socket.on("connect", () => {
-        console.log(socket.id)
-<<<<<<< HEAD
-       
+    socket.emit('create-session', {
+        id: '235',
     });
-    socket.on('connection_qr', function (data) {
-        console.log("data:", data)
-=======
-        if (socket.id) {
+
             socket.on("connection_qr", (arg) => {
                 console.log(arg); // world
                 console.log("a ver?"); // world
             });
+
+            socket.on("connection_status", (data) => {
+                console.log(data);
+            })
             
-        }
->>>>>>> b79de1fda1fcaad3c42ab0fb3d0e1d5a7fe00750
-    });
-    
-    
-
-
-    
+            socket.on("connect_error", (err) => {
+                console.log(`connect_error due to ${err.message}`);
+              });
+              
     
     function handleNewContact(newContact:ContactInfo) {
         setContactos([...contactos, newContact])
