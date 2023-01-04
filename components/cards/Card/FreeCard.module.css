@@ -180,21 +180,19 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     font-size: 0.6em;
     width: 100%;
     margin-right: 3%;
-    margin-bottom: 2%;
-    padding: 1% 5%;
+    margin-bottom: 4%;
+    padding: 3% 5% 3% 15px;
     border: solid 1px #5d3770;
     border-radius: 5px;
     color: white;
     background: #8651a1;
 
 }
-.options_cont>form input{
-    padding-left: 15px;
-}
+
 #card1 .options_cont>form:first-child::before{
     content: '+';
     position: absolute;
-    top: 47%;
+    top: 48%;
     transform: translateY(-50%);
     left: 7px;
 }
@@ -204,7 +202,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 
 .options_cont>form button{
     width: 100%;
-    padding: 1% 3%;
+    padding: 3% 3%;
     font-size: 0.7em;
     border: solid 1px #5d3770;
     border-radius: 5px;
@@ -491,6 +489,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     }
 
     .options_cont>form input{
+        padding: 1% 5%;
         font-size: 1em;
         width: 42%;
     }
@@ -511,6 +510,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     .options_cont>form button{
         width: auto;
         font-size: 1em;
+        padding: 1% 3%;
     }
 
     .options_cont>form button>span.web_span{
