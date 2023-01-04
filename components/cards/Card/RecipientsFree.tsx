@@ -113,7 +113,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
                                 
                                 setNewContact({...newContact, wpp :  e.target.value.replace(regex, '') })
                                 } } value={newContact.wpp}/>
-                            <button onClick={ (e)=>{ handleAddContact(e) } } ><span>+</span></button>
+                            <button onClick={ (e)=>{ handleAddContact(e) } } ><span className={styles.web_span}>+</span><span className={styles.mobile_span}>AGREGAR DESTINATARIO</span></button>
                             
                         </form>
                             
