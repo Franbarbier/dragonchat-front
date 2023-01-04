@@ -160,6 +160,11 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 
 #card1 .options_cont {
     display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 3%;
+    right: 3%;
+    width: 94%;
 }
 
 .options_cont>form{
@@ -474,6 +479,10 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     .card{
         width: 40vw;
         height: 80vh; 
+    }
+
+    #card1 .options_cont {
+        position: static;
     }
 
     .options_cont>form{
