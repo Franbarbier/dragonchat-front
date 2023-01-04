@@ -35,10 +35,10 @@ const Config: React.FC<IConfig> = ({  }) => {
                     
                     {menuConfig &&
                         <div className={styles.menu_config}>
-                            <div>
+                            <div className={styles.unlink_whatsapp}>
                                 <p onClick={ ()=>{ handleDesvWpp } }>Desvincular Whatsapp</p>
                             </div>
-                            <div onClick={ handleLogout }>
+                            <div className={styles.sign_out} onClick={ handleLogout }>
                                 <p>Cerrar sesión</p>
                             </div>
                         </div>

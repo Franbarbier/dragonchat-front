@@ -58,10 +58,21 @@
     cursor: inherit!important;
 }
 .dragon1{
-    display: none;
+    display: block;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 17%;
+    max-width: 200px;
 }
 .dragon2{
-    display: none;
+    display: block;
+    position: absolute;
+    top: 60%;
+    right: 15%;
+    width: 17%;
+    max-width: 200px;
+    transform: rotateY(180deg);
 }
 .ruleta_cont{
     position: absolute;
@@ -110,23 +121,5 @@
     }
     .prevCard{
         left: 28vw;
-    }
-
-    .dragon1{
-        display: block;
-        position: absolute;
-        top: 15%;
-        left: 15%;
-        width: 17%;
-        max-width: 200px;
-    }
-    .dragon2{
-        display: block;
-        position: absolute;
-        top: 60%;
-        right: 15%;
-        width: 17%;
-        max-width: 200px;
-        transform: rotateY(180deg);
     }
 }
