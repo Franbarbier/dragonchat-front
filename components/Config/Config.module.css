@@ -10,13 +10,14 @@
     height: 54px;
 
     background-color: var(--violeta2t);
-    border: 1px solid var(--amarillo);
+    border: 1px solid var(--violeta2t);
     border-radius: 50px;
     position: relative;
     cursor: pointer;
 }
-.config_icon img{
-    width: 50%;
+.config_icon svg{
+    width: 100%;
+    height: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -26,7 +27,6 @@
     right: 0%;
     top: 120%;
     background-color: var(--violeta2t);
-    border: 1px solid var(--amarillo);
     border-radius: 5px;
     position: absolute;
     padding: 10px 20px;

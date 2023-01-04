@@ -19,19 +19,14 @@ const ContactRow: React.FC<IContactRow> = ({ contact, campos }) => {
         <div className={styles.row_card}>
             <div className={`column${columnWidth}`}>
                 <div>
-                    <span>+{contact.wpp}</span>
+                    <span>{contact.name}</span>
                 </div>
             </div>
             <div className={`column${columnWidth}`}>
                 <div>
-                    <span>{contact.name}</span>
+                    <span>+{contact.wpp}</span>
                 </div>
             </div>
-            <div className={styles.delete_contact}
-                onClick={()=>{
-                    // handleDeleteContact(contact)
-                }}
-            >❌</div>
         </div>
     
     );

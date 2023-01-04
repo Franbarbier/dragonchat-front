@@ -94,3 +94,7 @@
     cursor: pointer;
     font-weight: bold
 }
+
+.csvInput {
+    display: none;
+}

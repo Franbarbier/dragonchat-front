@@ -2,18 +2,13 @@
     border: 1px solid var(--rosita1);
     border-radius: 15px;
     padding: 30px;
-    /* backdrop-filter: blur(20px); */
-    width: 40vw;
+    width: 80vw;
     height: 80vh;
     position: absolute;
     left: 50%;
     z-index: 1;
     opacity: 0.7;
     transition: .5s;
-    
-    /* background-image: url('../../../public/dc_trama.svg');
-    background-size: 5%;
-    background-position: center; */
     background-color: rgba(16, 1, 28, 0.889);
     filter: blur(2px);
 }
@@ -113,15 +108,26 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 }
 
 .row_card span{
-    font-size: 0.8em;
+    font-size: 0.6em;
     font-weight: 100;
     text-align: center;
     display: block;
 }
+
+.row_card span.contact_example{
+    color: #c2c2c2;
+    opacity: 0.35;
+    font-size: 0.6em;
+    font-weight: 100;
+    text-align: center;
+    display: block;
+}
+
 .delete_contact{
+    font-size: 0.4em;
     position: absolute;
     right: 2%;
-    top: 50%;
+    top: 2px;
     transform: translateY(-50%) scale(0.9);
     cursor: pointer;
     opacity: 0;
@@ -152,9 +158,17 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 }
 
 
+#card1 .options_cont {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 3%;
+    right: 3%;
+    width: 94%;
+}
 
 .options_cont>form{
-    display: flex;
+    display: block;
     margin: 7% 0 3%;
     width: 100%;
     position: relative;
@@ -162,8 +176,11 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 }
 
 .options_cont>form input{
-    width: 42%;
+    display: block;
+    font-size: 0.6em;
+    width: 100%;
     margin-right: 3%;
+    margin-bottom: 2%;
     padding: 1% 5%;
     border: solid 1px #5d3770;
     border-radius: 5px;
@@ -171,22 +188,24 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     background: #8651a1;
 
 }
-.options_cont>form input:first-child{
-    padding-left: 25px;
+.options_cont>form input{
+    padding-left: 15px;
 }
 #card1 .options_cont>form:first-child::before{
     content: '+';
     position: absolute;
-    top: 50%;
+    top: 47%;
     transform: translateY(-50%);
-    left: 2.7%;
+    left: 7px;
 }
 .options_cont>form input::placeholder {
     color: #c2c2c2;
 }
+
 .options_cont>form button{
+    width: 100%;
     padding: 1% 3%;
-    font-size: 1em;
+    font-size: 0.7em;
     border: solid 1px #5d3770;
     border-radius: 5px;
     color: white;
@@ -194,11 +213,10 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     cursor: pointer;
 }
 
-.options_cont>form button>span{
-    transform: scale(2);
-    display: block;
-    text-shadow: 0px 1px 0px #0006;
+.options_cont>form button>span.web_span{
+    display: none;
 }
+
 .options_cont>p>a{
     font-weight: bold;
     border-bottom: 1px solid var(--rosita1);
@@ -206,17 +224,16 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     cursor: pointer ;
 }
 
-.orangeBtn{
-    display: block;
-    text-align: center;
-    background: linear-gradient(0, #c21c3b, #f9bd4f);
+.options_cont>button.importBtn{
+    display: none;
+    margin: 7% auto 3% 3%;
+    padding: 1% 3%;
+    font-size: 1em;
+    border: solid 1px #5d3770;
     border-radius: 5px;
-    border: 1px solid #e17846;
-    width: 100%;
-    padding: 2% 0;
+    color: white;
+    background: linear-gradient(0, #c21c3b, #f9bd4f);
     cursor: pointer;
-    margin-top: 3%;
-    
 }
 
 .message>textarea{
@@ -456,4 +473,70 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     background: rgba(130, 22, 22, 0.8);
     display: block;
     position: absolute;
+}
+
+@media (min-width: 769px) {
+    .card{
+        width: 40vw;
+        height: 80vh; 
+    }
+
+    #card1 .options_cont {
+        position: static;
+        width: 100%;
+    }
+
+    .options_cont>form{
+        display: flex;
+    }
+
+    .options_cont>form input{
+        font-size: 1em;
+        width: 42%;
+    }
+
+    .options_cont>form input:nth-child(2){
+        padding-left: 25px;
+    }
+
+    #card1 .options_cont>form:first-child::before{
+        top: 50%;
+        left: 48.5%;
+    }
+
+    .options_cont>form input{
+        margin-bottom: auto;
+    }
+
+    .options_cont>form button{
+        width: auto;
+        font-size: 1em;
+    }
+
+    .options_cont>form button>span.web_span{
+        transform: scale(2);
+        display: block;
+        text-shadow: 0px 1px 0px #0006;
+    }
+
+    .options_cont>form button>span.mobile_span{
+        display: none;
+    }
+
+    .options_cont>button.importBtn{
+        display: block;
+    }
+
+    .row_card span{
+        font-size: 0.8em;
+    }
+    
+    .row_card span.contact_example{
+        font-size: 0.8em;
+    }
+
+    .delete_contact{
+        font-size: 0.7em;
+        top: 50%;
+    }
 }
