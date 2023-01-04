@@ -483,6 +483,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 
     #card1 .options_cont {
         position: static;
+        width: 100%;
     }
 
     .options_cont>form{
