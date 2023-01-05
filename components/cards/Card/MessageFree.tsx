@@ -26,12 +26,9 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                     
                     <div className={styles.options_cont}>
                         <div className={styles.message}>
-                        <textarea placeholder='Mensaje...' value={mensaje} onChange={ (e)=>{ setMensaje(e.target.value) } } />
+                        <textarea placeholder='Utilizando la variable `[name]` en tu mensaje, la misma será reemplazada por el nombre de cada uno de los destinatarios definidos en la sección anterior. Ejemplo: `Hola [name], tengo algo para enviarte que te va a encantar`' value={mensaje} onChange={ (e)=>{ setMensaje(e.target.value) } } />
 
                         </div>
-                        <span className={styles.infoIcon}>i</span>
-                        <span className={styles.infoTxt}>Escribiendo [name] puedes ingresar dinamicamente el nombre del contacto! </span>
-                        {/* <button className={styles.importBtn}>Importar contactos</button> */}
 
                     </div>
                 </div>

@@ -1,12 +1,10 @@
+import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
-
-
-
 
 interface IModalImport {
     modalImport : boolean;
@@ -37,8 +35,22 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
         wpp : ''
     })
   
+    const regex = new RegExp(/[^\d]/g);
     
+    function handleAddContact(e){
+        e.preventDefault()
 
+        console.log(newContact.name)
+        if (newContact.name != '' && newContact.wpp != '') {
+            handleNewContact(newContact)
+            setNewContact({
+                name: '',
+                wpp: ''
+            })
+        }else{
+            alert('Ingresar datos del contacto.')
+        }
+    }
    
 
     return (
@@ -52,20 +64,34 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
                 </div>
                 <div className={styles.card_table_cont}>
                     
-                    <HeaderRow campos={["Número", "Apodo"]} />
+                    <HeaderRow campos={["Nombre", "Número"]} />
 
                     <div className={styles.table_rows}>
-
-                        {contactos.map(contact=>(
+                        {
+                            contactos.length == 0 &&
                             <div className={styles.row_card}>
                                 <div className="column50">
                                     <div>
-                                        <span>+{contact.wpp}</span>
+                                        <span className={styles.contact_example}>Pepe</span>
                                     </div>
                                 </div>
                                 <div className="column50">
                                     <div>
+                                        <span className={styles.contact_example}>+5491148763379</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        {contactos.map(contact=>(
+                            <div className={styles.row_card}>
+                                <div className="column50">
+                                    <div>
                                         <span>{contact.name}</span>
+                                    </div>
+                                </div>
+                                <div className="column50">
+                                    <div>
+                                        <span>+{contact.wpp}</span>
                                     </div>
                                 </div>
                                 <div className={styles.delete_contact}
@@ -80,31 +106,18 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
                     </div>
                     <div className={styles.options_cont}>
                         <form className={styles.new_contact}>
-                            <input placeholder='Número' onChange={(e)=>{
-                                setNewContact({...newContact, wpp :  e.target.value})
-                                } } value={newContact.wpp}/>
-                                
-                            <input placeholder='Apodo' onChange={(e)=>{
+                            <input placeholder='Nombre' onChange={(e)=>{
                                 setNewContact({...newContact, name :  e.target.value})
                                 } } value={newContact.name}/>
-                            <button onClick={ (e)=>{
-                                e.preventDefault()
-                                if (newContact.name != '' && newContact.wpp != '') {
-                                    handleNewContact(newContact)
-                                    setNewContact({
-                                        name: '',
-                                        wpp: ''
-                                    })
-                                }else{
-                                    alert('Ingresar datos del contacto.')
-                                }
-                            } } ><span>+</span></button>
-
+                            <input placeholder='Número' onChange={(e)=>{
+                                
+                                setNewContact({...newContact, wpp :  e.target.value.replace(regex, '') })
+                                } } value={newContact.wpp}/>
+                            <button onClick={ (e)=>{ handleAddContact(e) } } ><span className={styles.web_span}>+</span><span className={styles.mobile_span}>AGREGAR DESTINATARIO</span></button>
+                            
                         </form>
-                        
-                        {/* <button className={styles.importBtn}>Importar contactos</button> */}
-                        <OrangeBtn text="Importar contacto" onClick={ ()=> {handleRenderModal(true)} }/>
-
+                            
+                        <button className={styles.importBtn} onClick={ ()=> {handleRenderModal(true)} }><FontAwesomeIcon icon={faFileCsv} /></button>
 
                     </div>
                 </div>

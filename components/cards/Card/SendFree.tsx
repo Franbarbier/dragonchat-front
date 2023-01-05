@@ -82,7 +82,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
             </div>
             <div className={styles.card_table_cont}>
 
-                <HeaderRow campos={["Número", "Apodo"]} key="header-row-sendFree"/>
+                <HeaderRow campos={["Nombre", "Número"]} key="header-row-sendFree"/>
              
                 <div className={`${styles.table_rows} ${styles.enviando_table}`}>
                     {contactos.map((contact, index)=>(
@@ -100,12 +100,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
                                 <div className="column50">
                                     <div>
-                                        <span>+{contact.wpp}</span>
+                                        <span>{contact.name}</span>
                                     </div>
                                 </div>
                                 <div className="column50">
                                     <div>
-                                        <span>{contact.name}</span>
+                                        <span>+{contact.wpp}</span>
                                     </div>
                                 </div>
                                     

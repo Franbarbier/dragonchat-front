@@ -1,3 +1,6 @@
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Router from 'next/router';
 import { useState } from 'react';
 import styles from './Config.module.css';
 
@@ -18,14 +21,16 @@ const Config: React.FC<IConfig> = ({  }) => {
 
     }
     function handleLogout(){
-
+        localStorage.removeItem( "dragonchat_login" )
+        Router.push('/login')
     }
 
     return (
             <div id={styles.configBtn}>
                 <div>
                     <div className={styles.config_icon} onClick={ ()=>{ setMenuConfig(!menuConfig) } }>
-                        <img src="/settings.png" />                        
+                        <FontAwesomeIcon icon={faUserCircle} />
+                        {/* <img src="/settings.png" />                         */}
                     </div>
                     
                     {menuConfig &&
@@ -33,8 +38,8 @@ const Config: React.FC<IConfig> = ({  }) => {
                             <div>
                                 <p onClick={ ()=>{ handleDesvWpp } }>Desvincular Whatsapp</p>
                             </div>
-                            <div>
-                                <p onClick={ ()=>{ handleLogout } }>Cerrar sesión</p>
+                            <div onClick={ handleLogout }>
+                                <p>Cerrar sesión</p>
                             </div>
                         </div>
                     }
