@@ -4,10 +4,10 @@ import RecoverPasswordView from "../components/RecoverPasswordView/RecoverPasswo
 import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
 
-const RecoverPassword : NextPageWithLayout<GralProps> = (GralProps) => {
+const NewPassword : NextPageWithLayout<GralProps> = (GralProps) => {
     return (
         <section>
-            <MainCont width={40} >
+            <MainCont width={90} maxWidth={340}>
                 <RecoverPasswordView />
             </MainCont>
         </section>
@@ -15,9 +15,9 @@ const RecoverPassword : NextPageWithLayout<GralProps> = (GralProps) => {
 };
 
 
-export default RecoverPassword;
+export default NewPassword;
 
-RecoverPassword.getLayout = (page) => {
+NewPassword.getLayout = (page) => {
     return (
         <PrimaryLayout>
           {page}

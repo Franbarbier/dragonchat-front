@@ -1,47 +1,33 @@
-import { useEffect, useState } from "react";
-import CardTitle from '../cards/CardTitle/CardTitle';
-import InputGral from '../InputGral/InputGral';
-import OrangeBtn from '../OrangeBtn/OrangeBtn';
+import { useState } from "react";
+import CardTitle from "../cards/CardTitle/CardTitle";
+import InputGral from "../InputGral/InputGral";
+import OrangeBtn from "../OrangeBtn/OrangeBtn";
 import styles from "./RecoverPasswordView.module.css";
 
 export interface IRecoverPasswordView {}
 
 const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
-  const [newPass, setNewPass] = useState("");
-  const [confirmNewPass, setConfirmNewPass] = useState("");
-  const [equalNewPass, setEqualNewPass] = useState(true);
+  const [email, setEmail] = useState("");
 
-  useEffect(() => {
-    if (confirmNewPass != "" && confirmNewPass != newPass) {
-      setEqualNewPass(false);
-    } else {
-      setEqualNewPass(true);
-    }
-  }, [confirmNewPass]);
-
-  async function handleChangePassword() {
-    if (equalNewPass) {
-        console.log("Todo ok")
-    } else {
-        alert("Las contaseñas no coinciden")
-    }
+  async function handleRecoverPassword() {
+    console.log("hola");
   }
 
   return (
-    <div className={styles.signup_cont}>
+    <div className={styles.recover_password_cont}>
       <div>
-        <CardTitle text="Cambiar Contraseña" />
-
+        <CardTitle text="Recuperar Contraseña" />
+        <span>Ingresa el e-mail con el que te registraste</span>
         <div>
-            <InputGral placeholder='Nueva contraseña' type="password" value={newPass} onChange={ setNewPass }/>
-            <InputGral placeholder='Repetir nueva contraseña' type="password" value={confirmNewPass} onChange={ setConfirmNewPass }/>
-            {!equalNewPass &&
-                <p className={styles.passAlert}>Las contraseñas no coinciden :(</p>
-            }
+          <InputGral
+            placeholder="E-mail"
+            type="email"
+            value={email}
+            onChange={setEmail}
+          />
         </div>
 
-        <OrangeBtn text="Confirmar" onClick={ handleChangePassword }/>
-
+        <OrangeBtn text="Continuar" onClick={handleRecoverPassword} />
       </div>
     </div>
   );

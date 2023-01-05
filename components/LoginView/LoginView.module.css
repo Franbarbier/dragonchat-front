@@ -22,12 +22,16 @@
 
 }
 .forget{
-    color: var(--amarillo);
     font-size: 0.75em;
     cursor: pointer;
     border-bottom: 1px solid var(--amarillo);
     display: block;
     margin-top: 10px;
+}
+.forget button{
+    color: var(--amarillo);     
+    background: none;
+    border: none;
 }
 .googleInit{
     display: flex;
