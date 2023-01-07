@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import io from 'socket.io-client';
+
 
 import Config from '../Config/Config';
 import ModalContainer from '../ModalContainer/ModalContainer';
@@ -26,7 +26,7 @@ export interface ContactInfo {
     status? : "success" | "error" | "pending",
 }
 
-// interface contactosArr extends Array<ContactInfo>{}
+
 
 const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
@@ -36,29 +36,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [contactos, setContactos] = useState<ContactInfo[]>([])
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
-
-    const [wppMessage, setWppMessage] = useState<boolean>(false)
     
-
-    const socket = io("http://api-sender.dragonchat.io");
-
-    socket.emit('create-session', {
-        id: '235',
-    });
-
-            socket.on("connection_qr", (arg) => {
-                console.log(arg); // world
-                console.log("a ver?"); // world
-            });
-
-            socket.on("connection_status", (data) => {
-                console.log(data);
-            })
-            
-            socket.on("connect_error", (err) => {
-                console.log(`connect_error due to ${err.message}`);
-              });
-              
     
     function handleNewContact(newContact:ContactInfo) {
         setContactos([...contactos, newContact])
@@ -72,9 +50,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
         console.log(render)
         setModalImport(render)
     }
-
     
-
     
     return (
         <div>
