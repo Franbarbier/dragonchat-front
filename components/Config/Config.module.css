@@ -6,9 +6,8 @@
 }
 
 .config_icon{
-    width: 54px;
-    height: 54px;
-
+    width: 44px;
+    height: 44px;
     background-color: var(--violeta2t);
     border: 1px solid var(--violeta2t);
     border-radius: 50px;
@@ -27,21 +26,42 @@
     right: 0%;
     top: 120%;
     background-color: var(--violeta2t);
-    border-radius: 5px;
+    border-radius: 10px;
+    overflow: hidden;
     position: absolute;
-    padding: 10px 20px;
-    width: 25vw;
+    width: max-content; 
+    font-size: 0.6em;
 }
 .menu_config>div{
-    text-align: center;
-    margin: 15px auto;
+    text-align: left;
     letter-spacing: 1px;
+    padding: 10px 15px;
 }
+
+.menu_config>div.unlink_whatsapp{
+    background-image: linear-gradient(to top left, #24134a,#402b86);
+}
+
+.menu_config>div.sign_out{
+    background-color: #643794;
+}
+
 .menu_config>div p{
     cursor: pointer;
 }
 .menu_config>div:hover{
     font-weight: 600;
-    color: #e17846
+    background-color: #361559!important;
+    background-image: linear-gradient(to top left, #361559,#361559)!important;
 }
 
+@media (min-width: 769px) {
+    .config_icon{
+        width: 54px;
+        height: 54px;
+    }
+
+    .menu_config{
+        font-size: 0.8em;
+    }
+}
