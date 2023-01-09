@@ -50,15 +50,18 @@ const QrCard: React.FC<IQrCard> = ({ qr_url }) => {
         });
 
         socket.on("ready", (err) => {
-            alert("Whatsapp sincronizado con éxito!")
+            alert("Whatsapp sincronizado con éxito! Antes de enviar mensajes, asegurate que haya terminado la sincronizacion. Desde tus dispositivos vinculados en la app.")
             location.href = "/"
         });
         
     },[socket])
 
+
+
     function handleEmitID(id_user:string) {
+        const locStorage = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" )
         socket.emit('create-session', {
-            id: id_user,
+            id: locStorage.user_id.toString(),
         });
         setLoadingQr(true)
     }
