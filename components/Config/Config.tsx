@@ -1,3 +1,5 @@
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Router from 'next/router';
 import { useState } from 'react';
 import styles from './Config.module.css';
@@ -27,15 +29,16 @@ const Config: React.FC<IConfig> = ({  }) => {
             <div id={styles.configBtn}>
                 <div>
                     <div className={styles.config_icon} onClick={ ()=>{ setMenuConfig(!menuConfig) } }>
-                        <img src="/settings.png" />                        
+                        <FontAwesomeIcon icon={faUserCircle} />
+                        {/* <img src="/settings.png" />                         */}
                     </div>
                     
                     {menuConfig &&
                         <div className={styles.menu_config}>
-                            <div>
+                            <div className={styles.unlink_whatsapp}>
                                 <p onClick={ ()=>{ handleDesvWpp } }>Desvincular Whatsapp</p>
                             </div>
-                            <div onClick={ handleLogout }>
+                            <div className={styles.sign_out} onClick={ handleLogout }>
                                 <p>Cerrar sesión</p>
                             </div>
                         </div>

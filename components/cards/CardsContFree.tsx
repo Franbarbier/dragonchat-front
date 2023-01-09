@@ -1,6 +1,4 @@
-import { useState } from 'react';
-
-
+import { useEffect, useState } from 'react';
 import Config from '../Config/Config';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import WppBtn from '../WppBtn/WppBtn';
@@ -36,6 +34,19 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [contactos, setContactos] = useState<ContactInfo[]>([])
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
+
+    const [wppMessage, setWppMessage] = useState<boolean>(false)
+    const [isMobile, setIsMobile] = useState<boolean>(false)
+    
+
+    useEffect(() => {
+        const checkIsMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+          };
+          checkIsMobile();
+          window.addEventListener('resize', checkIsMobile);
+          return () => window.removeEventListener('resize', checkIsMobile);
+    }, [])
     
     
     function handleNewContact(newContact:ContactInfo) {
@@ -111,8 +122,13 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                 </div>
             </div> */}
 
-            <img className={styles.dragon1} src="/dragon_anim.gif" />
-            <img className={styles.dragon2} src="/dragon_anim.gif" />
+            {
+                !isMobile &&
+                <div>
+                    <img className={styles.dragon1} src="/dragon_anim.gif" alt="dragon-chat"/>
+                    <img className={styles.dragon2} src="/dragon_anim.gif" alt="dragon-chat"/>
+                </div>
+            }
 
             <WppBtn />
             <Config />
