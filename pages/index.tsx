@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
@@ -12,7 +13,10 @@ import { GralProps } from './_app';
 const Home: NextPageWithLayout<GralProps> = (GralProps) => {
   const { locale } = useRouter();
 
-  console.log(GralProps)
+  useEffect(()=>{
+    const locStorage = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" )
+    console.log( locStorage.user_id )
+  },[])
   return (
     <section>
       <CardsCont {...mockCardsContProps.base} />
