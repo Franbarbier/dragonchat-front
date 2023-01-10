@@ -11,7 +11,7 @@ export interface IQrCard {
 }
 
 
-const socket = io("http://localhost:5002/");
+const socket = io("http://api-sender.dragonchat.io/");
 
 socket.on("connect", () => {
     console.log(socket.id)
