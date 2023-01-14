@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import CardTitle from '../CardTitle/CardTitle';
-import ConversationPremium from '../ConversationPremium/ConversationPremium';
 import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {
@@ -49,7 +48,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                         </div>
                         :
                         <div>
-                            <ConversationPremium />
+                            {/* <ConversationPremium /> */}
                         </div>
 
                     }
