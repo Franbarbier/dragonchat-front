@@ -15,11 +15,6 @@ const url_users = 'auth/'
 export const login = (user) => axios.post(`${ENDPOINT}${url_users}login`, user );
 export const signup = (user) => axios.post(`${ENDPOINT}${url_users}signup`, user );
 
-// export const getUsers = (filtros) => axios.get(url_users, {...filtros, headers});
-// export const deleteUser = (id) => axios.delete(`${url_users}/${id}`, {headers});
-// export const updateUser = (updateData) => axios.patch(`${url_users}`, updateData, {headers});
-// export const isAdmin = (user) => axios.post(`${url_users}/isAdmin`, user );
-
 // export const verifyUser = async (id) => {
 //     console.log(token)
 //     var res = await fetch(`${url_users}/verify`, {method: 'GET', headers})
@@ -28,6 +23,7 @@ export const signup = (user) => axios.post(`${ENDPOINT}${url_users}signup`, user
 //     console.log(res)
 //     return res
 // }
+
 
 
 // SEND MESSAGE

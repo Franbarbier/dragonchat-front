@@ -27,6 +27,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
         
         setSending(true)
 
+        const locStorage = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" )
+
         for (let index = 0; index < contactos.length; index++) {
             const destinatario = contactos[index];
 
@@ -39,7 +41,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
             
             let bodyContent = JSON.stringify({
                 // "user": "234t",
-                "user": "messi",
+                "user": locStorage.user_id,
                 "name": destinatario.name,
                 "message": mensaje,
                 "number": destinatario.wpp

@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
-
 import Config from '../Config/Config';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import WppBtn from '../WppBtn/WppBtn';
@@ -26,7 +24,7 @@ export interface ContactInfo {
     status? : "success" | "error" | "pending",
 }
 
-// interface contactosArr extends Array<ContactInfo>{}
+
 
 const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
@@ -40,12 +38,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
     
-
-    const socket = io("http://api-sender.dragonchat.io");
-
-    socket.on("connect", () => {
-        console.log(socket.id)
-    });
 
     useEffect(() => {
         const checkIsMobile = () => {
@@ -69,9 +61,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
         console.log(render)
         setModalImport(render)
     }
-
     
-
     
     return (
         <div>

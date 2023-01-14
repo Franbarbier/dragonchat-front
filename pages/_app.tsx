@@ -1,5 +1,7 @@
 import type { AppProps } from 'next/app';
+import Router from 'next/router';
 import { useEffect } from 'react';
+
 import '../styles/globals.css';
 import { NextPageWithLayout } from './page';
 
@@ -17,7 +19,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     // Perform localStorage action
     const locStorage =  JSON.parse( localStorage.getItem('dragonchat_login')  || "{}" ) 
 
-    //  
+    if (locStorage?.status != 200 || !locStorage.hasOwnProperty('access_token')) {
+      if (window.location.href.indexOf("login") == -1 && window.location.href.indexOf("signup") == -1) {
+        Router.push('/login')
+      }
+    } 
+
     
   }, [])
 
