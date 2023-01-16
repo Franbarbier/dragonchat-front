@@ -36,6 +36,9 @@ const QrCard: React.FC<IQrCard> = ({ qr_url }) => {
         
         socket.on("connection_qr", (arg) => {
             console.log(arg); // world
+            let dragonchat_login = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" );
+            dragonchat_login.wpp_connected = true;
+            localStorage.setItem("dragonchat_login", JSON.stringify(dragonchat_login));
             setActiveQr(arg.src)
             setLoadingQr(false)
 
@@ -58,12 +61,12 @@ const QrCard: React.FC<IQrCard> = ({ qr_url }) => {
 
 
 
-    function handleEmitID(id_user:string) {
-        const locStorage = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" )
+    function handleEmitID() {
+        const locStorage = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" );
         socket.emit('create-session', {
             id: locStorage.user_id.toString(),
         });
-        setLoadingQr(true)
+        setLoadingQr(true);
     }
 
 
@@ -85,7 +88,7 @@ const QrCard: React.FC<IQrCard> = ({ qr_url }) => {
                 </div>
             :
                 <div style={ {"opacity": loadingQr ? "0.3" : "1"}  }>
-                    <OrangeBtn text="Generar QR" onClick={()=>{ handleEmitID("23")}} />
+                    <OrangeBtn text="Generar QR" onClick={()=>{ handleEmitID()}} />
                 </div>
                           
             }

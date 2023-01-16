@@ -37,7 +37,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     }
 
                     localStorage.setItem( "dragonchat_login" , JSON.stringify(login_storage))
-                    Router.push('/')
+                    Router.push('/qr')
 
                 }else{
                     alert('Los datos son incorrectos.')
