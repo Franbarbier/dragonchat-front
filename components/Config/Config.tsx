@@ -1,5 +1,6 @@
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useState } from 'react';
 import styles from './Config.module.css';
@@ -21,8 +22,8 @@ const Config: React.FC<IConfig> = ({  }) => {
 
     }
     function handleLogout(){
-        localStorage.removeItem( "dragonchat_login" )
-        Router.push('/login')
+        Cookies.remove("dragonchat_login"); //removeItem( "dragonchat_login" )
+        Router.push('/login');
     }
 
     return (
