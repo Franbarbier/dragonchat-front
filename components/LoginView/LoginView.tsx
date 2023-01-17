@@ -30,14 +30,18 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 if (login_status?.status == 200 ) {
 
                     const login_storage = {
-                        status : 200,
                         access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
-                        user_id : login_status?.data.user_id,
-                        wpp_connected : false
+                        user_id : login_status?.data.user_id
                     }
 
-                    Cookies.set( "dragonchat_login" , JSON.stringify(login_storage))
-                    Router.push('/qr')
+                    Cookies.set(
+                      "dragonchat_login",
+                      JSON.stringify(login_storage),
+                      {
+                        secure: true
+                      }
+                    );
+                    Router.push('/dash')
 
                 }else{
                     alert('Los datos son incorrectos.')

@@ -15,16 +15,16 @@ export interface IConfig {
 
 const Config: React.FC<IConfig> = ({  }) => {
 
-    const [menuConfig, setMenuConfig] = useState(false)
-
+    const [menuConfig, setMenuConfig] = useState(false);
 
     function handleDesvWpp(){
 
     }
     function handleLogout(){
-        Cookies.remove("dragonchat_login"); //removeItem( "dragonchat_login" )
+        Cookies.remove("dragonchat_login");
         Router.push('/login');
     }
+    
 
     return (
             <div id={styles.configBtn}>
