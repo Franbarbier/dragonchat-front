@@ -33,16 +33,13 @@ export async function middleware(req: NextRequest) {
       );
       const data = await apiResponse.json();
       const isWhatsAppConnected = data.data.connected_whatsapp;
-
       if (!isWhatsAppConnected) {
         if (requestedPage !== "/qr") {
           url.pathname = "/qr";
           response = NextResponse.redirect(url);
         }
-        response.cookies.set("whatsapp_connected", "0");
-      } else {
-        response.cookies.set("whatsapp_connected", "1");
-      }
+        
+      } 
     }
   }
   return response;

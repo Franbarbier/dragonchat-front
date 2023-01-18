@@ -1,6 +1,5 @@
 import styles from './QrCard.module.css';
 
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import CardTitle from "../cards/CardTitle/CardTitle";
@@ -9,27 +8,27 @@ import OrangeBtn from '../OrangeBtn/OrangeBtn';
 
 export interface IQrCard {
     qr_url : string;
+    linked_whatsapp: boolean;
 }
 
 
-const socket = io("http://localhost:5002/");
+const socket = io("http://api-sender.dragonchat.io/");
 
 socket.on("connect", () => {
     console.log(socket.id)
 });
 
 
-const QrCard: React.FC<IQrCard> = ({ qr_url }) => {
+const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
 
 
     const [showQr, setShowQr] = useState<boolean>(false);
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string>("");
-    const [linkedWhatsapp, setLinkedWhatsapp] = useState(false);
+    
+    const linkedWhatsapp = linked_whatsapp;
    
     useEffect(()=>{
-        setLinkedWhatsapp(JSON.parse(Cookies.get("whatsapp_connected")) == 1);
-        
         socket.on('message', function (data) {
             console.log(data);
             if (data.text == '¡Fallo la conexion!') {
@@ -106,6 +105,7 @@ const QrCard: React.FC<IQrCard> = ({ qr_url }) => {
                 
             </div>
         </div>
+        
         
     
     );
