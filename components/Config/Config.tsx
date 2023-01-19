@@ -21,14 +21,8 @@ const Config: React.FC<IConfig> = ({ linked_whatsapp=true }) => {
 
     async function handleDesvWpp(){
         const userId = JSON.parse(Cookies.get("dragonchat_login")).user_id;
-        const response = await apiSenderWhatsappController.unlinkWhatsapp(userId);
-        const data = await response?.json();
-        if (response.status == 200) {
-            alert("Whatsapp correctamente desvinculado.");
-            Router.push("/qr");
-        } else {
-            alert("Tu sesión no pudo ser desvinculada de forma correcta. Espera unos momentos y vuelve a intentar.")
-        }
+        await apiSenderWhatsappController.unlinkWhatsapp(userId);
+       
     }
     function handleLogout(){
         Cookies.remove("dragonchat_login");
