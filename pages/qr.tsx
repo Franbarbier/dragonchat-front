@@ -1,3 +1,4 @@
+import Cookies from "universal-cookie";
 import Config from "../components/Config/Config";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
@@ -25,8 +26,8 @@ Qr.getInitialProps = async (context) => {
     const headers = new Headers({
       "Content-Type": "application/json",
     });
-    const cookies = req.cookies
-    const accessToken = JSON.parse(cookies.dragonchat_login).access_token;
+    const cookies = new Cookies(req.headers.cookie);
+    const accessToken = cookies.get("dragonchat_login").access_token;
     headers.append("Authorization", `Bearer ${accessToken}`);
     const apiResponse = await fetch(
       "http://api-user.dragonchat.io/api/v1/ws",
