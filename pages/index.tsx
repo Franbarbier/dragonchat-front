@@ -11,15 +11,8 @@ import { GralProps } from './_app';
 const Home: NextPageWithLayout<GralProps> = (GralProps) => {
   const router = useRouter();
 
-  const loggedIn = true;
-
   useEffect(()=>{
-
-    if (loggedIn) {
       router.push("/dash")
-    }else{
-      router.push("/login")
-    }
   }, [])
 
   return (
