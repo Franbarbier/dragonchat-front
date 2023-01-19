@@ -1,9 +1,9 @@
-import styles from './QrCard.module.css';
-
+import Cookie from 'js-cookie';
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
+import styles from './QrCard.module.css';
 
 
 export interface IQrCard {
@@ -38,9 +38,6 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
         
         socket.on("connection_qr", (arg) => {
             console.log(arg); // world
-            let dragonchat_login = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" );
-            dragonchat_login.wpp_connected = true;
-            localStorage.setItem("dragonchat_login", JSON.stringify(dragonchat_login));
             setActiveQr(arg.src)
             setLoadingQr(false)
 
@@ -64,9 +61,9 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
 
 
     function handleEmitID() {
-        const locStorage = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" );
+        const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
         socket.emit('create-session', {
-            id: locStorage.user_id.toString(),
+            id: userInfo.user_id.toString(),
         });
         setLoadingQr(true);
     }
