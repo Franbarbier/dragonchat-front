@@ -8,12 +8,12 @@ import axios from 'axios';
 // }
 const headers = ''
 
-const ENDPOINT = 'http://api-user.dragonchat.io/api/v1/';
+const ENDPOINT = `${process.env.NEXT_PUBLIC_API_USER_URL}`;
 
 // USERS
-const url_users = 'auth/'
-export const login = (user) => axios.post(`${ENDPOINT}${url_users}login`, user );
-export const signup = (user) => axios.post(`${ENDPOINT}${url_users}signup`, user );
+const url_users = '/auth'
+export const login = (user) => axios.post(`${ENDPOINT}${url_users}/login`, user );
+export const signup = (user) => axios.post(`${ENDPOINT}${url_users}/signup`, user );
 
 // export const verifyUser = async (id) => {
 //     console.log(token)
@@ -28,7 +28,7 @@ export const signup = (user) => axios.post(`${ENDPOINT}${url_users}signup`, user
 
 // SEND MESSAGE
 
-const url_message = 'http://api-sender.dragonchat.io/api/v1/message/'
+const url_message = `${process.env.API_SENDER_URL}/message/`
 
 let headersList = {
     "Accept": "/",
@@ -42,7 +42,7 @@ export const sendMessage = async (bodyContent) => {
     // const onSuccess = () => {
         // }
         
-        const messageResponse = await fetch("http://api-sender.dragonchat.io/api/v1/message/send-basic", {
+        const messageResponse = await fetch(`${process.env.API_SENDER_URL}/message/send-basic`, {
             method: "POST",
             body: bodyContent,
             headers: headersList

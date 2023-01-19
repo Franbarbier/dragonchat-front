@@ -12,7 +12,7 @@ export interface IQrCard {
 }
 
 
-const socket = io("http://api-sender.dragonchat.io/");
+const socket = io(`${process.env.NEXT_PUBLIC_API_SENDER_SOCKET_URL}`)
 
 socket.on("connect", () => {
     console.log(socket.id)
@@ -90,7 +90,7 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
 
                 {activeQr != "" ?
                     <div>
-                        <img src={activeQr} width="75%"/>
+                        <img src={activeQr} width="75%" alt="qrWhatsappImage"/>
                     </div>
                 :   !linkedWhatsapp ?
                     <div style={ {"opacity": loadingQr ? "0.3" : "1"}  }>

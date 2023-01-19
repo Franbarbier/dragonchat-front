@@ -30,7 +30,7 @@ Qr.getInitialProps = async (context) => {
     const accessToken = cookies.get("dragonchat_login").access_token;
     headers.append("Authorization", `Bearer ${accessToken}`);
     const apiResponse = await fetch(
-      "http://api-user.dragonchat.io/api/v1/ws",
+      `${process.env.API_USER_URL}/ws`,
       { headers }
     );
     const data = await apiResponse.json();

@@ -1,6 +1,6 @@
 import Router from 'next/router';
 
-const apiUrl = "http://api-sender.dragonchat.io/api/v1/";
+const apiUrl = process.env.NEXT_PUBLIC_API_SENDER_URL;
 
 const apiSenderWhatsappController = {
     unlinkWhatsapp: async (userId) => {
