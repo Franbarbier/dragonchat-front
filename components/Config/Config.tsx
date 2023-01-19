@@ -1,29 +1,34 @@
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useState } from 'react';
+import apiSenderWhatsappController from '../../api/apiSenderWhatsapp';
 import styles from './Config.module.css';
 
-
 export interface IConfig {
-    
+    linked_whatsapp: boolean
 }
 
 
 
 
-const Config: React.FC<IConfig> = ({  }) => {
+const Config: React.FC<IConfig> = ({ linked_whatsapp=true }) => {
 
-    const [menuConfig, setMenuConfig] = useState(false)
+    const [menuConfig, setMenuConfig] = useState(false);
 
+    const linkedWhatsapp = linked_whatsapp;
 
-    function handleDesvWpp(){
-
+    async function handleDesvWpp(){
+        const userId = JSON.parse(Cookies.get("dragonchat_login")).user_id;
+        await apiSenderWhatsappController.unlinkWhatsapp(userId);
+       
     }
     function handleLogout(){
-        localStorage.removeItem( "dragonchat_login" )
-        Router.push('/login')
+        Cookies.remove("dragonchat_login");
+        Router.push('/login');
     }
+    
 
     return (
             <div id={styles.configBtn}>
@@ -35,9 +40,12 @@ const Config: React.FC<IConfig> = ({  }) => {
                     
                     {menuConfig &&
                         <div className={styles.menu_config}>
-                            <div className={styles.unlink_whatsapp}>
-                                <p onClick={ ()=>{ handleDesvWpp } }>Desvincular Whatsapp</p>
-                            </div>
+                            {
+                                linkedWhatsapp &&
+                                <div className={styles.unlink_whatsapp}>
+                                    <p onClick={ handleDesvWpp } >Desvincular Whatsapp</p>
+                                </div>
+                            }
                             <div className={styles.sign_out} onClick={ handleLogout }>
                                 <p>Cerrar sesión</p>
                             </div>

@@ -8,6 +8,7 @@ import OrangeBtn from '../OrangeBtn/OrangeBtn';
 
 export interface IQrCard {
     qr_url : string;
+    linked_whatsapp: boolean;
 }
 
 
@@ -18,15 +19,16 @@ socket.on("connect", () => {
 });
 
 
-const QrCard: React.FC<IQrCard> = ({ qr_url }) => {
+const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
 
 
-    const [showQr, setShowQr] = useState<boolean>(false)
-    const [loadingQr, setLoadingQr] = useState<boolean>(false)
-    const [activeQr, setActiveQr] = useState<string>("")
+    const [showQr, setShowQr] = useState<boolean>(false);
+    const [loadingQr, setLoadingQr] = useState<boolean>(false);
+    const [activeQr, setActiveQr] = useState<string>("");
+    
+    const linkedWhatsapp = linked_whatsapp;
    
     useEffect(()=>{
-        
         socket.on('message', function (data) {
             console.log(data);
             if (data.text == '¡Fallo la conexion!') {
@@ -36,6 +38,9 @@ const QrCard: React.FC<IQrCard> = ({ qr_url }) => {
         
         socket.on("connection_qr", (arg) => {
             console.log(arg); // world
+            let dragonchat_login = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" );
+            dragonchat_login.wpp_connected = true;
+            localStorage.setItem("dragonchat_login", JSON.stringify(dragonchat_login));
             setActiveQr(arg.src)
             setLoadingQr(false)
 
@@ -58,38 +63,50 @@ const QrCard: React.FC<IQrCard> = ({ qr_url }) => {
 
 
 
-    function handleEmitID(id_user:string) {
-        const locStorage = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" )
+    function handleEmitID() {
+        const locStorage = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" );
         socket.emit('create-session', {
             id: locStorage.user_id.toString(),
         });
-        setLoadingQr(true)
+        setLoadingQr(true);
     }
 
 
     return (
-        <div className={styles.qrCard_cont}>
-            <CardTitle text="Vincular dispositivo" />
+        <div>
+            <div className={styles.qrCard_cont}>
+                <CardTitle text="Vincular dispositivo" />
+                {!linkedWhatsapp?
+                    <p>Vincula tu Whatsapp esacaneando el código QR:</p>
+                    :
+                    <p>Ya posees un dispositivo vinculado.</p>
+                }
 
-            <p>Vincula tu Whatsapp esacaneando el código QR:</p>
+                {loadingQr &&
+                    <div className={styles.loading_cont}>
+                        <p>Generando código, guarde un momento...</p>
+                    </div>
+                }
 
-            {loadingQr &&
-                <div className={styles.loading_cont}>
-                    <p>Generando código, guarde un momento...</p>
-                </div>
-            }
+                {activeQr != "" ?
+                    <div>
+                        <img src={activeQr} width="75%"/>
+                    </div>
+                :   !linkedWhatsapp ?
+                    <div style={ {"opacity": loadingQr ? "0.3" : "1"}  }>
+                        <OrangeBtn text="Generar QR" onClick={()=>{ handleEmitID()}} />
+                    </div>
+                : 
+                    <div style={ {"opacity": loadingQr ? "0.3" : "1"}  }>
+                        <OrangeBtn text="IR AL DASH" onClick={()=>{ window.location.href = "/dash"  }} />
+                    </div>
+                }
 
-            {activeQr != "" ?
-                <div>
-                    <img src={activeQr} width="75%"/>
-                </div>
-            :
-                <div style={ {"opacity": loadingQr ? "0.3" : "1"}  }>
-                    <OrangeBtn text="Generar QR" onClick={()=>{ handleEmitID("23")}} />
-                </div>
-                          
-            }
+                
+            </div>
         </div>
+        
+        
     
     );
 }
