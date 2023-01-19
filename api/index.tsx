@@ -32,7 +32,6 @@ const url_message = 'http://api-sender.dragonchat.io/api/v1/message/'
 
 let headersList = {
     "Accept": "/",
-    "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     "Content-Type": "application/json"
 }
 

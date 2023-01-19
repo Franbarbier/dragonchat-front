@@ -1,7 +1,7 @@
 
+import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useState } from 'react';
-
 import { login } from '../../actions/users';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
@@ -30,14 +30,18 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 if (login_status?.status == 200 ) {
 
                     const login_storage = {
-                        status : 200,
-                        access_token : login_status?.data.access_token,
-                        user_id : login_status?.data.user_id,
-                        wpp_connected : false
+                        access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
+                        user_id : login_status?.data.user_id
                     }
 
-                    localStorage.setItem( "dragonchat_login" , JSON.stringify(login_storage))
-                    Router.push('/')
+                    Cookies.set(
+                      "dragonchat_login",
+                      JSON.stringify(login_storage),
+                      {
+                        secure: true
+                      }
+                    );
+                    Router.push('/dash')
 
                 }else{
                     alert('Los datos son incorrectos.')

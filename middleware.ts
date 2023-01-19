@@ -1,0 +1,50 @@
+import { NextRequest, NextResponse } from "next/server";
+
+const headers = new Headers({
+  "Content-Type": "application/json",
+});
+
+export async function middleware(req: NextRequest) {
+  // commons
+  const requestedPage = req.nextUrl.pathname;
+  const url = req.nextUrl.clone();
+  url.search = `p${requestedPage}`;
+
+  // verify if dragonchat_login cookie exists
+  const authenticated = req.cookies.get("dragonchat_login");
+  const isAuthenticated = authenticated !== undefined;
+  const isLoginPage = requestedPage === "/login";
+
+  let response = NextResponse.next();
+
+  if (!isAuthenticated && !isLoginPage) {
+    url.pathname = "/login";
+    response = NextResponse.redirect(url);
+  } else if (isAuthenticated) {
+    if (isLoginPage) {
+      url.pathname = "/dash";
+      response = NextResponse.redirect(url);
+    } else {
+      const accessToken = JSON.parse(authenticated.value).access_token;
+      headers.append("Authorization", `Bearer ${accessToken}`);
+      const apiResponse = await fetch(
+        "http://api-user.dragonchat.io/api/v1/ws",
+        { headers }
+      );
+      const data = await apiResponse.json();
+      const isWhatsAppConnected = data.data.connected_whatsapp;
+      if (!isWhatsAppConnected) {
+        if (requestedPage !== "/qr") {
+          url.pathname = "/qr";
+          response = NextResponse.redirect(url);
+        }
+        
+      } 
+    }
+  }
+  return response;
+}
+
+export const config = {
+  matcher: ["/dash", "/qr", "/premium", "/login"],
+};
