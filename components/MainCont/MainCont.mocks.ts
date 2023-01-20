@@ -6,6 +6,7 @@ const Test : any = () => {
 
 const base: IMainCont = {
     width: 50,
+    maxWidth: 1200,
     children : Test
 }
 
