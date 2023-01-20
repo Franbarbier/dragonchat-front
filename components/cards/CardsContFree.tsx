@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import io from 'socket.io-client';
-
+import { useEffect, useState } from 'react';
 import Config from '../Config/Config';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import WppBtn from '../WppBtn/WppBtn';
@@ -26,7 +24,7 @@ export interface ContactInfo {
     status? : "success" | "error" | "pending",
 }
 
-// interface contactosArr extends Array<ContactInfo>{}
+
 
 const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
@@ -38,15 +36,17 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [modalImport, setModalImport] = useState<boolean>(false)
 
     const [wppMessage, setWppMessage] = useState<boolean>(false)
+    const [isMobile, setIsMobile] = useState<boolean>(false)
     
 
-    const socket = io("http://api-sender.dragonchat.io");
-
-    socket.on("connect", () => {
-        console.log(socket.id)
-    });
-
-
+    useEffect(() => {
+        const checkIsMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+          };
+          checkIsMobile();
+          window.addEventListener('resize', checkIsMobile);
+          return () => window.removeEventListener('resize', checkIsMobile);
+    }, [])
     
     
     function handleNewContact(newContact:ContactInfo) {
@@ -61,9 +61,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
         console.log(render)
         setModalImport(render)
     }
-
     
-
     
     return (
         <div>
@@ -124,11 +122,16 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                 </div>
             </div> */}
 
-            <img className={styles.dragon1} src="/dragon_anim.gif" />
-            <img className={styles.dragon2} src="/dragon_anim.gif" />
+            {
+                !isMobile &&
+                <div>
+                    <img className={styles.dragon1} src="/dragon_anim.gif" alt="dragon-chat"/>
+                    <img className={styles.dragon2} src="/dragon_anim.gif" alt="dragon-chat"/>
+                </div>
+            }
 
             <WppBtn />
-            <Config />
+            <Config linked_whatsapp={true} />
             
             {modalImport &&
                 <div className={styles.modal_position_card1}>

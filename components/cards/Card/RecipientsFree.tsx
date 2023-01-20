@@ -57,6 +57,11 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
         <div>
 
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>setActiveCard(idCard)}>
+
+            <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
+            <img src="/trama-car.svg" className={`${styles.tramaLeft} ${styles.tramas}`} />
+            <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
+
             <div className={styles.card_container} >
                 <div>
                     <CardTitle text={"Destinatarios"} />

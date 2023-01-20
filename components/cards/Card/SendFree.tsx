@@ -1,3 +1,4 @@
+import Cookie from 'js-cookie';
 import { useState } from 'react';
 import { sendMessage } from '../../../actions/cardsFree';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
@@ -27,6 +28,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
         
         setSending(true)
 
+        const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
+
         for (let index = 0; index < contactos.length; index++) {
             const destinatario = contactos[index];
 
@@ -39,7 +42,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
             
             let bodyContent = JSON.stringify({
                 // "user": "234t",
-                "user": "messi",
+                "user": userInfo.user_id,
                 "name": destinatario.name,
                 "message": mensaje,
                 "number": destinatario.wpp
