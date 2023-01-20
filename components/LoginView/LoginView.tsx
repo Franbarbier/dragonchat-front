@@ -1,7 +1,7 @@
 
 import Cookies from 'js-cookie';
 import Router from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
@@ -36,13 +36,11 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
                     Cookies.set(
                       "dragonchat_login",
-                      JSON.stringify(login_storage),
-                      {
-                        secure: true
-                      }
+                      JSON.stringify(login_storage) // secure flag option must be added in the future
                     );
-                    Router.push('/dash')
-
+                    
+                    Router.push('/dash');
+                    
                 }else{
                     alert('Los datos son incorrectos.')
                 }
@@ -55,6 +53,11 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
             alert('Los datos estan incompletos')
         }
     }
+
+    useEffect(() => {
+        // Prefetch the dashboard page
+        Router.prefetch('/dash')
+      }, [])
 
     
    

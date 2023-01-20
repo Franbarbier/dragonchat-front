@@ -38,9 +38,6 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
         
         socket.on("connection_qr", (arg) => {
             console.log(arg); // world
-            let dragonchat_login = JSON.parse( localStorage.getItem('dragonchat_login') || "{}" );
-            dragonchat_login.wpp_connected = true;
-            localStorage.setItem("dragonchat_login", JSON.stringify(dragonchat_login));
             setActiveQr(arg.src)
             setLoadingQr(false)
 
