@@ -36,10 +36,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
                     Cookies.set(
                       "dragonchat_login",
-                      JSON.stringify(login_storage),
-                      {
-                        secure: true
-                      }
+                      JSON.stringify(login_storage) // secure flag option must be added in the future
                     );
                     
                     Router.push('/dash');
