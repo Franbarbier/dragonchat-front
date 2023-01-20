@@ -73,7 +73,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 <div className={styles.login_options}>
                     
                     <div className={styles.forget}>
-                        <p>Olvidé mi contraseña</p>
+                       <button><a href='/recover_password'> Olvidé mi contraseña</a></button>
                     </div>
                 </div>
 
