@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { signup } from '../../actions/users';
 import CardTitle from '../cards/CardTitle/CardTitle';
@@ -63,7 +64,7 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
 
                 <div>
                     <button className={styles.googleInit}>
-                        <img src="/buscar.png" width="18px" />
+                        <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Continuar con Google</span>
                     </button>
                 </div>
@@ -85,7 +86,10 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
                     <hr />
                     
                     <div>
-                        <span>Ya tienes una cuenta?</span><button><a href='/login'>Iniciar sesión</a></button>
+                        <span>Ya tienes una cuenta?</span>
+                        <button>
+                            <Link href='/login'>Iniciar sesión</Link>
+                        </button>
                     </div>
                 </div>
 

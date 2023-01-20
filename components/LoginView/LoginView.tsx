@@ -1,5 +1,6 @@
 
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
@@ -56,7 +57,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
     useEffect(() => {
         // Prefetch the dashboard page
-        Router.prefetch('/dash')
+        Router.prefetch('/dash');
       }, [])
 
     
@@ -79,7 +80,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 <div>
                     <OrangeBtn text="Iniciar sesión" onClick={ handleLogin }/>
                     <button className={styles.googleInit}>
-                        <img src="/buscar.png" width="18px" />
+                        <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Iniciar sesión con Google</span>
                     </button>
                 </div>
@@ -88,7 +89,10 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     <hr />
                     
                     <div>
-                        <span>No tienes una cuenta?</span><button><a href='/signup'>Regístrate</a></button>
+                        <span>No tienes una cuenta?</span>
+                        <button>
+                            <Link href='/signup'>Regístrate</Link>
+                        </button>
                     </div>
                 </div>
 
