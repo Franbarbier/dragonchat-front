@@ -1,6 +1,6 @@
 
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import { login } from '../../actions/users';
 import CardTitle from '../cards/CardTitle/CardTitle';
@@ -22,8 +22,6 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
-    const router = useRouter();
-
     async function handleLogin(e) {
         e.preventDefault()
         if (email != "" && pass != "") {
@@ -44,7 +42,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                       }
                     );
                     
-                    router.push('/dash');
+                    Router.push('/dash');
                     
                 }else{
                     alert('Los datos son incorrectos.')
@@ -61,7 +59,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
     useEffect(() => {
         // Prefetch the dashboard page
-        router.prefetch('/dash')
+        Router.prefetch('/dash')
       }, [])
 
     
