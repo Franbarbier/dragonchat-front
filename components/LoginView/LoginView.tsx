@@ -1,7 +1,7 @@
 
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { login } from '../../actions/users';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
@@ -44,7 +44,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                       }
                     );
                     
-                    router.reload(); // we use reload and not push because reload takes context immediately of the cookie set and push doest not
+                    router.push('/dash');
                     
                 }else{
                     alert('Los datos son incorrectos.')
@@ -58,6 +58,11 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
             alert('Los datos estan incompletos')
         }
     }
+
+    useEffect(() => {
+        // Prefetch the dashboard page
+        router.prefetch('/dash')
+      }, [])
 
     
    
