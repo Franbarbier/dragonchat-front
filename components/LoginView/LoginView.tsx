@@ -1,6 +1,6 @@
 
 import Cookies from 'js-cookie';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { login } from '../../actions/users';
 import CardTitle from '../cards/CardTitle/CardTitle';
@@ -22,6 +22,8 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
+    const router = useRouter();
+
     async function handleLogin(e) {
         e.preventDefault()
         if (email != "" && pass != "") {
@@ -41,8 +43,9 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                         secure: true
                       }
                     );
-                    Router.push('/dash')
-
+                    
+                    router.reload(); // we use reload and not push because reload takes context immediately of the cookie set and push doest not
+                    
                 }else{
                     alert('Los datos son incorrectos.')
                 }
