@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useState } from 'react';
-import apiSenderWhatsappController from '../../api/apiSenderWhatsapp';
+import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import styles from './Config.module.css';
 
 export interface IConfig {

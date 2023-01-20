@@ -2,7 +2,7 @@
 import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useState } from 'react';
-import { login } from '../../actions/users';
+import apiUserController from '../../api/apiUserController';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
@@ -47,7 +47,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     alert('Los datos son incorrectos.')
                 }
             }
-            const login_status = await login({email, password: pass})
+            const login_status = await apiUserController.login(email, pass)
             onSuccess()
 
 
