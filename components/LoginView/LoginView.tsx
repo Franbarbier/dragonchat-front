@@ -73,15 +73,15 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 <div className={styles.login_options}>
                     
                     <div className={styles.forget}>
-                       <button>
+                       <button type='button'>
                             <Link href='/recover_password'> Olvidé mi contraseña</Link>
                         </button>
                     </div>
                 </div>
 
                 <div>
-                    <OrangeBtn text="Iniciar sesión" onClick={ handleLogin }/>
-                    <button className={styles.googleInit}>
+                    <OrangeBtn type="submit" text="Iniciar sesión" onClick={ handleLogin }/>
+                    <button className={styles.googleInit} type='button'>
                         <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Iniciar sesión con Google</span>
                     </button>
@@ -92,7 +92,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     
                     <div>
                         <span>No tienes una cuenta?</span>
-                        <button>
+                        <button type='button'>
                             <Link href='/signup'>Regístrate</Link>
                         </button>
                     </div>
