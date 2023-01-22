@@ -1,6 +1,6 @@
 import Cookie from 'js-cookie';
 import { useState } from 'react';
-import { sendMessage } from '../../../actions/cardsFree';
+import apiSenderWhatsappController from '../../../api/apiSenderWhatsappController';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
@@ -17,15 +17,15 @@ export interface IFreeCard3 {
 }
 
 const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje }) => {
-    
+
     let idCard = 3;
 
     const [sending, setSending] = useState<boolean>(false)
     const [isSent, setIsSent] = useState<boolean>(false)
     const [contactosStatus, setContactosStatus] = useState(contactos)
- 
+
     async function startSending() {
-        
+
         setSending(true)
 
         const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
@@ -38,20 +38,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
             newContacts[index].status = "pending";
             setContactos(newContacts)
 
-            
-            
-            let bodyContent = JSON.stringify({
-                // "user": "234t",
-                "user": userInfo.user_id,
-                "name": destinatario.name,
-                "message": mensaje,
-                "number": destinatario.wpp
-            });
-                        
             const onSuccess = () => {
                 console.log(sentMessage)
                 console.log("en teoria ya esta")
-                        
+
                     if (sentMessage?.status == 200) {
                         let newContacts = [...contactos]
                         newContacts[index].status = "success";
@@ -61,15 +51,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         newContacts[index].status = "error";
                         setContactos(newContacts)
                     }
-            
-                    
+
+
             }
 
-            const sentMessage = await sendMessage(bodyContent)
-            onSuccess()  
+            const sentMessage = await apiSenderWhatsappController.sendMessage(userInfo.user_id, destinatario.name, mensaje, destinatario.wpp)
+            onSuccess()
         }
         setSending(false)
-                            
+
     }
 
 

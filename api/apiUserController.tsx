@@ -6,6 +6,15 @@ const authUrl = apiUrl + '/auth';
 const passwordUrl = apiUrl + '/password'
 
 const apiUserController = {
+    signUp: async (name, email, password, passwordConfirmation) => {
+        try {
+            const payload = { name: name, email: email, password: password, password_confirmation: passwordConfirmation };
+            const response = await axios.post(`${authUrl}/signup`, payload);
+            return response;
+        } catch(error) {
+            console.log(error);
+        }
+    },
     login: async (email, password) => {
         try {
             const payload = { email: email, password: password };
