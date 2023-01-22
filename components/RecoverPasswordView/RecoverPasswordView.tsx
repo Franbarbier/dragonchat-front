@@ -10,14 +10,11 @@ export interface IRecoverPasswordView {}
 
 const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
   const [email, setEmail] = useState("");
+  const [existingUser, setExistingUser] = useState(true);
 
   async function handleRecoverPassword(e) {
     e.preventDefault();
-    // hit user api to send the user email with OTP and redirect to new_password page
-    console.log("estoy aquí");
-    const response = await apiUserController.passwordRecoverSendEmail(email);
-    console.log(response);
-    // Router.push('/new_password');
+    await apiUserController.passwordRecoverSendEmail(email, setExistingUser);
   }
 
   useEffect(() => {
@@ -41,6 +38,9 @@ const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
                 onChange={setEmail}
               />
             </div>
+            {!existingUser &&
+                  <p className={styles.Alert}>El usuario no existe.</p>
+            }
 
             <OrangeBtn type="submit" text="Continuar" onClick={handleRecoverPassword} />
         </form>

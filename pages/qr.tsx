@@ -27,7 +27,7 @@ Qr.getInitialProps = async (context) => {
       "Content-Type": "application/json",
     });
     const cookies = new Cookies(req.headers.cookie);
-    const accessToken = cookies.get("dragonchat_login").access_token;
+    const accessToken = cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "").access_token;
     headers.append("Authorization", `Bearer ${accessToken}`);
     const apiResponse = await fetch(
       `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,

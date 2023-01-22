@@ -36,7 +36,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     }
 
                     Cookies.set(
-                      "dragonchat_login",
+                      process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
                       JSON.stringify(login_storage) // secure flag option must be added in the future
                     );
                     

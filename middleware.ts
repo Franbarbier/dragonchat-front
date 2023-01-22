@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
   url.search = `p${requestedPage}`;
 
   // verify if dragonchat_login cookie exists
-  const authenticated = req.cookies.get("dragonchat_login");
+  const authenticated = req.cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "");
   const isAuthenticated = authenticated !== undefined;
   const isLoginPage = requestedPage === "/login";
 
