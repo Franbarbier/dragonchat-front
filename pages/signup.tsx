@@ -7,7 +7,7 @@ import { GralProps } from "./_app";
 const Login : NextPageWithLayout<GralProps> = (GralProps) => {
     return (
         <section>
-            <MainCont width={40} >
+            <MainCont width={90} maxWidth={400}>
                 <SignUpView />
             </MainCont>
         </section>
