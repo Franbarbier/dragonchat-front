@@ -1,8 +1,9 @@
 
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
-import { login } from '../../actions/users';
+import apiUserController from '../../api/apiUserController';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
@@ -35,7 +36,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     }
 
                     Cookies.set(
-                      "dragonchat_login",
+                      process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
                       JSON.stringify(login_storage) // secure flag option must be added in the future
                     );
                     
@@ -45,7 +46,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     alert('Los datos son incorrectos.')
                 }
             }
-            const login_status = await login({email, password: pass})
+            const login_status = await apiUserController.login(email, pass)
             onSuccess()
 
 
@@ -56,7 +57,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
     useEffect(() => {
         // Prefetch the dashboard page
-        Router.prefetch('/dash')
+        Router.prefetch('/dash');
       }, [])
 
     
@@ -72,14 +73,16 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 <div className={styles.login_options}>
                     
                     <div className={styles.forget}>
-                        <p>Olvidé mi contraseña</p>
+                       <button type='button'>
+                            <Link href='/recover_password'> Olvidé mi contraseña</Link>
+                        </button>
                     </div>
                 </div>
 
                 <div>
-                    <OrangeBtn text="Iniciar sesión" onClick={ handleLogin }/>
-                    <button className={styles.googleInit}>
-                        <img src="/buscar.png" width="18px" />
+                    <OrangeBtn type="submit" text="Iniciar sesión" onClick={ handleLogin }/>
+                    <button className={styles.googleInit} type='button'>
+                        <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Iniciar sesión con Google</span>
                     </button>
                 </div>
@@ -88,7 +91,10 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     <hr />
                     
                     <div>
-                        <span>No tienes una cuenta?</span><button><a href='/signup'>Regístrate</a></button>
+                        <span>No tienes una cuenta?</span>
+                        <button type='button'>
+                            <Link href='/signup'>Regístrate</Link>
+                        </button>
                     </div>
                 </div>
 

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useState } from 'react';
-import apiSenderWhatsappController from '../../api/apiSenderWhatsapp';
+import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import styles from './Config.module.css';
 
 export interface IConfig {
@@ -20,12 +20,12 @@ const Config: React.FC<IConfig> = ({ linked_whatsapp=true }) => {
     const linkedWhatsapp = linked_whatsapp;
 
     async function handleDesvWpp(){
-        const userId = JSON.parse(Cookies.get("dragonchat_login")).user_id;
+        const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;
         await apiSenderWhatsappController.unlinkWhatsapp(userId);
        
     }
     function handleLogout(){
-        Cookies.remove("dragonchat_login");
+        Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
         Router.push('/login');
     }
     

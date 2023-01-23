@@ -1,23 +1,23 @@
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
-import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
+import NewPasswordView from "../components/NewPasswordView/NewPasswordView";
 import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
 
-const Login : NextPageWithLayout<GralProps> = (GralProps) => {
+const NewPassword : NextPageWithLayout<GralProps> = (GralProps) => {
     return (
         <section>
-            <MainCont width={90} maxWidth={400}>
-                <LoginView />
+            <MainCont width={90} maxWidth={340}>
+                <NewPasswordView />
             </MainCont>
         </section>
     );
 };
 
 
-export default Login;
+export default NewPassword;
 
-Login.getLayout = (page) => {
+NewPassword.getLayout = (page) => {
     return (
         <PrimaryLayout>
           {page}
