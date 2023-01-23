@@ -13,7 +13,7 @@ const NewPasswordView: React.FC<INewPasswordView> = ({}) => {
   const [confirmNewPass, setConfirmNewPass] = useState("");
   const [equalNewPass, setEqualNewPass] = useState(true);
   const [otp, setOtp] = useState('');
-  const [validOtp, setValidOtp] = useState(false);
+  const [validOtp, setValidOtp] = useState();
 
   const onChange = (value: string) => setOtp(value);
 
@@ -68,7 +68,7 @@ const NewPasswordView: React.FC<INewPasswordView> = ({}) => {
           </div>
           <div>
             <OtpInput value={otp} valueLength={6} onChange={onChange} />
-            {(!validOtp && otp.length === 6) &&
+            {(validOtp !== undefined && !validOtp && otp.length === 6) &&
                   <p className={styles.Alert}>Código inválido.</p>
             }
           </div>
