@@ -41,7 +41,6 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     );
                     
                     const intervalId = setInterval(() => {
-                        console.log("HOLA")
                         if (document.cookie.indexOf(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "") >= 0) {
                           Router.push('/dash')
                           clearInterval(intervalId)
