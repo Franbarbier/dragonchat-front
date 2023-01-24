@@ -22,19 +22,12 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
     const [pass, setPass] = useState('')
     const [confirmPass, setConfirmPass] = useState('')
     const [equalPass, setEqualPass] = useState(true)
+    const [userExists, setUserExists] = useState(false)
 
     async function handleCrearCuenta() {
         if (equalPass) {
             if( name != "" && email != "" && pass != "" && confirmPass != "" ){
-                const onSuccess = async () => {
-                    if (login_status?.status == 201) {
-                        Router.push("/login");
-                    } else {
-                        console.log(login_status)
-                    }
-                }
-                const login_status = await apiUserController.signUp(name, email, pass, confirmPass);
-                onSuccess()
+                await apiUserController.signUp(name, email, pass, confirmPass, setUserExists);
             }else{
                 alert('Asegurate de completar todos los campos!')
             }
@@ -75,7 +68,10 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
                     <InputGral placeholder='Contraseña' type="password" value={pass} onChange={ setPass }/>
                     <InputGral placeholder='Repetir contraseña' type="password" value={confirmPass} onChange={ setConfirmPass }/>
                     {!equalPass &&
-                        <p className={styles.passAlert}>Las contraseñas no coinciden :(</p>
+                        <p className={styles.alert}>Las contraseñas no coinciden :(</p>
+                    }
+                    {userExists &&
+                        <p className={styles.alert}>El usuario ya existe.</p>
                     }
                 </div>
 
