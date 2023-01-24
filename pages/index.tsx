@@ -1,33 +1,15 @@
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 // import Search from '../components/utility/search/Search';
-import { NextPageWithLayout } from './page';
-import { GralProps } from './_app';
-
-
-
+import { NextPageWithLayout } from "./page";
+import { GralProps } from "./_app";
 
 const Home: NextPageWithLayout<GralProps> = (GralProps) => {
-  const router = useRouter();
-
-  useEffect(()=>{
-      router.push("/dash")
-  }, [])
-
-  return (
-    <section>
-      <></>
-    </section>
-  );
+  return null;
 };
+
+export async function getServerSideProps(context) {
+  context.res.writeHead(302, { Location: "/dash" });
+  context.res.end();
+  return { props: {} };
+}
 
 export default Home;
-
-Home.getLayout = (page) => {
-  return (
-      <PrimaryLayout>
-        {page}
-      </PrimaryLayout>
-    );
-};
