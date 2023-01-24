@@ -6,14 +6,23 @@ const authUrl = apiUrl + '/auth';
 const passwordUrl = apiUrl + '/password'
 
 const apiUserController = {
-    signUp: async (name, email, password, passwordConfirmation) => {
+    signUp: async (name, email, password, passwordConfirmation, setUserExists) => {
         try {
             const payload = { name: name, email: email, password: password, password_confirmation: passwordConfirmation };
             const response = await axios.post(`${authUrl}/signup`, payload);
-            return response;
-        } catch(error) {
-            console.log(error);
+            if (response.status == 201) {
+                setUserExists(false);
+                Router.push("/login");
+            }
+        } catch(error: any) {
+            if (error.response.status == 409) {
+                setUserExists(true);
+            } else {
+                alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
+                console.log(error);
+            }
         }
+        return;
     },
     login: async (email, password) => {
         try {
