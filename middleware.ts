@@ -8,7 +8,6 @@ export async function middleware(req: NextRequest) {
   // commons
   const requestedPage = req.nextUrl.pathname;
   const url = req.nextUrl.clone();
-  url.search = `p${requestedPage}`;
 
   // verify if dragonchat_login cookie exists
   const authenticated = req.cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "");
