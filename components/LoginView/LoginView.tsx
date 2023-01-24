@@ -40,7 +40,13 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                       JSON.stringify(login_storage) // secure flag option must be added in the future
                     );
                     
-                    Router.push('/dash');
+                    const intervalId = setInterval(() => {
+                        console.log("HOLA")
+                        if (document.cookie.indexOf(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "") >= 0) {
+                          Router.push('/dash')
+                          clearInterval(intervalId)
+                        } 
+                      }, 10)
                     
                 }else{
                     alert('Los datos son incorrectos.')
