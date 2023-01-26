@@ -1,8 +1,8 @@
-import Cookies from "universal-cookie";
 import Config from "../components/Config/Config";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
 import QrCard from "../components/QrCard/QrCard";
+import withSession from "../lib/session";
 import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
 
@@ -20,24 +20,31 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
     );
 };
 
-Qr.getInitialProps = async (context) => {
-  const req = context.req;
-  if (req) {
-    const headers = new Headers({
-      "Content-Type": "application/json",
-    });
-    const cookies = new Cookies(req.headers.cookie);
-    const accessToken = cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "").access_token;
-    headers.append("Authorization", `Bearer ${accessToken}`);
-    const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
-      { headers }
-    );
-    const data = await apiResponse.json();
-    return { linkedWhatsapp: data.data.connected_whatsapp == 1};
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req.session.get("user");
+
+  if (user === undefined) {
+    res.setHeader("location", "/login");
+    res.statusCode = 302;
+    res.end();
+    return { props: {} };
   }
-  return { linkedWhatsapp: false};
-};
+
+  const headers = new Headers({
+    "Content-Type": "application/json",
+  });
+  const accessToken = user.access_token;
+  headers.append("Authorization", `Bearer ${accessToken}`);
+  const apiResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
+    { headers }
+  );
+  const data = await apiResponse.json();
+
+  return {
+    props: { linkedWhatsapp: data.data.connected_whatsapp == 1 },
+  };
+});
 
 Qr.getLayout = (page) => {
     return (

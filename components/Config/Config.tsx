@@ -1,11 +1,13 @@
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useState } from 'react';
-import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
+import userServiceFactory from "../../clientServices/userService";
+import useUser from '../../lib/useUser';
+import apiSenderWhatsappController from '../../services/apiSenderWhatsappController';
 import styles from './Config.module.css';
 
+const userService = userServiceFactory();
 export interface IConfig {
     linked_whatsapp: boolean
 }
@@ -14,19 +16,23 @@ export interface IConfig {
 
 
 const Config: React.FC<IConfig> = ({ linked_whatsapp=true }) => {
-
     const [menuConfig, setMenuConfig] = useState(false);
+    const { user } = useUser();
 
     const linkedWhatsapp = linked_whatsapp;
 
     async function handleDesvWpp(){
-        const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;
+        const userId = user.user_id;
         await apiSenderWhatsappController.unlinkWhatsapp(userId);
-       
     }
-    function handleLogout(){
-        Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-        Router.push('/login');
+
+    async function handleLogout(){
+        try {
+            await userService.logout();
+            Router.push("/login");
+        } catch (error: any) {
+            alert(error.response.data.error);
+        }
     }
     
 

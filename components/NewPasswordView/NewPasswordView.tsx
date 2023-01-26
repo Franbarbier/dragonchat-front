@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiUserController from "../../api/apiUserController";
+import apiUserController from "../../services/apiUserController";
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
