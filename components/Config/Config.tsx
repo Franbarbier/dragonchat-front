@@ -22,7 +22,7 @@ const Config: React.FC<IConfig> = ({ linked_whatsapp=true }) => {
     const linkedWhatsapp = linked_whatsapp;
 
     async function handleDesvWpp(){
-        const userId = user.user_id;
+        const userId = user?.user_id;
         await apiSenderWhatsappController.unlinkWhatsapp(userId);
     }
 

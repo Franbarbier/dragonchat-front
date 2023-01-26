@@ -26,7 +26,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
             try {
                 mutateUser(
-                    await userService.login(email, pass)
+                    await userService.login({email: email, password: pass})
                 );
                 Router.push("/dash");
             } catch (error: any) {
