@@ -12,8 +12,9 @@ services:
     volumes:
       - '.:/home/app-frontend'
       - '/home/app-frontend/node_modules'
-    networks:
-      - nginx-proxy-manager_npm
-networks:
-  nginx-proxy-manager_npm:
-    external: true
+      #networks:
+      #- nginx-proxy-manager_npm
+
+      #networks:
+      #nginx-proxy-manager_npm:
+      #external: true
