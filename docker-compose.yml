@@ -4,9 +4,6 @@ services:
     image: dragonchat-front
     container_name: dragonchat-front
     build: .
-    env_file:
-      - ./.env
-      - ./.env.local
     ports:
       - 5004:5004
     volumes:
