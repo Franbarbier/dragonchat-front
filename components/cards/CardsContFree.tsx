@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BoxDialog from '../BoxDialog/BoxDialog';
 import Config from '../Config/Config';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import WppBtn from '../WppBtn/WppBtn';
@@ -34,9 +35,11 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [contactos, setContactos] = useState<ContactInfo[]>([])
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
-
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
+    const [messagesLimitAchieved, setMessagedLimitAchieved] = useState<boolean>(false)
+
+    const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
 
     useEffect(() => {
@@ -125,14 +128,22 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
             {
                 !isMobile &&
                 <div>
-                    <img className={styles.dragon1} src="/dragon_anim.gif" alt="dragon-chat"/>
+                    <div className={styles.dragon1}>
+                        <img src="/dragon_anim.gif" alt="dragon-chat"/>
+                        {
+                            messagesLimitAchieved &&
+                            <div className={styles.wpp_limit_alert}>
+                                <BoxDialog message={wppLimitMessage} />
+                            </div>
+                        }
+                    </div>
                     <img className={styles.dragon2} src="/dragon_anim.gif" alt="dragon-chat"/>
                 </div>
             }
 
             <WppBtn />
             <Config linked_whatsapp={true} />
-            
+
             {modalImport &&
                 <div className={styles.modal_position_card1}>
                     <div>

@@ -1,0 +1,26 @@
+.box_dialog {
+    background: linear-gradient(to bottom, #FFFFCC, #dcdc41);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.box_dialog::before,
+.box_dialog::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.box_dialog::after {
+  left: -0.8em;
+  top: 35%;
+  border-top: 0.9em solid transparent;
+  border-right: 0.9em solid #ecec8a;
+  border-bottom: 0.9em solid transparent;
+}
+
+.box_dialog_content {
+    padding: 2%;
+    color: #000000;
+}
