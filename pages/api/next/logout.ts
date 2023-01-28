@@ -1,5 +1,5 @@
-import withSession from "../../lib/session";
-import apiUserController from "../../services/apiUserController";
+import withSession from "../../../lib/session";
+import apiUserController from "../../../services/apiUserController";
 
 export default withSession(async (req: any, res: any) => {
   try {
