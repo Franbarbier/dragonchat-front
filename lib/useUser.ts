@@ -12,7 +12,7 @@ export default function useUser({
   redirectTo = "",
   redirectIfFound = false,
 }: UseUserProps = {}) {
-  const { data: user, mutate: mutateUser } = useSWR<User>("/api/next/user", fetcher);
+  const { data: user, mutate: mutateUser } = useSWR<User>("/user/api/user", fetcher);
 
   useEffect(() => {
     if (!redirectTo || !user) return;
