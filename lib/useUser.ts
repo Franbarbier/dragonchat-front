@@ -1,7 +1,7 @@
 import Router from "next/router";
 import { useEffect } from "react";
 import useSWR from "swr";
-import { User } from "../pages/api/next/user";
+import { User } from "../pages/api/user";
 
 interface UseUserProps {
   redirectTo?: string;
@@ -12,7 +12,7 @@ export default function useUser({
   redirectTo = "",
   redirectIfFound = false,
 }: UseUserProps = {}) {
-  const { data: user, mutate: mutateUser } = useSWR<User>("/user/api/user", fetcher);
+  const { data: user, mutate: mutateUser } = useSWR<User>("/front-api/user", fetcher);
 
   useEffect(() => {
     if (!redirectTo || !user) return;

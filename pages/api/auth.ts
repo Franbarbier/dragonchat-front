@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import withSession from "../../../lib/session";
-import apiUserController from "../../../services/apiUserController";
+import withSession from "../../lib/session";
+import apiUserController from "../../services/apiUserController";
 
 interface RequestWithSession extends NextApiRequest {
   session: any;
