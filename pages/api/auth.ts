@@ -8,7 +8,6 @@ interface RequestWithSession extends NextApiRequest {
 
 export default withSession(
   async (req: RequestWithSession, res: NextApiResponse) => {
-    console.log(req)
     const method = req.method?.toLowerCase();
     const { email, password } = req.body;
 
