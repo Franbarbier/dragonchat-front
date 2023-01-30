@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 interface LoginParams {
   email: string;
@@ -10,28 +11,12 @@ interface UserService {
 }
 
 const userServiceFactory = (): UserService => {
-    async function login({ email, password }: LoginParams) {
-        try {
-          const response = await fetch('/front-api/auth', {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-            headers: { 'Content-Type': 'application/json' },
-          });
-          return response;
-        } catch (error) {
-          console.error('Error:', error);
-        }
+    function login({ email, password }: LoginParams) {
+        return axios.post(`/front-api/auth`, { email, password });
     }
 
-    async function logout() {
-      try {
-        const response = await fetch('/front-api/logout', {
-          method: 'GET',
-        });
-        return response;
-      } catch (error) {
-        console.error('Error:', error);
-      }
+    function logout() {
+        return axios.get(`/front-api/logout`);
     }
 
     return {login, logout};
