@@ -6,16 +6,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/front-api/user',
-        destination: '/api/user',
-      },
-      {
-        source: '/front-api/auth',
-        destination: '/api/auth',
-      },
-      {
-        source: '/front-api/logout',
-        destination: '/api/logout',
+        source: '/front-api/user/:slug*',
+        destination: '/api/user/:slug*',
       },
     ]
   },

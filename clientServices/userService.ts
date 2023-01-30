@@ -12,11 +12,11 @@ interface UserService {
 
 const userServiceFactory = (): UserService => {
     function login({ email, password }: LoginParams) {
-        return axios.post(`/front-api/auth`, { email, password });
+        return axios.post(`/front-api/user/auth`, { email, password });
     }
 
     function logout() {
-        return axios.get(`/front-api/logout`);
+        return axios.get(`/front-api/user/logout`);
     }
 
     return {login, logout};

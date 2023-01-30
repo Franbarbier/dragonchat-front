@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import withSession from "../../lib/session";
-import apiUserController from "../../services/apiUserController";
+import withSession from "../../../lib/session";
+import apiUserController from "../../../services/apiUserController";
 
 interface RequestWithSession extends NextApiRequest {
   session: any;
@@ -8,7 +8,6 @@ interface RequestWithSession extends NextApiRequest {
 
 export default withSession(
   async (req: RequestWithSession, res: NextApiResponse) => {
-    console.log(req)
     const method = req.method?.toLowerCase();
     const { email, password } = req.body;
 

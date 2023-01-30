@@ -1,4 +1,4 @@
-import withSession from "../../lib/session";
+import withSession from "../../../lib/session";
 
 
 export type User = {

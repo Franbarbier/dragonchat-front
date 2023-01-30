@@ -33,7 +33,6 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
   });
   const accessToken = user.access_token;
   headers.append("Authorization", `Bearer ${accessToken}`);
-  console.log(headers)
   const apiResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
     { headers }
