@@ -37,7 +37,10 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
                     Cookies.set(
                       process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
-                      JSON.stringify(login_storage) // secure flag option must be added in the future
+                      JSON.stringify(login_storage), // secure flag option must be added in the future
+                      {
+                        sameSite: 'strict'
+                      }
                     );
                     
                     Router.push("/dash")
