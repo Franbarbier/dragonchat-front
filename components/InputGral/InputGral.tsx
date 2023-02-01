@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import eyeImg from "../../public/ver.png";
 import styles from './InputGral.module.css';
 
 export interface IInputGral {
@@ -35,7 +36,7 @@ const InputGral: React.FC<IInputGral> = ({ type='text', placeholder="", name="",
             <input className={ classes.join(' ') } placeholder={placeholder} type={!showHide ? type : 'text'} name={name} value={value} onChange={ (e)=>{ onChange(e.target.value) } }/>
             {isPass &&
                 <div onClick={showHidePass} className={styles.ojito} >
-                <img src="ver.png" alt="eye-img"/>
+                <img src={eyeImg.src} alt="eye-img"/>
                 {showHide &&
                     <span className={styles.slash}>/</span>
                 }
