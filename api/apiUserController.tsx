@@ -33,6 +33,14 @@ const apiUserController = {
             console.log(error);
         }
     },
+    logout: async (accessToken) => {
+        const headers = new Headers({
+            "Content-Type": "application/json",
+          });
+        headers.append("Authorization", `Bearer ${accessToken}`);
+        const response = await axios.get(`${authUrl}/logout`, {headers: Object.fromEntries(headers)});
+        return response;
+    },
     passwordRecoverSendEmail: async (email, setExistingUser) => {
         try {
             const payload = { email: email };
