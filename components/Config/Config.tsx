@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
+import apiUserController from '../../api/apiUserController';
 import styles from './Config.module.css';
 
 export interface IConfig {
@@ -24,9 +25,18 @@ const Config: React.FC<IConfig> = ({ linked_whatsapp=true }) => {
         await apiSenderWhatsappController.unlinkWhatsapp(userId);
        
     }
-    function handleLogout(){
-        Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-        Router.push('/login');
+
+    async function handleLogout(){
+        try {
+            const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+            const response = await apiUserController.logout(accessToken);
+            if (response.status == 200) {
+                Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+                Router.push("/login");
+            }
+        } catch (error: any) {
+            alert(error.response.data.error);
+        }
     }
     
 
