@@ -1660,9 +1660,9 @@
   "resolved" "https://registry.npmjs.org/@next/env/-/env-13.0.1.tgz"
   "version" "13.0.1"
 
-"@next/swc-darwin-x64@13.0.1":
-  "integrity" "sha512-8E6BY/VO+QqQkthhoWgB8mJMw1NcN9Vhl2OwEwxv8jy2r3zjeU+WNRxz4y8RLbcY0R1h+vHlXuP0mLnuac84tQ=="
-  "resolved" "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-13.0.1.tgz"
+"@next/swc-darwin-arm64@13.0.1":
+  "integrity" "sha512-O1RxCaiDNOjGZmdAp6SQoHUITt9aVDQXoR3lZ/TloI/NKRAyAV4u0KUUofK+KaZeHOmVTnPUaQuCyZSc3i1x5Q=="
+  "resolved" "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-13.0.1.tgz"
   "version" "13.0.1"
 
 "@nodelib/fs.scandir@2.1.5":
