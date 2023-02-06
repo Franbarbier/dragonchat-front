@@ -1,6 +1,5 @@
 import type { AppProps } from 'next/app';
 
-import { IEditUserProfileView } from "../components/EditUserProfileView/EditUserProfileView";
 import '../styles/globals.css';
 import { NextPageWithLayout } from './page';
 
@@ -18,6 +17,5 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
 export type GralProps = {
   sampleTextProp?: string,
-  linkedWhatsapp: boolean,
-  user?: IEditUserProfileView["user"]
+  linkedWhatsapp: boolean
 }

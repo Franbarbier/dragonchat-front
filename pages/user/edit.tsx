@@ -1,15 +1,16 @@
+import Config from "../../components/Config/Config";
 import EditUserProfileView, { IEditUserProfileView } from "../../components/EditUserProfileView/EditUserProfileView";
 import PrimaryLayout from "../../components/layouts/primary/PrimaryLayout";
 import MainCont from "../../components/MainCont/MainCont";
 import { NextPageWithLayout } from "../page";
-import { GralProps } from "../_app";
 
-const EditUserProfile : NextPageWithLayout<GralProps> = ({user}) => {
+const EditUserProfile : NextPageWithLayout<IEditUserProfileView> = ({user}) => {
     return (
         <section>
             <MainCont width={90} maxWidth={340}>
                 <EditUserProfileView user={user}/>
             </MainCont>
+            <Config/>
         </section>
     );
 };

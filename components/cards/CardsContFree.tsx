@@ -131,7 +131,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
             }
 
             <WppBtn />
-            <Config linked_whatsapp={true} />
+            <Config/>
             
             {modalImport &&
                 <div className={styles.modal_position_card1}>

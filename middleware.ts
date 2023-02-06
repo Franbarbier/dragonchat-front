@@ -33,7 +33,7 @@ export async function middleware(req: NextRequest) {
       const data = await apiResponse.json();
       const isWhatsAppConnected = data.data.connected_whatsapp;
       if (!isWhatsAppConnected) {
-        if (requestedPage !== "/qr") {
+        if (requestedPage !== "/qr" && requestedPage !== "/user/edit") {
           url.pathname = "/qr";
           response = NextResponse.redirect(url);
         }

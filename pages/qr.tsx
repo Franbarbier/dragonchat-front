@@ -15,7 +15,7 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
             <MainCont width={40}>
                 <QrCard qr_url={url} linked_whatsapp={linkedWhatsapp}/>
             </MainCont>
-            <Config linked_whatsapp={linkedWhatsapp}/>
+            <Config/>
         </section>
     );
 };
