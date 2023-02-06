@@ -3,13 +3,23 @@ import CardTitle from "../cards/CardTitle/CardTitle";
 import InputGral from "../InputGral/InputGral";
 import OrangeBtn from "../OrangeBtn/OrangeBtn";
 import RedBtn from "../RedBtn/RedBtn";
-import styles from './EditUserProfile.module.css';
+import styles from './EditUserProfileView.module.css';
 
-export interface IEditUserProfile {}
+export interface IEditUserProfileView {
+  user?: {
+    id: number;
+    name: string;
+    state: number,
+    email: string;
+    connected_whatsapp: number,
+    created_at: string,
+    updated_at: string
+  }
+}
 
-const EditUserProfile: React.FC<IEditUserProfile> = ({}) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
+  const [name, setName] = useState(user?.name);
+  const [email, setEmail] = useState(user?.email);
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
@@ -56,6 +66,8 @@ const EditUserProfile: React.FC<IEditUserProfile> = ({}) => {
                   <p className={styles.Alert}>El usuario no existe.</p>
             } */}
           <div className={styles.buttons}>
+          {
+            user?.connected_whatsapp == 1 &&
             <RedBtn
               type="submit"
               text="DESVINCULAR WHATSAPP"
@@ -63,6 +75,7 @@ const EditUserProfile: React.FC<IEditUserProfile> = ({}) => {
                 console.log(1);
               }}
             />
+          }
             <OrangeBtn
             type="submit"
             text="GUARDAR CAMBIOS"
@@ -77,4 +90,4 @@ const EditUserProfile: React.FC<IEditUserProfile> = ({}) => {
   );
 };
 
-export default EditUserProfile;
+export default EditUserProfileView;
