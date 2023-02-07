@@ -37,19 +37,32 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [modalImport, setModalImport] = useState<boolean>(false)
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
-    const [messagesLimitAchieved, setMessagedLimitAchieved] = useState<boolean>(false)
+    const [messagesLimitAchieved, setMessagedLimitAchieved] = useState<boolean>(true)
+    const [renderDialog, setRenderDialog] = useState<boolean>(true)
 
     const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
+    
     
 
     useEffect(() => {
         const checkIsMobile = () => {
             setIsMobile(window.innerWidth <= 768);
-          };
-          checkIsMobile();
-          window.addEventListener('resize', checkIsMobile);
-          return () => window.removeEventListener('resize', checkIsMobile);
-    }, [])
+        };
+        checkIsMobile();
+        window.addEventListener('resize', checkIsMobile);
+        return () => window.removeEventListener('resize', checkIsMobile);
+        
+        // if (getLimitAchieved) {
+        //     setMessagedLimitAchieved(true)
+        //     setRenderDialog(true)
+        // }
+        
+        // function getLimitAchieved() {
+        //     return true
+        // }
+
+
+        }, [])
     
     
     function handleNewContact(newContact:ContactInfo) {
@@ -65,6 +78,9 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
         setModalImport(render)
     }
     
+    useEffect(()=>{
+        console.log(activeCard)
+    }, [activeCard])
     
     return (
         <div>
@@ -77,6 +93,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         contactos={contactos}
                         setContactos={setContactos}
                         mensaje={mensaje}
+                        messagesLimitAchieved={messagesLimitAchieved}
                     />
 
                     <FreeCard1 
@@ -132,9 +149,13 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         <img src="/dragon_anim.gif" alt="dragon-chat"/>
                         {
                             messagesLimitAchieved &&
-                            <div className={styles.wpp_limit_alert}>
-                                <BoxDialog message={wppLimitMessage} />
-                            </div>
+                            <>
+                            { renderDialog &&
+                                <div className={styles.wpp_limit_alert}>
+                                    <BoxDialog message={wppLimitMessage} setRenderDialog={setRenderDialog}/>
+                                </div>
+                            }
+                            </>
                         }
                     </div>
                     <img className={styles.dragon2} src="/dragon_anim.gif" alt="dragon-chat"/>

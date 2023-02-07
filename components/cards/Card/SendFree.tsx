@@ -1,5 +1,5 @@
 import Cookie from 'js-cookie';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../../api/apiSenderWhatsappController';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
@@ -13,10 +13,11 @@ export interface IFreeCard3 {
     activeCard : number;
     contactos : ContactInfo[];
     mensaje: string ;
-    setContactos : (contactos: ContactInfo[]) => void
+    setContactos : (contactos: ContactInfo[]) => void;
+    messagesLimitAchieved : boolean;
 }
 
-const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje }) => {
+const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, messagesLimitAchieved }) => {
 
     let idCard = 3;
 
@@ -62,6 +63,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
     }
 
+    useEffect(()=>{
+        console.log(activeCard)
+    }, [activeCard])
 
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>setActiveCard(idCard)}>
@@ -110,13 +114,19 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                     
                 </div>
                 <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
-
+                {!messagesLimitAchieved ?
+                    <>
                     {!isSent ?
-                    <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
-                        { if (!sending){ startSending() }}} />
+                        <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
+                            { if (!sending){ startSending() }}} />
+                            :
+                            <p>Listo! Podes resetear DragonChat para hacer un nuevo envío haciendo <a href="/">click acá</a></p>
+                        }
+                    </>
                     :
-                    <p>Listo! Podes resetear DragonChat para hacer un nuevo envío haciendo <a href="/">click acá</a></p>
-                    }
+                    
+                    <OrangeBtn text="ass" onClick={()=>{}} disabled={true}/>
+                }
                 </div>
             </div>
         </div>

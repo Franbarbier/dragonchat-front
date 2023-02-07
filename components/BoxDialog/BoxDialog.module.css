@@ -2,6 +2,11 @@
     background: linear-gradient(to bottom, #FFFFCC, #dcdc41);
     padding: 10px;
     border-radius: 5px;
+
+    /* Nueva propuesta de CSS x fran */
+    background: var(--violeta2t);
+    border: 1px solid var(--amarillo);
+    box-shadow: 0px 0px 15px 4px #414141b0;
 }
 
 .box_dialog::before,
@@ -13,14 +18,24 @@
 }
 
 .box_dialog::after {
-  left: -0.8em;
+  left: -8.5px;
   top: 35%;
   border-top: 0.9em solid transparent;
-  border-right: 0.9em solid #ecec8a;
+  border-right: 0.9em solid var(--amarillo);
   border-bottom: 0.9em solid transparent;
 }
 
 .box_dialog_content {
     padding: 2%;
     color: #000000;
+    letter-spacing: 1px;
+
+    /* Nueva propuesta de CSS x fran */
+    color: var(--amarillo);
+
+}
+.box_dialog_content>button{
+  margin-top: 15%;
+  font-size: 1.2em;
+
 }
