@@ -78,9 +78,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
         setModalImport(render)
     }
     
-    useEffect(()=>{
-        console.log(activeCard)
-    }, [activeCard])
     
     return (
         <div>
