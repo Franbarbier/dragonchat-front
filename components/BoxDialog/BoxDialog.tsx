@@ -16,7 +16,7 @@ const BoxDialog: React.FC<Props> = ({ message, setRenderDialog }) => {
                     {message}
                 </span>
                 {/* <button>ENTENDIDO</button> */}
-                <OrangeBtn text="ENTENDIDO" onClick={()=>{setRenderDialog(false)}}/>
+                <OrangeBtn text="ENTENDIDO" onClick={()=>{ setRenderDialog(false) }}/>
             </div>
         </div>
     );

@@ -1,5 +1,7 @@
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookie from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import apiSenderWhatsappController from '../../../api/apiSenderWhatsappController';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
@@ -63,9 +65,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
     }
 
-    useEffect(()=>{
-        console.log(activeCard)
-    }, [activeCard])
 
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>setActiveCard(idCard)}>
@@ -125,7 +124,19 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                     </>
                     :
                     
-                    <OrangeBtn text="ass" onClick={()=>{}} disabled={true}/>
+                    // <OrangeBtn text="ass" onClick={()=>{}} disabled={true}/>
+                    <> 
+                    <div className={styles.limitedButton}>
+                        <video autoPlay muted loop>
+                            <source src="/fire-bkgr.mp4" type="video/mp4" />
+                        </video>
+                        <span><FontAwesomeIcon icon={faLock} /></span>
+                        <p>Enviar</p>
+                        <span><FontAwesomeIcon icon={faLock} /></span>
+
+                    </div>
+                        <p className={styles.limitedMsj}>Llegaste al limite de 40 mensajes diarios! Invita a un amigo para ampliar tu limite. <a>Ver más</a></p>
+                    </>
                 }
                 </div>
             </div>

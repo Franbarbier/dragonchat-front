@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import styles from './OrangeBtn.module.css';
 
 export interface IOrangeBtn {
@@ -10,16 +9,16 @@ export interface IOrangeBtn {
 
 const OrangeBtn: React.FC<IOrangeBtn> = ({ text, type="button", onClick, disabled = false }) => {
     
-    var onClickFunc;
-    useEffect(()=>{
-        if (disabled) {
-            onClickFunc = onClick
-        }else{
-            onClickFunc = ()=>{ return false }
-        }
-    }, [])
+    // var onClickFunc;
+    // useEffect(()=>{
+    //     if (disabled) {
+    //         onClickFunc = onClick
+    //     }else{
+    //         onClickFunc = ()=>{ return false }
+    //     }
+    // }, [])
 
-    return <button type={type} className={styles.orangeBtn} onClick={onClickFunc} disabled={disabled}>{text}</button>;
+    return <button type={type} className={styles.orangeBtn} onClick={onClick} disabled={disabled}>{text}</button>;
 }
 
 export default OrangeBtn;

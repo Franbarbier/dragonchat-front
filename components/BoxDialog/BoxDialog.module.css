@@ -7,6 +7,22 @@
     background: var(--violeta2t);
     border: 1px solid var(--amarillo);
     box-shadow: 0px 0px 15px 4px #414141b0;
+
+    animation-name: dialogGravity;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+@keyframes dialogGravity {
+0% {transform: translateY(-2%) }
+20% {transform: translateY(-6%) }
+40% {transform: translateY(-2%) }
+60% {transform: translateY(-6%) }
+80% {transform: translateY(-2%) }
+100% {transform: translateY(-6%) }
 }
 
 .box_dialog::before,

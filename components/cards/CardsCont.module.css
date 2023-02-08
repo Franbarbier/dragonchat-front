@@ -126,6 +126,22 @@
 }
 
 
+.limitedAnim{
+    animation-name: fireBtn;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    /* animation-direction: alternate; */
+}
+
+
+@keyframes fireBtn {
+    0% {transform: rotateY(180deg) }
+    30% {transform: translate(-30%, 40%) rotateY(180deg)}
+    60% {transform: translate(-30%, 40%) rotateY(180deg)}
+    100% {transform: rotateY(180deg)}
+}
+
 @media (min-width: 769px) {
     .nextCard, .prevCard{
         width: 48px;

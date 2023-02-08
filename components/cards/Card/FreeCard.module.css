@@ -562,6 +562,44 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     margin-top: 5%;
 }
 
+.limitedButton{
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid rgb(113, 0, 0);
+    padding: 2% 0;
+    cursor: not-allowed;
+    margin-top: 3%;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: center;
+}
+.limitedButton video{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    opacity: 0.7;    
+}
+.limitedButton span{ z-index: 3; }
+
+.limitedButton p{
+    z-index: 3;
+    position: relative;
+    margin: 0 10px;
+}
+.limitedMsj{
+    margin-top: 20px;
+    font-size: 0.8em;
+    letter-spacing: 1px;
+    color: #dcdcdc;
+    text-align: center;
+}
+
+
 
 @media (min-width: 769px) {
     .card{

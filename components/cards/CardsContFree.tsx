@@ -37,12 +37,14 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [modalImport, setModalImport] = useState<boolean>(false)
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
-    const [messagesLimitAchieved, setMessagedLimitAchieved] = useState<boolean>(true)
-    const [renderDialog, setRenderDialog] = useState<boolean>(true)
+    const [messagesLimitAchieved, setMessagedLimitAchieved] = useState<boolean>(false)
+    const [renderDialog, setRenderDialog] = useState<boolean>(false)
+    const [dragonAnim, setDragonAnim] = useState<string>('')
+
 
     const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
-    
+
 
     useEffect(() => {
         const checkIsMobile = () => {
@@ -63,6 +65,15 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
 
         }, [])
+
+        useEffect(()=>{
+            if (activeCard == 3) {
+                setDragonAnim('limitedAnim')
+            }else{
+                setDragonAnim('')
+            }
+        }, [activeCard])
+
     
     
     function handleNewContact(newContact:ContactInfo) {
@@ -155,7 +166,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                             </>
                         }
                     </div>
-                    <img className={styles.dragon2} src="/dragon_anim.gif" alt="dragon-chat"/>
+                    <img className={`${styles.dragon2} ${styles[dragonAnim]}`} src="/dragon_anim.gif" alt="dragon-chat"/>
                 </div>
             }
 
