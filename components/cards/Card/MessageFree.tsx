@@ -48,7 +48,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                         </div>
                         :
                         <div>
-                            {/* <ConversationPremium /> */}
+                            
                         </div>
 
                     }
