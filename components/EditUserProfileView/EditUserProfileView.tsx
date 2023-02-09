@@ -1,7 +1,9 @@
 import Cookies from "js-cookie";
 import Link from "next/link";
+import Router from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
+import apiUserController from "../../api/apiUserController";
 import CardTitle from "../cards/CardTitle/CardTitle";
 import InputGral from "../InputGral/InputGral";
 import OrangeBtn from "../OrangeBtn/OrangeBtn";
@@ -36,7 +38,19 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
       const data = await response.json();
       console.log(data);
     }
-}
+  }
+
+  async function editUserProfile() {
+    const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+    try {
+      const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
+      console.log(response);
+      alert("Perfil actualizado de forma exitosa!");
+    } catch (error: any) {
+      console.log(error.response.data);
+      alert("Ups! algo salió mal.");
+    }
+  }
 
   useEffect(()=>{
     if (confirmPass != '' && confirmPass != pass) {
@@ -89,18 +103,19 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
                 type="button"
                 text="VINCULAR WHATSAPP"
                 onClick={() => {
-                  return
+                  return Router.push("/qr")
                 }}
               />
             </Link>
           }
+          {
+            equalPass && 
             <OrangeBtn
             type="submit"
             text="GUARDAR CAMBIOS"
-            onClick={() => {
-              console.log(1);
-            }}
+            onClick={editUserProfile}
           />
+          }
           </div>
         </form>
       </div>
