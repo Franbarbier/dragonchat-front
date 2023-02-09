@@ -1,5 +1,4 @@
 import Cookies from "js-cookie";
-import Link from "next/link";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
@@ -93,20 +92,28 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
           <div className={styles.buttons}>
           {
             user.connected_whatsapp == 1?
-            <RedBtn
-              type="button"
-              text="DESVINCULAR WHATSAPP"
-              onClick={handleDesvWpp}
-            /> :
-            <Link href="/qr">
+            <div>
               <RedBtn
                 type="button"
-                text="VINCULAR WHATSAPP"
+                text="IR AL DASH"
                 onClick={() => {
-                  return Router.push("/qr")
+                  return Router.push("/dash")
                 }}
-              />
-            </Link>
+              /> 
+              <RedBtn
+                type="button"
+                text="DESVINCULAR WHATSAPP"
+                onClick={handleDesvWpp}
+              /> 
+            </div>
+            :
+            <RedBtn
+              type="button"
+              text="VINCULAR WHATSAPP"
+              onClick={() => {
+                return Router.push("/qr")
+              }}
+            />
           }
           {
             equalPass && 
