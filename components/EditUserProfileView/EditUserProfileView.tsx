@@ -92,26 +92,14 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
           <div className={styles.buttons}>
           {
             user.connected_whatsapp == 1?
-            <div>
-              <CustomColorBtn
-                type="button"
-                text="IR AL DASH"
-                backgroundColorInit="#9f5bc3"
-                backgroundColorEnd="#422a93"
-                borderColor="#422a93"
-                onClick={() => {
-                  return Router.push("/dash")
-                }}
-              /> 
-              <CustomColorBtn
-                type="button"
-                text="DESVINCULAR WHATSAPP"
-                backgroundColorInit="#c21c3b"
-                backgroundColorEnd="#f94f4f"
-                borderColor="#f94f4f"
-                onClick={handleDesvWpp}
-              /> 
-            </div>
+            <CustomColorBtn
+              type="button"
+              text="DESVINCULAR WHATSAPP"
+              backgroundColorInit="#c21c3b"
+              backgroundColorEnd="#f94f4f"
+              borderColor="#f94f4f"
+              onClick={handleDesvWpp}
+            /> 
             :
             <CustomColorBtn
               type="button"
