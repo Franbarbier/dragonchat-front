@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
 import apiUserController from "../../api/apiUserController";
 import CardTitle from "../cards/CardTitle/CardTitle";
+import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
 import OrangeBtn from "../OrangeBtn/OrangeBtn";
-import RedBtn from "../RedBtn/RedBtn";
 import styles from './EditUserProfileView.module.css';
 
 export interface IEditUserProfileView {
@@ -93,23 +93,32 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
           {
             user.connected_whatsapp == 1?
             <div>
-              <RedBtn
+              <CustomColorBtn
                 type="button"
                 text="IR AL DASH"
+                backgroundColorInit="#9f5bc3"
+                backgroundColorEnd="#422a93"
+                borderColor="#422a93"
                 onClick={() => {
                   return Router.push("/dash")
                 }}
               /> 
-              <RedBtn
+              <CustomColorBtn
                 type="button"
                 text="DESVINCULAR WHATSAPP"
+                backgroundColorInit="#c21c3b"
+                backgroundColorEnd="#f94f4f"
+                borderColor="#f94f4f"
                 onClick={handleDesvWpp}
               /> 
             </div>
             :
-            <RedBtn
+            <CustomColorBtn
               type="button"
               text="VINCULAR WHATSAPP"
+              backgroundColorInit="#c21c3b"
+              backgroundColorEnd="#f94f4f"
+              borderColor="#f94f4f"
               onClick={() => {
                 return Router.push("/qr")
               }}
