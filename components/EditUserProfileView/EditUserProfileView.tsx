@@ -6,7 +6,6 @@ import apiUserController from "../../api/apiUserController";
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
-import OrangeBtn from "../OrangeBtn/OrangeBtn";
 import styles from './EditUserProfileView.module.css';
 
 export interface IEditUserProfileView {
@@ -114,9 +113,12 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
           }
           {
             equalPass && 
-            <OrangeBtn
+            <CustomColorBtn
             type="submit"
             text="GUARDAR CAMBIOS"
+            backgroundColorInit="#c21c3b"
+            backgroundColorEnd="#f9bd4f"
+            borderColor="#e17846"
             onClick={editUserProfile}
           />
           }
