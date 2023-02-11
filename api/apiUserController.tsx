@@ -41,6 +41,19 @@ const apiUserController = {
         const response = await axios.get(`${authUrl}/logout`, {headers: Object.fromEntries(headers)});
         return response;
     },
+    edit: async (accessToken, name, email, password, passwordConfirmation) => {
+        const headers = new Headers({
+            "Content-Type": "application/json",
+          });
+        headers.append("Authorization", `Bearer ${accessToken}`);
+        const payload = { name: name, email: email};
+        if (password != '') {
+            payload["password"] = password
+            payload["password_confirmation"] = passwordConfirmation
+        }
+        const response = await axios.put(`${authUrl}/update`, payload, {headers: Object.fromEntries(headers)});
+        return response;
+    },
     passwordRecoverSendEmail: async (email, setExistingUser) => {
         try {
             const payload = { email: email };
