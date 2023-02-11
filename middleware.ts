@@ -27,23 +27,22 @@ export async function middleware(req: NextRequest) {
       const accessToken = JSON.parse(authenticated.value).access_token;
       headers.append("Authorization", `Bearer ${accessToken}`);
       const apiResponse = await fetch(
-        "http://api-user.dragonchat.io/api/v1/ws",
+        `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
         { headers }
       );
       const data = await apiResponse.json();
       const isWhatsAppConnected = data.data.connected_whatsapp;
       if (!isWhatsAppConnected) {
-        if (requestedPage !== "/qr") {
+        if (requestedPage !== "/qr" && requestedPage !== "/user/edit") {
           url.pathname = "/qr";
           response = NextResponse.redirect(url);
         }
-        
-      } 
+      }
     }
   }
   return response;
 }
 
 export const config = {
-  matcher: ["/dash", "/qr", "/premium", "/login"],
+  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit"],
 };

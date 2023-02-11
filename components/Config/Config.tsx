@@ -1,30 +1,21 @@
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 import Router from 'next/router';
 import { useState } from 'react';
-import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import apiUserController from '../../api/apiUserController';
 import styles from './Config.module.css';
 
 export interface IConfig {
-    linked_whatsapp: boolean
 }
 
 
 
 
-const Config: React.FC<IConfig> = ({ linked_whatsapp=true }) => {
+const Config: React.FC<IConfig> = () => {
 
     const [menuConfig, setMenuConfig] = useState(false);
-
-    const linkedWhatsapp = linked_whatsapp;
-
-    async function handleDesvWpp(){
-        const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;
-        await apiSenderWhatsappController.unlinkWhatsapp(userId);
-       
-    }
 
     async function handleLogout(){
         try {
@@ -50,12 +41,12 @@ const Config: React.FC<IConfig> = ({ linked_whatsapp=true }) => {
                     
                     {menuConfig &&
                         <div className={styles.menu_config}>
-                            {
-                                linkedWhatsapp &&
-                                <div className={styles.unlink_whatsapp}>
-                                    <p onClick={ handleDesvWpp } >Desvincular Whatsapp</p>
-                                </div>
-                            }
+                            
+                            <div className={styles.unlink_whatsapp}>
+                                <Link href='/user/edit'><p>Mi perfil</p></Link>
+                                
+                            </div>
+                            
                             <div className={styles.sign_out} onClick={ handleLogout }>
                                 <p>Cerrar sesión</p>
                             </div>

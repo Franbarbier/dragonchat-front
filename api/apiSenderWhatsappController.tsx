@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Router from 'next/router';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_SENDER_URL;
 const messageUrl = `${apiUrl}/message`;
@@ -12,11 +11,10 @@ const apiSenderWhatsappController = {
         });
         if (response.status == 200) {
             alert("Whatsapp correctamente desvinculado.");
-            return Router.push("/qr");
         } else {
             alert("Tu sesión no pudo ser desvinculada de forma correcta. Espera unos momentos y vuelve a intentar.");
-            return response;
         }
+        return response;
     },
     sendMessage: async (userId, receiverName, message, receiverNumber) => {
         const config = {
