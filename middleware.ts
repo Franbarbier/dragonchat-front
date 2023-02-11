@@ -26,21 +26,17 @@ export async function middleware(req: NextRequest) {
     } else {
       const accessToken = JSON.parse(authenticated.value).access_token;
       headers.append("Authorization", `Bearer ${accessToken}`);
-      try {
-        const apiResponse = await fetch(
-          "http://api-user.dragonchat.io/api/v1/ws",
-          { headers }
-        );
-        const data = await apiResponse.json();
-        const isWhatsAppConnected = data.data.connected_whatsapp;
-        if (!isWhatsAppConnected) {
-          if (requestedPage !== "/qr" && requestedPage !== "/user/edit") {
-            url.pathname = "/qr";
-            response = NextResponse.redirect(url);
-          }
+      const apiResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
+        { headers }
+      );
+      const data = await apiResponse.json();
+      const isWhatsAppConnected = data.data.connected_whatsapp;
+      if (!isWhatsAppConnected) {
+        if (requestedPage !== "/qr" && requestedPage !== "/user/edit") {
+          url.pathname = "/qr";
+          response = NextResponse.redirect(url);
         }
-      } catch (error) {
-        console.error(error)
       }
     }
   }
