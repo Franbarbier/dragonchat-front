@@ -6,7 +6,7 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - 5004:5004
+      - $PORT:$PORT
     environment:
       - PORT=$PORT
     volumes:
