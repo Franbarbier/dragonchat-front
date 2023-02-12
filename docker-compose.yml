@@ -7,6 +7,8 @@ services:
     restart: unless-stopped
     ports:
       - 5004:5004
+    environment:
+      - PORT=$PORT
     volumes:
       - '.:/home/app-frontend'
       - '/home/app-frontend/node_modules'
