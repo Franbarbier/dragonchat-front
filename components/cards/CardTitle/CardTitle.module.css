@@ -10,7 +10,7 @@
     font-weight: 300;
     font-size: 18px;
     /* color: var(--rosita2); */
-    background: linear-gradient(to top right, #eee, var(--rosita2) 30%);
+    background: linear-gradient(to top right, #eee , var(--rosita2) 30%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-transform: uppercase;

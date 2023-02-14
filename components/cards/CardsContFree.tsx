@@ -19,9 +19,9 @@ type IdCard = {
 }
 
 export interface ContactInfo {
-    name : string,
-    wpp : string,
-    status? : "success" | "error" | "pending",
+    nombre : string,
+    numero : string,
+    estado? : "success" | "error" | "pending",
 }
 
 
@@ -31,7 +31,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     
     // const [activeCard, setActiveCard] = useState<IdCard>(1)
     const [activeCard, setActiveCard] = useState<number>(1)
-    const [contactos, setContactos] = useState<ContactInfo[]>([])
+    const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
+    const [finalList, setFinalList] = useState<ContactInfo[]>([])
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
 
@@ -62,6 +63,27 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
         setModalImport(render)
     }
     
+
+    useEffect(()=>{
+
+        var filtered = [...contactos]
+    
+        const lastObject = contactos[contactos.length - 1];
+        if (lastObject && lastObject.hasOwnProperty("nombre") && lastObject.nombre != "") {
+            filtered = [...filtered, {'nombre':'', 'numero':''}]
+        } 
+
+        setFinalList(filtered)
+    },[contactos])
+
+    
+    useEffect(()=>{
+        console.log(finalList, finalList.length)
+    },[finalList])
+
+    useEffect(()=>{
+        console.log(activeCard)
+    }, [activeCard])
     
     return (
         <div>
@@ -82,9 +104,11 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={contactos}
+                        setContactos={setContactos}
                         handleNewContact={handleNewContact}
                         handleDeleteContact={handleDeleteContact}
                         handleRenderModal={handleRenderModal}
+                        finalList={finalList}
                     />
 
                     <FreeCard2
@@ -99,11 +123,11 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                     
 
             </div>
-            <div className={`${styles.nextCard} ${activeCard == 3 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard < 3) setActiveCard(activeCard+1) } }>
-                <button>{'>'}</button>
+            <div className={`${styles.nextCard} ${activeCard == 3 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard < 3 ) setActiveCard(activeCard+1) } }>
+                <button><img src="/arrow-card.png" /></button>
             </div>
-            <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard > 1) setActiveCard(activeCard-1) } }>
-                <button>{'<'}</button>
+            <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard > 1 ) setActiveCard(activeCard-1) } }>
+                <button><img src="/arrow-card.png" /></button>
             </div>
 
             {/* <div className={styles.ruleta_cont}>

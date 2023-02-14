@@ -28,7 +28,10 @@ li{ list-style: none; }
   --violeta2: #10011c;
   --violeta2t: rgba(16, 1, 28, 0.889);
   --amarillo: #fffb11;
-	
+
+  --newViolet: #31206b;
+	--newPink: #917fc9;
+  --newPink2: #ad93f0;
 }
 /* 
 ::-webkit-scrollbar{width:9px;position:absolute; background-color: rgb(242, 242, 242); height: 4px;}

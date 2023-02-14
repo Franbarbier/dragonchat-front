@@ -35,7 +35,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
             let newContacts = [...contactos]
 
-            newContacts[index].status = "pending";
+            newContacts[index].estado = "pending";
             setContactos(newContacts)
 
             const onSuccess = () => {
@@ -44,18 +44,18 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
                     if (sentMessage?.status == 200) {
                         let newContacts = [...contactos]
-                        newContacts[index].status = "success";
+                        newContacts[index].estado = "success";
                         setContactos(newContacts)
                     }else{
                         let newContacts = [...contactos]
-                        newContacts[index].status = "error";
+                        newContacts[index].estado = "error";
                         setContactos(newContacts)
                     }
 
 
             }
 
-            const sentMessage = await apiSenderWhatsappController.sendMessage(userInfo.user_id, destinatario.name, mensaje, destinatario.wpp)
+            const sentMessage = await apiSenderWhatsappController.sendMessage(userInfo.user_id, destinatario.nombre, mensaje, destinatario.numero)
             onSuccess()
         }
         setSending(false)
@@ -80,10 +80,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                 <div className={`${styles.table_rows} ${styles.enviando_table}`}>
                     {contactos.map((contact, index)=>(
                         // ${contact.status == "pending" && styles.fireLoader}
-                            <div className={`${styles.row_card}  ${contact.status == "success" && styles.success}`} key={contact.name+index} >
-                                {/* {console.log(contact.status)} */}
+                            <div className={`${styles.row_card}  ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
+                                {/* {console.log(contact.estado)} */}
 
-                                {contact.status == "pending" && 
+                                {contact.estado == "pending" && 
                                     <aside className={styles.fuegoLoader}>
                                         <video autoPlay loop>
                                             <source src="/dc_fuego_min.mp4" type="video/mp4" />
@@ -93,18 +93,18 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
                                 <div className="column50">
                                     <div>
-                                        <span>{contact.name}</span>
+                                        <span>{contact.nombre}</span>
                                     </div>
                                 </div>
                                 <div className="column50">
                                     <div>
-                                        <span>+{contact.wpp}</span>
+                                        <span>+{contact.numero}</span>
                                     </div>
                                 </div>
                                     
                                 <div className={styles.estado_envio}>
-                                    {contact.status == "success" && '✔️'}
-                                    {contact.status == "error" && '❌'}
+                                    {contact.estado == "success" && '✔️'}
+                                    {contact.estado == "error" && '❌'}
                                 </div>
                             </div>
                         ))
