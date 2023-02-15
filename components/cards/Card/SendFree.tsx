@@ -1,6 +1,6 @@
 import Cookie from 'js-cookie';
 import { useState } from 'react';
-import apiSenderWhatsappController from '../../../api/apiSenderWhatsappController';
+import apiSenderWhatsappController from '../../../services/apiSenderWhatsappController';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';

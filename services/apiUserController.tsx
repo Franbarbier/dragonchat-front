@@ -3,7 +3,7 @@ import Router from 'next/router';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_USER_URL;
 const authUrl = apiUrl + '/auth';
-const passwordUrl = apiUrl + '/password'
+const passwordUrl = apiUrl + '/password';
 
 const apiUserController = {
     signUp: async (name, email, password, passwordConfirmation, setUserExists) => {
@@ -25,13 +25,9 @@ const apiUserController = {
         return;
     },
     login: async (email, password) => {
-        try {
-            const payload = { email: email, password: password };
-            const response = await axios.post(`${authUrl}/login`, payload);
-            return response;
-        } catch(error) {
-            console.log(error);
-        }
+        const payload = { email: email, password: password };
+        const response = await axios.post(`${authUrl}/login`, payload);
+        return response;
     },
     logout: async (accessToken) => {
         const headers = new Headers({
@@ -44,6 +40,7 @@ const apiUserController = {
     edit: async (accessToken, name, email, password, passwordConfirmation) => {
         const headers = new Headers({
             "Content-Type": "application/json",
+            "Accept-Encoding": "*"
           });
         headers.append("Authorization", `Bearer ${accessToken}`);
         const payload = { name: name, email: email};

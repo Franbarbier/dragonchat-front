@@ -1,56 +1,37 @@
 
-import Cookies from 'js-cookie';
 import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
-import apiUserController from '../../api/apiUserController';
+import userServiceFactory from "../../clientServices/userService";
+import useUser from '../../lib/useUser';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './LoginView.module.css';
 
-
+const userService = userServiceFactory();
 export interface ILoginView {
 
 }
-
-
-
 // interface contactosArr extends Array<ContactInfo>{}
 
 const LoginView: React.FC<ILoginView> = ({  }) => {
-
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
+    const { mutateUser } = useUser();
 
     async function handleLogin(e) {
         e.preventDefault()
         if (email != "" && pass != "") {
-            
-            const onSuccess = () => {
-                if (login_status?.status == 200 ) {
 
-                    const login_storage = {
-                        access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
-                        user_id : login_status?.data.user_id
-                    }
-
-                    Cookies.set(
-                      process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
-                      JSON.stringify(login_storage), // secure flag option must be added in the future
-                      {
-                        sameSite: 'strict'
-                      }
-                    );
-                    
-                    Router.push("/dash")
-                    
-                }else{
-                    alert('Los datos son incorrectos.')
-                }
+            try {
+                mutateUser(
+                    await userService.login({email: email, password: pass})
+                );
+                Router.push("/dash");
+            } catch (error: any) {
+                alert(error.response.data.error);
             }
-            const login_status = await apiUserController.login(email, pass)
-            onSuccess()
 
 
         }else{

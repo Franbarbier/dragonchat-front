@@ -16,33 +16,21 @@ export async function middleware(req: NextRequest) {
 
   let response = NextResponse.next();
 
-  if (!isAuthenticated && !isLoginPage) {
-    url.pathname = "/login";
-    response = NextResponse.redirect(url);
+  if (!isAuthenticated) {
+    if (requestedPage !== "/login" && requestedPage !== "/signup" && requestedPage !== "/new_password" && requestedPage !== "/recover_password") {
+      url.pathname = "/login";
+      response = NextResponse.redirect(url);
+    }
   } else if (isAuthenticated) {
-    if (isLoginPage) {
+    if (requestedPage == "/login" || requestedPage == "/signup" || requestedPage == "/new_password" || requestedPage == "/recover_password" ) {
       url.pathname = "/dash";
       response = NextResponse.redirect(url);
-    } else {
-      const accessToken = JSON.parse(authenticated.value).access_token;
-      headers.append("Authorization", `Bearer ${accessToken}`);
-      const apiResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
-        { headers }
-      );
-      const data = await apiResponse.json();
-      const isWhatsAppConnected = data.data.connected_whatsapp;
-      if (!isWhatsAppConnected) {
-        if (requestedPage !== "/qr" && requestedPage !== "/user/edit") {
-          url.pathname = "/qr";
-          response = NextResponse.redirect(url);
-        }
-      }
     }
   }
+
   return response;
 }
 
 export const config = {
-  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit"],
+  matcher: ["/dash", "/qr", "/premium", "/login", "/signup", "/new_password", "/recover_password", "/user/edit"]
 };
