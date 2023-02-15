@@ -1,13 +1,12 @@
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Cookies from 'js-cookie';
 import Link from 'next/link';
 import Router from 'next/router';
 import { useState } from 'react';
-import userServiceFactory from "../../clientServices/userService";
-import useUser from '../../lib/useUser';
+import apiUserController from '../../api/apiUserController';
 import styles from './Config.module.css';
 
-const userService = userServiceFactory();
 export interface IConfig {
 }
 
@@ -17,12 +16,15 @@ export interface IConfig {
 const Config: React.FC<IConfig> = () => {
 
     const [menuConfig, setMenuConfig] = useState(false);
-    const { user } = useUser();
 
     async function handleLogout(){
         try {
-            await userService.logout();
-            Router.push("/login");
+            const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+            const response = await apiUserController.logout(accessToken);
+            if (response.status == 200) {
+                Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+                Router.push("/login");
+            }
         } catch (error: any) {
             alert(error.response.data.error);
         }

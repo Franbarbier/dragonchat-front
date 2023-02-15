@@ -4,9 +4,6 @@ services:
     image: dragonchat-front
     container_name: dragonchat-front
     build: .
-    env_file:
-      - ./.env
-      - ./.env.local
     restart: unless-stopped
     ports:
       - $PORT:$PORT

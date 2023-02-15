@@ -14,7 +14,6 @@ services:
       - NEXT_PUBLIC_API_USER_URL=$NEXT_PUBLIC_API_USER_URL
       - NEXT_PUBLIC_LOGIN_COOKIE_NAME=$NEXT_PUBLIC_LOGIN_COOKIE_NAME
       - NODE_ENV=$NODE_ENV
-      - SECRET_COOKIE_PASSWORD=$SECRET_COOKIE_PASSWORD
     volumes:
       - 'test_frontend:/home/app-frontend-test'
       - '/home/app-frontend-test/node_modules'
