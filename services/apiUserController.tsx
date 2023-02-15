@@ -37,17 +37,10 @@ const apiUserController = {
         const response = await axios.get(`${authUrl}/logout`, {headers: Object.fromEntries(headers)});
         return response;
     },
-    logout: async (accessToken) => {
-        const headers = new Headers({
-            "Content-Type": "application/json",
-          });
-        headers.append("Authorization", `Bearer ${accessToken}`);
-        const response = await axios.get(`${authUrl}/logout`, {headers: Object.fromEntries(headers)});
-        return response;
-    },
     edit: async (accessToken, name, email, password, passwordConfirmation) => {
         const headers = new Headers({
             "Content-Type": "application/json",
+            "Accept-Encoding": "*"
           });
         headers.append("Authorization", `Bearer ${accessToken}`);
         const payload = { name: name, email: email};

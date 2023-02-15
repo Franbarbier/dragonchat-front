@@ -2,6 +2,7 @@ import Config from "../../components/Config/Config";
 import EditUserProfileView, { IEditUserProfileView } from "../../components/EditUserProfileView/EditUserProfileView";
 import PrimaryLayout from "../../components/layouts/primary/PrimaryLayout";
 import MainCont from "../../components/MainCont/MainCont";
+import withSession from '../../lib/session';
 import { NextPageWithLayout } from "../page";
 
 const EditUserProfile : NextPageWithLayout<IEditUserProfileView> = ({user}) => {
@@ -15,13 +16,12 @@ const EditUserProfile : NextPageWithLayout<IEditUserProfileView> = ({user}) => {
     );
 };
 
-export async function getServerSideProps(context) {
-    const cookies = context.req?.cookies;
+export const getServerSideProps = withSession(async function ({ req, res }) {
     const headers = new Headers({
         "Content-Type": "application/json",
         });
-    const cookieName = process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME
-    const accessToken = JSON.parse(cookies[`${cookieName}`]).access_token
+    const user = req.session.get("user");
+    const accessToken = user.access_token
     headers.append("Authorization", `Bearer ${accessToken}`);
     const apiResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_USER_URL}/auth/me`,
@@ -31,7 +31,7 @@ export async function getServerSideProps(context) {
     return {
         props: { user: data.data as IEditUserProfileView['user'] },
         }
-}
+})
 
 EditUserProfile.getLayout = (page) => {
     return (

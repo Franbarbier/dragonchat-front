@@ -22,7 +22,7 @@ export async function middleware(req: NextRequest) {
       response = NextResponse.redirect(url);
     }
   } else if (isAuthenticated) {
-    if (requestedPage == "/login" || requestedPage == "/signup" || requestedPage == "/new_password" || requestedPage == "/recover_password") {
+    if (requestedPage == "/login" || requestedPage == "/signup" || requestedPage == "/new_password" || requestedPage == "/recover_password" ) {
       url.pathname = "/dash";
       response = NextResponse.redirect(url);
     }
