@@ -20,6 +20,8 @@ socket.on("connect", () => {
 
 
 const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
+
+
     const [showQr, setShowQr] = useState<boolean>(false);
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string>("");

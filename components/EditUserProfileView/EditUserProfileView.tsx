@@ -1,13 +1,13 @@
+import Cookies from "js-cookie";
 import Router from "next/router";
 import { useEffect, useState } from "react";
-import userServiceFactory from "../../clientServices/userService";
-import apiSenderWhatsappController from "../../services/apiSenderWhatsappController";
+import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
+import apiUserController from "../../api/apiUserController";
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
 import styles from './EditUserProfileView.module.css';
 
-const userService = userServiceFactory();
 export interface IEditUserProfileView {
   user: {
     id: number;
@@ -28,7 +28,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
   const [equalPass, setEqualPass] = useState(true);
 
   async function handleDesvWpp(){
-    const userId = user.id;
+    const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;
     const response = await apiSenderWhatsappController.unlinkWhatsapp(userId);
     if (response.status == 200) {
       user.connected_whatsapp = 0
@@ -39,12 +39,14 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
   }
 
   async function editUserProfile() {
-    const response = await userService.edit( {name: name, email: email, password: pass, passwordConfirmation: confirmPass});
-    if (response.status == 200) {
+    const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+    try {
+      const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
+      console.log(response);
       alert("Perfil actualizado de forma exitosa!");
-      Router.push("/user/edit");
-    } else {
-      alert("Ups, algo salió mal")
+    } catch (error: any) {
+      console.log(error.response.data);
+      alert("Ups! algo salió mal.");
     }
   }
 
@@ -112,7 +114,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
           {
             equalPass && 
             <CustomColorBtn
-            type="button"
+            type="submit"
             text="GUARDAR CAMBIOS"
             backgroundColorInit="#c21c3b"
             backgroundColorEnd="#f9bd4f"
