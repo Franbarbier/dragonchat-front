@@ -42,6 +42,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
     const response = await userService.edit( {name: name, email: email, password: pass, passwordConfirmation: confirmPass});
     if (response.status == 200) {
       alert("Perfil actualizado de forma exitosa!");
+      Router.push("/user/edit");
     } else {
       alert("Ups, algo salió mal")
     }
@@ -111,7 +112,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
           {
             equalPass && 
             <CustomColorBtn
-            type="submit"
+            type="button"
             text="GUARDAR CAMBIOS"
             backgroundColorInit="#c21c3b"
             backgroundColorEnd="#f9bd4f"
