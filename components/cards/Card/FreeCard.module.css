@@ -651,6 +651,11 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 }
 .footerBtns>div{
     width: 48%;
+    height: 100%;
+}
+.footerBtns button{
+    height: 100%;
+    font-size: 0.8em;
 }
 
 @media (min-width: 769px) {

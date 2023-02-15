@@ -1,0 +1,17 @@
+
+.customColorBtn{
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+    width: 100%;
+    padding: 2% 8px;
+    cursor: pointer;
+    margin-top: 3%;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+.disabled{
+    opacity: 0.7;
+    cursor: inherit!important;
+}

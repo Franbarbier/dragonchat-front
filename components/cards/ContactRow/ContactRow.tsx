@@ -19,12 +19,12 @@ const ContactRow: React.FC<IContactRow> = ({ contact, campos }) => {
         <div className={styles.row_card}>
             <div className={`column${columnWidth}`}>
                 <div>
-                    <span>{contact.name}</span>
+                    <span>{contact.nombre}</span>
                 </div>
             </div>
             <div className={`column${columnWidth}`}>
                 <div>
-                    <span>+{contact.wpp}</span>
+                    <span>+{contact.numero}</span>
                 </div>
             </div>
         </div>

@@ -43,8 +43,8 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   function renameKeys(newArr:Array<any>) {
     for (let index = 0; index < newArr.length; index++) {
       var element = newArr[index];
-      element.wpp = element["Número"]
-      element.name = element["Nombre"]
+      element.numero = element["Número"]
+      element.nombre = element["Nombre"]
       delete element["Número"] 
       delete element["Nombre"] 
     }

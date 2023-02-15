@@ -1,35 +1,64 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
+import EditUserProfileView, { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
 import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
-// import Search from '../components/utility/search/Search';
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from 'react';
 import { NextPageWithLayout } from './page';
-import { GralProps } from './_app';
 
 
 
 
-const Home: NextPageWithLayout<GralProps> = (GralProps) => {
+const Home: NextPageWithLayout<IEditUserProfileView> = ({user}) => {
   const { locale } = useRouter();
   const [openSettings, setOpenSettings] = useState<boolean>(false)
 
 
-  console.log(GralProps)
   return (
     <section>
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings}/>
       <AnimatePresence>
+        
         {!openSettings && (
           <motion.div
-            initial={{ opacity: 0, y : 15 }}
-            animate={{ opacity: 1 , y:0 }}
-            exit={{ opacity: 0, y : 15 }}
+            key="dash-cont"
+            initial={{ opacity: 0, translateY : 15 }}
+            animate={{ opacity: 1 , translateY : 0 , transition : {delay : 0.7} }}
+            exit={{ opacity: 0, translateY : 15  }}
+            style={{ position: 'absolute' }}
           >
-            <CardsCont {...mockCardsContProps.base}/>
+            <div  style={{
+                'width' : '100vw',
+                'height' : '100vh',
+                'position': 'relative'
+              }}
+            >
+              <CardsCont {...mockCardsContProps.base} />
 
+            </div>
+
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+      {openSettings && (
+          <motion.div
+            key="settings-cont"
+            initial={{ opacity: 0, scale : 0.5 }}
+            animate={{ opacity: 1 , scale : 1 , transition : {delay : 0.7} }}
+            exit={{ opacity: 0, scale : 0.5  }}
+            transition={{ duration: 0.5 }}
+          >
+            <div  style={{
+                'width' : '100vw',
+                'height' : '100vh',
+                'position': 'relative'
+              }}
+            >
+              <EditUserProfileView user={user}/>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -38,6 +67,27 @@ const Home: NextPageWithLayout<GralProps> = (GralProps) => {
 };
 
 export default Home;
+
+
+export async function getServerSideProps(context) {
+  const cookies = context.req?.cookies;
+  const headers = new Headers({
+      "Content-Type": "application/json",
+      });
+  const cookieName = process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME
+  const accessToken = JSON.parse(cookies[`${cookieName}`]).access_token
+  headers.append("Authorization", `Bearer ${accessToken}`);
+  const apiResponse = await fetch(
+  `${process.env.NEXT_PUBLIC_API_USER_URL}/auth/me`,
+  { headers }
+  );
+  const data = await apiResponse.json();
+
+  console.log(data)
+  return {
+      props: { user: data.data as IEditUserProfileView['user'] },
+      }
+}
 
 Home.getLayout = (page) => {
   return (

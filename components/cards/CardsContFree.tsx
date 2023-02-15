@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Config from '../Config/Config';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import WppBtn from '../WppBtn/WppBtn';
 import { mockFreeCard1Props } from './Card/FreeCard3.mocks';
@@ -36,11 +35,14 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
 
+
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
     
 
     useEffect(() => {
+
+
         const checkIsMobile = () => {
             setIsMobile(window.innerWidth <= 768);
           };
@@ -59,7 +61,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     }
 
     function handleRenderModal(render:boolean){
-        console.log(render)
         setModalImport(render)
     }
     
@@ -68,22 +69,21 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
         var filtered = [...contactos]
     
+        filtered.map((item)=>{
+            item.numero = item.numero.replace(/[^0-9]/g, '');
+        })
         const lastObject = contactos[contactos.length - 1];
-        if (lastObject && lastObject.hasOwnProperty("nombre") && lastObject.nombre != "") {
+        if (lastObject && lastObject.hasOwnProperty("nombre") && lastObject.nombre != "" || lastObject.hasOwnProperty("numero") && lastObject.numero != "" ) {
             filtered = [...filtered, {'nombre':'', 'numero':''}]
-        } 
+        }
 
         setFinalList(filtered)
     },[contactos])
 
-    
     useEffect(()=>{
-        console.log(finalList, finalList.length)
+        console.log(finalList)
     },[finalList])
 
-    useEffect(()=>{
-        console.log(activeCard)
-    }, [activeCard])
     
     return (
         <div>
@@ -100,7 +100,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
                     <FreeCard1 
                         {...mockFreeCard1Props.base}
-                        
+                        setModalImport={setModalImport}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={contactos}
@@ -123,7 +123,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                     
 
             </div>
-            <div className={`${styles.nextCard} ${activeCard == 3 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard < 3 ) setActiveCard(activeCard+1) } }>
+        
+            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard == 3 ? styles.arrow_disabled : ""}`} onClick={ ()=>{  if(finalList.length > 1 || activeCard > 3 ) setActiveCard(activeCard+1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
             <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard > 1 ) setActiveCard(activeCard-1) } }>
@@ -155,7 +156,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
             }
 
             <WppBtn />
-            <Config linked_whatsapp={true} />
             
             {modalImport &&
                 <div className={styles.modal_position_card1}>

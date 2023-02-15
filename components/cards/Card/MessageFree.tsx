@@ -18,7 +18,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
 
 
     return (
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>setActiveCard(idCard)}>
+        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
 
             <div className={styles.card_container}>
                 <div>
