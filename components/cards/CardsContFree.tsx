@@ -100,7 +100,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
                     <FreeCard1 
                         {...mockFreeCard1Props.base}
-                        setModalImport={setModalImport}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={contactos}
