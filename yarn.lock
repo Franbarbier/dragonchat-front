@@ -1660,9 +1660,9 @@
   "resolved" "https://registry.npmjs.org/@next/env/-/env-13.0.1.tgz"
   "version" "13.0.1"
 
-"@next/swc-darwin-x64@13.0.1":
-  "integrity" "sha512-8E6BY/VO+QqQkthhoWgB8mJMw1NcN9Vhl2OwEwxv8jy2r3zjeU+WNRxz4y8RLbcY0R1h+vHlXuP0mLnuac84tQ=="
-  "resolved" "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-13.0.1.tgz"
+"@next/swc-darwin-arm64@13.0.1":
+  "integrity" "sha512-O1RxCaiDNOjGZmdAp6SQoHUITt9aVDQXoR3lZ/TloI/NKRAyAV4u0KUUofK+KaZeHOmVTnPUaQuCyZSc3i1x5Q=="
+  "resolved" "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-13.0.1.tgz"
   "version" "13.0.1"
 
 "@nodelib/fs.scandir@2.1.5":
@@ -6018,14 +6018,14 @@
   dependencies:
     "map-cache" "^0.2.2"
 
-"framer-motion@^8.0.2":
-  "integrity" "sha512-xuIiQchVh/cLqUzzu5/8ok4o0nkwYPyIRtkDl8wDvrQUNRhSfRaZu1MMdzN0TjpBtG66oP03PSLO7Qtu1YqPrA=="
-  "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-8.0.2.tgz"
-  "version" "8.0.2"
+"framer-motion@^8.5.5":
+  "integrity" "sha512-5IDx5bxkjWHWUF3CVJoSyUVOtrbAxtzYBBowRE2uYI/6VYhkEBD+rbTHEGuUmbGHRj6YqqSfoG7Aa1cLyWCrBA=="
+  "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-8.5.5.tgz"
+  "version" "8.5.5"
   dependencies:
     "@motionone/dom" "^10.15.3"
     "hey-listen" "^1.0.8"
-    "tslib" "2.4.0"
+    "tslib" "^2.4.0"
   optionalDependencies:
     "@emotion/is-prop-valid" "^0.8.2"
 
@@ -10923,11 +10923,6 @@
   "integrity" "sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.1.tgz"
   "version" "2.4.1"
-
-"tslib@2.4.0":
-  "integrity" "sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ=="
-  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.0.tgz"
-  "version" "2.4.0"
 
 "tty-browserify@0.0.0":
   "integrity" "sha512-JVa5ijo+j/sOoHGjw0sxw734b1LhBkQ3bvUGNdxnVXDCX81Yx7TFgnZygxrIIWn23hbfTaMYLwRmAxFyDuFmIw=="

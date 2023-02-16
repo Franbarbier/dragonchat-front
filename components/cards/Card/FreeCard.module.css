@@ -114,7 +114,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     background-color: rgba(0,0,0,0.3);
     color: rgb(232, 232, 232);
     border-radius: 5px;
-    padding: 3.5px 0px;
+    padding: 6px;
     border: 1px solid var(--rosita1);
     margin-bottom: 2.5%;
     position: relative;
@@ -132,7 +132,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 }
 
 .row_card span{
-    font-size: 0.6em;
+    font-size: 0.5em;
     font-weight: 100;
     text-align: center;
     display: block;

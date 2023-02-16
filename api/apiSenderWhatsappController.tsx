@@ -19,15 +19,25 @@ const apiSenderWhatsappController = {
         }
     },
     sendMessage: async (userId, receiverName, message, receiverNumber) => {
-        const config = {
-            headers: {
-                "Accept": "/",
-                "Content-Type": "application/json"
+        try{
+            const config = {
+                headers: {
+                    "Accept": "/",
+                    "Content-Type": "application/json"
+                }
             }
+            const payload = { user: userId, name: receiverName, message: message, number: receiverNumber };
+
+            const response = await axios.post(`${messageUrl}/send-basic`, payload, config);
+           
+            return response
+        }catch(error:any){
+            if (error.hasOwnProperty("response") && error.response.status == 401 ) {
+                return 401
+            }
+            return error
         }
-        const payload = { user: userId, name: receiverName, message: message, number: receiverNumber };
-        const response = await axios.post(`${messageUrl}/send-basic`, payload, config);
-        return response;
+
     }
 }
 

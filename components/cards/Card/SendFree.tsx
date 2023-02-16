@@ -17,9 +17,10 @@ export interface IFreeCard3 {
     mensaje: string ;
     setContactos : (contactos: ContactInfo[]) => void;
     messagesLimitAchieved : boolean;
+    setMessagesLimitAchieved : (bool:boolean)=> void;
 }
 
-const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, messagesLimitAchieved }) => {
+const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, messagesLimitAchieved, setMessagesLimitAchieved }) => {
 
     let idCard = 3;
 
@@ -43,7 +44,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
             const onSuccess = () => {
                 console.log(sentMessage)
-                console.log("en teoria ya esta")
 
                     if (sentMessage?.status == 200) {
                         let newContacts = [...contactos]
@@ -53,7 +53,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         let newContacts = [...contactos]
                         newContacts[index].status = "error";
                         setContactos(newContacts)
+                        if (sentMessage == 401) {
+                            setMessagesLimitAchieved(true)
+                        }
                     }
+                    
 
 
             }

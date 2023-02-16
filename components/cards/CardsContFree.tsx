@@ -37,8 +37,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [modalImport, setModalImport] = useState<boolean>(false)
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
-    const [messagesLimitAchieved, setMessagedLimitAchieved] = useState<boolean>(false)
-    const [renderDialog, setRenderDialog] = useState<boolean>(false)
+    const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
+    const [renderDialog, setRenderDialog] = useState<boolean>(true)
     const [dragonAnim, setDragonAnim] = useState<string>('')
 
 
@@ -55,7 +55,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
         return () => window.removeEventListener('resize', checkIsMobile);
         
         // if (getLimitAchieved) {
-        //     setMessagedLimitAchieved(true)
+        //     setMessagesLimitAchieved(true)
         //     setRenderDialog(true)
         // }
         
@@ -102,6 +102,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                         setContactos={setContactos}
                         mensaje={mensaje}
                         messagesLimitAchieved={messagesLimitAchieved}
+                        setMessagesLimitAchieved={setMessagesLimitAchieved}
                     />
 
                     <FreeCard1 

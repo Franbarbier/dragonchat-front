@@ -32,7 +32,7 @@ export async function middleware(req: NextRequest) {
         "http://api-user.dragonchat.io/api/v1/ws",
         { headers }
       );
-      const data = await apiResponse.json();
+      const {data} = await apiResponse.json();
       const isWhatsAppConnected = data.data.connected_whatsapp;
       if (!isWhatsAppConnected) {
         if (requestedPage !== "/qr") {
