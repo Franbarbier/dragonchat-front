@@ -84,17 +84,16 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                 <div className={`${styles.table_rows} ${styles.enviando_table}`}>
                     {contactos.map((contact, index)=>(
                         // ${contact.status == "pending" && styles.fireLoader}
-                            <div className={`${styles.row_card}  ${contact.status == "success" && styles.success}`} key={contact.name+index} >
-                                {/* {console.log(contact.status)} */}
-
-                                {contact.status == "pending" && 
+                        
+                            <div className={`${styles.row_card}  ${contact.status == "success" && styles.success} ${contact.status == 'error' && styles.error}`} key={contact.name+index} >
+                               
+                                {contact.status == "pending" &&
                                     <aside className={styles.fuegoLoader}>
                                         <video autoPlay loop>
                                             <source src="/dc_fuego_min.mp4" type="video/mp4" />
                                         </video>
                                     </aside>
-                                }  
-
+                                }   
                                 <div className="column50">
                                     <div>
                                         <span>{contact.name}</span>
@@ -107,8 +106,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                 </div>
                                     
                                 <div className={styles.estado_envio}>
-                                    {contact.status == "success" && '✔️'}
-                                    {contact.status == "error" && '❌'}
+                                    {contact.status == "success" && <img src="cierto.png" width="15px" /> }
+                                    {contact.status == "error" && <img src="incorrecto.png" width="15px" /> }
                                 </div>
                             </div>
                         ))

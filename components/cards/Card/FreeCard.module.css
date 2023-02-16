@@ -126,9 +126,14 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 }
 .row_card.success{
     background-color: #5a575e;
-    background-color: rgba(220, 114, 69, 0.439);
+    background-image: radial-gradient(#943a144a, #9a5527b8);
     color: white;
-    border-color: rgb(220, 114, 69);
+    border-color: #d23227;
+}
+.row_card.error{
+    background:linear-gradient( rgba(31, 4, 4, 0.8), rgba(31, 4, 4, 0.8)), url('/textura.jpeg');
+    background-size: cover;
+    border-color: transparent!important;
 }
 
 .row_card span{
@@ -172,12 +177,11 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     
 }
 
-.estado_envio{
+.estado_envio img{
     position: absolute!important;
     right: 2%;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 14px;
     cursor: pointer;
 }
 
@@ -341,7 +345,8 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     object-fit: cover;
     object-position: top;
     z-index: 0;
-    transform: translateY(-10px);
+    left: 0;
+    top: 0;
 }
 
 @keyframes sending {

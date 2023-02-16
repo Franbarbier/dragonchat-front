@@ -26,7 +26,6 @@ export interface ContactInfo {
 }
 
 
-
 const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
     
