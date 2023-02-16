@@ -1,7 +1,7 @@
 FROM node:16-alpine AS deps
 WORKDIR /app
 
-COPY package.json ./
+COPY package*.json ./
 RUN npm install
 COPY . .
 
@@ -15,7 +15,7 @@ RUN npm run build
 
 FROM node:16-alpine AS runner
 WORKDIR /app
-ENV NODE_ENV production
+#ENV NODE_ENV production
 
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/public ./public
