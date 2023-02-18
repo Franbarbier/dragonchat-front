@@ -9,7 +9,7 @@ COPY package*.json ./
 
 # Instalamos las dependencias necesarias para la aplicación, incluyendo las dependencias de desarrollo
 RUN npm ci
-RUN npm install next
+RUN npm install next -g
 
 # Copiamos la aplicación
 COPY . .
