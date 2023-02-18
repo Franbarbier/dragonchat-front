@@ -24,8 +24,12 @@ const apiSenderWhatsappController = {
             }
         }
         const payload = { user: userId, name: receiverName, message: message, number: receiverNumber };
-        const response = await axios.post(`${messageUrl}/send-basic`, payload, config);
-        return response;
+        try {
+            const response = await axios.post(`${messageUrl}/send-basic`, payload, config);
+            return response;
+        } catch (error: any) {
+            alert("Tu mensaje no pudo ser enviado.");
+        }
     }
 }
 

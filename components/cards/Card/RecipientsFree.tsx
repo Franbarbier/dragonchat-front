@@ -40,7 +40,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, contactos,
     function handleAddContact(e){
         e.preventDefault()
 
-        console.log(newContact.name)
         if (newContact.name != '' && newContact.wpp != '') {
             handleNewContact(newContact)
             setNewContact({

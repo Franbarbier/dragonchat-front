@@ -19,7 +19,6 @@ const apiUserController = {
                 setUserExists(true);
             } else {
                 alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
-                console.log(error);
             }
         }
         return;
@@ -29,8 +28,8 @@ const apiUserController = {
             const payload = { email: email, password: password };
             const response = await axios.post(`${authUrl}/login`, payload);
             return response;
-        } catch(error) {
-            console.log(error);
+        } catch(error: any) {
+            return error.response;
         }
     },
     logout: async (accessToken) => {
@@ -93,7 +92,6 @@ const apiUserController = {
                 Router.push("/login");
             }
         } catch (error: any) {
-            console.log(error);
             alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
         }
         return;

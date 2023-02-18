@@ -1,5 +1,5 @@
 import Papa from "papaparse";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
 import ContactRow from "../ContactRow/ContactRow";
@@ -48,14 +48,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
       delete element["Número"] 
       delete element["Nombre"] 
     }
-    console.log(newArr)
   }
-  
-  useEffect(()=>{
-    console.log(parsedCsvData)
-  
-      
-  }, [parsedCsvData])
 
 
 

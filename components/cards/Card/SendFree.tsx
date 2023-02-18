@@ -39,9 +39,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
             setContactos(newContacts)
 
             const onSuccess = () => {
-                console.log(sentMessage)
-                console.log("en teoria ya esta")
-
                     if (sentMessage?.status == 200) {
                         let newContacts = [...contactos]
                         newContacts[index].status = "success";
@@ -81,7 +78,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                     {contactos.map((contact, index)=>(
                         // ${contact.status == "pending" && styles.fireLoader}
                             <div className={`${styles.row_card}  ${contact.status == "success" && styles.success}`} key={contact.name+index} >
-                                {/* {console.log(contact.status)} */}
 
                                 {contact.status == "pending" && 
                                     <aside className={styles.fuegoLoader}>

@@ -12,7 +12,6 @@ import { GralProps } from './_app';
 const Home: NextPageWithLayout<GralProps> = (GralProps) => {
   const { locale } = useRouter();
 
-  console.log(GralProps)
   return (
     <section>
       <CardsCont {...mockCardsContProps.base} />

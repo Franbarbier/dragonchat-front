@@ -32,9 +32,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
     const response = await apiSenderWhatsappController.unlinkWhatsapp(userId);
     if (response.status == 200) {
       user.connected_whatsapp = 0
-    } else {
-      const data = await response.json();
-      console.log(data);
     }
   }
 
@@ -42,10 +39,8 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
     const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
     try {
       const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
-      console.log(response);
       alert("Perfil actualizado de forma exitosa!");
     } catch (error: any) {
-      console.log(error.response.data);
       alert("Ups! algo salió mal.");
     }
   }

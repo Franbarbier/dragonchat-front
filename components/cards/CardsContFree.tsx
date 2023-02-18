@@ -58,7 +58,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     }
 
     function handleRenderModal(render:boolean){
-        console.log(render)
         setModalImport(render)
     }
     

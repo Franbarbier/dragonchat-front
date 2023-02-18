@@ -6,7 +6,7 @@ const Test : any = () => {
 
 const base: IModalContainer = {
     children : Test,
-    closeModal : ()=> console.log('Cerradpo')
+    closeModal : ()=> console.log('Cerrado')
 }
 
 export const mockModalContainerProps = {

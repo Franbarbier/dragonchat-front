@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SecuenceMessage from './Card/SecuencePremium';
 import styles from './CardsCont.module.css';
 
@@ -37,13 +37,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     }
 
     function handleRenderModal(render:boolean){
-        console.log(render)
         setModalImport(render)
     }
-
-    useEffect(()=>{
-        console.log(contactos)
-    },[contactos])
 
     return (
         <div>

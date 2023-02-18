@@ -26,7 +26,6 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
     async function handleLogin(e) {
         e.preventDefault()
         if (email != "" && pass != "") {
-            
             const onSuccess = () => {
                 if (login_status?.status == 200 ) {
 
@@ -42,9 +41,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                         sameSite: 'strict'
                       }
                     );
-                    
                     Router.push("/dash")
-                    
                 }else{
                     alert('Los datos son incorrectos.')
                 }

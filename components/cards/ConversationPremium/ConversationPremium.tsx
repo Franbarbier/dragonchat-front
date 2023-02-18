@@ -36,9 +36,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ setActiveCard, ac
         setChat( [...chat, {message, color}] )
     }
 
-    console.log(chat)
-
-
     return (
         <div className={` ${styles.SecuencePremiumCard}`} >
 
