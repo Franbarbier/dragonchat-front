@@ -1,19 +1,20 @@
 version: '3'
 services:
   front-next:
+    image: dragonchat-front
     container_name: dragonchat-front
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
+    env_file:
+      - ./.env
+      - ./.env.local
     restart: unless-stopped
     ports:
-      - "5004:5004"
+      - $PORT:$PORT
     environment:
-      - NODE_ENV=production
-      - PORT=5004
+      - PORT=$PORT
     volumes:
-      - '.:/app'
-      - '/app/node_modules'
+      - '.:/home/app-frontend'
+      - '/home/app-frontend/node_modules'
     networks:
       - nginx-proxy-manager_npm
 networks:

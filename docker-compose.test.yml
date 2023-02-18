@@ -1,27 +1,21 @@
-version: '3.1'
+version: '3'
 services:
-  front-next-test:
-    image: dragonchat-front-test:0.0.1
+  front-next:
     container_name: dragonchat-front-test
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.test
     restart: unless-stopped
     ports:
-      - $PORT:$PORT
+      - "5005:5005"
     environment:
-      - PORT=$PORT
-      - NEXT_PUBLIC_API_SENDER_SOCKET_URL=$NEXT_PUBLIC_API_SENDER_SOCKET_URL
-      - NEXT_PUBLIC_API_SENDER_URL=$NEXT_PUBLIC_API_SENDER_URL
-      - NEXT_PUBLIC_API_USER_URL=$NEXT_PUBLIC_API_USER_URL
-      - NEXT_PUBLIC_LOGIN_COOKIE_NAME=$NEXT_PUBLIC_LOGIN_COOKIE_NAME
-      - NODE_ENV=$NODE_ENV
-      - SECRET_COOKIE_PASSWORD=$SECRET_COOKIE_PASSWORD
+      - NODE_ENV=test
+      - PORT=5005
     volumes:
-      - 'test_frontend:/home/app-frontend-test'
-      - '/home/app-frontend-test/node_modules'
+      - '.:/app'
+      - '/app/node_modules'
     networks:
       - nginx-proxy-manager_npm
 networks:
   nginx-proxy-manager_npm:
     external: true
-volumes:
-  test_frontend:

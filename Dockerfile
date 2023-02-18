@@ -1,25 +1,23 @@
-FROM node:16-alpine AS deps
+# Utilizamos la imagen de Node.js 16 en Alpine Linux como base para la imagen de producción
+FROM node:16-alpine
+
+# Establecemos el directorio de trabajo
 WORKDIR /app
 
+# Copiamos el archivo package.json y package-lock.json
 COPY package*.json ./
-RUN npm install
+
+# Instalamos las dependencias necesarias para la aplicación
+RUN npm ci --only=production
+
+# Copiamos la aplicación
 COPY . .
 
+# Establecemos las variables de entorno necesarias para la aplicación en producción
+ENV NODE_ENV=production
 
-
-FROM node:16-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app ./
+# Generamos los archivos necesarios para la aplicación
 RUN npm run build
 
-
-FROM node:16-alpine AS runner
-WORKDIR /app
-#ENV NODE_ENV production
-
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-RUN npm install next
-
-CMD ["npm","run","start"]
+# Iniciamos la aplicación
+CMD ["npm", "start"]
