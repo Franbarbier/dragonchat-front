@@ -7,10 +7,10 @@ services:
       dockerfile: Dockerfile.test
     restart: unless-stopped
     ports:
-      - "5005:5005"
+      - "5003:5003"
     environment:
       - NODE_ENV=test
-      - PORT=5005
+      - PORT=5003
     volumes:
       - '.:/app'
       - '/app/node_modules'
