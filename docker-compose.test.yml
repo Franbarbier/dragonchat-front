@@ -1,7 +1,7 @@
 version: '3'
 services:
   front-next:
-    container_name: dragonchat-front-test
+    container_name: dragonchat-front-test-session
     build:
       context: .
       dockerfile: Dockerfile.test
