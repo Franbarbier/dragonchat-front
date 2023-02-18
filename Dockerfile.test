@@ -15,7 +15,7 @@ RUN npm install next
 COPY . .
 
 # Generamos los archivos necesarios para la aplicación
-RUN npm run build
+#RUN npm run build
 
 # Iniciamos las pruebas
-CMD ["npm", "start"]
+CMD ["npm", "dev"]
