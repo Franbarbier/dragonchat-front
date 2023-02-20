@@ -2,7 +2,7 @@
 FROM node:16-alpine
 
 # Establecemos el directorio de trabajo
-WORKDIR /app/session
+WORKDIR /app
 
 # Copiamos el archivo package.json y package-lock.json
 COPY package*.json ./
