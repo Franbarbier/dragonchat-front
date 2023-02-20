@@ -12,8 +12,8 @@ services:
       - NODE_ENV=test
       - PORT=5006
     volumes:
-      - '.:/app'
-      - '/app/node_modules'
+      - '.:/app/session'
+      - '/app/session/node_modules'
     networks:
       - nginx-proxy-manager_npm
 networks:
