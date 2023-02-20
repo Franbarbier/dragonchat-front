@@ -11,6 +11,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5006
+      - SECRET_COOKIE_PASSWORD=$SECRET_COOKIE_PASSWORD
     volumes:
       - '.:/app/session'
       - '/app/session/node_modules'
