@@ -9,7 +9,7 @@ services:
     ports:
       - "5006:5006"
     environment:
-      - NODE_ENV=test
+      - NODE_ENV=production
       - PORT=5006
     volumes:
       - '.:/app/session'
