@@ -100,6 +100,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     position: sticky;
     bottom: 0;
     left: 0;
+    display: none;
 }
 .table_layout::-webkit-scrollbar-track{
     background:#291051;
@@ -156,7 +157,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 .table_rows{
     height: 55%;
     overflow: auto;
-    width: 102%;
+    /* width: 102%; */
     padding-right: 2%;
     position: relative;
 }
@@ -167,6 +168,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     font-size: 0.8em;
     color: rgb(194, 194, 194);
     transform: translate(-50%, 0px);
+    /* display: none; */
 }
 
 .table_rows.enviando_table{

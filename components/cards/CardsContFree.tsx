@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ModalContainer from '../ModalContainer/ModalContainer';
+import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
 import WppBtn from '../WppBtn/WppBtn';
 import { mockFreeCard1Props } from './Card/FreeCard3.mocks';
 import FreeCard2 from './Card/MessageFree';
@@ -11,6 +12,8 @@ const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
     sampleTextProp : string;
+    setModalRef : (arg:boolean)=> void;
+    modalRef: boolean;
 }
 
 type IdCard = {
@@ -25,7 +28,7 @@ export interface ContactInfo {
 
 
 
-const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
+const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef }) => {
 
     
     // const [activeCard, setActiveCard] = useState<IdCard>(1)
@@ -34,7 +37,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
-
+    
 
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -63,7 +66,9 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
     function handleRenderModal(render:boolean){
         setModalImport(render)
     }
-    
+    function handleRenderModalRef(render:boolean) {
+        setModalRef(false)
+    }
 
     useEffect(()=>{
 
@@ -161,6 +166,15 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
                     <div>
                         <ModalContainer closeModal={ handleRenderModal } >
                             <ModalImportContacts setModalImport={setModalImport} uploadContacts={setContactos} />
+                        </ModalContainer>
+                    </div>
+                </div>
+            }
+            {modalRef &&
+                <div>
+                    <div>
+                        <ModalContainer closeModal={ handleRenderModalRef } addedClass="refAmis">
+                            <ModalReferiAmigos />
                         </ModalContainer>
                     </div>
                 </div>

@@ -1,0 +1,26 @@
+.modal_ref ul li{
+    margin: 3% 0 5% ;
+}
+.modal_ref ul img{
+    filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(14deg) brightness(165%) contrast(80%);
+    width: 14px;
+    margin: 0 10px 0 3px;
+}
+.modal_ref ul span{
+    color: var(--amarillo);
+}
+.modal_ref h6{
+    color: var(--rosita2);
+    margin-bottom: 3%;
+}
+.enlace{
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 5px;
+    padding: 8px 15px;
+    overflow: hidden;
+    border: 1px solid var(--rosita1);
+    font-size: 0.9em;
+    white-space: pre;
+    margin-bottom: 5%;
+    display: block;
+}

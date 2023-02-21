@@ -12,12 +12,19 @@
 .settings_cont img{
     opacity: 0.8;
     cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
 }
 .settings_cont img:hover{
     opacity: 1;
 }
 .settings_cont{
-    transform: translate(0px, 5px);
+    position: relative;
+    width: 24px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+    margin-left: 25px;
 }
 .rotate {
     animation: rotate-keyframes 0.5s;
@@ -25,6 +32,35 @@
 }
    
 @keyframes rotate-keyframes {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(180deg); }
+0% { transform: rotate(0deg) translate(-50%, -50%)}
+100% { transform: rotate(180deg) translate(-50%, -50%)}
+}
+
+.menu_cont{
+    display: flex;
+    align-items: center;
+    
+}
+.referir_cont button{
+    display: flex;
+    align-items: center;
+    color: var(--amarillo);
+    letter-spacing: 1px;
+    font-size: 0.6em;
+    padding: 2px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--amarillo);
+    background: rgb(255 251 17 / 10%);
+    cursor: pointer;
+}
+.referir_cont button:hover{
+    background: rgb(255 251 17 / 30%);
+}
+.referir_cont>button>img{
+    display: block;
+    margin-right: 10px;
+    width: 20px;
+}
+.referir_cont>button>span{
+    display: block;
 }
