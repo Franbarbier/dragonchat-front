@@ -5,8 +5,8 @@ const base: IFreeCard3 = {
     setActiveCard: () => {},
     activeCard : 3,
     contactos : [{
-        name: 'asd',
-        wpp: '5491136'
+        nombre: 'asd',
+        numero: '5491136'
     }],
     setContactos : () => {},
     mensaje: "tuqui"

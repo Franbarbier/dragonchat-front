@@ -161,7 +161,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
                     <span className={styles.list_counter}>{finalList.length - 1}</span>
                         
-                    <div className={styles.table_layout} style={{'width' : finalList.length > 12 ? '102%' : '100%'}}>
+                    <div className={styles.table_layout} style={{'width' : finalList.length > 13 ? '102%' : '100%'}}>
                     <div>
                                 {finalList.map((elementInArray, index) => ( 
                                     

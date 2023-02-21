@@ -198,7 +198,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     background-color: rgba(0,0,0,0.3);
     color: rgb(232, 232, 232);
     border-radius: 5px;
-    padding: 3.5px 0px;
+    padding: 6px;
     border: 1px solid var(--rosita1);
     margin-bottom: 2.5%;
     position: relative;
@@ -210,13 +210,18 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 }
 .row_card.success{
     background-color: #5a575e;
-    background-color: rgba(220, 114, 69, 0.439);
+    background-image: radial-gradient(#943a144a, #9a5527b8);
     color: white;
-    border-color: rgb(220, 114, 69);
+    border-color: #d23227;
+}
+.row_card.error{
+    background:linear-gradient( rgba(31, 4, 4, 0.8), rgba(31, 4, 4, 0.8)), url('/textura.jpeg');
+    background-size: cover;
+    border-color: transparent!important;
 }
 
 .row_card span{
-    font-size: 0.6em;
+    font-size: 0.5em;
     font-weight: 100;
     text-align: center;
     display: block;
@@ -256,12 +261,11 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     
 }
 
-.estado_envio{
+.estado_envio img{
     position: absolute!important;
     right: 2%;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 14px;
     cursor: pointer;
 }
 
@@ -425,7 +429,8 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     object-fit: cover;
     object-position: top;
     z-index: 0;
-    transform: translateY(-10px);
+    left: 0;
+    top: 0;
 }
 
 @keyframes sending {
@@ -659,6 +664,44 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     height: 100%;
     font-size: 0.8em;
 }
+.limitedButton{
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid rgb(113, 0, 0);
+    padding: 2% 0;
+    cursor: not-allowed;
+    margin-top: 3%;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: center;
+}
+.limitedButton video{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    opacity: 0.7;    
+}
+.limitedButton span{ z-index: 3; }
+
+.limitedButton p{
+    z-index: 3;
+    position: relative;
+    margin: 0 10px;
+}
+.limitedMsj{
+    margin-top: 20px;
+    font-size: 0.8em;
+    letter-spacing: 1px;
+    color: #dcdcdc;
+    text-align: center;
+}
+
+
 
 @media (min-width: 769px) {
     .card{

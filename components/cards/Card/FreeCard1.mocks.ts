@@ -1,19 +1,17 @@
 import { IFreeCard1 } from './RecipientsFree';
 
 const base: IFreeCard1 = {
-    sampleTextProp: 'Hello World!',
-    setActiveCard: () => {},
-    activeCard : 1,
-    contactos : [{
-        name: 'compa',
-        wpp: '54911'
-    }],
-    handleNewContact: () => {},
-    handleDeleteContact : () => {},
-    handleRenderModal : () => {}
+    sampleTextProp : 'string',
+    setActiveCard: (id) => {return false},
+    setContactos : (contactos) => {return false},
+    activeCard : 3,
+    contactos : [],
+    handleNewContact: (newContact) => {return false},
+    handleDeleteContact : (contact) => {true},
+    handleRenderModal : (render) => {return false},
+    finalList : []
 
 }
-
 export const mockFreeCard1Props = {
     base
 }

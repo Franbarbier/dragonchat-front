@@ -14,6 +14,8 @@ export async function middleware(req: NextRequest) {
   const isAuthenticated = authenticated !== undefined;
   const isLoginPage = requestedPage === "/login";
 
+  console.log('test', authenticated)
+
   let response = NextResponse.next();
 
   if (!isAuthenticated && !isLoginPage) {
@@ -30,12 +32,12 @@ export async function middleware(req: NextRequest) {
         `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
         { headers }
       );
-      const data = await apiResponse.json();
+      const {data} = await apiResponse.json();
       const isWhatsAppConnected = data.data.connected_whatsapp;
       if (!isWhatsAppConnected) {
-        if (requestedPage !== "/qr" && requestedPage !== "/user/edit") {
-          url.pathname = "/qr";
-          response = NextResponse.redirect(url);
+        if (requestedPage !== "/qr") {
+          // url.pathname = "/qr";
+          // response = NextResponse.redirect(url);
         }
       }
     }

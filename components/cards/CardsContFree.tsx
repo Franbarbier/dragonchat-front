@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
 import WppBtn from '../WppBtn/WppBtn';
@@ -37,22 +38,47 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
-    
-
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
+    const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
+    const [renderDialog, setRenderDialog] = useState<boolean>(true)
+    const [dragonAnim, setDragonAnim] = useState<string>('')
+
+
+    const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
+
 
     useEffect(() => {
 
 
         const checkIsMobile = () => {
             setIsMobile(window.innerWidth <= 768);
-          };
-          checkIsMobile();
-          window.addEventListener('resize', checkIsMobile);
-          return () => window.removeEventListener('resize', checkIsMobile);
-    }, [])
+        };
+        checkIsMobile();
+        window.addEventListener('resize', checkIsMobile);
+        return () => window.removeEventListener('resize', checkIsMobile);
+        
+        // if (getLimitAchieved) {
+        //     setMessagesLimitAchieved(true)
+        //     setRenderDialog(true)
+        // }
+        
+        // function getLimitAchieved() {
+        //     return true
+        // }
+
+
+        }, [])
+
+        useEffect(()=>{
+            if (activeCard == 3) {
+                setDragonAnim('limitedAnim')
+            }else{
+                setDragonAnim('')
+            }
+        }, [activeCard])
+
     
     
     function handleNewContact(newContact:ContactInfo) {
@@ -101,6 +127,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                         contactos={contactos}
                         setContactos={setContactos}
                         mensaje={mensaje}
+                        messagesLimitAchieved={messagesLimitAchieved}
+                        setMessagesLimitAchieved={setMessagesLimitAchieved}
                     />
 
                     <FreeCard1 
@@ -154,8 +182,20 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
             {
                 !isMobile &&
                 <div>
-                    <img className={styles.dragon1} src="/dragon_anim.gif" alt="dragon-chat"/>
-                    <img className={styles.dragon2} src="/dragon_anim.gif" alt="dragon-chat"/>
+                    <div className={styles.dragon1}>
+                        <img src="/dragon_anim.gif" alt="dragon-chat"/>
+                        {
+                            messagesLimitAchieved &&
+                            <>
+                            { renderDialog &&
+                                <div className={styles.wpp_limit_alert}>
+                                    <BoxDialog message={wppLimitMessage} setRenderDialog={setRenderDialog}/>
+                                </div>
+                            }
+                            </>
+                        }
+                    </div>
+                    <img className={`${styles.dragon2} ${styles[dragonAnim]}`} src="/dragon_anim.gif" alt="dragon-chat"/>
                 </div>
             }
 

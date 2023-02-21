@@ -1,3 +1,5 @@
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookie from 'js-cookie';
 import { useState } from 'react';
 import apiSenderWhatsappController from '../../../api/apiSenderWhatsappController';
@@ -13,10 +15,12 @@ export interface IFreeCard3 {
     activeCard : number;
     contactos : ContactInfo[];
     mensaje: string ;
-    setContactos : (contactos: ContactInfo[]) => void
+    setContactos : (contactos: ContactInfo[]) => void;
+    messagesLimitAchieved : boolean;
+    setMessagesLimitAchieved : (bool:boolean)=> void;
 }
 
-const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje }) => {
+const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, messagesLimitAchieved, setMessagesLimitAchieved }) => {
 
     let idCard = 3;
 
@@ -40,9 +44,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
             const onSuccess = () => {
                 console.log(sentMessage)
-                console.log("en teoria ya esta")
 
-                    if (sentMessage?.status == 200) {
+                    if (sentMessage?.estado == 200) {
                         let newContacts = [...contactos]
                         newContacts[index].estado = "success";
                         setContactos(newContacts)
@@ -50,7 +53,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         let newContacts = [...contactos]
                         newContacts[index].estado = "error";
                         setContactos(newContacts)
+                        if (sentMessage == 401) {
+                            setMessagesLimitAchieved(true)
+                        }
                     }
+                    
 
 
             }
@@ -61,9 +68,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
         setSending(false)
 
     }
-
-
-
 
 
     return (
@@ -79,18 +83,17 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
              
                 <div className={`${styles.table_rows} ${styles.enviando_table}`}>
                     {contactos.map((contact, index)=>(
-                        // ${contact.status == "pending" && styles.fireLoader}
-                            <div className={`${styles.row_card}  ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
-                                {/* {console.log(contact.estado)} */}
-
-                                {contact.estado == "pending" && 
+                        // ${contact.estado == "pending" && styles.fireLoader}
+                        
+                            <div className={`${styles.row_card}  ${contact.estado == "success" && styles.success} ${contact.estado == 'error' && styles.error}`} key={contact.nombre+index} >
+                               
+                                {contact.estado == "pending" &&
                                     <aside className={styles.fuegoLoader}>
                                         <video autoPlay loop>
                                             <source src="/dc_fuego_min.mp4" type="video/mp4" />
                                         </video>
                                     </aside>
-                                }  
-
+                                }   
                                 <div className="column50">
                                     <div>
                                         <span>{contact.nombre}</span>
@@ -103,8 +106,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                 </div>
                                     
                                 <div className={styles.estado_envio}>
-                                    {contact.estado == "success" && '✔️'}
-                                    {contact.estado == "error" && '❌'}
+                                    {contact.estado == "success" && <img src="cierto.png" width="15px" /> }
+                                    {contact.estado == "error" && <img src="incorrecto.png" width="15px" /> }
                                 </div>
                             </div>
                         ))
@@ -113,13 +116,31 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                     
                 </div>
                 <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
-
+                {!messagesLimitAchieved ?
+                    <>
                     {!isSent ?
-                    <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
-                        { if (!sending){ startSending() }}} />
+                        <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
+                            { if (!sending){ startSending() }}} />
+                            :
+                            <p>Listo! Podes resetear DragonChat para hacer un nuevo envío haciendo <a href="/">click acá</a></p>
+                        }
+                    </>
                     :
-                    <p>Listo! Podes resetear DragonChat para hacer un nuevo envío haciendo <a href="/">click acá</a></p>
-                    }
+                    
+                    // <OrangeBtn text="ass" onClick={()=>{}} disabled={true}/>
+                    <> 
+                    <div className={styles.limitedButton}>
+                        <video autoPlay muted loop>
+                            <source src="/fire-bkgr.mp4" type="video/mp4" />
+                        </video>
+                        <span><FontAwesomeIcon icon={faLock} /></span>
+                        <p>Enviar</p>
+                        <span><FontAwesomeIcon icon={faLock} /></span>
+
+                    </div>
+                        <p className={styles.limitedMsj}>Llegaste al limite de 40 mensajes diarios! Invita a un amigo para ampliar tu limite. <a>Ver más</a></p>
+                    </>
+                }
                 </div>
             </div>
         </div>
