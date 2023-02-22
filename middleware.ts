@@ -36,8 +36,8 @@ export async function middleware(req: NextRequest) {
       const isWhatsAppConnected = data.data.connected_whatsapp;
       if (!isWhatsAppConnected) {
         if (requestedPage !== "/qr") {
-          // url.pathname = "/qr";
-          // response = NextResponse.redirect(url);
+          url.pathname = "/qr";
+          response = NextResponse.redirect(url);
         }
       }
     }
