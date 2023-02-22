@@ -11,16 +11,18 @@
 
 
 .nextCard, .prevCard{
+
     position: absolute;
     width: 25px;
     height: 25px;
-    background: linear-gradient(0 , #32273e, #5b2c7f);
+    background: linear-gradient(0 , #90ca46, #d5dd32);
     display: block;
-    top: 50%;
-    transform: translateY(-100%);
+    top: 50vh;
+    transform: translateY(-50%);
     cursor: pointer;
     border-radius: 50px;
     z-index: 2;
+
 }
 
 .nextCard button, .prevCard button{
@@ -49,6 +51,7 @@
 .arrow_disabled{
     opacity: 0.3;
     cursor: inherit!important;
+    background: linear-gradient(0 , #32273e, #5b2c7f);
 }
 
 .dragon1{
