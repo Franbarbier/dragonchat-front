@@ -168,7 +168,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     font-size: 0.8em;
     color: rgb(194, 194, 194);
     transform: translate(-50%, 0px);
-    /* display: none; */
+    display: none;
 }
 
 .table_rows.enviando_table{

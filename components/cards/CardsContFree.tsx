@@ -155,13 +155,15 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                     
 
             </div>
-        
-            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard == 3 ? styles.arrow_disabled : ""}`} onClick={ ()=>{  if(finalList.length > 1 || activeCard > 3 ) setActiveCard(activeCard+1) } }>
+            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 ? styles.arrow_disabled : ""}`} onClick={ ()=>{  if(finalList.length > 1 && activeCard > 3 ) setActiveCard(activeCard+1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
             <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard > 1 ) setActiveCard(activeCard-1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
+            <>
+                {console.log(activeCard)}
+            </>
 
             {/* <div className={styles.ruleta_cont}>
                 <div>
