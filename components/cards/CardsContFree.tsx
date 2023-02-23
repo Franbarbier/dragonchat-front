@@ -104,16 +104,15 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
             item.numero = item.numero.replace(/[^0-9]/g, '');
         })
         const lastObject = contactos[contactos.length - 1];
+
         if (lastObject && lastObject.hasOwnProperty("nombre") && lastObject.nombre != "" || lastObject.hasOwnProperty("numero") && lastObject.numero != "" ) {
             filtered = [...filtered, {'nombre':'', 'numero':''}]
         }
 
         setFinalList(filtered)
+        
     },[contactos])
 
-    useEffect(()=>{
-        console.log(finalList)
-    },[finalList])
 
     
     return (
@@ -124,7 +123,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                         {...mockFreeCard1Props.base}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
-                        contactos={contactos}
+                        contactos={finalList}
                         setContactos={setContactos}
                         mensaje={mensaje}
                         messagesLimitAchieved={messagesLimitAchieved}
@@ -161,10 +160,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
             <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard > 1 ) setActiveCard(activeCard-1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
-            <>
-                {console.log(finalList.length === 1 || activeCard === 3 )}
-                {console.log(finalList.length === 1 || activeCard === 3 || !checkAllListFields() )}
-            </>
 
             {/* <div className={styles.ruleta_cont}>
                 <div>

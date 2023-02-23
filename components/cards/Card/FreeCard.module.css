@@ -1,6 +1,6 @@
 .card{
-    border: 2px solid #42298e;
-    box-shadow: inset 1px 1px 3px black;
+    border: 2px solid var(--newViolet);
+    box-shadow: inset 0px 0px 1px 2px black;
     border-radius: 15px;
     padding: 30px;
     position: absolute;
@@ -122,28 +122,37 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     display: flex;
 }
 .celda_table{
-    border: 0.04em solid var(--newPink);
-    padding: 5px 3px;
+    border: 2px solid #4d318c;
     width: 50%;
-    background-color: rgba(50, 0, 92, 0.1);
+    background-color: rgba(0, 0, 0, 0.32);
+    overflow: hidden;
+    /* border-bottom: none;
+    border-left: none; */
 }
 .celda_table:hover{
-    border: 0.06em solid #3262ad;
+    border-color: #3399FF!important;
     box-shadow: inset 0px 0px 15px 1px #0000005c;
 }
 
-.table_layout>div:first-child .celda_table:first-child{
-    border-top-left-radius: 5px;
+.table_layout>div>div:first-child .celda_table:first-child{
+    border-top-left-radius: 10px;
+    border-top: 3px solid #4d318c;
 }
-.table_layout>div:first-child .celda_table:last-child{
-    border-top-right-radius: 5px;
+.table_layout>div>div:first-child .celda_table:last-child{
+    border-top-right-radius: 10px;
+    border-top: 3px solid #4d318c;
 }
-.table_layout>div:last-child .celda_table:first-child{
-    border-bottom-left-radius: 5px;
+.table_layout>div>div:last-child .celda_table:first-child{
+    border-bottom-left-radius: 10px;
+    border-bottom: 3px solid #4d318c;
 }
-.table_layout>div:last-child .celda_table:last-child{
-    border-bottom-right-radius: 5px;
+.table_layout>div>div:last-child .celda_table:last-child{
+    border-bottom-right-radius: 10px;
+    border-bottom: 3px solid #4d318c;
 }
+.celda_table:first-child{ border-left: 3px solid #4d318c; }
+.celda_table:last-child{ border-right: 3px solid #4d318c; }
+
 .celda_table textarea{
     background: transparent;
     border: none;
@@ -152,8 +161,14 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     resize: none;
     /* height: 1.5em; */
     overflow: hidden;
-    padding: 1px;
+    padding: 8px 2px;
     vertical-align: bottom;
+    outline: none;
+    white-space: pre;
+}
+
+.celda_table textarea:focus{
+    background-color: #7665b5;
 }
 
 .table_rows{

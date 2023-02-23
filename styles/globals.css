@@ -26,13 +26,13 @@ li{ list-style: none; }
 
 :root {
 	--rosita1: #9f5bc3;
-	--rosita2: #d78ffd;
+	--rosita2: #b499ff;
   --violeta1: #422a93;
   --violeta2: #10011c;
   --violeta2t: rgba(16, 1, 28, 0.889);
   --amarillo: #fffb11;
 
-  --newViolet: #31206b;
+  --newViolet: #7545d8;
 	--newPink: #917fc9;
   --newPink2: #ad93f0;
 }

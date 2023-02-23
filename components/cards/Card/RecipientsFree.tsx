@@ -232,22 +232,23 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                         <div>
                             <CustomColorBtn
                                 type="submit"
-                                text="Importar CSV"
-                                backgroundColorInit="#724cdf"
-                                backgroundColorEnd="#3a94fe"
-                                borderColor="#5573f0"
-                                onClick={()=>{handleRenderModal(true)}}
+                                text="Limpiar planilla"
+                                backgroundColorInit="#13013780"
+                                backgroundColorEnd="#13013780"
+                                borderColor="var(--newViolet)"
+                                onClick={()=>{ setContactos([{nombre: '', numero: ''}]) } }
+                                disable={ activeCard != 1 }
                             />
                         </div>
                         <div>
                             <CustomColorBtn
                                 type="submit"
-                                text="Redactar mensaje"
-                                backgroundColorInit="#c21c3b"
-                                backgroundColorEnd="#f9bd4f"
-                                borderColor="#e17846"
-                                disable={finalList.length < 2 }
-                                onClick={()=>{ setActiveCard(2) }}
+                                text="Importar CSV"
+                                backgroundColorInit="#724cdf"
+                                backgroundColorEnd="#3a94fe"
+                                borderColor="#5573f0"
+                                onClick={()=>{handleRenderModal(true)}}
+                                disable={ activeCard != 1 }
                             />
                         </div>
                     </div>

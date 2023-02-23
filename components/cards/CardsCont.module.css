@@ -191,6 +191,10 @@
     .prevCard{
         left: 27.5%;
     }
+    .nextCard, .prevCard{
+        width: 3vw;
+        height: 3vw;
+    }
     .dragon1{left:12%;}
     .dragon2{right:12%}
 }
@@ -199,8 +203,8 @@
         width: 38vw;
     }
     .nextCard, .prevCard{
-        width: 3.5vw;
-        height: 3.5vw;
+        width: 2.7vw;
+        height: 2.7vw;
     }
     .nextCard{
         left: 69vw; 
