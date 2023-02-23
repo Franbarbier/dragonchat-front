@@ -14,8 +14,6 @@ export async function middleware(req: NextRequest) {
   const isAuthenticated = authenticated !== undefined;
   const isLoginPage = requestedPage === "/login";
 
-  console.log('test', authenticated)
-
   let response = NextResponse.next();
 
   if (!isAuthenticated && !isLoginPage) {
