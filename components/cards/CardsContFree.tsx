@@ -58,17 +58,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
         checkIsMobile();
         window.addEventListener('resize', checkIsMobile);
         return () => window.removeEventListener('resize', checkIsMobile);
-        
-        // if (getLimitAchieved) {
-        //     setMessagesLimitAchieved(true)
-        //     setRenderDialog(true)
-        // }
-        
-        // function getLimitAchieved() {
-        //     return true
-        // }
-
-
         }, [])
 
         useEffect(()=>{
@@ -95,6 +84,17 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
     function handleRenderModalRef(render:boolean) {
         setModalRef(false)
     }
+    function checkAllListFields() {
+        for (let index = 0; index < finalList.length - 1; index++) {
+            const element = finalList[index];
+            if (element.nombre == "" || element.numero == "") {
+                return false
+            }
+        }
+        return true
+    }
+
+    
 
     useEffect(()=>{
 
@@ -119,7 +119,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
     return (
         <div>
             <div className={styles.cards_cont}>
-
+                    
                     <FreeCard3
                         {...mockFreeCard1Props.base}
                         setActiveCard={(val:any)=>setActiveCard(val)}
@@ -155,14 +155,15 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                     
 
             </div>
-            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 ? styles.arrow_disabled : ""}`} onClick={ ()=>{  if(finalList.length > 1 && activeCard > 3 ) setActiveCard(activeCard+1) } }>
+            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 || !checkAllListFields() ? styles.arrow_disabled : ""}`} onClick={ ()=>{  if(finalList.length > 1 && activeCard < 3 && checkAllListFields() ) setActiveCard(activeCard+1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
             <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard > 1 ) setActiveCard(activeCard-1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
             <>
-                {console.log(activeCard)}
+                {console.log(finalList.length === 1 || activeCard === 3 )}
+                {console.log(finalList.length === 1 || activeCard === 3 || !checkAllListFields() )}
             </>
 
             {/* <div className={styles.ruleta_cont}>

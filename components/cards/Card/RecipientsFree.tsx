@@ -143,7 +143,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
 
     return (
-        <div>
 
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
 
@@ -167,10 +166,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                     
                                         <div className={styles.row_table}>
                                             <div className={styles.celda_table}>
-                                                <textarea onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
+                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
                                             </div>
                                             <div className={styles.celda_table}>
-                                                <textarea onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
+                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
                                             </div>
                                         </div>
                                     ))
@@ -183,10 +182,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                     
                                         <div className={styles.row_table}>
                                             <div className={styles.celda_table}>
-                                                <textarea onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
+                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
                                             </div>
                                             <div className={styles.celda_table}>
-                                                <textarea onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
+                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
                                             </div>
                                         </div>
                                     ))
@@ -202,10 +201,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                 <div>
                                     <div className={styles.row_table}>
                                         <div className={styles.celda_table}>
-                                            <textarea onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
+                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
                                         </div>
                                         <div className={styles.celda_table}>
-                                            <textarea onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
+                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
                                         </div>
                                     </div>
                                 </div>
@@ -213,10 +212,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                 <div>
                                     <div className={styles.row_table}>
                                         <div className={styles.celda_table}>
-                                            <textarea onInput={ (e)=>{formatList(e, 'nombre', index)} } disabled value='' />
+                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } disabled value='' />
                                         </div>
                                         <div className={styles.celda_table}>
-                                            <textarea onInput={ (e)=>{formatList(e, 'numero', index)} } disabled value=''/>
+                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } disabled value=''/>
                                         </div>
                                     </div>
                                 </div>
@@ -257,10 +256,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
             </div>
         </div>
-                
-                
-            </div>
-        
     
     );
 }

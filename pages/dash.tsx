@@ -17,7 +17,7 @@ const Home: NextPageWithLayout<IEditUserProfileView> = ({user}) => {
   const [modalRef, setModalRef] = useState<boolean>(false)
 
   return (
-    <section>
+    <section style={{'position':'relative', 'height':'100%', 'width':'100%'}}>
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings} setModalRef={setModalRef}/>
       
       <AnimatePresence>

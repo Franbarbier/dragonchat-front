@@ -1,15 +1,15 @@
 .card{
-    border: 1px solid #31206a;
+    border: 2px solid #42298e;
+    box-shadow: inset 1px 1px 3px black;
     border-radius: 15px;
     padding: 30px;
-    width: 80vw;
-    height: 80vh;
     position: absolute;
     left: 50%;
+    top: 50%;
     z-index: 1;
     opacity: 0.7;
     transition: .5s;
-    background-color: rgb(82 0 148 / 20%);
+    background-color: #42298e1a;
     filter: blur(2px);
     backdrop-filter: blur(20px);
 }
@@ -20,19 +20,19 @@
     opacity: 1!important;
 }
 
-#card2.numberCard1{ transform: translateX(-30%) scale(0.9); }
-#card3.numberCard1{ transform: translateX(-10%) scale(0.8); }
+#card2.numberCard1{ transform: translate(-30%, -50%) scale(0.9); }
+#card3.numberCard1{ transform: translate(-10%, -50%) scale(0.8); }
 
-#card1.numberCard2{ transform: translateX(-70%) scale(0.9); }
-#card3.numberCard2{ transform: translateX(-30%) scale(0.9); }
+#card1.numberCard2{ transform: translate(-70%, -50%) scale(0.9); }
+#card3.numberCard2{ transform: translate(-30%, -50%) scale(0.9); }
 
-#card1.numberCard3{ transform: translateX(-90%) scale(0.8); }
-#card2.numberCard3{ transform: translateX(-70%) scale(0.9); }
+#card1.numberCard3{ transform: translate(-90%, -50%) scale(0.8); }
+#card2.numberCard3{ transform: translate(-70%, -50%) scale(0.9); }
 
 .active{ 
     opacity: 1!important;
     z-index: 3;
-    transform: translateX(-50%) scale(1)!important;
+    transform: translate(-50%, -50%) scale(1)!important;
     filter: blur(0px)!important;
  }
 /* .cards_cont>div.active {
@@ -150,8 +150,10 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     width: 100%;
     text-align: center;
     resize: none;
-    height: 1.5em;
+    /* height: 1.5em; */
     overflow: hidden;
+    padding: 1px;
+    vertical-align: bottom;
 }
 
 .table_rows{
@@ -704,10 +706,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 
 
 @media (min-width: 769px) {
-    .card{
-        width: 30vw;
-        height: 80vh; 
-    }
+    
 
     #card1 .options_cont {
         position: static;
