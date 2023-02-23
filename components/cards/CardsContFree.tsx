@@ -98,7 +98,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                         {...mockFreeCard1Props.base}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
-                        contactos={contactos}
+                        contactos={finalList}
                         setContactos={setContactos}
                         mensaje={mensaje}
                     />

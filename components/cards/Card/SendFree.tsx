@@ -24,13 +24,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     const [isSent, setIsSent] = useState<boolean>(false)
     const [contactosStatus, setContactosStatus] = useState(contactos)
 
+    const [sendList, setSendList] = useState( contactos )
+
     async function startSending() {
 
         setSending(true)
 
         const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
 
-        for (let index = 0; index < contactos.length; index++) {
+        for (let index = 0; index < contactos.length -1; index++) {
             const destinatario = contactos[index];
 
             let newContacts = [...contactos]
@@ -63,9 +65,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     }
 
 
-
-
-
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>setActiveCard(idCard)}>
 
@@ -79,6 +78,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
              
                 <div className={`${styles.table_rows} ${styles.enviando_table}`}>
                     {contactos.map((contact, index)=>(
+                        <>
+                        {contactos.length - 1 != index &&
+                        
                         // ${contact.status == "pending" && styles.fireLoader}
                             <div className={`${styles.row_card}  ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
                                 {/* {console.log(contact.estado)} */}
@@ -93,7 +95,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
                                 <div className="column50">
                                     <div>
+                                        <>
+                                    
+                                    
                                         <span>{contact.nombre}</span>
+                                        </>
                                     </div>
                                 </div>
                                 <div className="column50">
@@ -107,7 +113,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                     {contact.estado == "error" && '❌'}
                                 </div>
                             </div>
+                            }
+                            </>
                         ))
+
                         }
 
                     
