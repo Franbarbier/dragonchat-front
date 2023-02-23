@@ -33,6 +33,7 @@ export async function middleware(req: NextRequest) {
         { headers }
       );
       const {data} = await apiResponse.json();
+      console.log(data)
       const isWhatsAppConnected = data.data.connected_whatsapp;
       if (!isWhatsAppConnected) {
         if (requestedPage !== "/qr") {
@@ -46,6 +47,6 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit"],
-  matcher: ["/user/edit"],
+  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit"],
+  // matcher: ["/user/edit"],
 };
