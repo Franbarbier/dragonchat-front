@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
@@ -31,6 +31,23 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
     let idCard = 1;
 
+    const grillaFondo = useRef(null);
+    const [height, setHeight] = useState(0);
+
+    // useEffect(() => {
+    //     if (grillaFondo.current) {
+    //     setHeight(grillaFondo.current);
+    //     }
+    // }, [grillaFondo]);
+
+    useEffect(() => {
+        if (grillaFondo.current) {
+            // console.log(grillaFondo.current.clientHeight)
+            
+        }
+    }, []);
+
+
     const [newContact, setNewContact] = useState<ContactInfo>({
         nombre: '',
         numero : ''
@@ -38,8 +55,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
   
     const regex = new RegExp(/[^\d]/g);
     
-    
-   
     
     function formatList(e, type:string, index:number){
 
@@ -136,8 +151,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             setContactos(newContacts)
         }
 
-
-         
     };
 
 
@@ -160,22 +173,40 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
                     <span className={styles.list_counter}>{finalList.length - 1}</span>
                         
-                    <div className={styles.table_layout} style={{'width' : finalList.length > 13 ? '102%' : '100%'}}>
-                    <div>
-                                {finalList.map((elementInArray, index) => ( 
-                                    
-                                        <div className={styles.row_table}>
-                                            <div className={styles.celda_table}>
-                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
-                                            </div>
-                                            <div className={styles.celda_table}>
-                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
-                                            </div>
+                    <div className={styles.table_layout} >
+                    <div className={styles.grilla_oficial}>
+                        {finalList.map((elementInArray, index) => ( 
+                                <div className={styles.row_table}>
+                                    <aside>
+                                        <div>
+                                            <></>
                                         </div>
-                                    ))
-                                }
-                                    
-                            </div>
+                                    </aside>
+                                    <div className={styles.celda_table}>
+                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
+                                    </div>
+                                    <div className={styles.celda_table}>
+                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
+                                    </div>
+                                </div>
+                            ))
+                        }
+                        
+                    </div>
+                    <div className={styles.grilla_fondo} ref={grillaFondo}>
+                        {[...Array(finalList.length + 15)].map((elementInArray, index) => (
+                                <div className={styles.row_table} >
+                                    <>
+                                    </>
+                                    <div className={styles.celda_table}>
+                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={''} disabled />
+                                    </div>
+                                    <div className={styles.celda_table}>
+                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={''} disabled />
+                                    </div>
+                                </div>
+                        ))}
+                    </div>
                         {/* {finalList.length > 20 ?
                             <div>
                                 {finalList.map((elementInArray, index) => ( 
@@ -221,10 +252,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                 </div>
 
                                 }
-                            
-                            </>
-                            
-                            
+                            </>                            
                         ))
                         }  */}
                     </div>

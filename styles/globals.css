@@ -35,6 +35,7 @@ li{ list-style: none; }
   --newViolet: #7545d8;
 	--newPink: #917fc9;
   --newPink2: #ad93f0;
+  --borders: #4d318c;
 }
 /* 
 ::-webkit-scrollbar{width:9px;position:absolute; background-color: rgb(242, 242, 242); height: 4px;}

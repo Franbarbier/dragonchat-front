@@ -175,44 +175,40 @@
         left: 17.5%;
     }
     .nextCard, .prevCard{
-        width: 3.5vw;
-        height: 3.5vw;
+        width: 4.2vw;
+        height: 4.2vw;
     }
     .dragon1{left:2%};
     .dragon2{right:2%}
 }
 @media (min-width: 900px) {
     .cards_cont>div{
-        width: 45%;
+        width: 48%;
     }
     .nextCard{
-        left: 72.5%;
+        left: 74%;
     }
     .prevCard{
-        left: 27.5%;
+        left: 26%;
     }
     .nextCard, .prevCard{
-        width: 3vw;
-        height: 3vw;
+        width: 3.8vw;
+        height: 3.8vw;
     }
-    .dragon1{left:12%;}
-    .dragon2{right:12%}
+    .dragon1{left:11%;}
+    .dragon2{right:11%}
 }
 @media (min-width: 1200px) {
     .cards_cont>div{
-        width: 38vw;
-    }
-    .nextCard, .prevCard{
-        width: 2.7vw;
-        height: 2.7vw;
+        width: 40vw;
     }
     .nextCard{
-        left: 69vw; 
+        left: 70vw; 
     }
     .prevCard{
-        left: 31vw;
+        left: 30vw;
     }
-    .dragon1{left:18%;}
-    .dragon2{right:18%}
+    .dragon1{left:17%;}
+    .dragon2{right:17%}
 
 }
