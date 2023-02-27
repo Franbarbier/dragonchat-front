@@ -9,11 +9,7 @@ services:
       - 5005:5005
     environment:
       - PORT=5005
-      - NEXT_PUBLIC_API_SENDER_SOCKET_URL=$NEXT_PUBLIC_API_SENDER_SOCKET_URL
-      - NEXT_PUBLIC_API_SENDER_URL=$NEXT_PUBLIC_API_SENDER_URL
-      - NEXT_PUBLIC_API_USER_URL=$NEXT_PUBLIC_API_USER_URL
-      - NEXT_PUBLIC_LOGIN_COOKIE_NAME=$NEXT_PUBLIC_LOGIN_COOKIE_NAME
-      - NODE_ENV=$NODE_ENV
+      - NODE_ENV=development
     volumes:
       - 'frontend:/home/app-frontend-test'
       - '/home/app-frontend-test/node_modules'
