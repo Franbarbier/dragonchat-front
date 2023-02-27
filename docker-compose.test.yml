@@ -1,7 +1,7 @@
-version: '3.1'
+version: '3'
 services:
   front-next-test:
-    image: dragonchat-front-test:0.0.1
+    image: dragonchat-front-test:0.0.2
     container_name: dragonchat-front-test
     build: .
     restart: unless-stopped
