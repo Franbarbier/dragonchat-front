@@ -6,9 +6,9 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - $PORT:$PORT
+      - 5005:5005
     environment:
-      - PORT=$PORT
+      - PORT=5005
       - NEXT_PUBLIC_API_SENDER_SOCKET_URL=$NEXT_PUBLIC_API_SENDER_SOCKET_URL
       - NEXT_PUBLIC_API_SENDER_URL=$NEXT_PUBLIC_API_SENDER_URL
       - NEXT_PUBLIC_API_USER_URL=$NEXT_PUBLIC_API_USER_URL
