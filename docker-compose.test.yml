@@ -3,7 +3,7 @@ services:
   front-next-test:
     image: dragonchat-front-test:0.0.2
     container_name: dragonchat-front-test
-    build: .
+    build: ./Dockerfile.test
     restart: unless-stopped
     ports:
       - 5005:5005
