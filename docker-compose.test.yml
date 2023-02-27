@@ -15,8 +15,8 @@ services:
       - NEXT_PUBLIC_LOGIN_COOKIE_NAME=$NEXT_PUBLIC_LOGIN_COOKIE_NAME
       - NODE_ENV=$NODE_ENV
     volumes:
-      - 'test_frontend:/home/app-frontend-test'
-      - '/home/app-frontend-test/node_modules'
+      - 'test_frontend:/home/app-frontend'
+      - '/home/app-frontend/node_modules'
     networks:
       - nginx-proxy-manager_npm
 networks:
