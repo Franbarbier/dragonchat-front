@@ -1,5 +1,5 @@
 FROM node:16-alpine AS deps
-WORKDIR /app-frontend
+WORKDIR /app-frontendts
 
 COPY package*.json ./
 RUN npm install
@@ -9,7 +9,7 @@ COPY . .
 
 FROM node:16-alpine AS builder
 WORKDIR /app
-COPY --from=deps /app-frontend ./
+COPY --from=deps /app-frontendts ./
 RUN npm run build
 
 
@@ -17,9 +17,9 @@ FROM node:16-alpine AS runner
 WORKDIR /app
 #ENV NODE_ENV production
 
-COPY --from=builder /app-frontend/package*.json ./
-COPY --from=builder /app-frontend/public ./public
-COPY --from=builder /app-frontend/.next ./.next
+COPY --from=builder /app-frontendts/package*.json ./
+COPY --from=builder /app-frontendts/public ./public
+COPY --from=builder /app-frontendts/.next ./.next
 RUN npm install next
 
 CMD ["npm","run","start"]
