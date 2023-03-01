@@ -6,8 +6,6 @@ import { NextPageWithLayout } from "../page";
 
 const EditUserProfile : NextPageWithLayout<IEditUserProfileView> = ({user}) => {
 
-    console.log(user)
-
     return (
         <section>
             <MainCont width={90} maxWidth={340}>
@@ -32,7 +30,6 @@ export async function getServerSideProps(context) {
     );
     const data = await apiResponse.json();
 
-    console.log(data)
     return {
         props: { user: data.data as IEditUserProfileView['user'] },
         }

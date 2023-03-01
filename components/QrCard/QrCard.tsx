@@ -30,7 +30,6 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
    
     useEffect(()=>{
         socket.on('message', function (data) {
-            console.log(data);
             if (data.text == '¡Fallo la conexion!') {
                 location.reload()
             }
