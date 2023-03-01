@@ -10,3 +10,11 @@
     font-size: 0.9em;
 }
 
+@media (max-width: 749px) {
+.table_headers h6{
+    font-size: 0.7em;
+}
+.table_headers{
+    margin-bottom: 5%;
+}
+}

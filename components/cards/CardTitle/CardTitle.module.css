@@ -21,16 +21,7 @@
     
 }
 
-/* .card_title:after{
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 0%;
-    display: block;
-    height: 3px;
-    width: 17%;
-    background-color: red;
-} */
+
 .title_lines{
     /* width: 100%; */
     height: 2px;
@@ -45,4 +36,14 @@
 }
 .right_line{
     background: linear-gradient(to left, #9f5bc300, var(--newViolet));
+}
+
+
+@media (max-width: 749px) {
+.card_title{
+    font-size: 14px;
+}
+.title_lines{
+    width: 30%;
+}
 }

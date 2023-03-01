@@ -40,6 +40,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                             </div>
                         </div>
                     </div>
+                    </div>
                     {tab == "difusion" ?
                         <div className={styles.options_cont}>
                             <div className={styles.message}>
@@ -53,7 +54,6 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                         </div>
 
                     }
-                </div>
             </div>
         </div>
     

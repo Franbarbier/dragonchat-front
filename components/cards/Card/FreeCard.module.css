@@ -2,7 +2,7 @@
     border: 2px solid var(--newViolet);
     box-shadow: inset 0px 0px 1px 2px black;
     border-radius: 15px;
-    padding: 30px;
+    padding: 30px 30px 65px;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -51,7 +51,6 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     justify-content: flex-start;
     height: 100%;
 }
-
 .tramas{
     position: absolute;
     z-index: -1;
@@ -76,21 +75,13 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     width: 70%;
 }
 
-.card_title{
-    text-align: center;
-    font-weight: 600;
-    /* font-family: 'Space Mono'; */
-}
-
 .table_layout{
     height: 100%;
-    width: calc(100% + 3px);
     width: 100%;
+    overflow: visible;
     overflow-y: auto;
-    overflow-x: visible;
-    margin-bottom: 7%;
+    margin-bottom: 3%;
     position: relative;
-
 }
 
 .table_layout:after{
@@ -128,12 +119,14 @@ padding-left: 8px;
 background: #555;
 }
 
-.table_layout>div>div{
+.table_layout>div>div, .table_layout>div>div>div{
     display: flex;
+    width: 100%;
 }
 
 .grilla_oficial .celda_table{
     border: 1px solid transparent;
+    overflow-x: visible;
  }
 .grilla_fondo .celda_table{
     border: 1px solid var(--borders);
@@ -150,12 +143,12 @@ background: #555;
 }
 
 
-
+/* Maniobras para acomodar borders por no usar grilla o table */
 .grilla_fondo>div:first-child .celda_table:first-child, .grilla_oficial>div:first-child .celda_table:nth-child(2){
     border-top-left-radius: 10px;
     border-top: 2px solid var(--borders);
 }
-.grilla_fondo>div:first-child .celda_table:last-child, .grilla_oficial>div:first-child .celda_table:last-child{
+.grilla_fondo>div:first-child .celda_table:last-child, .grilla_oficial>div:first-child .celda_table:nth-child(3){
     border-top-right-radius: 10px;
     border-top: 2px solid var(--borders);
 }
@@ -164,11 +157,11 @@ background: #555;
     border-bottom-left-radius: 10px;
     border-top: 2px solid var(--borders);
 }
-.grilla_fondo>div:last-child .celda_table:last-child, .grilla_oficial>div:last-child .celda_table:last-child{
+.grilla_fondo>div:last-child .celda_table:last-child, .grilla_oficial>div:last-child .celda_table:nth-child(3){
     border-bottom-right-radius: 10px;
     border-top: 2px solid var(--borders);
 }
-.grilla_fondo>div .celda_table:nth-child(2){ border-left-width: 2px; }
+.grilla_fondo>div .celda_table:first-child, .grilla_oficial .celda_table:nth-child(2){ border-left-width: 2px; }
 .grilla_fondo>div .celda_table:last-child{ border-right-width: 2px; }
 .grilla_fondo>div:last-child .celda_table{ border-bottom-width: 2px; }
 .grilla_fondo>div:first-child .celda_table{ border-top-width: 2px; }
@@ -178,6 +171,7 @@ background: #555;
 
 .grilla_fondo>div:last-child .celda_table{ border-left-width: 2px; border-bottom-width: 2px; }
 .grilla_fondo>div:first-child .celda_table{ border-right-width: 2px; border-top-width: 2px;}
+
 
 
 .celda_table textarea{
@@ -198,13 +192,37 @@ background: #555;
 .celda_table textarea:focus{
     background-color: #7665b5;
 }
-.row_table{
+.rowSelected{
+    opacity: 1!important;
     position: relative;
 }
-.row_table:hover aside{
+.rowSelected::after{
+    content: url('../../../public/cierto.png');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+}
+
+
+
+
+/* old table */
+.row_table{
+    position: relative;
+    width: 96%;
+    margin: auto;
+    padding: 0 4%;
+}
+.grilla_oficial .row_table>div{
+    width: 96%;
+    margin: auto;
+}
+.row_table:hover aside, .row_table:hover>div>img{
     opacity: 0.7;
 }
-.row_table aside:hover{
+.row_table aside:hover, .row_table>div>img:hover{
     opacity: 1;
 }
 .row_table aside{
@@ -213,19 +231,27 @@ background: #555;
     height: 3%;
     padding: 1.5%;
     cursor: pointer;
-    background: red;
     transform: translateY(-50%);
     top: 50%;
-    left: -4%;
+    left: 0%;
+    opacity: 0;
+    border: 1px solid var(--rosita2);
+    box-shadow: inset 0px 0px 3px 2px var(--rosita1);
+}
+.row_table>div>img{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0%;
+    width: 6%;
+    background-color: #d74242;
+    border-radius: 50px;
+    padding: 7px;
+    cursor: pointer;
     opacity: 0;
 }
-.table_rows{
-    height: 55%;
-    overflow: auto;
-    /* width: 102%; */
-    padding-right: 2%;
-    position: relative;
-}
+
+
 .list_counter{
     position: absolute;
     left: 50%;
@@ -238,7 +264,7 @@ background: #555;
 .grilla_oficial{
     position: relative;
     z-index: 3;
-    width: 92%;
+    width: 100%;
     margin: auto;
 }
 
@@ -246,7 +272,7 @@ background: #555;
     position: absolute;
     top: 0;
     left: 0;
-    width: 92%;
+    width: 96%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 0;
@@ -286,7 +312,7 @@ background: #555;
     border: 1px solid var(--rosita1);
     margin-bottom: 2.5%;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 .row_card>div {
     position: relative;
@@ -436,16 +462,19 @@ background: #555;
     border-radius: 5px;
     resize: none;
     width: 100%;
-    height: 50vh;
+    /* height: 50vh; */
     padding: 5%;
 }
 .message>textarea::placeholder {
     color: #c2c2c2;
 }
+
+#card2 .card_container>div:last-child, #card2 .card_container>div:last-child>div, #card2 .card_container>div:last-child textarea{height: 100%;}
+
 #card2 .tabs_cont>div{
     display: flex;
     font-size: 1.1em;
-    margin-bottom: 15%;
+    margin-bottom: 8%;
 }
 #card2 .tabs_cont>div>div{
     width: 50%;
@@ -850,4 +879,24 @@ background: #555;
         font-size: 0.7em;
         top: 50%;
     }
+}
+
+
+@media (max-width: 749px) {
+    .card_title{
+        font-size: 14px;
+    }
+    .title_lines{
+        width: 30%;
+    }
+    .row_table>div>img{
+        padding: 3px;
+    }
+    .celda_table textarea{
+        font-size: 0.7em;
+    }
+    #card2 .tabs_cont>div{
+        font-size: 0.9em;
+    }
+
 }

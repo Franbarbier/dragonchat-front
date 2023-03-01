@@ -25,6 +25,7 @@ export interface ContactInfo {
     nombre : string,
     numero : string,
     estado? : "success" | "error" | "pending",
+    selected? : boolean
 }
 
 
@@ -101,7 +102,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
         var filtered = [...contactos]
     
         filtered.map((item)=>{
-            item.numero = item.numero.replace(/[^0-9]/g, '');
+            item.numero = item.numero?.replace(/[^0-9]/g, '');
         })
         const lastObject = contactos[contactos.length - 1];
 
@@ -141,7 +142,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                         handleRenderModal={handleRenderModal}
                         finalList={finalList}
                     />
-
                     <FreeCard2
                         {...mockFreeCard1Props.base}
                         
@@ -196,7 +196,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                     <img className={`${styles.dragon2} ${styles[dragonAnim]}`} src="/dragon_anim.gif" alt="dragon-chat"/>
                 </div>
             }
-
+            {/* <NavBottom /> */}
             <WppBtn />
             
             {modalImport &&

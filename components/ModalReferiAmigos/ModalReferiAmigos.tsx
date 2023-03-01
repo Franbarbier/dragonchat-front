@@ -18,7 +18,6 @@ const ModalReferiAmigos: React.FC<IModalReferiAmigos> = ({  }) => {
 return (
         <div className={styles.modal_ref}>
           <div>
-            
             <CardTitle text="REFERI AMIGOS" />
             <div>
                 <p>Al compartir este enlace:</p>
