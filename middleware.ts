@@ -31,15 +31,16 @@ export async function middleware(req: NextRequest) {
         { headers }
       );
       const {data} = await apiResponse.json();
+
       console.log('es este',data)
 
-      // const isWhatsAppConnected = data.data.connected_whatsapp;
-      // if (!isWhatsAppConnected) {
-      //   if (requestedPage !== "/qr") {
-      //     url.pathname = "/qr";
-      //     response = NextResponse.redirect(url);
-      //   }
-      // }
+      const isWhatsAppConnected = data.data.connected_whatsapp;
+      if (!isWhatsAppConnected) {
+        if (requestedPage !== "/qr") {
+          url.pathname = "/qr";
+          response = NextResponse.redirect(url);
+        }
+      }
     }
   }
   return response;
