@@ -74,5 +74,10 @@
     width: 100%;
     padding: 1vh 2%;
 }
-    
+.referir_cont span{
+    display: none!important;
+}
+.referir_cont>button>img{
+    margin-right: 0!important;
+}
 }
