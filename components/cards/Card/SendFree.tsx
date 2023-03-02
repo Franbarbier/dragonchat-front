@@ -13,7 +13,7 @@ export interface IFreeCard3 {
     activeCard : number;
     contactos : ContactInfo[];
     messagesLimitAchieved : boolean;
-    setMessagesLimitAchieved : (limit: boolean) => void
+    setMessagesLimitAchieved : (limit: boolean) => void;
     mensaje: string ;
     setContactos : (contactos: ContactInfo[]) => void
 }
