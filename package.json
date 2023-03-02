@@ -49,11 +49,7 @@
     "@storybook/testing-library": "^0.0.13",
     "babel-loader": "^8.2.5",
     "cross-env": "^7.0.3",
-<<<<<<< HEAD
-    "eslint": "^8.34.0",
-=======
     "eslint": "^8.35.0",
->>>>>>> style/rediseno1
     "husky": "^8.0.1"
   },
   "resolutions": {
