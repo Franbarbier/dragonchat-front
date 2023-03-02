@@ -12,6 +12,8 @@ export interface IFreeCard3 {
     setActiveCard: (id: number) => void;
     activeCard : number;
     contactos : ContactInfo[];
+    messagesLimitAchieved : boolean;
+    setMessagesLimitAchieved : (limit: boolean) => void
     mensaje: string ;
     setContactos : (contactos: ContactInfo[]) => void
 }
