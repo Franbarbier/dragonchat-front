@@ -471,7 +471,7 @@ background: #555;
     color: #c2c2c2;
 }
 
-#card2 .card_container>div:last-child {height: 90%;}
+#card2 .card_container>div:last-child {height: 100%;}
 #card2 .card_container>div:last-child>div, #card2 .card_container>div:last-child textarea{
     height: 100%;
 }
