@@ -20,7 +20,13 @@ const ModalContainer: React.FC<IModalContainer> = ({ children, closeModal, added
                 <div className={styles.close_mod}  onClick={ ()=> { closeModal(false) } } >
                     <p>x</p>
                 </div>
-                {children}
+                <aside>
+                    <img src={"/trama-car.svg"} className={styles.trama1}/>
+                    <img src={"/trama-car.svg"} className={styles.trama2}/>
+                </aside>
+                <div style={{'position': 'relative', 'zIndex': '2'}}>
+                    {children}
+                </div>
             </div>
         </div>
     

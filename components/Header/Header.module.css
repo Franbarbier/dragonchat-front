@@ -6,7 +6,9 @@
     backdrop-filter: blur(15px);
     border-bottom: 1px solid var(--newPink);
     z-index: 10;
-    position: relative;
+    position: fixed;
+    width: 100%;
+    top: 0;
 
 }
 .settings_cont img{
@@ -15,6 +17,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
 }
 .settings_cont img:hover{
     opacity: 1;
@@ -23,17 +27,16 @@
     position: relative;
     width: 24px;
     height: 24px;
-    transform: translate(-50%, -50%);
     margin-left: 25px;
 }
 .rotate {
     animation: rotate-keyframes 0.5s;
-    transform-origin: 50% 50%;
+    /* transform-origin: 50% 50%; */
 }
    
 @keyframes rotate-keyframes {
-0% { transform: rotate(0deg) translate(-50%, -50%)}
-100% { transform: rotate(180deg) translate(-50%, -50%)}
+0% { transform: rotate(0deg)}
+100% { transform: rotate(180deg)}
 }
 
 .menu_cont{
@@ -47,7 +50,7 @@
     color: var(--amarillo);
     letter-spacing: 1px;
     font-size: 0.6em;
-    padding: 2px 12px;
+    padding: 5px 12px;
     border-radius: 8px;
     border: 1px solid var(--amarillo);
     background: rgb(255 251 17 / 10%);
@@ -59,8 +62,22 @@
 .referir_cont>button>img{
     display: block;
     margin-right: 10px;
-    width: 20px;
+    width: 15px;
 }
 .referir_cont>button>span{
     display: block;
+}
+
+@media (max-width: 750px) {
+
+.header_cont>nav{
+    width: 100%;
+    padding: 1vh 2%;
+}
+.referir_cont span{
+    display: none!important;
+}
+.referir_cont>button>img{
+    margin-right: 0!important;
+}
 }

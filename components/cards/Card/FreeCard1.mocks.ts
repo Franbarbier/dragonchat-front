@@ -12,7 +12,6 @@ const base: IFreeCard1 = {
     finalList : []
 
 }
-
 export const mockFreeCard1Props = {
     base
 }

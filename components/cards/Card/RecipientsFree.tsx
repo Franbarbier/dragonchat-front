@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
@@ -31,6 +31,23 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
     let idCard = 1;
 
+    const grillaFondo = useRef(null);
+    const [height, setHeight] = useState(0);
+
+    // useEffect(() => {
+    //     if (grillaFondo.current) {
+    //     setHeight(grillaFondo.current);
+    //     }
+    // }, [grillaFondo]);
+
+    useEffect(() => {
+        if (grillaFondo.current) {
+            // console.log(grillaFondo.current.clientHeight)
+            
+        }
+    }, []);
+
+
     const [newContact, setNewContact] = useState<ContactInfo>({
         nombre: '',
         numero : ''
@@ -38,8 +55,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
   
     const regex = new RegExp(/[^\d]/g);
     
-    
-   
     
     function formatList(e, type:string, index:number){
 
@@ -66,7 +81,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         }else if(breaks.test(inputText) && tabs.test(inputText )){
             
             let rawRows = inputText.split("\n");
-
 
             let output : ContactInfo[] = [];
             console.log(rawRows)
@@ -97,24 +111,38 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
             let output : ContactInfo[] = [];
 
-            rawRows.map((rawRow) => {
-
-                console.log(rawRow)
+            var newList = [...finalList]
+            newList = newList.slice(prevCells.length)
+            
+            rawRows.map((rawRow, index) => {
+                
                 let rowObject: any = {};
 
-                if (type == "nombre" && rawRow != "") {
-                    rowObject['nombre'] = rawRow;  
-                    rowObject['numero'] = ''
-                }
-                if (type == "numero" && rawRow != "") {
-                    rowObject['nombre'] = "";  
-                    rowObject['numero'] = rawRow; 
-                }
-                
+                console.log(rawRow)
+                if(newList[index]){
+                    if (type == "numero") {                       
+                        rowObject['numero'] = rawRow;
+                        rowObject['nombre'] = newList[index].nombre;
+                    }
+                    if (type == "nombre") {
+                        rowObject['numero'] = newList[index].numero;  
+                        rowObject['nombre'] = rawRow;  
+                    }
+                }else{
+                    if (type == "numero") {
+                        rowObject['numero'] = rawRow;
+                        rowObject['nombre'] = '';
+                    }
+                    if (type == "nombre") {
+                        rowObject['numero'] = '';  
+                        rowObject['nombre'] = rawRow;  
+                    }
+                }               
                 output.push(rowObject);
             });
 
             var newContacts = prevCells.concat(output);
+            console.log(newContacts)
             setContactos(newContacts)
             
 
@@ -136,14 +164,31 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             setContactos(newContacts)
         }
 
-
-         
     };
 
 
+    // select rows
+    function setSelection(index){
+        let selectedList = [...contactos]
+        if (!selectedList[index].selected) {
+            selectedList[index].selected = true
+        }else{
+            selectedList[index].selected = false
+        }
+        console.log(selectedList[index].selected)
+        setContactos(selectedList)
+    }
+
+
+
+
+
+    // menu right clic
+
+    
+    
 
     return (
-        <div>
 
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
 
@@ -153,40 +198,70 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
             <div className={styles.card_container} >
                 <div>
-                    <CardTitle text={"Destinatarios"} />
+                    <CardTitle text={`${finalList.length - 1} Destinatarios`} />
 
                 </div>
                 {/* <div className={styles.card_table_cont}> */}
                     
+                    <div style={{'margin': 'auto', 'width': '88%'}}>
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
+                    </div>
                     <span className={styles.list_counter}>{finalList.length - 1}</span>
                         
-                    <div className={styles.table_layout} style={{'width' : finalList.length > 12 ? '102%' : '100%'}}>
-                    <div>
-                                {finalList.map((elementInArray, index) => ( 
-                                    
-                                        <div className={styles.row_table}>
-                                            <div className={styles.celda_table}>
-                                                <textarea onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
+                    <div className={styles.table_layout}>
+                        
+                    <div className={styles.grilla_oficial}>
+                        {finalList.map((elementInArray, index) => ( 
+                                <div className={styles.row_table}>
+                                    <div>
+                                    { finalList.length - 1 !=  index ?
+                                        <aside onClick={ ()=>{ setSelection(index) } } className={ `${elementInArray.selected && styles.rowSelected}`  }>
+                                            <div>
+                                                <></>
                                             </div>
-                                            <div className={styles.celda_table}>
-                                                <textarea onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
-                                            </div>
-                                        </div>
-                                    ))
-                                }
-                                    
-                            </div>
+                                        </aside>
+                                        :
+                                        <div></div>
+                                    }
+                                    <div className={styles.celda_table}>
+                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={elementInArray.nombre} />
+                                    </div>
+                                    <div className={styles.celda_table}>
+                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={elementInArray.numero} />
+                                    </div>
+                                    { finalList.length - 1 !=  index ? <img src="/delete.svg" onClick={ ()=>{ setContactos( finalList.filter( ele => ele != elementInArray ) ) } } /> : <div></div>}
+                                </div>
+                                </div>
+                            ))
+                        }
+                        
+                    </div>
+                    <div className={styles.grilla_fondo} ref={grillaFondo}>
+                        {[...Array(finalList.length + 15)].map((elementInArray, index) => (
+                                <div className={styles.row_table} >
+                                    <div>
+                                    <>
+                                    </>
+                                    <div className={styles.celda_table}>
+                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={''} disabled />
+                                    </div>
+                                    <div className={styles.celda_table}>
+                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={''} disabled />
+                                    </div>
+                                    </div>
+                                </div>
+                        ))}
+                    </div>
                         {/* {finalList.length > 20 ?
                             <div>
                                 {finalList.map((elementInArray, index) => ( 
                                     
                                         <div className={styles.row_table}>
                                             <div className={styles.celda_table}>
-                                                <textarea onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
+                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
                                             </div>
                                             <div className={styles.celda_table}>
-                                                <textarea onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
+                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
                                             </div>
                                         </div>
                                     ))
@@ -202,10 +277,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                 <div>
                                     <div className={styles.row_table}>
                                         <div className={styles.celda_table}>
-                                            <textarea onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
+                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
                                         </div>
                                         <div className={styles.celda_table}>
-                                            <textarea onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
+                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
                                         </div>
                                     </div>
                                 </div>
@@ -213,23 +288,48 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                 <div>
                                     <div className={styles.row_table}>
                                         <div className={styles.celda_table}>
-                                            <textarea onInput={ (e)=>{formatList(e, 'nombre', index)} } disabled value='' />
+                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } disabled value='' />
                                         </div>
                                         <div className={styles.celda_table}>
-                                            <textarea onInput={ (e)=>{formatList(e, 'numero', index)} } disabled value=''/>
+                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } disabled value=''/>
                                         </div>
                                     </div>
                                 </div>
 
                                 }
-                            
-                            </>
-                            
-                            
+                            </>                            
                         ))
                         }  */}
                     </div>
                     <div className={styles.footerBtns}>
+                        <div>
+
+                            <div style={{ 'height' : '100%'}}>
+
+                            {finalList.filter(item => item.selected == true ).length > 0 ?
+
+                                <CustomColorBtn
+                                    type="submit"
+                                    text="Limpiar seleccionados"
+                                    backgroundColorInit="#13013780"
+                                    backgroundColorEnd="#13013780"
+                                    borderColor="var(--newViolet)"
+                                    onClick={()=>{ setContactos( finalList.filter(item => item.selected != true )) } }
+                                    disable={ activeCard != 1 }
+                                />
+                                :
+                                <CustomColorBtn
+                                    type="submit"
+                                    text="Limpiar planilla"
+                                    backgroundColorInit="#13013780"
+                                    backgroundColorEnd="#13013780"
+                                    borderColor="var(--newViolet)"
+                                    onClick={()=>{ setContactos([{nombre: '', numero: ''}]) } }
+                                    disable={ activeCard != 1 }
+                                />
+                            }
+                            </div>
+                        </div>
                         <div>
                             <CustomColorBtn
                                 type="submit"
@@ -238,17 +338,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                 backgroundColorEnd="#3a94fe"
                                 borderColor="#5573f0"
                                 onClick={()=>{handleRenderModal(true)}}
-                            />
-                        </div>
-                        <div>
-                            <CustomColorBtn
-                                type="submit"
-                                text="Redactar mensaje"
-                                backgroundColorInit="#c21c3b"
-                                backgroundColorEnd="#f9bd4f"
-                                borderColor="#e17846"
-                                disable={finalList.length < 2 }
-                                onClick={()=>{ setActiveCard(2) }}
+                                disable={ activeCard != 1 }
                             />
                         </div>
                     </div>
@@ -257,10 +347,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
             </div>
         </div>
-                
-                
-            </div>
-        
     
     );
 }

@@ -1,12 +1,20 @@
 .table_headers{
-    margin-top: 7%;
-    margin-bottom: 4%;
+    margin-bottom: 2%;
     display: flex;
     justify-content: space-between;
 }
 .table_headers h6{
-    font-weight: 400;
-    color: var(--rosita1);
+    font-weight: 500;
+    color: var(--rosita2);
     text-align: center;
+    font-size: 0.9em;
 }
 
+@media (max-width: 749px) {
+.table_headers h6{
+    font-size: 0.7em;
+}
+.table_headers{
+    margin-bottom: 5%;
+}
+}

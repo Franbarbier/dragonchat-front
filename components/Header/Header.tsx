@@ -14,15 +14,16 @@ export interface IHeader {
 const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings, setModalRef}) => {
     
 
-    const [iconUrl, setIconUrl] = useState<string>('setting.png')
+    const [iconUrl, setIconUrl] = useState<string>('icon_config.svg')
     const [rotateAnim, setRotateAnim] = useState<boolean>(false)
+    const [buleano, setBuleano] = useState<boolean>(false)
 
 
     useEffect(()=>{
         if (!openSettings) {
             setRotateAnim(true)
             setTimeout(() => {
-                setIconUrl('setting.png')
+                setIconUrl('icon_config.svg')
                 setTimeout(() => {
                     setRotateAnim(false)
                 }, 200);
@@ -31,13 +32,15 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings, setModalRef}
 
             setRotateAnim(true)
             setTimeout(() => {
-                setIconUrl('close.png')
+                setIconUrl('close.svg')
                 setTimeout(() => {
                     setRotateAnim(false)
                 }, 200);
             }, 300);
         }
     }, [openSettings])
+
+    
 
     return (
         <div className={styles.header_cont}>
@@ -49,11 +52,11 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings, setModalRef}
                 <div className={styles.menu_cont}>
                     <div className={styles.referir_cont}>
                         <button onClick={()=>{setModalRef(true)}}>
-                            <img src="regalo.png" />
+                            <img src="icon_gift.svg" />
                             <span>REFERIR AMIGOS</span>
                         </button>
                     </div>
-                    <div className={`${styles.settings_cont} ${rotateAnim && styles.rotate}`} onClick={ ()=>{setOpenSettings(!openSettings)} }>
+                    <div className={`${styles.settings_cont} ${rotateAnim && styles.rotate}`} onClick={ ()=>{ setOpenSettings(!openSettings) } }>
                         <img src={iconUrl} />
                     </div>
                 </div>

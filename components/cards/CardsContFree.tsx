@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
 import WppBtn from '../WppBtn/WppBtn';
@@ -24,6 +25,7 @@ export interface ContactInfo {
     nombre : string,
     numero : string,
     estado? : "success" | "error" | "pending",
+    selected? : boolean
 }
 
 
@@ -37,22 +39,36 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
-    
-
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
+    const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
+    const [renderDialog, setRenderDialog] = useState<boolean>(true)
+    const [dragonAnim, setDragonAnim] = useState<string>('')
+
+
+    const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
+
 
     useEffect(() => {
 
 
         const checkIsMobile = () => {
             setIsMobile(window.innerWidth <= 768);
-          };
-          checkIsMobile();
-          window.addEventListener('resize', checkIsMobile);
-          return () => window.removeEventListener('resize', checkIsMobile);
-    }, [])
+        };
+        checkIsMobile();
+        window.addEventListener('resize', checkIsMobile);
+        return () => window.removeEventListener('resize', checkIsMobile);
+        }, [])
+
+        useEffect(()=>{
+            if (activeCard == 3) {
+                setDragonAnim('limitedAnim')
+            }else{
+                setDragonAnim('')
+            }
+        }, [activeCard])
+
     
     
     function handleNewContact(newContact:ContactInfo) {
@@ -69,31 +85,41 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
     function handleRenderModalRef(render:boolean) {
         setModalRef(false)
     }
+    function checkAllListFields() {
+        for (let index = 0; index < finalList.length - 1; index++) {
+            const element = finalList[index];
+            if (element.nombre == "" || element.numero == "") {
+                return false
+            }
+        }
+        return true
+    }
+
+    
 
     useEffect(()=>{
 
         var filtered = [...contactos]
     
         filtered.map((item)=>{
-            item.numero = item.numero.replace(/[^0-9]/g, '');
+            item.numero = item.numero?.replace(/[^0-9]/g, '');
         })
         const lastObject = contactos[contactos.length - 1];
+
         if (lastObject && lastObject.hasOwnProperty("nombre") && lastObject.nombre != "" || lastObject.hasOwnProperty("numero") && lastObject.numero != "" ) {
             filtered = [...filtered, {'nombre':'', 'numero':''}]
         }
 
         setFinalList(filtered)
+        
     },[contactos])
 
-    useEffect(()=>{
-        console.log(finalList)
-    },[finalList])
 
     
     return (
         <div>
             <div className={styles.cards_cont}>
-
+                    
                     <FreeCard3
                         {...mockFreeCard1Props.base}
                         setActiveCard={(val:any)=>setActiveCard(val)}
@@ -101,6 +127,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                         contactos={finalList}
                         setContactos={setContactos}
                         mensaje={mensaje}
+                        messagesLimitAchieved={messagesLimitAchieved}
+                        setMessagesLimitAchieved={setMessagesLimitAchieved}
                     />
 
                     <FreeCard1 
@@ -114,7 +142,6 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                         handleRenderModal={handleRenderModal}
                         finalList={finalList}
                     />
-
                     <FreeCard2
                         {...mockFreeCard1Props.base}
                         
@@ -127,8 +154,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                     
 
             </div>
-        
-            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard == 3 ? styles.arrow_disabled : ""}`} onClick={ ()=>{  if(finalList.length > 1 || activeCard > 3 ) setActiveCard(activeCard+1) } }>
+            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 || !checkAllListFields() ? styles.arrow_disabled : ""}`} onClick={ ()=>{  if(finalList.length > 1 && activeCard < 3 && checkAllListFields() ) setActiveCard(activeCard+1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
             <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard > 1 ) setActiveCard(activeCard-1) } }>
@@ -154,11 +180,23 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
             {
                 !isMobile &&
                 <div>
-                    <img className={styles.dragon1} src="/dragon_anim.gif" alt="dragon-chat"/>
-                    <img className={styles.dragon2} src="/dragon_anim.gif" alt="dragon-chat"/>
+                    <div className={styles.dragon1}>
+                        <img src="/dragon_anim.gif" alt="dragon-chat"/>
+                        {
+                            messagesLimitAchieved &&
+                            <>
+                            { renderDialog &&
+                                <div className={styles.wpp_limit_alert}>
+                                    <BoxDialog message={wppLimitMessage} setRenderDialog={setRenderDialog}/>
+                                </div>
+                            }
+                            </>
+                        }
+                    </div>
+                    <img className={`${styles.dragon2} ${styles[dragonAnim]}`} src="/dragon_anim.gif" alt="dragon-chat"/>
                 </div>
             }
-
+            {/* <NavBottom /> */}
             <WppBtn />
             
             {modalImport &&

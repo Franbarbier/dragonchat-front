@@ -57,7 +57,7 @@
     margin-bottom: 5%;
 }
 .noAccount>div{
-    font-size: 0.9em;
+    font-size: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -65,6 +65,7 @@
 
 .noAccount button{
     color: var(--amarillo);
+    font-size: 14px;
     margin-left: 5px;
     background: none;
     border: none;
