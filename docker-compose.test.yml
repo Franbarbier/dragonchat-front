@@ -1,6 +1,6 @@
 version: '3'
 services:
-  frontend-next:
+  frontend-next-ts:
     image: dragonchat-front-test:0.0.3
     container_name: dragonchat-front-test
     build:
@@ -12,6 +12,10 @@ services:
     environment:
       - PORT=5005
       - NODE_ENV=development
+      - NEXT_PUBLIC_API_SENDER_SOCKET_URL=$NEXT_PUBLIC_API_SENDER_SOCKET_URL
+      - NEXT_PUBLIC_API_SENDER_URL=$NEXT_PUBLIC_API_SENDER_URL
+      - NEXT_PUBLIC_API_USER_URL=$NEXT_PUBLIC_API_USER_URL
+      - NEXT_PUBLIC_LOGIN_COOKIE_NAME=$NEXT_PUBLIC_LOGIN_COOKIE_NAME
     volumes:
       - 'frontend:/app-frontendts'
       - '/app-frontendts/node_modules'
