@@ -4,8 +4,9 @@
     position: fixed;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
-    background-color: black;
+    transform: translate(-50%, 50%);
+    /* background-color: black; */
+    background-image: radial-gradient(transparent 20%, black 0%);
     border-radius: 100px;
 }
 .circuloNav>div{
@@ -14,9 +15,25 @@
     position: relative;
 }
 .paginationBtn{
+    position: absolute;
     width: 20%;
+    height: 20%;
+    top: 40%;
+    left: 40%;
 }
 .paginationBtn .iconCont{
-    width: 80%;
+    width: 70%;
+    height: 70%;
     margin: auto;
+    position: relative;
+}
+
+.paginationBtn .iconCont>div img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.card1Btn{
+    transform: translate(0%, -150%);
 }

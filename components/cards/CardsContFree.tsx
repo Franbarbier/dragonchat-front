@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
+import NavBottom from '../NavBottom/NavBottom';
 import WppBtn from '../WppBtn/WppBtn';
 import { mockFreeCard1Props } from './Card/FreeCard3.mocks';
 import FreeCard2 from './Card/MessageFree';
@@ -196,7 +197,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                     <img className={`${styles.dragon2} ${styles[dragonAnim]}`} src="/dragon_anim.gif" alt="dragon-chat"/>
                 </div>
             }
-            {/* <NavBottom /> */}
+            <NavBottom />
             <WppBtn />
             
             {modalImport &&

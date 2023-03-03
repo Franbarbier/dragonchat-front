@@ -14,7 +14,9 @@ const NavBottom: React.FC<INavBottom> = ({}) => {
               <div className={`${styles.paginationBtn} ${styles.card1Btn}`}>
 
                 <div className={styles.iconCont}>
-                  <img src="/delete.svg" width={'100%'}/>
+                  <div>
+                    <img src="/delete.svg" width={'100%'}/>
+                  </div>
                 </div>
               </div>
             </div>
