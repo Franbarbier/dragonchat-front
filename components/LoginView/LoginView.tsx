@@ -34,6 +34,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                         access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
                         user_id : login_status?.data.user_id
                     }
+                    console.log(login_status)
 
                     Cookies.set(
                       process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,

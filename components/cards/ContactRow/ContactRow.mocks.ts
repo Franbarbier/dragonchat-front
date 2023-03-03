@@ -1,7 +1,7 @@
 import { IContactRow } from './ContactRow';
 
 const base: IContactRow = {
-    contact : {name: '', wpp: ''},
+    contact : {nombre: '', numero: ''},
     campos : ['Campo1', 'Campo2']
 }
 

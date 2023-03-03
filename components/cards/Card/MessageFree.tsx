@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import CardTitle from '../CardTitle/CardTitle';
+import ConversationPremium from '../ConversationPremium/ConversationPremium';
 import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {
@@ -18,7 +19,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
 
 
     return (
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>setActiveCard(idCard)}>
+        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
 
             <div className={styles.card_container}>
                 <div>
@@ -39,6 +40,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                             </div>
                         </div>
                     </div>
+                    </div>
                     {tab == "difusion" ?
                         <div className={styles.options_cont}>
                             <div className={styles.message}>
@@ -48,11 +50,10 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                         </div>
                         :
                         <div>
-                            {/* <ConversationPremium /> */}
+                            <ConversationPremium blocked={true} />
                         </div>
 
                     }
-                </div>
             </div>
         </div>
     

@@ -1,12 +1,10 @@
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../Card/FreeCard.module.css';
 
 export interface IConversationPremium {
-    setActiveCard: (id: number) => void,
-    activeCard : number;
-    
+    blocked : boolean;
 }
 
 interface IChat {
@@ -14,17 +12,9 @@ interface IChat {
     color?: string
 }
 
-const ConversationPremium: React.FC<IConversationPremium> = ({ setActiveCard, activeCard }) => {
+const ConversationPremium: React.FC<IConversationPremium> = ({ blocked }) => {
 
-    const [chat, setChat] = useState<IChat[]>([
-            {message: '¡Manuel! Como va eso?', color: 'blue'},
-            {message: 'Hola, todo bien, vos?', color: 'red'},
-            {message: 'Excelente, ya te paso la guía !', color: 'blue'},
-            {message: 'la-respuesta-a-las-10-objeciones.pdf', color: 'blue'},
-            {message: 'Te va a ser muy útil :)', color: 'blue'},
-            {message: 'Muchas gracias!', color: 'red'},
-            {message: 'Quedamos en contacto', color: 'blue'}
-        ])
+    const [chat, setChat] = useState<IChat[]>([])
 
     const [modalAddMessage, setModalAddMessage] = useState('')
     const [red_new_message, setRed_new_message] = useState('')
@@ -36,7 +26,19 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ setActiveCard, ac
         setChat( [...chat, {message, color}] )
     }
 
-    console.log(chat)
+    useEffect(()=>{
+        if (blocked) {
+            setChat([
+                {message: '¡Manuel! Como va eso?', color: 'blue'},
+                {message: 'Hola, todo bien, vos?', color: 'red'},
+                {message: 'Excelente, ya te paso la guía !', color: 'blue'},
+                {message: 'la-respuesta-a-las-10-objeciones.pdf', color: 'blue'},
+                {message: 'Te va a ser muy útil :)', color: 'blue'},
+                {message: 'Muchas gracias!', color: 'red'},
+                {message: 'Quedamos en contacto', color: 'blue'}
+            ])
+        }
+    }, [])
 
 
     return (
@@ -94,13 +96,14 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ setActiveCard, ac
                             ))}
                         </div>
                     </div>
-
-                    <div className={styles.lock_overlay}>
-                        <div>
-                            <FontAwesomeIcon icon={faLock} />
-                            <p>Desbloqueá esta funcionalidad</p>
+                    {blocked &&
+                        <div className={styles.lock_overlay}>
+                            <div>
+                                <FontAwesomeIcon icon={faLock} />
+                                <p>Desbloqueá esta funcionalidad</p>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
                 
             </div>
