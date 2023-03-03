@@ -97,8 +97,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
 
     
 
+    
     useEffect(()=>{
-
         var filtered = [...contactos]
     
         filtered.map((item)=>{
