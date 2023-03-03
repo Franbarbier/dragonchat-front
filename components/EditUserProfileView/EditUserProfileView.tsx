@@ -6,6 +6,7 @@ import apiUserController from "../../api/apiUserController";
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
+import MainCont from "../MainCont/MainCont";
 import styles from './EditUserProfileView.module.css';
 
 export interface IEditUserProfileView {
@@ -20,12 +21,18 @@ export interface IEditUserProfileView {
   }
 }
 
+
+
+
+
 const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
+
+
 
   async function handleDesvWpp(){
     const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;
@@ -37,6 +44,18 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
       console.log(data);
     }
   }
+  async function handleLogout(){
+    try {
+        const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+        const response = await apiUserController.logout(accessToken);
+        if (response.status == 200) {
+            Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+            Router.push("/login");
+        }
+    } catch (error: any) {
+        alert(error.response.data.error);
+    }
+}
 
   async function editUserProfile() {
     const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
@@ -60,7 +79,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
 },[confirmPass])
 
   return (
-    <div>
+    <MainCont width={90} maxWidth={340}>
       <div>
         <CardTitle text="Opciones" />
         <form>
@@ -122,10 +141,16 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
             onClick={editUserProfile}
           />
           }
+
+          <div className={styles.logout_btn}>
+            <hr />
+            <button onClick={ handleLogout }>CERRAR SESION</button>
+          </div>
+
           </div>
         </form>
       </div>
-    </div>
+    </MainCont>
   );
 };
 

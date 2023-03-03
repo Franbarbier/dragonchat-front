@@ -1,16 +1,15 @@
-import Config from "../../components/Config/Config";
 import EditUserProfileView, { IEditUserProfileView } from "../../components/EditUserProfileView/EditUserProfileView";
 import PrimaryLayout from "../../components/layouts/primary/PrimaryLayout";
 import MainCont from "../../components/MainCont/MainCont";
 import { NextPageWithLayout } from "../page";
 
 const EditUserProfile : NextPageWithLayout<IEditUserProfileView> = ({user}) => {
+    console.log(user)
     return (
         <section>
             <MainCont width={90} maxWidth={340}>
                 <EditUserProfileView user={user}/>
             </MainCont>
-            <Config/>
         </section>
     );
 };
@@ -28,6 +27,7 @@ export async function getServerSideProps(context) {
     { headers }
     );
     const data = await apiResponse.json();
+
     return {
         props: { user: data.data as IEditUserProfileView['user'] },
         }
