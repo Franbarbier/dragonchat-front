@@ -15,3 +15,28 @@
   font-size: 0.8em;
   text-align: center;
 }
+
+.logout_btn hr{
+  margin: 10% auto;
+  width: 50%;
+  display: block;
+  height: 2px;
+  border: none;
+  background: radial-gradient( var(--rosita1), #9f5bc300);
+}
+.logout_btn button{
+  width: 100%;
+  padding: 8px 0;
+  border-radius: 5px;
+  background-color: #7561ca57;
+  border: 1px solid var(--rosita2);
+  color: var(--rosita2);
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+.logout_btn button:hover{
+  background-color: transparent;
+  border-color: var(--rosita1);
+  color: var(--rosita1);
+
+}
