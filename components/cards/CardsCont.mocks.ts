@@ -1,10 +1,7 @@
 import { ICardsCont } from './CardsContFree';
 
 const base: ICardsCont = {
-    sampleTextProp : 'string',
-    setModalRef : (n)=> {return false},
-    modalRef: true
-    
+    sampleTextProp : 'string'
 }
 
 export const mockCardsContProps = {
