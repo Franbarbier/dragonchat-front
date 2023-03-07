@@ -126,8 +126,8 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
     
 
+    
     useEffect(()=>{
-
         var filtered = [...contactos]
     
         filtered.map((item)=>{

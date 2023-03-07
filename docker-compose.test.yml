@@ -1,7 +1,7 @@
 version: '3'
 services:
   frontend-next:
-    image: dragonchat-front-test:0.0.2
+    image: dragonchat-front-test:0.0.3
     container_name: dragonchat-front-test
     build:
       context: .
