@@ -214,6 +214,11 @@ background: #555;
     width: 96%;
     margin: auto;
     padding: 0 4%;
+
+}
+#card3 .row_table{
+    overflow: hidden;
+    height: 2em;
 }
 .grilla_oficial .row_table>div{
     width: 96%;
@@ -314,7 +319,7 @@ background: #555;
     border: 1px solid var(--rosita1);
     margin-bottom: 2.5%;
     position: relative;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 .row_card>div {
     position: relative;
@@ -330,6 +335,7 @@ background: #555;
     background:linear-gradient( rgba(31, 4, 4, 0.8), rgba(31, 4, 4, 0.8)), url('/textura.jpeg');
     background-size: cover;
     border-color: transparent!important;
+    color: #dcdcdc!important;
 }
 
 .row_card span{

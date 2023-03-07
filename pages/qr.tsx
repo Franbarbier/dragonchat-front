@@ -1,5 +1,4 @@
 import Cookies from "universal-cookie";
-import Config from "../components/Config/Config";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
 import QrCard from "../components/QrCard/QrCard";
@@ -13,9 +12,9 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
     return (
         <section>
             <MainCont width={40}>
+                {/* <Header /> */}
                 <QrCard qr_url={url} linked_whatsapp={linkedWhatsapp}/>
             </MainCont>
-            <Config/>
         </section>
     );
 };
