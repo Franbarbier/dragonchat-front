@@ -18,7 +18,7 @@ const Home: NextPageWithLayout<GralProps> = (GralProps) => {
   console.log(GralProps)
   return (
     <section>
-      <CardsCont modalRef={modalRef} setModalRef={setModalRef} sampleTextProp={''}/>
+      <CardsCont />
     </section>
   );
 };
