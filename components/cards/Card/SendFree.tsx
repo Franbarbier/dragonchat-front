@@ -1,11 +1,15 @@
 import Cookie from 'js-cookie';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import apiSenderWhatsappController from '../../../api/apiSenderWhatsappController';
+import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
+
+
 
 export interface IFreeCard3 {
     sampleTextProp : string;
@@ -21,10 +25,12 @@ export interface IFreeCard3 {
 const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje }) => {
 
     let idCard = 3;
+    let router= useRouter()
 
     const [sending, setSending] = useState<boolean>(false)
     const [isSent, setIsSent] = useState<boolean>(false)
     const [contactosStatus, setContactosStatus] = useState(contactos)
+    const [exito, setExito] = useState<boolean>(false)
 
     const [sendList, setSendList] = useState( contactos )
 
@@ -44,7 +50,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
             const onSuccess = () => {
                 console.log(sentMessage)
-                console.log("en teoria ya esta")
 
                     if (sentMessage?.status == 200) {
                         let newContacts = [...contactos]
@@ -63,12 +68,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
             onSuccess()
         }
         setSending(false)
+        setExito(true)
 
     }
 
 
     return (
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>setActiveCard(idCard)}>
+        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`}>
 
             <div className={styles.card_container}>
             <div>
@@ -93,7 +99,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                             <source src="/dc_fuego_min.mp4" type="video/mp4" />
                                         </video>
                                     </aside>
-                                }  
+                                }
 
                                 <div className="column50">
                                     <div>
@@ -111,8 +117,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                 </div>
                                     
                                 <div className={styles.estado_envio}>
-                                    {contact.estado == "success" && '✔️'}
-                                    {contact.estado == "error" && '❌'}
+                                    {contact.estado == "success" && <img src="/cierto.png" />}
+                                    {contact.estado == "error" && <img src="/close.svg" />}
                                 </div>
                             </div>
                             }
@@ -124,12 +130,20 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                     
                 </div>
                 <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
-
-                    {!isSent ?
+                    
+                    {!exito ?
                     <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
                         { if (!sending){ startSending() }}} />
                     :
-                    <p>Listo! Podes resetear DragonChat para hacer un nuevo envío haciendo <a href="/">click acá</a></p>
+                    <CustomColorBtn
+                        type="submit"
+                        text="Crear nueva difusion"
+                        backgroundColorInit="#724cdf"
+                        backgroundColorEnd="#3a94fe"
+                        borderColor="#5573f0"
+                        onClick={()=>{ router.reload() }}
+                        disable={ false}
+                    />
                     }
                 </div>
             </div>

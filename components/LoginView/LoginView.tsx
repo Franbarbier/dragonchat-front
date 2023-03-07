@@ -23,8 +23,11 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
+    const [logging, setLogging] = useState<boolean>(false)
+
     async function handleLogin(e) {
         e.preventDefault()
+        setLogging(true)
         if (email != "" && pass != "") {
             
             const onSuccess = () => {
@@ -47,6 +50,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     Router.push("/dash")
                     
                 }else{
+                    setLogging(false)
                     alert('Los datos son incorrectos.')
                 }
             }
@@ -84,7 +88,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 </div>
 
                 <div>
-                    <OrangeBtn type="submit" text="Iniciar sesión" onClick={ handleLogin }/>
+                    <OrangeBtn type="submit" text={logging ? "Verificando datos" : "Iniciar sesión" } onClick={ handleLogin }/>
                     <button className={styles.googleInit} type='button'>
                         <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Iniciar sesión con Google</span>

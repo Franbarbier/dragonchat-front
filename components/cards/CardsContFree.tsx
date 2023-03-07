@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
-import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
 import NavBottom from '../NavBottom/NavBottom';
 import WppBtn from '../WppBtn/WppBtn';
 import { mockFreeCard1Props } from './Card/FreeCard3.mocks';
@@ -14,8 +13,6 @@ const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
     sampleTextProp : string;
-    setModalRef : (arg:boolean)=> void;
-    modalRef: boolean;
 }
 
 type IdCard = {
@@ -31,7 +28,7 @@ export interface ContactInfo {
 
 
 
-const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef }) => {
+const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
 
     
     // const [activeCard, setActiveCard] = useState<IdCard>(1)
@@ -83,9 +80,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
     function handleRenderModal(render:boolean){
         setModalImport(render)
     }
-    function handleRenderModalRef(render:boolean) {
-        setModalRef(false)
-    }
+
     function checkAllListFields() {
         for (let index = 0; index < finalList.length - 1; index++) {
             const element = finalList[index];
@@ -94,6 +89,39 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
             }
         }
         return true
+    }
+
+    function checkNextCard() {
+        switch (activeCard) {
+            case 1:
+                if (finalList.length > 1 && checkAllListFields()) setActiveCard(activeCard+1)
+                break;
+            case 2:
+                if (mensaje != "") setActiveCard(activeCard+1)
+                break;
+            case 3:
+                 return false
+        
+            default:
+                break;
+        }
+    }
+    
+    function checkPrevCard() {
+        switch (activeCard) {
+            case 1:
+                setActiveCard(activeCard-1)
+                return false
+            case 2:
+                setActiveCard(activeCard-1)
+                break;
+            case 3:
+                setActiveCard(activeCard-1)
+                break;
+        
+            default:
+                break;
+        }
     }
 
     
@@ -155,10 +183,10 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                     
 
             </div>
-            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 || !checkAllListFields() ? styles.arrow_disabled : ""}`} onClick={ ()=>{  if(finalList.length > 1 && activeCard < 3 && checkAllListFields() ) setActiveCard(activeCard+1) } }>
+            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 || !checkAllListFields() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ checkNextCard() } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
-            <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  if(activeCard > 1 ) setActiveCard(activeCard-1) } }>
+            <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  checkPrevCard()} }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
 
@@ -197,7 +225,12 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                     <img className={`${styles.dragon2} ${styles[dragonAnim]}`} src="/dragon_anim.gif" alt="dragon-chat"/>
                 </div>
             }
-            <NavBottom />
+            <NavBottom
+                activeCard={activeCard}
+                setActiveCard={setActiveCard}
+                checkPrevCard={checkPrevCard}
+                checkNextCard={checkNextCard}
+            />
             <WppBtn />
             
             {modalImport &&
@@ -209,15 +242,7 @@ const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp, setModalRef, modalRef
                     </div>
                 </div>
             }
-            {modalRef &&
-                <div>
-                    <div>
-                        <ModalContainer closeModal={ handleRenderModalRef } addedClass="refAmis">
-                            <ModalReferiAmigos />
-                        </ModalContainer>
-                    </div>
-                </div>
-            }
+           
 
            
         </div>

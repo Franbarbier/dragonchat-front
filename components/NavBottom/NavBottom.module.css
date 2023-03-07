@@ -8,23 +8,39 @@
     /* background-color: black; */
     background-image: radial-gradient(transparent 20%, black 0%);
     border-radius: 100px;
+
+    
 }
 .circuloNav>div{
     width: 100%;
     height: 100%;
     position: relative;
+
+    /* transform: rotate(-60deg); */
+}
+.circuloNav>div>img, .circuloNav>img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
 }
 .paginationBtn{
     position: absolute;
-    width: 20%;
-    height: 20%;
-    top: 40%;
-    left: 40%;
+    width: 12%;
+    height: 12%;
+    top: 50%;
+    left: 50%;
+    cursor: pointer;
+    opacity: 0.7;
+    transform: translate(-50%, -50%);
+}
+.paginationBtn:hover{
+    opacity: 1;
 }
 .paginationBtn .iconCont{
-    width: 70%;
-    height: 70%;
-    margin: auto;
+    width: 100%;
+    height: 100%;
     position: relative;
 }
 
@@ -34,6 +50,18 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
-.card1Btn{
-    transform: translate(0%, -150%);
+.activeBtn{
+    opacity: 1;
 }
+.cardBtnPos0{
+    transform: translate(-40%, -320%);
+}
+.cardBtnPos1{
+    transform: translate(187%, -172%) rotate(60deg);
+}
+.cardBtnPos2{
+    transform: translate(195%, 95%) rotate(120deg);
+}
+
+.cardBtnPos3{}
+.cardBtnPos4{}
