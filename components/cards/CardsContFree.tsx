@@ -12,7 +12,6 @@ import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
-    sampleTextProp : string;
 }
 
 type IdCard = {
@@ -28,7 +27,7 @@ export interface ContactInfo {
 
 
 
-const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
+const CardsCont: React.FC<ICardsCont> = ({  }) => {
 
     
     // const [activeCard, setActiveCard] = useState<IdCard>(1)
