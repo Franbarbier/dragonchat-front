@@ -12,7 +12,7 @@ const BlockedPreVisual: React.FC<ISecuencePremium> = ({ blocked, setModalAddMess
         setChat([
                     {message: '¡Manuel! Como va eso?', color: 'blue', type: 'texto'},
                     {message: 'Hola, todo bien, vos?', color: 'red', type: 'texto'},
-                    {message: 'Excelente, ya te paso la guía !', color: 'blue', type: 'texto'},
+                    {message: 'Excelente, ya te paso la guía!', color: 'blue', type: 'texto'},
                     {message: 'la-respuesta-a-las-10-objeciones.pdf', color: 'blue', type: 'texto'},
                     {message: 'Te va a ser muy útil :)', color: 'blue', type: 'texto'},
                     {message: 'Muchas gracias!', color: 'red', type: 'texto'},
