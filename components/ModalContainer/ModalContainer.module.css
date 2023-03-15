@@ -1,0 +1,59 @@
+.modal_background{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background: #5931ea42;
+    backdrop-filter: blur(20px);
+    z-index: 100;
+}
+.modal_cont{
+    background-color: #40277f9f;
+    border: 1px solid var(--rosita1);
+    border-radius: 10px;
+    padding: 30px 40px;
+    max-width: 50vw;
+    width: 50vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    z-index: 5;
+    background-image: linear-gradient(325deg, #3e2879 16%, #6c4a8d , #3c2678 55%);
+    overflow: hidden;
+}
+.trama1{
+    position: absolute;
+    z-index: 0;
+    transform: rotate(135deg);
+    top: -20%;
+    left: -30%;
+    opacity: 0.4;
+    width: 100%;
+}
+.trama2{
+    position: absolute;
+    z-index: 0;
+    transform: rotate(-45deg);
+    bottom: -10%;
+    right: -30%;
+    opacity: 0.4;
+    width: 100%;
+}
+.close_mod{
+    position: absolute;
+    right: 15px;
+    z-index: 3;
+    top: 8px;
+    color: #dedede;
+    font-size: 1.3em;
+    cursor: pointer;
+    transition: .1s ease-in-out;
+}
+.close_mod:hover{
+    color: white;
+}
+.refAmis{
+    width: 30vw!important;
+}

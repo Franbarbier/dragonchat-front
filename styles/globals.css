@@ -1,0 +1,74 @@
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../public/Orbitron/Orbitron-VariableFont_wght.ttf');
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  /* font-family: 'Orbitron'; */
+  scroll-behavior: smooth;
+  color: #fff;
+
+}
+input, select, button, textarea {
+  font-family: 'Orbitron';
+  color: #fff;
+
+}
+
+*{ margin: 0; padding: 0; box-sizing: border-box; transition: .2s cubic-bezier(0.13, 0.77, 0.33, 1);}
+a{ text-decoration: none; color: inherit;}
+li{ list-style: none; }
+
+:root {
+	--rosita1: #9f5bc3;
+	--rosita2: #b499ff;
+  --violeta1: #422a93;
+  --violeta2: #10011c;
+  --violeta2t: rgba(16, 1, 28, 0.889);
+  --amarillo: #fffb11;
+
+  --newViolet: #7545d8;
+	--newPink: #917fc9;
+  --newPink2: #ad93f0;
+  --borders: #4d318c;
+}
+/* 
+::-webkit-scrollbar{width:9px;position:absolute; background-color: rgb(242, 242, 242); height: 4px;}
+::-webkit-scrollbar:hover{width:9px}
+::-webkit-scrollbar-track{background:rgb(242, 242, 242);transition:background .2s}
+::-webkit-scrollbar-track:hover{}
+::-webkit-scrollbar-thumb{background:rgba(138, 138, 138, 0.8);transition:background .2s;border-radius: 4px;}
+::-webkit-scrollbar-thumb:hover{background:hsla(0,0%,47%,.95)} */
+
+.column50{width: 50%;}
+/* .column50{width: 50%;}
+.column50{width: 50%;} */
+
+@media (max-width: 800px) {
+	html{overflow-x: none; }
+}
+
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}

@@ -1,0 +1,55 @@
+.forget{
+    color: var(--amarillo);
+    font-size: 0.85em;
+    cursor: pointer;
+}
+.googleInit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    background-color: white;
+    padding: 8px 0px;
+    width: 100%;
+    border: 1px solid var(--violeta1);
+    border-radius: 5px;
+    margin: 3% 0;
+    cursor: pointer;
+}
+.googleInit>img{
+    margin-right: 10px;
+}
+
+.hasAccount hr{
+    margin-top: 10%;
+    height: 2px;
+    border: none;
+    background-image: radial-gradient( rgb(134 91 255), rgba(255,255,255,0)) ;
+    margin-bottom: 5%;
+}
+.hasAccount>div{
+    font-size: 0.9em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hasAccount button{
+    color: var(--amarillo);
+    margin-left: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.signup_cont>div>h6{
+    margin: 8% 0 3%;
+    text-align: center;
+    font-weight: 300;
+    font-size: 0.9em;
+}
+.alert{
+    font-weight: 100;
+    color: var(--amarillo);
+    font-size: 0.8em;
+    text-align: center;
+}

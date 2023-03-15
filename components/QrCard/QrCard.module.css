@@ -1,0 +1,26 @@
+.qrCard_cont p{
+    color: #fff;
+    text-align: center;
+    font-size: 0.9em;
+    margin: 3% 0 8%;
+
+}
+.qrCard_cont img{
+    display: block;
+    margin: auto;
+
+}
+
+.loading_cont p{
+    color: rgb(205, 205, 205);
+    animation-name: titilar;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes titilar {
+    0%{ opacity: 1; }
+    50%{ opacity: 0.2; }
+    100%{ opacity: 1; }
+    
+}
