@@ -438,3 +438,17 @@
 .excludeList img:hover{
     opacity: 1;
 }
+/* split modal */
+.excludeModal{
+    border: 2px solid var(--newViolet);
+    border-radius: 15px;
+    padding: 30px 30px 48px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(15px);
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    background-color: rgba(0, 0, 0, 0.3);
+}

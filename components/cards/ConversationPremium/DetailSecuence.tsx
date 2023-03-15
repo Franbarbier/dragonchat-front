@@ -38,7 +38,6 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index }) => {
     const [excludes, setExcludes] = useState<string[]>([]);
 
 
-
     function checkHeight(e){
         if (textarea.current) {   
             textarea.current.style.height = 'auto';
@@ -124,9 +123,8 @@ const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessa
     // primer mensaje
     const [primerMensaje, setPrimerMensaje] = useState(true)
 
-    // function addMessage(message:string, color:string){
-    //     setChat( [...chat, {message, color}] )
-    // }
+    const [excludeModal, setExcludeModal] = useState<boolean>(false);
+
 
     useEffect(()=>{
         console.log(chat)
@@ -188,7 +186,11 @@ const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessa
                                                         <div onClick={ ()=>{addMessage('','red','any'); setHoverNewSign(false) } }>
                                                             <p>Cualquier Respuesta</p>
                                                         </div>
-                                                        <div className={styles.exceptuar} onClick={ ()=>{addMessage('','red','exclude'); setHoverNewSign(false) } }>
+                                                        <div className={styles.exceptuar} onClick={ ()=>{
+                                                            // addMessage('','red','exclude');
+                                                            setExcludeModal(true)
+                                                            setHoverNewSign(false)
+                                                        } }>
                                                             <p>Exceptuar</p>
                                                         </div>
                                                         <div className={styles.solamente} onClick={ ()=>{addMessage('','red','include'); setHoverNewSign(false) } }>
@@ -226,7 +228,16 @@ const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessa
                                         disable={ true }
                                     />
                                 </div>
-                            </div>
+                        </div>
+                                {excludeModal &&
+                                    <div className={styles.excludeModal}>
+                                    <div>
+                                        <div>
+                                            <input />
+                                        </div>
+                                    </div>
+                                </div>
+                                }
                     </div>
        );
         
