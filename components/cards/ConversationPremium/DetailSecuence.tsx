@@ -35,7 +35,6 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index }) => {
 
     const textarea = useRef<HTMLTextAreaElement>(null);
 
-    const [excludes, setExcludes] = useState<string[]>([]);
 
 
     function checkHeight(e){
@@ -43,15 +42,6 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index }) => {
             textarea.current.style.height = 'auto';
             textarea.current.rows = 1;
             textarea.current.style.height = e.target.scrollHeight+'px'
-        }
-    }
-
-    function comaSeparator(e){
-        const inputText = e.target.value;
-        if (e.which == 13 && e.target.value != "") { // if the input ends with a comma, create a new tag
-        setExcludes([...excludes, inputText]); // add the new tag to the tags array
-        e.target.value = ''; // clear the input for the next tag
-        
         }
     }
 
@@ -78,19 +68,8 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index }) => {
                 }
 
                 {message.type == "exclude" &&
-                    <div className={styles.excludeChat}>  
-                        <div className={styles.excludeList}>
-                            {excludes.map((exclude) =>(
-                                <div>
-                                    <span>{exclude}</span>
-                                    <img src="/close.svg" onClick={ ()=>{ setExcludes( excludes.filter(word => word != exclude) ) } }/>    
-                                </div>
-                            ))}
-                        </div>
-                        <input
-                            onKeyDown={ (e)=>{ checkHeight(e); comaSeparator(e) } }
-                            placeholder='Presiona enter para agregar'
-                        />
+                    <div>
+                        <span>Hola</span>
                     </div>
                 }
 
