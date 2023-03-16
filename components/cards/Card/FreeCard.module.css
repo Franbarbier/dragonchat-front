@@ -470,7 +470,7 @@ background: #555;
 }
 
 .message>textarea{
-    background-color: #a361c557;
+    background-color: var(--inputBckgr);
     border: 1px solid var(--rosita1);
     border-radius: 5px;
     resize: none;
