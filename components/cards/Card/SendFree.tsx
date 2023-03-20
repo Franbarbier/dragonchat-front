@@ -75,7 +75,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`}>
-
+            
             <div className={styles.card_container}>
             <div>
                 <CardTitle text={!sending ? 'Enviar' : 'Enviando' } />

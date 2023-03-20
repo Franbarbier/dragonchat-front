@@ -8,9 +8,9 @@ export interface IConversationPremium {
 }
 
 export interface IChat {
-    message : string,
+    message : any,
     color : string,
-    type : "texto" | "archivo" | "followup" | "any" | "exclude" | "include";
+    type : "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
 }
 export interface ISecuence {
     nombre : string,
@@ -129,7 +129,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked }) => {
     },[activeSecuence])
 
 
-    return (
+    return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
             {!blocked ?
             <>
@@ -148,6 +148,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked }) => {
                             }
                            
                         </div>
+                        
                     </div>
                 :
                     <DetailSecuence blocked={blocked} setModalAddMessage={setModalAddMessage} modalAddMessage={modalAddMessage} red_new_message={red_new_message} setRed_new_message={setRed_new_message} blue_new_message={blue_new_message} setBlue_new_message={setBlue_new_message} addMessage={addMessage} chat={chat} setChat={setChat}  />
@@ -157,7 +158,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked }) => {
                 <BlockedPreVisual blocked={blocked} setModalAddMessage={setModalAddMessage} modalAddMessage={modalAddMessage} red_new_message={red_new_message} setRed_new_message={setRed_new_message} blue_new_message={blue_new_message} setBlue_new_message={setBlue_new_message} addMessage={addMessage} chat={chat} setChat={setChat}   />
             }
         </div>
-    
+        
     );
     
 }

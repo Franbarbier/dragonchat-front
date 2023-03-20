@@ -1,9 +1,13 @@
+.SecuencePremiumCard{
+    height: 70%;
+}
 .SecuencePremiumCard .message{
     width: fit-content;
     max-width: 60%;
     font-size: 0.8em;
     border-radius: 5px;
-    margin-bottom: 2%;
+    margin-bottom: 1%;
+    margin-top: 1%;
     position: relative;
     font-weight: 300;
 }
@@ -46,12 +50,12 @@
 .chat_window{
     position: relative;
     width: 100%;
-    height: 90%;
+    height: 39vh;
     overflow-y: auto;
     margin-top: 5%;
-    border: 1px solid var(--violeta1);
+    /* border: 1px solid var(--violeta1); */
     border-radius: 10px;
-    padding: 5% 0;
+    padding: 5% 0 10%;
 }
 .blocked .chat_window{
     padding-top: 15%;
@@ -219,9 +223,10 @@
 
 /* DESBLOQUEADO */
 .edit_secuence_cont{
-    height: 100%;
+    height: 90%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 .edit_secuence_cont>div:first-child{
     display: flex;
@@ -273,7 +278,7 @@
 .chat_cont{
     position: relative;
     width: 100%;
-    height: 85%;
+    height: 90%;
 }
 .add_new_message_cont{
     width: 99px;
@@ -479,4 +484,50 @@
 }
 .splitNameCont input::placeholder{
     color: rgb(160, 160, 160);
+}
+.splitBtnsCont{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2%;
+}
+.splitBtnsCont>button{
+    width: 47%!important;
+    font-size: 0.8em;
+}
+
+
+.splitMsgCont {
+    /* padding: 1px; */
+    display: inline-block;
+    position: relative;
+    z-index: 0;
+    width: 95%;
+    text-align: center;
+    padding: 3% 0;
+    border-radius: 10px;
+    margin: 3% auto;
+    font-size: 0.9em;
+    position: relative;
+    background-color: #00000070;
+    cursor: pointer;
+}
+.splitMsgCont:before {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    padding: 1px;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #c3472b, var(--newViolet));
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+            mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
 }

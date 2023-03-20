@@ -133,13 +133,13 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
           {
             equalPass && 
             <CustomColorBtn
-            type="submit"
-            text="GUARDAR CAMBIOS"
-            backgroundColorInit="#c21c3b"
-            backgroundColorEnd="#f9bd4f"
-            borderColor="#e17846"
-            onClick={editUserProfile}
-          />
+              type="submit"
+              text="GUARDAR CAMBIOS"
+              backgroundColorInit="#c21c3b"
+              backgroundColorEnd="#f9bd4f"
+              borderColor="#e17846"
+              onClick={editUserProfile}
+            />
           }
 
           <div className={styles.logout_btn}>

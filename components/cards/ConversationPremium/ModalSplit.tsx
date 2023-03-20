@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import AddChatBox from './AddChatBox';
 import ChatBox from './ChatBox';
 import { IChat } from './ConversationPremium';
@@ -6,17 +7,21 @@ import styles from './ConversationPremium.module.css';
 
 export interface IModalSplit {
     type : "exclude" | "include",
-    color : "blue" | "red"
+    color : "blue" | "red",
+    chat : IChat[],
+    setChat : (chat:IChat[]) => void,
+    setSplitModal : (bool:boolean) => void,
+    splitModal : boolean,
+    setSplitModalData : (infoSecuen:IChat[]) => void,
+    splitModalData : IChat[]
 }
     
-const ModalSplit: React.FC<IModalSplit> = ({ type, color }) => {
+const ModalSplit: React.FC<IModalSplit> = ({ type, color, chat, setChat, setSplitModal, splitModal, setSplitModalData=[], splitModalData }) => {
     
     const [excludes, setExcludes] = useState<string[]>([]);
-    const [splitSecuence, setSplitSecuence] = useState<IChat[]>([])
-
-    const [splitModal, setSplitModal] = useState<boolean>(false)
+    const [splitName, setSplitName] = useState<string>('');
+    const [splitSecuence, setSplitSecuence] = useState<IChat[]>(splitModalData)
    
-
     function comaSeparator(e){
         const inputText = e.target.value;
         if (e.which == 13 && e.target.value != "") { // if the input ends with a comma, create a new tag
@@ -25,12 +30,13 @@ const ModalSplit: React.FC<IModalSplit> = ({ type, color }) => {
         
         }
     }
+    
 
     return (
         <div className={styles.splitModal}>
             <div className={styles.splitNameCont}>
                 <span>SPLIT</span>
-                <input placeholder='Nombre del split' />
+                <input placeholder='Nombre del split' value={splitName} onChange={ (e)=>{setSplitName(e.target.value)} }/>
             </div>
             <div style={{ height:'80%', marginTop: '5%', position: 'relative' }}>
 
@@ -55,12 +61,64 @@ const ModalSplit: React.FC<IModalSplit> = ({ type, color }) => {
                 </div>
             </div>
                 {splitSecuence.map((message, index)=>(
-                    <ChatBox message={message} setChat={setSplitSecuence} chat={splitSecuence} index={index}/>
+                    <ChatBox message={message} setChat={setSplitSecuence} chat={splitSecuence} index={index} setSplitModal={setSplitModal} />
                 ))}
             </div>
 
            <AddChatBox chat={splitSecuence} setChat={setSplitSecuence} splitModal={splitModal} setSplitModal={setSplitModal} />
 
+        </div>
+        <div className={styles.splitBtnsCont}>
+            <CustomColorBtn
+                type="submit"
+                text="cancelar"
+                backgroundColorInit="#a52022"
+                backgroundColorEnd="#e22a2d"
+                borderColor="#c22529"
+                onClick={()=>{ setSplitSecuence([]); setExcludes([]); setSplitModal(false)}}
+                disable={ false }
+            />
+            <CustomColorBtn
+                type="submit"
+                text="GUARDAR"
+                backgroundColorInit="#c21c3b"
+                backgroundColorEnd="#f9bd4f"
+                borderColor="#e17846"
+                onClick={()=>{ 
+                    if (excludes.length >= 1 && splitSecuence.length >= 1 && splitName != "") {
+                        let splitMessage = {
+                            message : excludes,
+                            color : "red",
+                            type : "exclude",
+                            name : splitName
+                        }
+
+                        let splitBigObj:IChat = {
+                            color : 'red',
+                            type : 'split',
+                            message : [splitMessage, ...splitSecuence]
+                        }
+                        console.log(splitBigObj)
+                        console.log([...chat, splitBigObj])
+                        setChat([...chat, splitBigObj])
+                        setSplitSecuence([]);
+                        setExcludes([])
+                        // setSplitModal(false)
+                        
+                    }
+                    if (excludes.length == 0) {
+                        alert('Agrega al menos una palabra para [excluir]')
+                    }
+                    if (splitSecuence.length == 0) {
+                        alert('Agrega al menos una respuesta a la secuencia')
+                    }
+                    if (splitName == "") {
+                        alert('Debes asignarle un nombre al split')
+                    }
+                }}
+                disable={ false }
+            />
+            
         </div>
 
 

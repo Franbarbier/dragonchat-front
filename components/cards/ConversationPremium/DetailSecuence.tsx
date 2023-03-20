@@ -17,7 +17,7 @@ export interface ISecuencePremium {
     setRed_new_message : (e:string) => void,
     blue_new_message : string,
     setBlue_new_message : (e:string) => void,
-    addMessage : (message:string, color:string, type: string) => void
+    addMessage : (message:string, color:string, type: any) => void
     chat : IChat[]
     setChat : (chat:IChat[])=> void
 }
@@ -44,14 +44,15 @@ const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessa
     const [primerMensaje, setPrimerMensaje] = useState(true)
 
     const [splitModal, setSplitModal] = useState<boolean>(false);
+    const [splitModalData, setSplitModalData] = useState<IChat[]>([]);
 
     useEffect(()=>{
         console.log(chat)
     }, [chat])
 
         return (
-                        <div style={{'height':'100%'}}>
-                            <div className={styles.edit_secuence_cont}>
+                <div style={{'height':'100%'}}>
+                        <div className={styles.edit_secuence_cont}>
                                 <div className={styles.new_name_cont}>
                                     <div className={styles.icon_upload}>
                                         <img src='/upload.svg' />
@@ -64,26 +65,27 @@ const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessa
                                     <div className={styles.chat_window}>
                                         <div className={styles.chat} >
                                             {chat.map((message, index)=>(
-                                                <ChatBox index={index} message={message} setChat={setChat} chat={chat} />
+                                                <ChatBox index={index} message={message} setChat={setChat} chat={chat} setSplitModal={setSplitModal} />
                                             ))}
                                         </div>
                                     </div>
                                     <AddChatBox chat={chat} setChat={setChat} splitModal={splitModal} setSplitModal={setSplitModal}/>
                                 </div>
-                                <div>
-                                    <CustomColorBtn
-                                        type="submit"
-                                        text="Crear secuencia"
-                                        backgroundColorInit="#724cdf"
-                                        backgroundColorEnd="#3a94fe"
-                                        borderColor="#5573f0"
-                                        onClick={()=>{console.log('as')}}
-                                        disable={ true }
-                                    />
-                                </div>
                         </div>
+                        <div>
+                            <CustomColorBtn
+                                type="submit"
+                                text="Crear secuencia"
+                                backgroundColorInit="#724cdf"
+                                backgroundColorEnd="#3a94fe"
+                                borderColor="#5573f0"
+                                onClick={()=>{console.log('as')}}
+                                disable={ chat.length < 2 }
+                            />
+                        </div>
+                                
                                 {splitModal &&
-                                    <ModalSplit type={"exclude"} color={"red"}/>
+                                    <ModalSplit type={"exclude"} color={"red"} chat={chat} setChat={setChat} setSplitModal={setSplitModal} splitModal={splitModal} setSplitModalData={setSplitModalData} splitModalData={splitModalData}/>
                                 }
                     </div>
        );
