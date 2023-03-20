@@ -41,8 +41,6 @@ const Home: NextPageWithLayout<IEditUserProfileView> = ({user}) => {
               >
               <CardsCont {...mockCardsContProps.base} />
 
-              
-
             </div>
       </motion.div>
       )}

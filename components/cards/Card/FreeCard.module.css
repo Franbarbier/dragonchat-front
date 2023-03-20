@@ -319,7 +319,7 @@ background: #555;
     border: 1px solid var(--rosita1);
     margin-bottom: 2.5%;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 .row_card>div {
     position: relative;

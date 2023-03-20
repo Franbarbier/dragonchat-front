@@ -79,7 +79,6 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     function handleRenderModal(render:boolean){
         setModalImport(render)
     }
-
     function checkAllListFields() {
         for (let index = 0; index < finalList.length - 1; index++) {
             const element = finalList[index];
