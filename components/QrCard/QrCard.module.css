@@ -8,7 +8,8 @@
 .qrCard_cont img{
     display: block;
     margin: auto;
-
+    padding: 12px;
+    background-color: #fff;
 }
 
 .loading_cont p{
