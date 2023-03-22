@@ -435,11 +435,11 @@
     /* width: 100%; */
 }
 
-.exclude_cont>div>div{
+.exclude_cont>div>div>div, .exclude_cont{
     border: 1px solid #c3472b;
     background-color: rgba(226, 53, 53, 0.2);
 }
-.include_cont div{
+.include_cont>div>div>div, .include_cont{
     border: 1px solid #2e7c43;
     background-color: rgba(46, 124, 67, 0.2);
 }

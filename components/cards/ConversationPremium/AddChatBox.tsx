@@ -9,12 +9,13 @@ export interface IAddChatBox {
     arrMessages : IChat[],
     setSplitModal : (boolean)=> void,
     splitModal : boolean,
-    setSplitModalData : (split:SplitInfo) => void
+    setSplitModalData : (split:SplitInfo) => void,
+    setSplitType : (splitType:"exclude" | "include") => void
 }
 type PossibleType = "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
 
 
-const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, setSplitModalData }) => {
+const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, setSplitModalData,setSplitType }) => {
     
     // animate states
     const [hoverNewSign, setHoverNewSign] = useState(false)
@@ -23,29 +24,11 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
 
         setArrMessages( [...arrMessages, {message, color, type: type}] )
 
-        // switch (type) {
-        //     case "texto":
-        //         setArrMessages( [...arrMessages, {message, color, type: "texto"}] )
-        //         break;
-        //     case "any":
-        //         setArrMessages( [...arrMessages, {message, color, type: "any"}] )
-        //         break;
-        //     case "exclude":
-        //         setArrMessages( [...arrMessages, {message, color, type: "exclude"}] )
-        //         break;
-        //     case "include":
-        //         setArrMessages( [...arrMessages, {message, color, type: "include"}] )
-        //         break;
-        
-        
-        //     default:
-        //         break;
-        // }
 
     }
 
-    // console.log(arrMessages)
- 
+    //
+    
     return (
         <div
         className={styles.add_new_message_cont}
@@ -85,16 +68,16 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
                             <p>Cualquier Respuesta.</p>
                         </div>
                         <div className={styles.exceptuar} onClick={ ()=>{
-                            addMessage({},'red','exclude');
                             setSplitModal(true)
                             setHoverNewSign(false)
+                            setSplitType("exclude")
                         } }>
                             <p>Exceptuar</p>
                         </div>
                         <div className={styles.solamente} onClick={ ()=>{
-                            addMessage({},'red','include');
                             setSplitModal(true)
                             setHoverNewSign(false)
+                            setSplitType("include")
                         } }>
                             <p>Solamente</p>
                         </div>
