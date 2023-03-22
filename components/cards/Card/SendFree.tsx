@@ -57,11 +57,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         let newContacts = [...contactos]
                         newContacts[index].estado = "success";
                         setContactos(newContacts)
-                    }
-                    else{   
+                    } else{   
                         let newContacts = [...contactos]
                         newContacts[index].estado = "error";
                         setContactos(newContacts)
+
                         if(sentMessage.response.data.error.type == "EXCEEDED_LIMIT"){
                             setMessagesLimitAchieved(true)
                             setSending(false)
@@ -69,8 +69,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         }
                     }
 
-                    //  if sentMessage has property response and has property data and has property error and has property type
-                    //  and sentMessage.response.data.error.type == "LIMIT_REACHED"
+                if (messagesLimitAchieved) {
+                    return false;
+                }
+
+                    
 
             }
 
@@ -101,7 +104,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         
                         // ${contact.status == "pending" && styles.fireLoader}
                             <div className={`${styles.row_card}  ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
-                                {/* {console.log(contact.estado)} */}
+                                {console.log(contact.estado)}
 
                                 {contact.estado == "pending" && 
                                     <aside className={styles.fuegoLoader}>

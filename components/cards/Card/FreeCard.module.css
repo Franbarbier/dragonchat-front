@@ -290,6 +290,7 @@ background: #555;
 }
 .table_rows.enviando_table{
     height: 100%;
+    overflow-y: auto;
 }
 .table_rows::-webkit-scrollbar{
     width: 4px;
@@ -319,7 +320,7 @@ background: #555;
     border: 1px solid var(--rosita1);
     margin-bottom: 2.5%;
     position: relative;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 .row_card>div {
     position: relative;
