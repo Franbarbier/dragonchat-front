@@ -31,6 +31,11 @@ interface IChatBox {
     index : number
 }
 
+export interface SplitInfo{
+    name : string,
+    key_words: string[],
+    split_chat: IChat[]
+}
 
 
 
@@ -44,7 +49,12 @@ const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessa
     const [primerMensaje, setPrimerMensaje] = useState(true)
 
     const [splitModal, setSplitModal] = useState<boolean>(false);
-    const [splitModalData, setSplitModalData] = useState<IChat[]>([]);
+    const [splitModalData, setSplitModalData] = useState<SplitInfo>({
+        name : '',
+        key_words : [],
+        split_chat : []
+    });
+    const [chatIndex, setChatIndex] = useState<number>(0)
 
     useEffect(()=>{
         console.log(chat)
@@ -65,11 +75,11 @@ const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessa
                                     <div className={styles.chat_window}>
                                         <div className={styles.chat} >
                                             {chat.map((message, index)=>(
-                                                <ChatBox index={index} message={message} setChat={setChat} chat={chat} setSplitModal={setSplitModal} />
+                                                <ChatBox index={index} message={message} setChat={setChat} chat={chat} setSplitModal={setSplitModal} setSplitModalData={setSplitModalData} splitModalData={splitModalData} chatIndex={chatIndex} setChatIndex={setChatIndex}/>
                                             ))}
                                         </div>
                                     </div>
-                                    <AddChatBox chat={chat} setChat={setChat} splitModal={splitModal} setSplitModal={setSplitModal}/>
+                                    <AddChatBox arrMessages={chat} setArrMessages={setChat} splitModal={splitModal} setSplitModal={setSplitModal} setSplitModalData={setSplitModalData}/>
                                 </div>
                         </div>
                         <div>
@@ -85,7 +95,7 @@ const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessa
                         </div>
                                 
                                 {splitModal &&
-                                    <ModalSplit type={"exclude"} color={"red"} chat={chat} setChat={setChat} setSplitModal={setSplitModal} splitModal={splitModal} setSplitModalData={setSplitModalData} splitModalData={splitModalData}/>
+                                    <ModalSplit type={"exclude"} color={"red"} chat={chat} setChat={setChat} setSplitModal={setSplitModal} splitModal={splitModal} setSplitModalData={setSplitModalData} splitModalData={splitModalData} chatIndex={chatIndex} setChatIndex={setChatIndex}/>
                                 }
                     </div>
        );

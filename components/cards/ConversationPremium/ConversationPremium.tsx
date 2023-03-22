@@ -11,12 +11,15 @@ export interface IChat {
     message : any,
     color : string,
     type : "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
+    name?: 'string'
 }
 export interface ISecuence {
     nombre : string,
     icono : string,
     chat? : IChat[]
 }
+
+
 
 export interface ISecuencePremium {
     blocked : boolean
@@ -109,6 +112,9 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked }) => {
                 break;
             case "exclude":
                 setChat( [...chat, {message, color, type: "exclude"}] )
+                break;
+            case "include":
+                setChat( [...chat, {message, color, type: "include"}] )
                 break;
         
             default:

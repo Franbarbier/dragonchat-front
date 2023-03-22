@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { IChat } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
+import { SplitInfo } from './DetailSecuence';
 
 export interface IChatBox {
     message : IChat,
@@ -8,16 +9,19 @@ export interface IChatBox {
     chat : IChat[],
     index : number,
     setSplitModal : (bool:boolean) => void,
-    setSplitModalData? : (infoSecuen: IChat) => void,
-    splitModalData? : IChat
+    setSplitModalData : (infoSecuen:SplitInfo) => void,
+    splitModalData : SplitInfo,
+    chatIndex: number,
+    setChatIndex: (i:number) => void
 }
     
-const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitModal, setSplitModalData }) => {
+const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitModal, setSplitModalData, splitModalData, chatIndex, setChatIndex}) => {
     
     const [txtHeight, setTxtHeight] = useState()
-
+    // const [stateMsg, setStateMesg] = useState( message ? message : [] )
+    // const stateMsg = message ? message : [] 
+    
     const textarea = useRef<HTMLTextAreaElement>(null);
-
 
 
     function checkHeight(e){
@@ -29,9 +33,11 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
     }
 
 
+
+
     return (
         <>
-        {message.type != "split" ?
+        {message.type != "exclude" && message.type != "include" ?
         
         <div className={styles.message_cont} key={`chat${index}`}>
         <div className={`${styles.message}  ${message.color == "blue" ? `${styles.blue_message} ${styles.blue_type}` : `${styles.red_message}
@@ -75,13 +81,12 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
             <div className={styles.splitMsgCont}
                 onClick={()=>{
                     setSplitModal(true)
-                    if (message != undefined) {
-                        // setSplitModalData(message)
-                        
-                    }
+                    console.log(index)
+                    setSplitModalData(message.message)
+                    setChatIndex(index)
                 }}
             >
-                    <p>{message.message[0].name}</p>
+                    <p>{message.message.name}</p>
             </div>
 
         }

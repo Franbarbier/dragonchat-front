@@ -2,53 +2,62 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { IChat } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
+import { SplitInfo } from './DetailSecuence';
 
 export interface IAddChatBox {
-    setChat : (chat:IChat[])=> void,
-    chat : IChat[],
+    setArrMessages : (arrMessages:IChat[])=> void,
+    arrMessages : IChat[],
     setSplitModal : (boolean)=> void,
-    splitModal : boolean
+    splitModal : boolean,
+    setSplitModalData : (split:SplitInfo) => void
 }
-    
-const AddChatBox: React.FC<IAddChatBox> = ({ chat, setChat, setSplitModal, splitModal }) => {
+type PossibleType = "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
+
+
+const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, setSplitModalData }) => {
     
     // animate states
     const [hoverNewSign, setHoverNewSign] = useState(false)
 
-    function addMessage(message:string, color:string, type:string){
+    function addMessage(message:any, color:string, type:PossibleType){
 
-        switch (type) {
-            case "texto":
-                setChat( [...chat, {message, color, type: "texto"}] )
-                break;
-            case "any":
-                setChat( [...chat, {message, color, type: "any"}] )
-                break;
-            case "exclude":
-                setChat( [...chat, {message, color, type: "exclude"}] )
-                break;
+        setArrMessages( [...arrMessages, {message, color, type: type}] )
+
+        // switch (type) {
+        //     case "texto":
+        //         setArrMessages( [...arrMessages, {message, color, type: "texto"}] )
+        //         break;
+        //     case "any":
+        //         setArrMessages( [...arrMessages, {message, color, type: "any"}] )
+        //         break;
+        //     case "exclude":
+        //         setArrMessages( [...arrMessages, {message, color, type: "exclude"}] )
+        //         break;
+        //     case "include":
+        //         setArrMessages( [...arrMessages, {message, color, type: "include"}] )
+        //         break;
         
-            default:
-                break;
-        }
+        
+        //     default:
+        //         break;
+        // }
+
     }
 
-    // useEffect(()=>{
-    //     setChat()
-    // }, [excludes])
-
+    // console.log(arrMessages)
+ 
     return (
         <div
         className={styles.add_new_message_cont}
         onMouseLeave={() => setHoverNewSign(false)}
-        // className={chat.length >= 1 ?  styles.abajo : styles.medio }
-        style={{ bottom : chat.length >= 1 ?  '5%' : '50%' }}
+        // className={arrMessages.length >= 1 ?  styles.abajo : styles.medio }
+        style={{ bottom : arrMessages.length >= 1 ?  '5%' : '50%' }}
         >
 
         <div onMouseEnter={() => setHoverNewSign(true)}>
             <img src='/close.svg' />
 
-            {chat.length > 0 ?
+            {arrMessages.length > 0 ?
             <AnimatePresence>
             {hoverNewSign &&
                 <div className={styles.addMensajeMenu}>
@@ -72,17 +81,21 @@ const AddChatBox: React.FC<IAddChatBox> = ({ chat, setChat, setSplitModal, split
                             exit={{opacity: 0, y: 0, x : '15%'}}
                             animate={{ opacity: hoverNewSign ? 1 : 0, x: hoverNewSign ? 0 : '15%' , y : 0}}
                             >
-                        <div onClick={ ()=>{addMessage('','red','any'); setHoverNewSign(false) } }>
-                            <p>Cualquier Respuesta</p>
+                        <div onClick={ ()=>{addMessage('Cualquier respuesta.','red','any'); setHoverNewSign(false) } }>
+                            <p>Cualquier Respuesta.</p>
                         </div>
                         <div className={styles.exceptuar} onClick={ ()=>{
-                            // addMessage('','red','exclude');
+                            addMessage({},'red','exclude');
                             setSplitModal(true)
                             setHoverNewSign(false)
                         } }>
                             <p>Exceptuar</p>
                         </div>
-                        <div className={styles.solamente} onClick={ ()=>{addMessage('','red','include'); setHoverNewSign(false) } }>
+                        <div className={styles.solamente} onClick={ ()=>{
+                            addMessage({},'red','include');
+                            setSplitModal(true)
+                            setHoverNewSign(false)
+                        } }>
                             <p>Solamente</p>
                         </div>
                     </motion.div>
