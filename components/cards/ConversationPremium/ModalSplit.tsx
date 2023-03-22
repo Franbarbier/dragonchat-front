@@ -25,6 +25,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ type, color, chat, setChat, setSpli
     const [splitSecuence, setSplitSecuence] = useState(splitModalData ? splitModalData.split_chat : []);
 
 
+    console.log(chat, splitModal, splitModalData, splitSecuence, chatIndex)
    
     function comaSeparator(e){
         const inputText = e.target.value;

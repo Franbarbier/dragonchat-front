@@ -435,7 +435,7 @@
     /* width: 100%; */
 }
 
-.exclude_cont div{
+.exclude_cont>div>div{
     border: 1px solid #c3472b;
     background-color: rgba(226, 53, 53, 0.2);
 }
