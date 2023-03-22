@@ -1,5 +1,6 @@
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AnimatePresence, motion } from 'framer-motion';
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -42,13 +43,18 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
         const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
 
+        var dejarDeEnviar = false;
+        
         for (let index = 0; index < contactos.length -1; index++) {
+            
+            if (dejarDeEnviar) break
+
             const destinatario = contactos[index];
 
-            let newContacts = [...contactos]
-
+            let newContacts = [...contactos];
             newContacts[index].estado = "pending";
             setContactos(newContacts)
+            
 
             const onSuccess = () => {
                 console.log(sentMessage)
@@ -65,17 +71,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         if(sentMessage.response.data.error.type == "EXCEEDED_LIMIT"){
                             setMessagesLimitAchieved(true)
                             setSending(false)
-                            return false;
+                            dejarDeEnviar = true;
+                            
                         }
                     }
-
-                if (messagesLimitAchieved) {
-                    return false;
+                    
                 }
 
-                    
-
-            }
 
             const sentMessage = await apiSenderWhatsappController.sendMessage(userInfo.user_id, destinatario.nombre, mensaje, destinatario.numero)
             onSuccess()
@@ -103,16 +105,22 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         {contactos.length - 1 != index &&
                         
                         // ${contact.status == "pending" && styles.fireLoader}
-                            <div className={`${styles.row_card}  ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
-                                {console.log(contact.estado)}
+                            <div className={`${styles.row_card} ${contact.estado == "error" && styles.error} ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
+
+                                <AnimatePresence>
 
                                 {contact.estado == "pending" && 
-                                    <aside className={styles.fuegoLoader}>
+                                    <motion.aside className={styles.fuegoLoader}
+                                        initial={{ opacity: 0 }}
+                                        exit={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                    >
                                         <video autoPlay loop>
                                             <source src="/dc_fuego_min.mp4" type="video/mp4" />
                                         </video>
-                                    </aside>
+                                    </motion.aside>
                                 }
+                                </AnimatePresence>
 
                                 <div className="column50">
                                     <div>
@@ -129,10 +137,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                     </div>
                                 </div>
                                     
-                                <div className={styles.estado_envio}>
-                                    {contact.estado == "success" && <img src="/cierto.png" />}
-                                    {contact.estado == "error" && <img src="/close.svg" />}
-                                </div>
+                                {/* <div className={styles.estado_envio}> */}
+                                    {contact.estado == "success" && <img className={styles.estado_envio} src="/cierto.png" />}
+                                    {contact.estado == "error" && <img className={styles.estado_envio} src="/close.svg" />}
+                                {/* </div> */}
                             </div>
                             }
                             </>
