@@ -27,7 +27,7 @@ const apiSenderWhatsappController = {
             const payload = { user: userId, name: receiverName, message: message, number: receiverNumber };
 
             const response = await axios.post(`${messageUrl}/send-basic`, payload, config);
-           
+            console.log('res',response)
             return response
         }catch(error:any){
             if (error.hasOwnProperty("response") && error.response.status == 401 ) {
