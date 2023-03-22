@@ -1,3 +1,5 @@
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -22,7 +24,7 @@ export interface IFreeCard3 {
     setContactos : (contactos: ContactInfo[]) => void
 }
 
-const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje }) => {
+const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, setMessagesLimitAchieved, messagesLimitAchieved }) => {
 
     let idCard = 3;
     let router= useRouter()
@@ -55,12 +57,20 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         let newContacts = [...contactos]
                         newContacts[index].estado = "success";
                         setContactos(newContacts)
-                    }else{
+                    }
+                    else{   
                         let newContacts = [...contactos]
                         newContacts[index].estado = "error";
                         setContactos(newContacts)
+                        if(sentMessage.response.data.error.type == "EXCEEDED_LIMIT"){
+                            setMessagesLimitAchieved(true)
+                            setSending(false)
+                            return false;
+                        }
                     }
 
+                    //  if sentMessage has property response and has property data and has property error and has property type
+                    //  and sentMessage.response.data.error.type == "LIMIT_REACHED"
 
             }
 
@@ -129,21 +139,40 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
                     
                 </div>
+
+                {/* <video width="320" height="240" autoPlay controls={false} loop>
+                                <source src="/fire-bkgr.mp4" type="video/mp4" />
+                            </video> */}
+
                 <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
-                    
-                    {!exito ?
-                    <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
-                        { if (!sending){ startSending() }}} />
+                    {!messagesLimitAchieved ?
+                        <>
+                            {!exito ?
+                                <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
+                                { if (!sending){ startSending() }}} />
+                                :
+                                <CustomColorBtn
+                                type="submit"
+                                text="Crear nueva difusion"
+                                backgroundColorInit="#724cdf"
+                                backgroundColorEnd="#3a94fe"
+                                borderColor="#5573f0"
+                                onClick={()=>{ router.reload() }}
+                                disable={ false}
+                                />
+                            }
+                        </>
                     :
-                    <CustomColorBtn
-                        type="submit"
-                        text="Crear nueva difusion"
-                        backgroundColorInit="#724cdf"
-                        backgroundColorEnd="#3a94fe"
-                        borderColor="#5573f0"
-                        onClick={()=>{ router.reload() }}
-                        disable={ false}
-                    />
+                    <>
+                        <button className={styles.limitedButton}>
+                            <video autoPlay controls={false} loop>
+                                <source src="/fire-bkgr.mp4" type="video/mp4" />
+                            </video>
+                            <FontAwesomeIcon icon={faLock} />
+                            <p>ENVIAR</p>
+                            <FontAwesomeIcon icon={faLock} />
+                        </button>
+                    </>
                     }
                 </div>
             </div>

@@ -58,13 +58,6 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
         return () => window.removeEventListener('resize', checkIsMobile);
         }, [])
 
-        useEffect(()=>{
-            if (activeCard == 3) {
-                setDragonAnim('limitedAnim')
-            }else{
-                setDragonAnim('')
-            }
-        }, [activeCard])
 
     
     
@@ -220,7 +213,7 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                             </>
                         }
                     </div>
-                    <img className={`${styles.dragon2} ${styles[dragonAnim]}`} src="/dragon_anim.gif" alt="dragon-chat"/>
+                    <img className={`${styles.dragon2} ${messagesLimitAchieved && styles.limitedAnim}`} src="/dragon_anim.gif" alt="dragon-chat"/>
                 </div>
             }
             <NavBottom

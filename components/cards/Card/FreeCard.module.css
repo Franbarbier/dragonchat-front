@@ -799,6 +799,10 @@ background: #555;
     font-size: 0.9em;
     display: flex;
     justify-content: center;
+    background: transparent;
+}
+.limitedButton svg{
+    z-index: 3;
 }
 .limitedButton video{
     position: absolute;
