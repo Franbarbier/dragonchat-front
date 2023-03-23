@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react';
+import ModalContainer from '../ModalContainer/ModalContainer';
+import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
 import styles from './Header.module.css';
 
 export interface IHeader {
     openSettings : boolean;
     setOpenSettings : (settings: boolean) => void,
-    setModalRef : (arg:boolean) => void;
 }
 
 
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings, setModalRef}) => {
+const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
     
 
     const [iconUrl, setIconUrl] = useState<string>('icon_config.svg')
     const [rotateAnim, setRotateAnim] = useState<boolean>(false)
     const [buleano, setBuleano] = useState<boolean>(false)
+    const [modalRef, setModalRef] = useState<boolean>(false)
 
 
     useEffect(()=>{
@@ -61,6 +63,15 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings, setModalRef}
                     </div>
                 </div>
             </nav>
+            {modalRef &&
+                <div>
+                    <div>
+                        <ModalContainer closeModal={ ()=> {setModalRef(false)} } addedClass="refAmis">
+                            <ModalReferiAmigos />
+                        </ModalContainer>
+                    </div>
+                </div>
+            }
         </div>
     
     );

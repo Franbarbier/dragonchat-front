@@ -1,11 +1,18 @@
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AnimatePresence, motion } from 'framer-motion';
 import Cookie from 'js-cookie';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import apiSenderWhatsappController from '../../../api/apiSenderWhatsappController';
+import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
+
+
 
 export interface IFreeCard3 {
     sampleTextProp : string;
@@ -18,13 +25,15 @@ export interface IFreeCard3 {
     setContactos : (contactos: ContactInfo[]) => void
 }
 
-const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje }) => {
+const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, setMessagesLimitAchieved, messagesLimitAchieved }) => {
 
     let idCard = 3;
+    let router= useRouter()
 
     const [sending, setSending] = useState<boolean>(false)
     const [isSent, setIsSent] = useState<boolean>(false)
     const [contactosStatus, setContactosStatus] = useState(contactos)
+    const [exito, setExito] = useState<boolean>(false)
 
     const [sendList, setSendList] = useState( contactos )
 
@@ -34,41 +43,53 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
         const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
 
+        var dejarDeEnviar = false;
+        
         for (let index = 0; index < contactos.length -1; index++) {
+            
+            if (dejarDeEnviar) break
+
             const destinatario = contactos[index];
 
-            let newContacts = [...contactos]
-
+            let newContacts = [...contactos];
             newContacts[index].estado = "pending";
             setContactos(newContacts)
+            
 
             const onSuccess = () => {
                 console.log(sentMessage)
-                console.log("en teoria ya esta")
 
                     if (sentMessage?.status == 200) {
                         let newContacts = [...contactos]
                         newContacts[index].estado = "success";
                         setContactos(newContacts)
-                    }else{
+                    } else{   
                         let newContacts = [...contactos]
                         newContacts[index].estado = "error";
                         setContactos(newContacts)
+
+                        if(sentMessage.response.data.error.type == "EXCEEDED_LIMIT"){
+                            setMessagesLimitAchieved(true)
+                            setSending(false)
+                            dejarDeEnviar = true;
+                            
+                        }
                     }
+                    
+                }
 
-
-            }
 
             const sentMessage = await apiSenderWhatsappController.sendMessage(userInfo.user_id, destinatario.nombre, mensaje, destinatario.numero)
             onSuccess()
         }
         setSending(false)
+        setExito(true)
 
     }
 
 
     return (
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>setActiveCard(idCard)}>
+        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`}>
 
             <div className={styles.card_container}>
             <div>
@@ -84,16 +105,22 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         {contactos.length - 1 != index &&
                         
                         // ${contact.status == "pending" && styles.fireLoader}
-                            <div className={`${styles.row_card}  ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
-                                {/* {console.log(contact.estado)} */}
+                            <div className={`${styles.row_card} ${contact.estado == "error" && styles.error} ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
+
+                                <AnimatePresence>
 
                                 {contact.estado == "pending" && 
-                                    <aside className={styles.fuegoLoader}>
+                                    <motion.aside className={styles.fuegoLoader}
+                                        initial={{ opacity: 0 }}
+                                        exit={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                    >
                                         <video autoPlay loop>
                                             <source src="/dc_fuego_min.mp4" type="video/mp4" />
                                         </video>
-                                    </aside>
-                                }  
+                                    </motion.aside>
+                                }
+                                </AnimatePresence>
 
                                 <div className="column50">
                                     <div>
@@ -110,10 +137,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                     </div>
                                 </div>
                                     
-                                <div className={styles.estado_envio}>
-                                    {contact.estado == "success" && '✔️'}
-                                    {contact.estado == "error" && '❌'}
-                                </div>
+                                {/* <div className={styles.estado_envio}> */}
+                                    {contact.estado == "success" && <img className={styles.estado_envio} src="/cierto.png" />}
+                                    {contact.estado == "error" && <img className={styles.estado_envio} src="/close.svg" />}
+                                {/* </div> */}
                             </div>
                             }
                             </>
@@ -123,13 +150,40 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
                     
                 </div>
-                <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
 
-                    {!isSent ?
-                    <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
-                        { if (!sending){ startSending() }}} />
+                {/* <video width="320" height="240" autoPlay controls={false} loop>
+                                <source src="/fire-bkgr.mp4" type="video/mp4" />
+                            </video> */}
+
+                <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
+                    {!messagesLimitAchieved ?
+                        <>
+                            {!exito ?
+                                <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
+                                { if (!sending){ startSending() }}} />
+                                :
+                                <CustomColorBtn
+                                type="submit"
+                                text="Crear nueva difusion"
+                                backgroundColorInit="#724cdf"
+                                backgroundColorEnd="#3a94fe"
+                                borderColor="#5573f0"
+                                onClick={()=>{ router.reload() }}
+                                disable={ false}
+                                />
+                            }
+                        </>
                     :
-                    <p>Listo! Podes resetear DragonChat para hacer un nuevo envío haciendo <a href="/">click acá</a></p>
+                    <>
+                        <button className={styles.limitedButton}>
+                            <video autoPlay controls={false} loop>
+                                <source src="/fire-bkgr.mp4" type="video/mp4" />
+                            </video>
+                            <FontAwesomeIcon icon={faLock} />
+                            <p>ENVIAR</p>
+                            <FontAwesomeIcon icon={faLock} />
+                        </button>
+                    </>
                     }
                 </div>
             </div>

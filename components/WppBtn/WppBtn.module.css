@@ -33,11 +33,11 @@
     border-radius: 5px;
     padding: 10px;
 
-    animation-name: wppMsj;
+    /* animation-name: wppMsj;
     animation-duration: 10s;
-    animation-iteration-count: infinite;
+    animation-iteration-count: infinite; */
 }
-
+/* 
 @keyframes wppMsj {
   0% {display: none; opacity: 0}
   33% {display: block; opacity: 0}
@@ -45,7 +45,7 @@
   66% {display: block; opacity: 1;}
   75% {display: none; opacity: 0}
   100% {display: none; opacity: 0}
-}
+} */
 
 @media (min-width: 769px) {
     #wpp_btn_cont>div>div{

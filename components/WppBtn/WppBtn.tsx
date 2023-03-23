@@ -1,3 +1,5 @@
+import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import styles from './WppBtn.module.css';
 
 
@@ -10,6 +12,16 @@ export interface IWppBtn {
 
 const WppBtn: React.FC<IWppBtn> = ({  }) => {
 
+    const [renderWppMsj, setRenderWppMsj] = useState<boolean>(false)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setRenderWppMsj(!renderWppMsj)
+        }, 8500);
+      
+        // return () => clearInterval(interval);
+    }, []);
+
 
     return (
             <div id={styles.wpp_btn_cont}>
@@ -19,9 +31,15 @@ const WppBtn: React.FC<IWppBtn> = ({  }) => {
                             <img src="/whatsapp.png" />
                         </a>
                     </div>
-                    {/* {wppMessage && */}
-                        {/* <span>Sacate cualquier duda de la plataforma! ❓😊</span> */}
-                    {/* // } */}
+                    <AnimatePresence>
+                    {renderWppMsj &&
+                            <motion.span
+                                initial={{ opacity: 0, scale : 0.9, y : '-50%' }}
+                                animate={{ opacity: 1, scale : 1, y : '-50%' }}
+                                exit={{ opacity: 0, scale : 0.9, y : '-50%' }}
+                            >Sacate cualquier duda de la plataforma! ❓😊</motion.span>
+                    }
+                    </AnimatePresence>
                 </div>
             </div>
     
