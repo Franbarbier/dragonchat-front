@@ -1,30 +1,68 @@
 import { useEffect, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
-import AddChatBox from './AddChatBox';
-import ChatBox from './ChatBox';
+import CardTitle from '../CardTitle/CardTitle';
+import ChatWindow, { ISplitModal } from './ChatWindow';
 import { IChat } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
-import { SplitInfo } from './DetailSecuence';
 
 export interface IModalSplit {
-    type : "exclude" | "include",
-    color : "blue" | "red",
     chat : IChat[],
     setChat : (chat:IChat[]) => void,
-    setSplitModal : (bool:boolean) => void,
-    splitModal : boolean,
-    setSplitModalData : (infoSecuen:SplitInfo) => void,
-    splitModalData : SplitInfo,
-    chatIndex: number,
-    setChatIndex: (i:number) => void,
-    setSplitType : (splitType:"exclude" | "include") => void
-
+    setSplitModal : (splitData:IChat | null) => void,
+    splitModal : IChat | null,
+    parentIndex: number,
+    setParentIndex : (i:number) => void
 }
+
+const InfoModal: React.FC<{ setInfoModal: (i:boolean) => void, type: any } > = ({ setInfoModal, type }) => {
+
+    return (
+        <div className={styles.infoModal}>
+            <img src="/trama-car.svg" className={`${styles.tramaInfoSplitBottom} ${styles.tramaInfoSplit}`} />
+            <img src="/trama-car.svg" className={`${styles.tramaInfoSplitTop} ${styles.tramaInfoSplit}`} />
+            <div>
+                <img className={styles.closeInfoSplit} src="/close.svg" onClick={ ()=>{setInfoModal(false)}} />
+                <CardTitle text='AYUDA' />
+
+                {type == "include" &&  <h3 className={styles.verde}>Exceptuar respuesta</h3> } 
+                {type == "exclude" &&  <h3 className={styles.rojo}>Solamente Si respuesta</h3> } 
+
+                <p>Se activará el proximo elemento de la secuencia ante cualquier respuesta que {type == "exclude" &&  "NO" } {type == "include" && "SI" } contenga las palabras establecidas.</p>
+                <div className={styles.ejemplosSplit}>
+                    <h6>EJEMPLOS DE FORMATO</h6>
+                    <div>
+                        <div>
+                            <span>si</span>
+                        </div>
+                        <p>"Hola, <span className={styles.verde}>si</span>" | "<span className={styles.verde}>si</span>ii dale" | "<span className={styles.verde}>si</span>empre"</p>
+                    </div>
+                    <div>
+                        <div>
+                            <span>_si_</span>
+                        </div>
+                        <p>"Hola, <span className={styles.verde}>si</span>" | "<span className={styles.rojo}>siii dale</span></p>
+                    </div>
+                    <div>
+                        <div>
+                            <span>_si_</span>
+                        </div>
+                        <p>"Hola, <span className={styles.verde}>si</span>" | "<span className={styles.rojo}>siii dale</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, setChat, parentIndex, setParentIndex }) => {
     
-const ModalSplit: React.FC<IModalSplit> = ({ type, color, chat, setChat, setSplitModal, splitModal, setSplitModalData, splitModalData, chatIndex, setChatIndex, setSplitType}) => {
-    
-    const [keyWords, setKeyWords] = useState<string[]>(splitModalData ? splitModalData.key_words : []);
-    const [splitSecuence, setSplitSecuence] = useState(splitModalData ? splitModalData.split_chat : []);
+    const [keyWords, setKeyWords] = useState<string[]>(splitModal ? splitModal.info.key_words : []);
+    const [splitSecuence, setSplitSecuence] = useState(splitModal ? splitModal.info.split_chat : []);
+    const [splitData, setSplitData] = useState<ISplitModal>(splitModal ? splitModal.info : {})
+
+    const [infoModal, setInfoModal] = useState<boolean>(false)
+
+    const [oldSecuence, setOldSecuence] = useState<IChat[]>([]);
    
     function comaSeparator(e){
         const inputText = e.target.value;
@@ -36,68 +74,91 @@ const ModalSplit: React.FC<IModalSplit> = ({ type, color, chat, setChat, setSpli
     }
 
     useEffect(()=>{
-        setSplitModalData({...splitModalData, key_words : keyWords})
+        setSplitData({...splitData, key_words : keyWords})
     }, [keyWords])
 
-    // console log "test"
     
     function saveModalSplit() {
-        if (keyWords.length >= 1 && splitSecuence.length >= 1 && splitModalData.name != "") {
+        if (keyWords.length >= 1 && splitSecuence.length >= 1 && splitData.name != "" && splitSecuence[0].info != "") {
                         
-            console.log(splitModalData)
+            console.log(splitData)
 
             let subObj = {
-                name: splitModalData.name,
+                name: splitData.name,
                 key_words: keyWords,
                 split_chat : splitSecuence
             }
 
-            if (chatIndex == 0) {
+            console.log({
+                        type: splitModal?.type,
+                        color: 'red',
+                        info: subObj
+                    })
+
+            if (parentIndex == 0) {
                 setChat([...chat, {
-                    type: type,
+                    type: splitModal!.type,
                     color: 'red',
-                    message: subObj
+                    info: subObj
                 }])
             }else{
                 let copyChat = [...chat]
-                copyChat[chatIndex] = {
-                    type: type,
+                copyChat[parentIndex] = {
+                    type: splitModal!.type,
                     color: 'red',
-                    message: subObj
+                    info: subObj
                 }
                 setChat(copyChat)
             }
             setSplitSecuence([]);
-            setSplitModal(false)
-            setSplitModalData({
+            setSplitModal(null)
+            setSplitData({
                 name : '',
                 key_words : [],
                 split_chat : []
             })
-            setChatIndex(0)
+            setParentIndex(0)
+            
         }
         if (keyWords.length == 0) {
-            alert('Agrega al menos una palabra para [excluir]')
+            alert(`Agrega al menos una palabra para ${ splitModal?.type == 'exclude' ? "excluir" : "incluir"}`)
         }
         if (splitSecuence.length == 0) {
             alert('Agrega al menos una respuesta a la secuencia')
         }
-        if (splitModalData.name == "") {
+        if (splitData.name == "") {
             alert('Debes asignarle un nombre al split')
+        }
+        if ( splitSecuence[0].info == "") {
+            alert('Completa al menos un mensaje')
         }
     }
 
+
+    function cancelChanges() {
+        console.log(oldSecuence);
+        setSplitSecuence([]);
+        setSplitModal(null);
+        setParentIndex(0)
+    }
+   
+
+
+
     return (
         <div className={styles.splitModal}>
+            <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
+            <img src="/trama-car.svg" className={`${styles.tramaLeft} ${styles.tramas}`} />
+            <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
             <div className={styles.splitNameCont}>
                 <span>SPLIT</span>
-                <input placeholder='Nombre del split' value={splitModalData.name} onChange={ (e)=>{setSplitModalData({ ...splitModalData, name: e.target.value })} }/>
+                <input placeholder='Nombre del split' value={splitData.name} onChange={ (e)=>{setSplitData({ ...splitData, name: e.target.value })} }/>
             </div>
-            <div style={{ height:'80%', marginTop: '5%', position: 'relative' }}>
+            <div style={{ height:'80%', marginTop: '5%' }}>
 
             <div>
             <div className={styles.message_cont}>
-                <div className={`${styles.message} ${styles.red_message} ${styles.red_type} ${type == "include" ? styles.include_cont : styles.exclude_cont}`}>
+                <div className={`${styles.message} ${styles.keyWordsCont} ${styles.red_message} ${styles.red_type} ${splitModal?.type == "include" ? styles.include_cont : styles.exclude_cont}`}>
                     <div className={`${styles.keyWordChat}` } >  
                         <div className={styles.keyWordList}>
                             {keyWords.map((keyWord) =>(
@@ -113,16 +174,29 @@ const ModalSplit: React.FC<IModalSplit> = ({ type, color, chat, setChat, setSpli
                         />
                     </div>
                 </div>
+                <div className={styles.switchCont}>
+                    <div>
+                        <img src="/info.svg" onClick={ ()=>{ setInfoModal(true) } }/>
+                    </div>
+                    <div>
+                        <img src="/refresh.svg" onClick={()=>{
+
+                            let copySplit  = {...splitModal}
+                            // console.log(copySplit.type)
+                            copySplit!.type = copySplit!.type == "exclude" ? "include" : "exclude"
+                            const NewCopySplit = copySplit as IChat
+                            setSplitModal(NewCopySplit)
+                        }}/>
+                    </div>
+                </div>
             </div>
-                {splitSecuence.map((message, index)=>(
-                    <ChatBox message={message} setChat={setSplitSecuence} chat={splitSecuence} index={index} setSplitModal={setSplitModal} setSplitModalData={setSplitModalData} splitModalData={splitModalData} chatIndex={chatIndex} setChatIndex={setChatIndex}/>
-                    
-                ))}
             </div>
 
-           <AddChatBox arrMessages={splitSecuence} setArrMessages={setSplitSecuence} splitModal={splitModal} setSplitModal={setSplitModal} setSplitModalData={setSplitModalData} setSplitType={setSplitType}/>
+            {/* Aca va el chat window */}
+            <ChatWindow chatData={splitSecuence} setChatData={setSplitSecuence} />
 
         </div>
+        
         <div className={styles.splitBtnsCont}>
             <CustomColorBtn
                 type="submit"
@@ -130,11 +204,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ type, color, chat, setChat, setSpli
                 backgroundColorInit="#a52022"
                 backgroundColorEnd="#e22a2d"
                 borderColor="#c22529"
-                onClick={()=>{ setSplitSecuence([]); setSplitModalData({
-                    name : '',
-                    key_words : [],
-                    split_chat : []
-                }); setSplitModal(false); }}
+                onClick={()=>{ cancelChanges() }}
                 disable={ false }
             />
             <CustomColorBtn
@@ -148,7 +218,8 @@ const ModalSplit: React.FC<IModalSplit> = ({ type, color, chat, setChat, setSpli
             />
             
         </div>
-
+        
+        {infoModal && <InfoModal setInfoModal={setInfoModal} type={splitModal?.type} />}
 
         </div>
     

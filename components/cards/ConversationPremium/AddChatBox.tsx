@@ -2,39 +2,47 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { IChat } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
-import { SplitInfo } from './DetailSecuence';
 
 export interface IAddChatBox {
     setArrMessages : (arrMessages:IChat[])=> void,
     arrMessages : IChat[],
-    setSplitModal : (boolean)=> void,
-    splitModal : boolean,
-    setSplitModalData : (split:SplitInfo) => void,
-    setSplitType : (splitType:"exclude" | "include") => void
+    setSplitModal : (boolean: IChat | null)=> void,
+    splitModal : IChat | null,
+
 }
 type PossibleType = "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
 
 
-const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, setSplitModalData,setSplitType }) => {
+const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal }) => {
     
     // animate states
     const [hoverNewSign, setHoverNewSign] = useState(false)
 
     function addMessage(message:any, color:string, type:PossibleType){
 
-        setArrMessages( [...arrMessages, {message, color, type: type}] )
+        setArrMessages( [...arrMessages, {info:message, color, type: type}] )
 
 
     }
 
-    //
+    // new split modal layout
+    function newSplitModal(type) { 
+    
+        return {
+            type,
+            color : 'red',
+            info : { name :'',
+            key_words : [],
+            split_chat : [],
+        }}
+        
+    }
     
     return (
         <div
-        className={styles.add_new_message_cont}
-        onMouseLeave={() => setHoverNewSign(false)}
-        // className={arrMessages.length >= 1 ?  styles.abajo : styles.medio }
-        style={{ bottom : arrMessages.length >= 1 ?  '5%' : '50%' }}
+            className={`${styles.add_new_message_cont} ${ arrMessages.length >= 1 ?  styles.abajo : styles.medio }`}
+            onMouseLeave={() => setHoverNewSign(false)}
+            // className={arrMessages.length >= 1 ?  styles.abajo : styles.medio }
         >
 
         <div onMouseEnter={() => setHoverNewSign(true)}>
@@ -55,7 +63,7 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
                         <div>
                             <span>Archivo Adjunto</span>
                         </div>
-                        <div className={styles.followup} onClick={ ()=>{addMessage('','blue','followup'); setHoverNewSign(false) } } >
+                        <div className={styles.followup} onClick={ ()=>{addMessage({message:''},'blue','followup'); setHoverNewSign(false) } } >
                             <span>Mensaje Follow-up</span>
                         </div>
                     </motion.div>
@@ -68,16 +76,15 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
                             <p>Cualquier Respuesta.</p>
                         </div>
                         <div className={styles.exceptuar} onClick={ ()=>{
-                            setSplitModal(true)
+                            setSplitModal(newSplitModal('exclude'))
                             setHoverNewSign(false)
-                            setSplitType("exclude")
                         } }>
                             <p>Exceptuar</p>
                         </div>
                         <div className={styles.solamente} onClick={ ()=>{
-                            setSplitModal(true)
+                            setSplitModal(newSplitModal('include'))
                             setHoverNewSign(false)
-                            setSplitType("include")
+                            
                         } }>
                             <p>Solamente</p>
                         </div>

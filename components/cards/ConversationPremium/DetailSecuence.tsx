@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
-import AddChatBox from './AddChatBox';
-import ChatBox from './ChatBox';
-import { IChat } from './ConversationPremium';
+import ChatWindow from './ChatWindow';
+import { IChat, ISecuence } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
-import ModalSplit from './ModalSplit';
 
 
 
+// types of info:
+// 1. texto : string
+// 2. followup : {message : string, delay: {hours: string, mins: string, secs: string}}
+// 3. include/exclude:  {name: string, key_words: [], split_chat : IChat[]}
+// 4. archivo : {url: string, name: string}
+// 5. any: string
 
 export interface ISecuencePremium {
-    blocked : boolean
-    setModalAddMessage : (color:string) => void,
-    modalAddMessage : string,
-    red_new_message : string,
-    setRed_new_message : (e:string) => void,
-    blue_new_message : string,
-    setBlue_new_message : (e:string) => void,
-    addMessage : (message:string, color:string, type: any) => void
-    chat : IChat[]
-    setChat : (chat:IChat[])=> void
+    secuence : ISecuence
 }
-
-
 
 interface IChatBox {
     message : IChat,
@@ -39,49 +32,51 @@ export interface SplitInfo{
 
 
 
-const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessage, modalAddMessage, red_new_message, setRed_new_message, blue_new_message, setBlue_new_message, addMessage, chat, setChat }) => {
+const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence }) => {
     
-        
-    const idCard = 2
+    const [secuenceInfo, setSecuenceInfo] = useState(secuence)
+    const [secuenceInfoChat, setSecuenceInfoChat] = useState<IChat[]>(secuence ? secuence.chat : [])
+    
+    useEffect(()=>{
+        console.log(secuenceInfoChat)
+    },[secuenceInfoChat])
+    
+    const [icono, setIcono] = useState<File>();
 
-
-    // primer mensaje
-    const [primerMensaje, setPrimerMensaje] = useState(true)
-
-    const [splitModal, setSplitModal] = useState<boolean>(false);
-    const [splitModalData, setSplitModalData] = useState<SplitInfo>({
-        name : '',
-        key_words : [],
-        split_chat : []
-    });
-    const [chatIndex, setChatIndex] = useState<number>(0)
-    const [splitType, setSplitType] = useState<"exclude" | "include">("include")
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const selectedFile = event.target.files?.[0];
+      if (selectedFile) {
+        setIcono(selectedFile);
+      }
+    };
 
     useEffect(()=>{
-        console.log(chat)
-    }, [chat])
-
+        console.log(icono)
+    },[icono])
+    
         return (
                 <div style={{'height':'100%'}}>
                         <div className={styles.edit_secuence_cont}>
-                                <div className={styles.new_name_cont}>
-                                    <div className={styles.icon_upload}>
+                            <div className={styles.new_name_cont}>
+                                <div className={styles.icon_upload}>
+                                    <input type="file" id="file" onChange={handleFileChange} />
+                                    {!icono ?
                                         <img src='/upload.svg' />
-                                    </div>
-                                    <div className={styles.new_name}>
-                                        <input placeholder='Nombre de la secuencia' />
-                                    </div>
-                                </div>
-                                <div className={styles.chat_cont} >
-                                    <div className={styles.chat_window}>
-                                        <div className={styles.chat} >
-                                            {chat.map((message, index)=>(
-                                                <ChatBox index={index} message={message} setChat={setChat} chat={chat} setSplitModal={setSplitModal} setSplitModalData={setSplitModalData} splitModalData={splitModalData} chatIndex={chatIndex} setChatIndex={setChatIndex}/>
-                                            ))}
+                                    :
+                                        <div>
+                                            <img src={URL.createObjectURL(icono)} alt={icono.name} />
                                         </div>
-                                    </div>
-                                    <AddChatBox arrMessages={chat} setArrMessages={setChat} splitModal={splitModal} setSplitModal={setSplitModal} setSplitModalData={setSplitModalData} setSplitType={setSplitType}/>
+                                    }
+                                    <label htmlFor="file"/>
                                 </div>
+
+                                <div className={styles.new_name}>
+                                    <input placeholder='Nombre de la secuencia' />
+                                </div>
+                            </div>
+                            <div>
+                                <ChatWindow chatData={secuenceInfoChat} setChatData={setSecuenceInfoChat} />
+                            </div>
                         </div>
                         <div>
                             <CustomColorBtn
@@ -91,16 +86,14 @@ const DetailSecuence: React.FC<ISecuencePremium> = ({  blocked, setModalAddMessa
                                 backgroundColorEnd="#3a94fe"
                                 borderColor="#5573f0"
                                 onClick={()=>{console.log('as')}}
-                                disable={ chat.length < 2 }
+                                disable={ false }
                             />
                         </div>
                                 
-                                {splitModal &&
-                                    <ModalSplit type={splitType} color={"red"} chat={chat} setChat={setChat} setSplitModal={setSplitModal} splitModal={splitModal} setSplitModalData={setSplitModalData} splitModalData={splitModalData} chatIndex={chatIndex} setChatIndex={setChatIndex} setSplitType={setSplitType}/>
-                                }
+                                
                     </div>
        );
         
     }
     
-    export default DetailSecuence;
+    export default DetailSecunce;

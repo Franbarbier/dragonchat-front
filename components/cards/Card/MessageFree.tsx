@@ -18,6 +18,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
     const [tab, setTab] = useState<string>("difusion")
 
 
+
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
             <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
