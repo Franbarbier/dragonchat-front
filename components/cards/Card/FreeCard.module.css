@@ -293,8 +293,8 @@ background: #555;
     height: 100%;
 }
 .table_rows.enviando_table{
-    height: 85%;
-    overflow: auto;
+    height: 75%;
+    overflow-y: auto;
 }
 .table_rows::-webkit-scrollbar{
     width: 4px;
@@ -338,8 +338,9 @@ background: #555;
 }
 .row_card.error{
     background:linear-gradient( rgba(31, 4, 4, 0.8), rgba(31, 4, 4, 0.8)), url('/textura.jpeg');
+    background-position: 50%;
     background-size: cover;
-    border-color: transparent!important;
+    border-color: #744440!important;
     color: #dcdcdc!important;
 }
 
@@ -367,7 +368,6 @@ background: #555;
     transform: translateY(-50%) scale(0.9);
     cursor: pointer;
     opacity: 0;
-
 }
 .row_card:hover .delete_contact{
     transform: scale(1);
@@ -384,12 +384,13 @@ background: #555;
     
 }
 
-.estado_envio img{
+.estado_envio{
     position: absolute!important;
-    right: 2%;
+    right: 3%;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
+    width: 16px;
 }
 
 
@@ -572,8 +573,58 @@ background: #555;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
 }
+.sendDelayCont{
+    width: 15%!important;
+    margin-left: 2%;
+    padding: 2% 0;
+    cursor: pointer;
+    margin-top: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+.sendDelayCont>p{
+    position: absolute;
+    background-color: #17132bea;
+    border: 1px solid var(--amarillo);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 0.7em;
+    width: max-content;
+    left: 0%;
+    bottom: 80%;
+    transform: translateX(-50%);
+    z-index: 98
+}
+.sendDelayCont>div{
+    width: 45%;
+    /* display: flex; */
+}
+.sendDelayCont>div input{
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #ddd;
+}
+.sendDelayCont>div input:focus{
+    border-bottom: 1px solid var(--rosita1);
+}
+.sendDelayCont>div span{
+    font-size: 0.7em;
+    color: #ddd;
+}
 
-
+.sendDelayCont>div input[type="number"]::-webkit-inner-spin-button,
+.sendDelayCont>div input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.sendDelayCont img{
+    width: 100%;
+}
 .footerBtns{
     display: flex;
     justify-content: space-between;
@@ -600,6 +651,10 @@ background: #555;
     font-size: 0.9em;
     display: flex;
     justify-content: center;
+    background: transparent;
+}
+.limitedButton svg{
+    z-index: 3;
 }
 .limitedButton video{
     position: absolute;

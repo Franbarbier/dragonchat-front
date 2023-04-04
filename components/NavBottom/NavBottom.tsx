@@ -10,27 +10,24 @@ export interface INavBottom {
 
 const NavBottom: React.FC<INavBottom> = ({setActiveCard, activeCard, checkPrevCard, checkNextCard }) => {
  
-  const [ruletaAngulo, setruletaAngulo] = useState<string>('rotate(-0deg)')
-  // const [ruletaAngulo, setruletaAngulo] = useState<string>('rotate(-0deg)')
+  const [ruletaAngulo, setRuletaAngulo] = useState<string>('rotate(-0deg)')
+  // const [ruletaAngulo, setRuletaAngulo] = useState<string>('rotate(-0deg)')
 
   useEffect(()=>{
-
-    console.log(activeCard)
-
     switch (activeCard) {
       case 1:
         // setTimeout(() => {
-          setruletaAngulo('0')
+          setRuletaAngulo('0')
         // }, 300);
        break;
       case 2:
         // setTimeout(() => {
-          setruletaAngulo('-60')
+          setRuletaAngulo('-60')
         // }, 300);
         break;
       case 3:
         // setTimeout(() => {
-          setruletaAngulo('-120')
+          setRuletaAngulo('-120')
         // }, 300);
         break;
           

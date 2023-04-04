@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './WppBtn.module.css';
 
 
@@ -12,15 +12,16 @@ export interface IWppBtn {
 
 const WppBtn: React.FC<IWppBtn> = ({  }) => {
 
-    const [renderWppMsj, setRenderWppMsj] = useState<boolean>(false)
+    const [renderWppMsj, setRenderWppMsj] = useState<boolean>()
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setRenderWppMsj(!renderWppMsj)
-        }, 8500);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         console.log(!renderWppMsj)
+    //         setRenderWppMsj(!renderWppMsj)
+    //     }, 8500);
       
-        // return () => clearInterval(interval);
-    }, []);
+    //     // return () => clearIntinterval);
+    // }, []);
 
 
     return (

@@ -252,54 +252,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                 </div>
                         ))}
                     </div>
-                        {/* {finalList.length > 20 ?
-                            <div>
-                                {finalList.map((elementInArray, index) => ( 
-                                    
-                                        <div className={styles.row_table}>
-                                            <div className={styles.celda_table}>
-                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
-                                            </div>
-                                            <div className={styles.celda_table}>
-                                                <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
-                                            </div>
-                                        </div>
-                                    ))
-                                }
-                                    
-                            </div>
-                        :
-                          [...Array(13)].map((elementInArray, index) => (
-
-                            
-                            <>
-                            {index < finalList.length ?
-                                <div>
-                                    <div className={styles.row_table}>
-                                        <div className={styles.celda_table}>
-                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={finalList[index].nombre} />
-                                        </div>
-                                        <div className={styles.celda_table}>
-                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={finalList[index].numero} />
-                                        </div>
-                                    </div>
-                                </div>
-                                :
-                                <div>
-                                    <div className={styles.row_table}>
-                                        <div className={styles.celda_table}>
-                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } disabled value='' />
-                                        </div>
-                                        <div className={styles.celda_table}>
-                                            <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } disabled value=''/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                }
-                            </>                            
-                        ))
-                        }  */}
+                       
                     </div>
                     <div className={styles.footerBtns}>
                         <div>
