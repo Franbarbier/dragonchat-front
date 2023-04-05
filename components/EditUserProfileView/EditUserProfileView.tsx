@@ -55,7 +55,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
     } catch (error: any) {
         alert(error.response.data.error);
     }
-}
+  }
 
   async function editUserProfile() {
     const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;

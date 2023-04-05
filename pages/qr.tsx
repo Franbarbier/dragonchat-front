@@ -1,4 +1,6 @@
-import Cookies from "universal-cookie";
+import Cookies from "js-cookie";
+import Router from "next/router";
+import apiUserController from "../api/apiUserController";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
 import QrCard from "../components/QrCard/QrCard";
@@ -9,8 +11,39 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
     
     const url = 'https://qrcg-free-editor.qr-code-generator.com/main/assets/images/websiteQRCode_noFrame.png';
 
+    const logoutBtnStyle = {
+      'width': '100%',
+      'padding': '8px 16px',
+      'border-radius': '5px',
+      'background-color': '#7561ca57',
+      'border': '1px solid var(--rosita2)',
+      'color': 'var(--rosita2)',
+      'cursor': 'pointer',
+      'letter-spacing': '1px',
+    }
+
+    async function handleLogout(){
+      try {
+          const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+          const response = await apiUserController.logout(accessToken);
+          if (response.status == 200) {
+              Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+              Router.push("/login");
+          }
+      } catch (error: any) {
+          alert(error.response.data.error);
+      }
+    }
+
+
     return (
         <section>
+            <div style={{ 'position': 'absolute', 'top': '5%', 'right':' 5%' }}>
+                <button
+                    onClick={handleLogout}
+                    style={logoutBtnStyle}
+                >LOG OUT</button>
+            </div>
             <MainCont width={40}>
                 {/* <Header /> */}
                 <QrCard qr_url={url} linked_whatsapp={linkedWhatsapp}/>
