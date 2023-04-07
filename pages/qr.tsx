@@ -14,12 +14,12 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
     const logoutBtnStyle = {
       'width': '100%',
       'padding': '8px 16px',
-      'border-radius': '5px',
-      'background-color': '#7561ca57',
+      'borderRadius': '5px',
+      'backgroundColor': '#7561ca57',
       'border': '1px solid var(--rosita2)',
       'color': 'var(--rosita2)',
       'cursor': 'pointer',
-      'letter-spacing': '1px',
+      'letterSpacing': '1px',
     }
 
     async function handleLogout(){
@@ -38,12 +38,12 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
 
     return (
         <section>
-            <div style={{ 'position': 'absolute', 'top': '5%', 'right':' 5%' }}>
+            {/* <div style={{ 'position': 'absolute', 'top': '5%', 'right':' 5%' }}>
                 <button
                     onClick={handleLogout}
                     style={logoutBtnStyle}
                 >LOG OUT</button>
-            </div>
+            </div> */}
             <MainCont width={40}>
                 {/* <Header /> */}
                 <QrCard qr_url={url} linked_whatsapp={linkedWhatsapp}/>
@@ -54,21 +54,24 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
 
 Qr.getInitialProps = async (context) => {
   const req = context.req;
-  if (req) {
-    const headers = new Headers({
-      "Content-Type": "application/json",
-    });
-    const cookies = new Cookies(req.headers.cookie);
-    const accessToken = cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "").access_token;
-    headers.append("Authorization", `Bearer ${accessToken}`);
-    const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
-      { headers }
-    );
-    const data = await apiResponse.json();
-    return { linkedWhatsapp: data.data.connected_whatsapp == 1};
-  }
-  return { linkedWhatsapp: false};
+  console.log(req)
+  return { linkedWhatsapp: true};
+
+//   if (req) {
+//     const headers = new Headers({
+//       "Content-Type": "application/json",
+//     });
+//     const cookies = new Cookies(req.headers.cookie);
+//     const accessToken = cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "").access_token;
+//     headers.append("Authorization", `Bearer ${accessToken}`);
+//     const apiResponse = await fetch(
+//       `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
+//       { headers }
+//     );
+//     const data = await apiResponse.json();
+//     return { linkedWhatsapp: data.data.connected_whatsapp == 1};
+//   }
+//   return { linkedWhatsapp: false};
 };
 
 Qr.getLayout = (page) => {

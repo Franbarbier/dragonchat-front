@@ -39,18 +39,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>()
 
 
-    // function startSending() {
-
-    //     setSending(true)
-
-    //     const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
-        
-    //     sendingLoop(userInfo)
-        
-    //     setSending(false)
-    //     setExito(true)
-
-    // }
 
     async function sendMove(userInfo, count) {
         console.log(mensaje)

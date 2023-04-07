@@ -8,6 +8,7 @@ import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
 import FreeCard3 from './Card/SendFree';
 import styles from './CardsCont.module.css';
+import { ISecuence } from './ConversationPremium/ConversationPremium';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
@@ -34,7 +35,11 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     const [activeCard, setActiveCard] = useState<number>(1)
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
+    
     const [mensaje, setMensaje] = useState<string>('')
+    const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
+    const [readMessage, setReadyMessage] = useState<boolean>(false)
+
     const [modalImport, setModalImport] = useState<boolean>(false)
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -48,15 +53,13 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
 
 
     useEffect(() => {
-
-
         const checkIsMobile = () => {
             setIsMobile(window.innerWidth <= 768);
         };
         checkIsMobile();
         window.addEventListener('resize', checkIsMobile);
         return () => window.removeEventListener('resize', checkIsMobile);
-        }, [])
+    }, [])
 
 
     
@@ -88,7 +91,7 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                 if (finalList.length > 1 && checkAllListFields()) setActiveCard(activeCard+1)
                 break;
             case 2:
-                if (mensaje != "") setActiveCard(activeCard+1)
+                if (readMessage) setActiveCard(activeCard+1)
                 break;
             case 3:
                  return false
@@ -101,7 +104,6 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     function checkPrevCard() {
         switch (activeCard) {
             case 1:
-                setActiveCard(activeCard-1)
                 return false
             case 2:
                 setActiveCard(activeCard-1)
@@ -164,11 +166,13 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                     />
                     <FreeCard2
                         {...mockFreeCard1Props.base}
-                        
+                        setReadyMessage={setReadyMessage}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         mensaje={mensaje}
                         setMensaje={setMensaje}
+                        selectedSecuence={selectedSecuence}
+                        setSelectedSecuence={setSelectedSecuence}
                     />
 
                     

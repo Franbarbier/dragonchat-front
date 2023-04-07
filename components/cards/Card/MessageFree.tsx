@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CardTitle from '../CardTitle/CardTitle';
-import ConversationPremium from '../ConversationPremium/ConversationPremium';
+import ConversationPremium, { ISecuence } from '../ConversationPremium/ConversationPremium';
 import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {
@@ -9,14 +9,30 @@ export interface IFreeCard2 {
     activeCard : number;
     mensaje : string;
     setMensaje: (msj: string) => void;
+    setSelectedSecuence:  (secuence: ISecuence | null) => void;
+    selectedSecuence : ISecuence | null;
+    setReadyMessage : (ready: boolean) => void;
 }
 
-const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setReadyMessage}) => {
 
     let idCard = 2;
 
     const [tab, setTab] = useState<string>("difusion")
 
+    useEffect(()=>{ 
+        if (mensaje != "" || selectedSecuence != null) {
+            setReadyMessage(true)
+        }else{
+            setReadyMessage(false)
+        }
+    },[mensaje, selectedSecuence])
+
+    useEffect(()=>{
+        setSelectedSecuence(null)
+        setMensaje("")
+    },[tab])
+    
 
 
     return (
@@ -47,13 +63,12 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                     {tab == "difusion" ?
                         <div className={styles.options_cont}>
                             <div className={styles.message}>
-                            <textarea placeholder='Utilizando la variable `[name]` en tu mensaje, la misma será reemplazada por el nombre de cada uno de los destinatarios definidos en la sección anterior. Ejemplo: `Hola [name], tengo algo para enviarte que te va a encantar`' value={mensaje} onChange={ (e)=>{ setMensaje(e.target.value) } } />
-
+                                <textarea placeholder='Utilizando la variable `[name]` en tu mensaje, la misma será reemplazada por el nombre de cada uno de los destinatarios definidos en la sección anterior. Ejemplo: `Hola [name], tengo algo para enviarte que te va a encantar`' value={mensaje} onChange={ (e)=>{ setMensaje(e.target.value) } } />
                             </div>
                         </div>
                         :
                         <div>
-                            <ConversationPremium blocked={false} />
+                            <ConversationPremium blocked={false} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} />
                         </div>
 
                     }

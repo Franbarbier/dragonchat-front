@@ -14,7 +14,11 @@ import styles from './ConversationPremium.module.css';
 // 5. any: string
 
 export interface ISecuencePremium {
-    secuence : ISecuence
+    secuence : ISecuence,
+    setActiveSecuence: (secuence: ISecuence | null) => void,
+    secuenciasCreadas: ISecuence[],
+    setSecuenciasCreadas: (secuences: ISecuence[]) => void,
+    isNew : number
 }
 
 interface IChatBox {
@@ -31,8 +35,7 @@ export interface SplitInfo{
 }
 
 
-
-const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence }) => {
+const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCreadas, secuenciasCreadas, setActiveSecuence, isNew }) => {
     
     const [secuenceInfo, setSecuenceInfo] = useState(secuence)
     const [secuenceInfoChat, setSecuenceInfoChat] = useState<IChat[]>(secuence ? secuence.chat : [])
@@ -52,8 +55,32 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence }) => {
 
     useEffect(()=>{
         console.log(icono)
+        if (icono?.name) {
+            setSecuenceInfo({...secuenceInfo, icon: icono.name})
+        }
     },[icono])
     
+    useEffect(()=>{
+        setSecuenceInfo({...secuenceInfo, chat: secuenceInfoChat})
+    }, [secuenceInfoChat])
+    
+    function validacionCrearSecuencia() {
+
+        console.log(secuenceInfo, secuenceInfoChat, secuence, icono)
+
+
+        if(isNew  == -1 ){
+            setSecuenciasCreadas([...secuenciasCreadas, secuenceInfo])
+        }else{
+            let secuences = [...secuenciasCreadas]
+            secuences[isNew] = secuenceInfo
+            setSecuenciasCreadas(secuences)
+        }
+        setActiveSecuence(null)
+    
+    }
+
+
         return (
                 <div style={{'height':'100%'}}>
                         <div className={styles.edit_secuence_cont}>
@@ -71,23 +98,36 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence }) => {
                                 </div>
 
                                 <div className={styles.new_name}>
-                                    <input placeholder='Nombre de la secuencia' />
+                                    <input placeholder='Nombre de la secuencia' value={secuenceInfo.name} onChange={(e)=>{ setSecuenceInfo({...secuenceInfo, name: e.target.value}) } }/>
                                 </div>
                             </div>
                             <div>
                                 <ChatWindow chatData={secuenceInfoChat} setChatData={setSecuenceInfoChat} />
                             </div>
                         </div>
-                        <div>
-                            <CustomColorBtn
-                                type="submit"
-                                text="Crear secuencia"
-                                backgroundColorInit="#724cdf"
-                                backgroundColorEnd="#3a94fe"
-                                borderColor="#5573f0"
-                                onClick={()=>{console.log('as')}}
-                                disable={ false }
-                            />
+                        <div style={{'display': 'flex', 'justifyContent':'space-between'}}>
+                            <div style={{ 'width' : '48%'}}>
+                                <CustomColorBtn
+                                    type="submit"
+                                    text="Cancelar"
+                                    backgroundColorInit="rgb(58 148 254 / 36%)"
+                                    backgroundColorEnd="rgb(114 76 223 / 0%)"
+                                    borderColor="#5573f0"
+                                    onClick={()=>{ setActiveSecuence(null) }}
+                                    disable={ false }
+                                />
+                            </div>
+                            <div style={{ 'width' : '48%'}}>
+                                <CustomColorBtn
+                                    type="submit"
+                                    text="Guardar secuencia"
+                                    backgroundColorInit="#724cdf"
+                                    backgroundColorEnd="#3a94fe"
+                                    borderColor="#5573f0"
+                                    onClick={()=>{ validacionCrearSecuencia() }}
+                                    disable={ false }
+                                />
+                            </div>
                         </div>
                                 
                                 

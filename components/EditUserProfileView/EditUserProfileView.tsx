@@ -22,17 +22,12 @@ export interface IEditUserProfileView {
 }
 
 
-
-
-
 const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
-
-
 
   async function handleDesvWpp(){
     const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;

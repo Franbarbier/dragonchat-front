@@ -5,6 +5,8 @@ import DetailSecunce from './DetailSecuence';
 
 export interface IConversationPremium {
     blocked : boolean;
+    setSelectedSecuence:  (secuence: ISecuence) => void;
+    selectedSecuence : ISecuence | null;
 }
 
 // types of info:
@@ -41,45 +43,44 @@ interface IChatBox {
 
 
 
-const ConversationPremium: React.FC<IConversationPremium> = ({ blocked }) => {
+const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence }) => {
     
     const idCard = 2
  
-    const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
+    
     const [secuenciasCreadas, setSecuenciasCreadas] = useState<ISecuence[]>([])
+    const [isNew, setIsNew] = useState<number>(-1)
 
-    const [activeSecuence, setActiveSecuence] = useState<ISecuence>({
-        name : '',
-        icon : '',
-        chat : []
-    })
+    const [activeSecuence, setActiveSecuence] = useState<ISecuence | null>()
 
     function new_secuence() {
         console.log('crear y renderizar secuencia nueva')
-        setSelectedSecuence({
+        setActiveSecuence({
             name : '',
             icon : '',
             chat : []
         })
+        setIsNew(-1)
     }
 
     useEffect(()=>{
         console.log(activeSecuence)
     },[activeSecuence])
 
+    console.log(isNew)
 
     return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
             {!blocked ?
             <>
-                {!selectedSecuence ?
+                {activeSecuence == null ?
                     <div>
                         <div className={styles.gridSecuences}>
                             <div className={styles.addNewSecuence} onClick={()=>{new_secuence()}}>
                                 <img src='/close.svg' />
                             </div>
                             {secuenciasCreadas.map((secuen, index)=>(
-                                <div>
+                                <div key={`secuenNro${index}`}  onClick={()=>{ setActiveSecuence(secuen); setIsNew(index) }}>
                                     <img />
                                 </div>
                             ))
@@ -90,7 +91,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked }) => {
                         
                     </div>
                 :
-                    <DetailSecunce secuence={activeSecuence}/>
+                    <DetailSecunce isNew={isNew} secuence={activeSecuence} setActiveSecuence={setActiveSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} />
                 }
             </>
             :
