@@ -17,13 +17,12 @@ const Home: NextPageWithLayout<IEditUserProfileView> = ({user}) => {
 
   const { locale } = useRouter();
   const [openSettings, setOpenSettings] = useState<boolean>(false)
-  const [modalRef, setModalRef] = useState<boolean>(false)
   
   console.log(user)
 
   return (
     <section style={{'position':'relative', 'height':'100%', 'width':'100%'}}>
-      <Header openSettings={openSettings} setOpenSettings={setOpenSettings} setModalRef={setModalRef}/>
+      <Header openSettings={openSettings} setOpenSettings={setOpenSettings} />
 
       <AnimatePresence>
       {!openSettings && (
@@ -40,7 +39,7 @@ const Home: NextPageWithLayout<IEditUserProfileView> = ({user}) => {
                'position': 'relative'
               }}
               >
-              <CardsCont {...mockCardsContProps.base} modalRef={modalRef} setModalRef={setModalRef}/>
+              <CardsCont {...mockCardsContProps.base} />
 
             </div>
       </motion.div>

@@ -4,7 +4,6 @@ import styles from './CardsCont.module.css';
 
 
 export interface ICardsCont {
-    sampleTextProp : string;
 }
 
 type IdCard = {
@@ -19,7 +18,7 @@ export interface ContactInfo {
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const CardsCont: React.FC<ICardsCont> = ({ sampleTextProp }) => {
+const CardsCont: React.FC<ICardsCont> = ({  }) => {
 
     
     // const [activeCard, setActiveCard] = useState<IdCard>(1)
