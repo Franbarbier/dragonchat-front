@@ -67,8 +67,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
         console.log(activeSecuence)
     },[activeSecuence])
 
-    console.log(isNew)
-
     return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
             {!blocked ?
@@ -82,6 +80,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                             {secuenciasCreadas.map((secuen, index)=>(
                                 <div key={`secuenNro${index}`}  onClick={()=>{ setActiveSecuence(secuen); setIsNew(index) }}>
                                     <img />
+                                    <span>{secuen.name}</span>
                                 </div>
                             ))
 

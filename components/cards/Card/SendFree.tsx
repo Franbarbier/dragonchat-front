@@ -160,7 +160,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                     {!messagesLimitAchieved ?
                         <div className={styles.footerBtns}>
                             {!exito ?
-                                <OrangeBtn text={!isLooping ? 'Enviar 🚀' : 'Pausar ⏸️' } onClick={handleButtonClick} />
+                                <OrangeBtn text={!isLooping ? 'Enviar' : 'Pausar' } onClick={handleButtonClick} />
                                 :
                                 <CustomColorBtn
                                 type="submit"

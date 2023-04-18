@@ -8,21 +8,22 @@ export interface IAddChatBox {
     arrMessages : IChat[],
     setSplitModal : (boolean: IChat | null)=> void,
     splitModal : IChat | null,
+    scrollToBottom : ()=> void,
 
 }
 type PossibleType = "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
 
 
-const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal }) => {
+const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, scrollToBottom }) => {
     
     // animate states
     const [hoverNewSign, setHoverNewSign] = useState(false)
 
     function addMessage(message:any, color:string, type:PossibleType){
-
         setArrMessages( [...arrMessages, {info:message, color, type: type}] )
-
-
+        // setTimeout(() => {
+            scrollToBottom()
+        // }, 100);
     }
 
     // new split modal layout
@@ -57,7 +58,7 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
                         exit={{opacity: 0, y: 0, x : '-15%'}}
                         animate={{ opacity: hoverNewSign ? 1 : 0, x: hoverNewSign ? 0 : '-15%' , y : 0}}
                         >
-                        <div onClick={ ()=>{addMessage('','blue','texto'); setHoverNewSign(false) } }>
+                        <div onClick={ ()=>{addMessage('','blue','texto'); setHoverNewSign(false);} }>
                             <span>Mensaje</span>
                         </div>
                         <div>

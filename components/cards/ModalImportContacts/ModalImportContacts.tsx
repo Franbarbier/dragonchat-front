@@ -8,14 +8,15 @@ import styles from './ModalImportContacts.module.css';
 
 export interface IModalImportContacts {
     setModalImport : (render: boolean) => void;
-    uploadContacts: (contacts: ContactInfo[]) => void
+    uploadContacts: (contacts: ContactInfo[]) => void;
+    inheritFile : File | null;
 }
 
 
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts }) => {
+const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile}) => {
 
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [isFile, setIsFile] = useState<boolean>(false);
@@ -32,11 +33,12 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
       },
     });
   };
+
   const onDrop = useCallback(acceptedFiles => {
-    if (acceptedFiles.length) {
-      parseFile(acceptedFiles[0]);
+   
+      parseFile(acceptedFiles);
       setIsFile(true)
-    }
+    
   }, []);
 
   
@@ -52,12 +54,20 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   }
   
   useEffect(()=>{
-    console.log(parsedCsvData)
-  
-      
-  }, [parsedCsvData])
+    if (inheritFile != null && inheritFile != undefined) {
+      onDrop(inheritFile)
+      setIsFile(true)
+
+    }
+  }, [inheritFile])
 
 
+  useEffect(() => {
+    return () => {
+      setParsedCsvData([])
+      setIsFile(false)
+    };
+  }, []);
 
   const campos = ["Nombre", "Número"]
 
@@ -103,7 +113,11 @@ return (
           }
 
           <input
-              onChange={ (e)=>{ onDrop(e.target.files) } }
+              onChange={ (e)=>{ 
+                if (e.target.files?.length) {
+                    onDrop(e.target.files[0]);
+                  } 
+                }}
               className={styles.csvInput}
               id="csvInput"
               name="file"

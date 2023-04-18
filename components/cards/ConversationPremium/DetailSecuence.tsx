@@ -40,10 +40,6 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
     const [secuenceInfo, setSecuenceInfo] = useState(secuence)
     const [secuenceInfoChat, setSecuenceInfoChat] = useState<IChat[]>(secuence ? secuence.chat : [])
     
-    useEffect(()=>{
-        console.log(secuenceInfoChat)
-    },[secuenceInfoChat])
-    
     const [icono, setIcono] = useState<File>();
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +64,19 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
 
         console.log(secuenceInfo, secuenceInfoChat, secuence, icono)
 
-
+        if (secuenceInfo.name == "" ) {
+            alert('Debes asignarle un nombre a la secuencia')
+            return false;
+        }
+        if (secuenceInfo.chat.length == 0) {
+            alert('Debes agregar al menos un mensaje a la secuencia')
+            return false;
+        }
+        if (secuenceInfo.chat[0].info == "") {
+            alert('No puedes enviar un mensaje vacío')
+            return false;
+        }
+        
         if(isNew  == -1 ){
             setSecuenciasCreadas([...secuenciasCreadas, secuenceInfo])
         }else{
@@ -80,6 +88,7 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
     
     }
 
+    
 
         return (
                 <div style={{'height':'100%'}}>
@@ -109,11 +118,19 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                             <div style={{ 'width' : '48%'}}>
                                 <CustomColorBtn
                                     type="submit"
-                                    text="Cancelar"
+                                    text="Regresar"
                                     backgroundColorInit="rgb(58 148 254 / 36%)"
                                     backgroundColorEnd="rgb(114 76 223 / 0%)"
                                     borderColor="#5573f0"
-                                    onClick={()=>{ setActiveSecuence(null) }}
+                                    onClick={()=>{
+                                        console.log(secuenceInfoChat)
+                                        if(secuenceInfoChat.length > 0){
+                                            if(confirm('¿Estas seguro que quieres salir sin guardar los cambios?')){
+                                                setActiveSecuence(null)
+                                            }
+                                        }
+                                        // setActiveSecuence(null)
+                                    }}
                                     disable={ false }
                                 />
                             </div>

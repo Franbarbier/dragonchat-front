@@ -39,7 +39,6 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
         if (message.type == "followup") {
             let copyChat = [...chat]
             copyChat[index].info.delay = fupDelay
-            console.log(copyChat[index])
             setChat(copyChat)
         }
     }, [fupDelay])
@@ -66,6 +65,34 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
         }, [ref]);
       }
 
+      function handleKeyDown(e) {
+        // console.log(e.target.value)
+        if (e.key === "Enter") {
+            setChat( [...chat, {info: "", color: message.color, type: "texto"}] )
+            e.preventDefault();
+        }
+        if (e.key === "Enter" && e.shiftKey) {
+    
+            let copyChat = [...chat];
+
+            const start = e.currentTarget.selectionStart;
+            const end = e.currentTarget.selectionEnd;
+
+            copyChat[index].info =
+            copyChat[index].info.substring(0, start) +
+            "\n" +
+            copyChat[index].info.substring(end, copyChat[index].info.length);
+
+            setChat(copyChat);
+            e.currentTarget.setSelectionRange(start + 1, start + 1);
+
+            requestAnimationFrame(() => {
+                textarea.current?.setSelectionRange(start + 1, start + 1);
+            });
+            
+      }
+    }
+
 
     return (
         <div key={`mensajeChat${index}`}>
@@ -77,17 +104,20 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
             <div>
                 {message.type == "texto" &&
                     <textarea
+                    value={message.info}
                     ref={textarea}
                     onInput={ (e)=>{ checkHeight(e); } }
+                    onFocus={(e)=>{ checkHeight(e); }}
+                    onKeyDown={ (e)=>{ handleKeyDown(e) }}
                     onChange={(e)=>{
                         let copyChat = [...chat]
                         copyChat[index].info = e.target.value
                         setChat(copyChat)
-                        } 
+                        }
                     }
                     rows={1}
                     placeholder='Escribir mensaje' 
-                    >{message.info}</textarea>
+                    />
                 }
 
                 {message.type == "any" &&
@@ -98,7 +128,10 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
                     <>
                         <textarea
                         ref={textarea}
+                        onFocus={(e)=>{ checkHeight(e); }}
                         onInput={ (e)=>{ checkHeight(e)} }
+                        onKeyDown={ (e)=>{ handleKeyDown(e) }}
+                       
                         rows={1}
                         placeholder='Escribir mensaje'
                         onChange={(e)=>{

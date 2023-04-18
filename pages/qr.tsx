@@ -38,12 +38,12 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
 
     return (
         <section>
-            {/* <div style={{ 'position': 'absolute', 'top': '5%', 'right':' 5%' }}>
+            <div style={{ 'position': 'absolute', 'top': '5%', 'right':' 5%' }}>
                 <button
                     onClick={handleLogout}
                     style={logoutBtnStyle}
                 >LOG OUT</button>
-            </div> */}
+            </div>
             <MainCont width={40}>
                 {/* <Header /> */}
                 <QrCard qr_url={url} linked_whatsapp={linkedWhatsapp}/>
@@ -56,7 +56,7 @@ Qr.getInitialProps = async (context) => {
   const req = context.req;
 
 //   ~ codigo para testear ~
-//   console.log(req)
+  console.log("aqui van", req)
 //   return { linkedWhatsapp: true};
 
   if (req) {

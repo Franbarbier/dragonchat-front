@@ -40,6 +40,8 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
     const [readMessage, setReadyMessage] = useState<boolean>(false)
 
+    const [droppedCsv, setDroppedCsv] = useState<File | null>(null)
+
     const [modalImport, setModalImport] = useState<boolean>(false)
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -51,6 +53,7 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
 
+    
 
     useEffect(() => {
         const checkIsMobile = () => {
@@ -86,6 +89,7 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     }
 
     function checkNextCard() {
+    
         switch (activeCard) {
             case 1:
                 if (finalList.length > 1 && checkAllListFields()) setActiveCard(activeCard+1)
@@ -116,9 +120,6 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                 break;
         }
     }
-
-    
-
     
     useEffect(()=>{
         var filtered = [...contactos]
@@ -137,6 +138,20 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     },[contactos])
 
 
+    useEffect(() => {
+        function handleKeyPress(event: KeyboardEvent) {
+            if (event.key == "Enter" && activeCard == 1) {
+                event.preventDefault()
+                checkNextCard()
+            }
+        }
+        document.addEventListener("keydown", handleKeyPress);
+        return () => {
+          document.removeEventListener("keydown", handleKeyPress);
+        };
+      })
+
+  
     
     return (
         <div>
@@ -163,6 +178,7 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                         handleDeleteContact={handleDeleteContact}
                         handleRenderModal={handleRenderModal}
                         finalList={finalList}
+                        setDroppedCsv={setDroppedCsv}
                     />
                     <FreeCard2
                         {...mockFreeCard1Props.base}
@@ -232,7 +248,7 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                 <div className={styles.modal_position_card1}>
                     <div>
                         <ModalContainer closeModal={ handleRenderModal } >
-                            <ModalImportContacts setModalImport={setModalImport} uploadContacts={setContactos} />
+                            <ModalImportContacts setModalImport={setModalImport} uploadContacts={setContactos} inheritFile={droppedCsv}/>
                         </ModalContainer>
                     </div>
                 </div>

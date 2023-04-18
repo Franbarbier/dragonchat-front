@@ -67,7 +67,16 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
     function comaSeparator(e){
         const inputText = e.target.value;
         if (e.which == 13 && e.target.value != "") { // if the input ends with a comma, create a new tag
-        setKeyWords([...keyWords, inputText]); // add the new tag to the tags array
+            if (inputText.includes(',')) {
+                let words = inputText.split(',');
+                words.forEach((word)=>{
+                    if (word != "") {
+                        setKeyWords([...keyWords, word]); // add the new tag to the tags array
+                    }
+                })                
+            }else{
+                setKeyWords([...keyWords, inputText]); // add the new tag to the tags array
+            }
         e.target.value = ''; // clear the input for the next tag
         
         }
