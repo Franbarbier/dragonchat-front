@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import Router from "next/router";
 import apiUserController from "../api/apiUserController";
+// import Cookies from "universal-cookie";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
 import QrCard from "../components/QrCard/QrCard";

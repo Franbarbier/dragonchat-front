@@ -24,8 +24,8 @@ const InfoModal: React.FC<{ setInfoModal: (i:boolean) => void, type: any } > = (
                 <img className={styles.closeInfoSplit} src="/close.svg" onClick={ ()=>{setInfoModal(false)}} />
                 <CardTitle text='AYUDA' />
 
-                {type == "include" &&  <h3 className={styles.verde}>Exceptuar respuesta</h3> } 
-                {type == "exclude" &&  <h3 className={styles.rojo}>Solamente Si respuesta</h3> } 
+                {type == "exclude" &&  <h3 className={styles.verde}>Exceptuar respuesta</h3> } 
+                {type == "include" &&  <h3 className={styles.rojo}>Solamente Si respuesta</h3> } 
 
                 <p>Se activará el proximo elemento de la secuencia ante cualquier respuesta que {type == "exclude" &&  "NO" } {type == "include" && "SI" } contenga las palabras establecidas.</p>
                 <div className={styles.ejemplosSplit}>
@@ -68,12 +68,12 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
         const inputText = e.target.value;
         if (e.which == 13 && e.target.value != "") { // if the input ends with a comma, create a new tag
             if (inputText.includes(',')) {
-                let words = inputText.split(',');
-                words.forEach((word)=>{
-                    if (word != "") {
-                        setKeyWords([...keyWords, word]); // add the new tag to the tags array
-                    }
-                })                
+                
+                var words = inputText.split(',');
+                words = words.map(str => str.trim());
+
+                setKeyWords([...keyWords, ...words]); // add the new tag to the tags array
+                
             }else{
                 setKeyWords([...keyWords, inputText]); // add the new tag to the tags array
             }
@@ -83,6 +83,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
     }
 
     useEffect(()=>{
+        console.log(keyWords)
         setSplitData({...splitData, key_words : keyWords})
     }, [keyWords])
 

@@ -129,9 +129,11 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
         })
         const lastObject = contactos[contactos.length - 1];
 
-        if (lastObject && lastObject.hasOwnProperty("nombre") && lastObject.nombre != "" || lastObject.hasOwnProperty("numero") && lastObject.numero != "" ) {
-            filtered = [...filtered, {'nombre':'', 'numero':''}]
-        }
+        // if (lastObject != undefined) {   
+            if (lastObject.hasOwnProperty("nombre") && lastObject.nombre != "" || lastObject.hasOwnProperty("numero") && lastObject.numero != "" ) {
+                filtered = [...filtered, {'nombre':'', 'numero':''}]
+            }
+        // }
 
         setFinalList(filtered)
         

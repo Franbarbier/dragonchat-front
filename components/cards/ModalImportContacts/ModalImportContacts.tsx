@@ -1,7 +1,10 @@
+import { faCloudArrowUp, faFileCircleCheck, faFileCsv, faTableColumns } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
+import CardTitle from "../CardTitle/CardTitle";
 import ContactRow from "../ContactRow/ContactRow";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from './ModalImportContacts.module.css';
@@ -34,7 +37,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
     });
   };
 
-  const onDrop = useCallback(acceptedFiles => {
+  const onDropFn = useCallback(acceptedFiles => {
    
       parseFile(acceptedFiles);
       setIsFile(true)
@@ -53,9 +56,20 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
     console.log(newArr)
   }
   
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const droppedFile = event.dataTransfer.files[0];
+      setIsFile(true)
+      parseFile(droppedFile);
+  };
+  
   useEffect(()=>{
     if (inheritFile != null && inheritFile != undefined) {
-      onDrop(inheritFile)
+      onDropFn(inheritFile)
       setIsFile(true)
 
     }
@@ -99,30 +113,63 @@ return (
           :
           <>
             <div className={styles.infoCsv}>
-              <div>
-                <span className={styles.infoIcon}>i</span>
-                <span className={styles.infoTxt}>Asegúrate que la primera fila de cada columna sea <span>"Nombre"</span> y "Número". </span>
-                <span className={styles.infoTxt}>Este es un <span className={styles.ejPlantilla}>ejemplo de plantilla</span>.
-                <img src='/plantilla-ejemplo.jpg' width="200px"/>
-                También podes descargarlo haciendo <span className={styles.ejDownload}><a href="/Plantilla DragonChat - Importar contactos.csv" >click acá</a></span>.</span>
+              <div className={styles.infoTitle}>
+                {/* <h5>Importar contactos</h5> */}
+                <CardTitle text="Importar contactos" />
+              </div>
+              <div className={styles.infoData}>
+                <div>
+                  <div className={styles.infoIcon}>
+                    <FontAwesomeIcon icon={faFileCsv} />
+                  </div>
+                  <p>El archivo debe ser .csv</p>
+                </div>
+                <div>
+                  <div className={styles.infoIcon}>
+                    <FontAwesomeIcon icon={faTableColumns} />
+                  </div>
+                  <p>Los primeros campos de las columnas deben ser "Nombre" y "Número".</p>
+                </div>
+                <div>
+                  <div className={styles.infoIcon}>
+                    <FontAwesomeIcon icon={faFileCircleCheck} />
+                  </div>
+                  <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href="/Plantilla DragonChat - Importar contactos.csv" >acá</a>.</p>
+                </div>
+              </div>
+              <div className={styles.dropCont}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+              >
+                <div>
+                  {/* <div> */}
+                    <label htmlFor="csvInput" />
+                    <FontAwesomeIcon icon={faCloudArrowUp} />
+                    <p>Arrastrar archivo</p>
+                    <button>Elegir archivo</button>
+                    <input
+                        onChange={ (e)=>{ 
+                          if (e.target.files?.length) {
+                            onDropFn(e.target.files[0]);
+                          } 
+                        }}
+                        
+                        className={styles.csvInput}
+                        id="csvInput"
+                        name="file"
+                        type="File"
+                        />
+                      </div>
+                {/* </div> */}
               </div>
 
-              <label className={styles.labelFile} htmlFor="csvInput">Agregar .CSV</label>
+                {/* <img src='/plantilla-ejemplo.jpg' width="200px"/> */}
+
+              {/* <label className={styles.labelFile} htmlFor="csvInput">Agregar .CSV</label> */}
             </div>
           </>
           }
 
-          <input
-              onChange={ (e)=>{ 
-                if (e.target.files?.length) {
-                    onDrop(e.target.files[0]);
-                  } 
-                }}
-              className={styles.csvInput}
-              id="csvInput"
-              name="file"
-              type="File"
-          />
         </div>
       );
 }

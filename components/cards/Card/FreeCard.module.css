@@ -271,6 +271,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 } */
 #card3 .card_container>div:nth-child(2){
     height: 100%;
+    /* overflow-y: auto; */
 }
 #card3 .card_container>div:nth-child(2)>div:first-child{
     padding-right: 2%;

@@ -4,8 +4,9 @@
     height: 100vh;
     left: 0;
     top: 0;
-    background: #5931ea42;
-    backdrop-filter: blur(20px);
+    background: #0000004e;
+    /* -webkit-backdrop-filter: blur(20px); */
+    /* backdrop-filter: blur(4px); */
     z-index: 100;
 }
 .modal_cont{
@@ -20,7 +21,7 @@
     left: 50%;
     transform: translate(-50% , -50%);
     z-index: 5;
-    background-image: linear-gradient(325deg, #3e2879 16%, #6c4a8d , #3c2678 55%);
+    background-image: linear-gradient(325deg, #3e2879 16%, #6c459287 , #3c2678 55%);
     overflow: hidden;
 }
 .trama1{
@@ -30,7 +31,7 @@
     top: -20%;
     left: -30%;
     opacity: 0.4;
-    width: 100%;
+    width: 310px;
 }
 .trama2{
     position: absolute;
@@ -39,7 +40,7 @@
     bottom: -10%;
     right: -30%;
     opacity: 0.4;
-    width: 100%;
+    width: 310px;
 }
 .close_mod{
     position: absolute;
