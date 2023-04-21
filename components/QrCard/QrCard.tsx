@@ -29,7 +29,7 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
     const linkedWhatsapp = linked_whatsapp;
    
     useEffect(()=>{
-        socket.on('message', function (data) {
+        socket.on("message", function (data) {
             if (data.text == '¡Fallo la conexion!') {
                 location.reload()
             }
@@ -54,7 +54,14 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
             alert("Whatsapp sincronizado con éxito! Antes de enviar mensajes, asegurate que haya terminado la sincronizacion. Desde tus dispositivos vinculados en la app.")
             location.href = "/"
         });
-        
+
+        // return () => {
+        //     socket.off("message");
+        //     socket.off("connection_qr");
+        //     socket.off("connection_status");
+        //     socket.off("connect_error");
+        //     socket.off("ready");
+        // };
     },[socket])
 
 
