@@ -571,62 +571,65 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
 }
-.sendDelayCont{
-    width: 15%!important;
-    margin-left: 2%;
-    padding: 2% 0;
-    cursor: pointer;
+
+.footerBtns>aside{
+    width: 10%;
+    border: 2px solid white;
+    border-radius: 10px;
+    margin-right: 3%;
+    background-color: rgba(255, 255, 255, 0.5);
     margin-top: 3%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     position: relative;
-}
-.sendDelayCont>p{
-    position: absolute;
-    background-color: #17132bea;
-    border: 1px solid var(--amarillo);
-    border-radius: 8px;
-    padding: 5px 10px;
-    font-size: 0.7em;
-    width: max-content;
-    left: 0%;
-    bottom: 80%;
-    transform: translateX(-50%);
-    z-index: 98
-}
-.sendDelayCont>div{
-    width: 45%;
-    /* display: flex; */
-}
-.sendDelayCont>div input{
-    width: 100%;
-    background: none;
-    border: none;
-    outline: none;
-    padding-bottom: 3px;
-    border-bottom: 1px solid #ddd;
-}
-.sendDelayCont>div input:focus{
-    border-bottom: 1px solid var(--rosita1);
-}
-.sendDelayCont>div span{
-    font-size: 0.7em;
-    color: #ddd;
+    cursor: pointer;
 }
 
-.sendDelayCont>div input[type="number"]::-webkit-inner-spin-button,
-.sendDelayCont>div input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.footerBtns>aside img{
+    position: absolute;
+    height: 80%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
-.sendDelayCont img{
+.footerBtns>aside>aside{
     width: 100%;
+    position: absolute;
+    height: 100%;
+    opacity: 0;
+    transform: translate(-50%, -15%);
+    top: -80%;
+    left: 50%;
 }
+.footerBtns>aside:hover aside{
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+.footerBtns>aside>aside img{
+    
+    filter: brightness(1.6);
+    width: 100%;
+    /* position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: -50%; */
+    padding: 25%;
+    height: -moz-fit-content;
+    height: fit-content;
+}
+
+.activeShield{
+    background-color: rgba(63, 164, 54, 0.5)!important;
+    border: 2px solid rgb(63, 164, 54)!important;
+}
+.activeShieldOff{
+    background-color: rgba(164, 54, 54, 0.5)!important;
+    border: 2px solid rgb(164, 54, 54)!important;
+}
+
 .footerBtns{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
 }
 .footerBtns>div{
     width: 48%;

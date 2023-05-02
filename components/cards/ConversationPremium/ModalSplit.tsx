@@ -11,7 +11,9 @@ export interface IModalSplit {
     setSplitModal : (splitData:IChat | null) => void,
     splitModal : IChat | null,
     parentIndex: number,
-    setParentIndex : (i:number) => void
+    setParentIndex : (i:number) => void;
+    scrollToBottom : ()=> void,
+    
 }
 
 const InfoModal: React.FC<{ setInfoModal: (i:boolean) => void, type: any } > = ({ setInfoModal, type }) => {
@@ -54,7 +56,7 @@ const InfoModal: React.FC<{ setInfoModal: (i:boolean) => void, type: any } > = (
     )
 }
 
-const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, setChat, parentIndex, setParentIndex }) => {
+const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, setChat, parentIndex, setParentIndex, scrollToBottom }) => {
     
     const [keyWords, setKeyWords] = useState<string[]>(splitModal ? splitModal.info.key_words : []);
     const [splitSecuence, setSplitSecuence] = useState(splitModal ? splitModal.info.split_chat : []);
@@ -128,7 +130,9 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
                 split_chat : []
             })
             setParentIndex(0)
-            
+            setTimeout(() => {
+                scrollToBottom()   
+            }, 100);
         }
         if (keyWords.length == 0) {
             alert(`Agrega al menos una palabra para ${ splitModal?.type == 'exclude' ? "excluir" : "incluir"}`)

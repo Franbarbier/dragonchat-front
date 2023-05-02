@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
+import Breadcrumb from './Breadcrumb';
 import ChatWindow from './ChatWindow';
 import { IChat, ISecuence } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
@@ -88,6 +89,21 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
     
     }
 
+    // useEffect(()=>{
+    //     console.log(secuenceInfoChat)
+    //     for (let index = 0; index < secuenceInfoChat.length; index++) {
+    //         const element = secuenceInfoChat[index];
+
+    //         if(element.type == 'include' || element.type == 'exclude'){
+    //             const bloque = `<div>
+    //                 <p> ${secuenceInfoChat[index - 1].info} </p>
+    //             </div>`
+    //             console.log(bloque)
+    //         }
+            
+    //     }
+
+    // },[secuenceInfoChat])
     
 
         return (
@@ -146,7 +162,11 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                                 />
                             </div>
                         </div>
-                                
+                        
+
+                        <div className={styles.breadcrumbCont}>
+                            <Breadcrumb chat={secuenceInfoChat}/>
+                        </div>
                                 
                     </div>
        );

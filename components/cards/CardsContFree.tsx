@@ -8,8 +8,9 @@ import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
 import FreeCard3 from './Card/SendFree';
 import styles from './CardsCont.module.css';
-import { ISecuence } from './ConversationPremium/ConversationPremium';
+import { IChat, ISecuence } from './ConversationPremium/ConversationPremium';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
+import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
@@ -28,7 +29,7 @@ export interface ContactInfo {
 
 
 
-const CardsCont: React.FC<ICardsCont> = ({  }) => {
+const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
     
     // const [activeCard, setActiveCard] = useState<IdCard>(1)
@@ -43,6 +44,19 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     const [droppedCsv, setDroppedCsv] = useState<File | null>(null)
 
     const [modalImport, setModalImport] = useState<boolean>(false)
+    const [modalShieldOptions, setModalShieldOptions] = useState<boolean>(false)
+    const [breadcrumb, setBreadcrumb] = useState<IChat[]>([])
+    const [shieldOptions, setShieldOptions] = useState<{
+        timer: number,
+        pausa : number,
+        bloques: number
+    }>({
+        timer: 0,
+        pausa : 0,
+        bloques: 0
+    })
+
+
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
     const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
@@ -53,7 +67,6 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
 
-    
 
     useEffect(() => {
         const checkIsMobile = () => {
@@ -154,7 +167,12 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
       })
 
   
+      useEffect(() => {
+          console.log("dammmn bro",breadcrumb)
+      }, [breadcrumb])
+
     
+
     return (
         <div>
             <div className={styles.cards_cont}>
@@ -168,6 +186,9 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                         mensaje={mensaje}
                         messagesLimitAchieved={messagesLimitAchieved}
                         setMessagesLimitAchieved={setMessagesLimitAchieved}
+                        modalShieldOptions={modalShieldOptions}
+                        setModalShieldOptions={setModalShieldOptions}
+                        shieldOptions={shieldOptions}
                     />
 
                     <FreeCard1 
@@ -191,6 +212,7 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                         setMensaje={setMensaje}
                         selectedSecuence={selectedSecuence}
                         setSelectedSecuence={setSelectedSecuence}
+                        setBreadcrumb={setBreadcrumb}
                     />
 
                     
@@ -203,21 +225,7 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                 <button><img src="/arrow-card.png" /></button>
             </div>
 
-            {/* <div className={styles.ruleta_cont}>
-                <div>
-                    <div>
-                        <div>
-                            <p>Uno</p>
-                        </div>
-                        <div>
-                            <p>Dos</p>
-                        </div>
-                        <div>
-                            <p>Tres</p>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
+            
 
             {
                 !isMobile &&
@@ -255,6 +263,17 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
                     </div>
                 </div>
             }
+            {modalShieldOptions &&
+                <div className={styles.modal_shield_option}>
+                    <div>
+                        <ModalContainer closeModal={ ()=>{ setModalShieldOptions(false) } } addedClass={"modal_shield_option"}>
+                            <ModalShieldOptions setShieldOptions={setShieldOptions} setModalShieldOptions={setModalShieldOptions} />
+                        </ModalContainer>
+                    </div>
+                </div>
+            }
+
+            
            
 
            

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import BlockedPreVisual from './BlockedPreVisual';
 import styles from './ConversationPremium.module.css';
 import DetailSecunce from './DetailSecuence';
@@ -63,9 +63,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
         setIsNew(-1)
     }
 
-    useEffect(()=>{
-        console.log(activeSecuence)
-    },[activeSecuence])
+
 
     return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
@@ -79,7 +77,11 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                             </div>
                             {secuenciasCreadas.map((secuen, index)=>(
                                 <div key={`secuenNro${index}`}  onClick={()=>{ setActiveSecuence(secuen); setIsNew(index) }}>
-                                    <img />
+                                    <img src={ secuen.icon == "" ? "/dragonchat_logo.svg" : `/${secuen.icon}` } 
+                                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                                            e.currentTarget.src = '/dragonchat_logo.svg';
+                                        }} 
+                                    />
                                     <span>{secuen.name}</span>
                                 </div>
                             ))

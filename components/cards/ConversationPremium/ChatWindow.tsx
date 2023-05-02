@@ -95,7 +95,7 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index }) => 
                         <AddChatBox arrMessages={chat} setArrMessages={setChat} splitModal={splitModal} setSplitModal={setSplitModal} scrollToBottom={scrollToBottom}/>
                     </div>
                     {splitModal != null &&
-                        <ModalSplit splitModal={splitModal} setSplitModal={setSplitModal} chat={chat} setChat={setChat} parentIndex={parentIndex} setParentIndex={setParentIndex}/>
+                        <ModalSplit splitModal={splitModal} setSplitModal={setSplitModal} chat={chat} setChat={setChat} parentIndex={parentIndex} setParentIndex={setParentIndex} scrollToBottom={scrollToBottom}/>
                     }
                 </div>
             </div>
