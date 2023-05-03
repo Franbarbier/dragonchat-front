@@ -7,7 +7,7 @@ export interface IConversationPremium {
     blocked : boolean;
 }
 
-interface IChat {
+export interface IChat {
     message? : string,
     color?: string
 }
