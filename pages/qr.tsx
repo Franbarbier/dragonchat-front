@@ -56,9 +56,6 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
 Qr.getInitialProps = async (context) => {
   const req = context.req;
 
-//   ~ codigo para testear ~
-  console.log("aqui van", req)
-//   return { linkedWhatsapp: true};
 
   if (req) {
     const headers = new Headers({
