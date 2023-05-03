@@ -48,7 +48,7 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
         <div className={styles.header_cont}>
             <nav>
                 <div>
-                    <img src={'boceto-logo.png'} />
+                    <img width={'130px'} src={'dragonchat_logo_full.svg'} />
 
                 </div>
                 <div className={styles.menu_cont}>

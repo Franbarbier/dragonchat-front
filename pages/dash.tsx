@@ -6,7 +6,6 @@ import CardsCont from '../components/cards/CardsContFree';
 import { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
 import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
-// import Search from '../components/utility/search/Search';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
@@ -75,24 +74,24 @@ export default Home;
 
 
 
-export async function getServerSideProps(context) {
-  const cookies = context.req?.cookies;
-  const headers = new Headers({
-      "Content-Type": "application/json",
-      });
-  const cookieName = process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME
-  const accessToken = JSON.parse(cookies[`${cookieName}`]).access_token
-  headers.append("Authorization", `Bearer ${accessToken}`);
-  const apiResponse = await fetch(
-  `${process.env.NEXT_PUBLIC_API_USER_URL}/auth/me`,
-  { headers }
-  );
-  const data = await apiResponse.json();
+// export async function getServerSideProps(context) {
+//   const cookies = context.req?.cookies;
+//   const headers = new Headers({
+//       "Content-Type": "application/json",
+//       });
+//   const cookieName = process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME
+//   const accessToken = JSON.parse(cookies[`${cookieName}`]).access_token
+//   headers.append("Authorization", `Bearer ${accessToken}`);
+//   const apiResponse = await fetch(
+//   `${process.env.NEXT_PUBLIC_API_USER_URL}/auth/me`,
+//   { headers }
+//   );
+//   const data = await apiResponse.json();
 
-  return {
-      props: { user: data.data as IEditUserProfileView['user'] },
-      }
-}
+//   return {
+//       props: { user: data.data as IEditUserProfileView['user'] },
+//       }
+// }
 
 
 

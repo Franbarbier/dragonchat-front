@@ -8,7 +8,7 @@
     /* background-color: black; */
     background-image: radial-gradient(transparent 20%, black 0%);
     border-radius: 100px;
-
+    overflow: hidden;
     
 }
 .circuloNav>div{
@@ -62,3 +62,6 @@
 .cardBtnPos2{
     transform: translate(195%, 95%) rotate(120deg);
 }
+
+.cardBtnPos3{}
+.cardBtnPos4{}

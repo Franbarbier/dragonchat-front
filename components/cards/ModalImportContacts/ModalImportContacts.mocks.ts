@@ -2,7 +2,8 @@ import { IModalImportContacts } from './ModalImportContacts';
 
 const base: IModalImportContacts = {
     setModalImport : () => {},
-    uploadContacts: () => {}
+    uploadContacts: () => {},
+    inheritFile : null
 }
 
 export const mockModalImportProps = {
