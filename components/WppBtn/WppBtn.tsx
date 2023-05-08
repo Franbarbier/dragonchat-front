@@ -12,7 +12,7 @@ export interface IWppBtn {
 
 const WppBtn: React.FC<IWppBtn> = ({  }) => {
 
-    const [renderWppMsj, setRenderWppMsj] = useState<boolean>()
+    const [renderWppMsj, setRenderWppMsj] = useState<boolean>(false)
 
     // useEffect(() => {
     //     const interval = setInterval(() => {
