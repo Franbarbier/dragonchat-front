@@ -277,20 +277,9 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     padding-right: 2%;
 }
 .table_rows.enviando_table{
-<<<<<<< HEAD
-    height: 100%;
-    overflow-y: auto;
-}
-.table_rows::-webkit-scrollbar{
-    width: 4px;
-    position:absolute;
-    background-color: #5d3770;
-    height: 4px;
-=======
     height: 80%;
     overflow-y: auto;
     padding-right: 2%;
->>>>>>> feat/premiumConversation
 }
 
 

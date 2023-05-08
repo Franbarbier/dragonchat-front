@@ -133,9 +133,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 break;
         }
     }
-
-    
-
     
     useEffect(()=>{
         var filtered = [...contactos]
@@ -276,7 +273,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 </div>
             }
 
-        
+            
+           
 
            
         </div>
