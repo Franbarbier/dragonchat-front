@@ -6,7 +6,6 @@ import CardsCont from '../components/cards/CardsContFree';
 import { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
 import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
-// import Search from '../components/utility/search/Search';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 

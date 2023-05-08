@@ -22,17 +22,12 @@ export interface IEditUserProfileView {
 }
 
 
-
-
-
 const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
-
-
 
   async function handleDesvWpp(){
     const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;
@@ -55,7 +50,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
     } catch (error: any) {
         alert(error.response.data.error);
     }
-}
+  }
 
   async function editUserProfile() {
     const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
@@ -133,13 +128,13 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
           {
             equalPass && 
             <CustomColorBtn
-            type="submit"
-            text="GUARDAR CAMBIOS"
-            backgroundColorInit="#c21c3b"
-            backgroundColorEnd="#f9bd4f"
-            borderColor="#e17846"
-            onClick={editUserProfile}
-          />
+              type="submit"
+              text="GUARDAR CAMBIOS"
+              backgroundColorInit="#c21c3b"
+              backgroundColorEnd="#f9bd4f"
+              borderColor="#e17846"
+              onClick={editUserProfile}
+            />
           }
 
           <div className={styles.logout_btn}>

@@ -1,14 +1,21 @@
 import { IFreeCard3 } from './SendFree';
 
 const base: IFreeCard3 = {
-    sampleTextProp : 'string',
-    setActiveCard: (id) => {return true},
-    activeCard : 1,
-    contactos : [{nombre: 'pedro', numero: '5491134536136'}],
+    sampleTextProp : "string",
+    setActiveCard: (id: number) => {return false},
+    activeCard : 3,
+    contactos : [],
     messagesLimitAchieved : true,
-    setMessagesLimitAchieved : (limit) => {return true},
-    mensaje: 'string',
-    setContactos : (contactos) => {return true}
+    setMessagesLimitAchieved : (limit) => {return false},
+    mensaje: "string" ,
+    setContactos : (contactos) => {return false},
+    modalShieldOptions : false,
+    setModalShieldOptions : (limit) => {return false},
+    shieldOptions : {
+        timer: 3,
+        pausa : 3,
+        bloques: 3
+    },
 }
 
 export const mockFreeCard1Props = {

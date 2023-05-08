@@ -192,21 +192,25 @@
         left: 26%;
     }
     .nextCard, .prevCard{
-        width: 3.8vw;
-        height: 3.8vw;
+        width: 3.5vw;
+        height: 3.5vw;
     }
     .dragon1{left:11%;}
     .dragon2{right:11%}
 }
-@media (min-width: 1200px) {
+@media (min-width: 1150px) {
     .cards_cont>div{
         width: 40vw;
     }
     .nextCard{
-        left: 70vw; 
+        left: 70vw;
+        width: 3vw;
+        height: 3vw;
     }
     .prevCard{
         left: 30vw;
+        width: 3vw;
+        height: 3vw;
     }
     .dragon1{left:17%;}
     .dragon2{right:17%}

@@ -4,12 +4,13 @@
     text-align: center;
     border-radius: 5px;
     width: 100%;
-    padding: 2% 8px;
+    padding: 8px;
     cursor: pointer;
     margin-top: 3%;
-    font-size: 0.9em;
+    font-size: 0.75em;
     text-transform: uppercase;
     letter-spacing: 1px;
+    white-space: nowrap;
 }
 
 .disabled{

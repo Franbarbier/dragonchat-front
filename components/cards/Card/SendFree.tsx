@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AnimatePresence, motion } from 'framer-motion';
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../../api/apiSenderWhatsappController';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
@@ -22,75 +22,117 @@ export interface IFreeCard3 {
     messagesLimitAchieved : boolean;
     setMessagesLimitAchieved : (limit: boolean) => void;
     mensaje: string ;
-    setContactos : (contactos: ContactInfo[]) => void
+    setContactos : (contactos: ContactInfo[]) => void;
+    modalShieldOptions : boolean;
+    setModalShieldOptions : (limit: boolean) => void;
+    shieldOptions : {
+        timer: number,
+        pausa : number,
+        bloques: number
+    };
+    
 }
 
-const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, setMessagesLimitAchieved, messagesLimitAchieved }) => {
+const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, setMessagesLimitAchieved, messagesLimitAchieved, modalShieldOptions, setModalShieldOptions, shieldOptions }) => {
 
     let idCard = 3;
     let router= useRouter()
 
     const [sending, setSending] = useState<boolean>(false)
-    const [isSent, setIsSent] = useState<boolean>(false)
-    const [contactosStatus, setContactosStatus] = useState(contactos)
     const [exito, setExito] = useState<boolean>(false)
+    const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>()
 
-    const [sendList, setSendList] = useState( contactos )
+    const [activeShield, setActiveShield] = useState<boolean>(false)
 
-    async function startSending() {
-
-        setSending(true)
-
-        const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
-
-        var dejarDeEnviar = false;
-        
-        for (let index = 0; index < contactos.length -1; index++) {
-            
-            if (dejarDeEnviar) break
-
-            const destinatario = contactos[index];
-
+    async function sendMove(userInfo, count) {
+        console.log(mensaje)
+            const destinatario = contactos[count];
             let newContacts = [...contactos];
-            newContacts[index].estado = "pending";
+            newContacts[count].estado = "pending";
             setContactos(newContacts)
-            
-
             const onSuccess = () => {
-                console.log(sentMessage)
-
                     if (sentMessage?.status == 200) {
                         let newContacts = [...contactos]
-                        newContacts[index].estado = "success";
+                        newContacts[count].estado = "success";
                         setContactos(newContacts)
                     } else{   
                         let newContacts = [...contactos]
-                        newContacts[index].estado = "error";
+                        newContacts[count].estado = "error";
                         setContactos(newContacts)
-
-                        if(sentMessage.response.data.error.type == "EXCEEDED_LIMIT"){
+                        if(sentMessage.response?.data?.error?.type == "EXCEEDED_LIMIT"){
                             setMessagesLimitAchieved(true)
                             setSending(false)
-                            dejarDeEnviar = true;
-                            
+                            setDejarDeEnviar(true)
                         }
                     }
-                    
                 }
-
-
             const sentMessage = await apiSenderWhatsappController.sendMessage(userInfo.user_id, destinatario.nombre, mensaje, destinatario.numero)
             onSuccess()
-        }
-        setSending(false)
-        setExito(true)
-
     }
 
 
+    const [isLooping, setIsLooping] = useState(false);
+    const [counter, setCounter] = useState(0);
+    
+    const [timer, setTimer] = useState(200);
+    const [bloques, setBloques] = useState<number>(0);
+    const [pausa, setPausa] = useState<number>(0);
+    
+    useEffect(() => {
+        console.log(timer, bloques, pausa);
+    }, [timer, bloques, pausa]);
+    
+    useEffect(() => {
+
+        let intervalId: NodeJS.Timeout;
+
+        if (isLooping && counter < contactos.length -1) {
+        intervalId = setInterval(() => {
+            console.log("Looping...", counter);
+            const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
+            sendMove(userInfo, counter)
+
+            // Movida para pausar el loop cada X mensajes
+            if ((counter+1) % bloques === 0 && counter !== 0) {
+                clearInterval(intervalId); // Pause the loop
+                setTimeout(() => {
+                  // Resume the loop after X seconds
+                  intervalId = setInterval(() => {
+                    const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
+                    sendMove(userInfo, counter);
+                    setCounter((c) => c + 1);
+                  }, timer);
+                }, pausa);
+              } else {
+                setCounter((c) => c + 1);
+              }
+
+
+            // setCounter(counter + 1);
+        }, timer);
+        }
+
+        return () => {
+        clearInterval(intervalId);
+        };
+
+    }, [isLooping, counter]);
+
+
+    const handleButtonClick = () => {
+        setIsLooping(!isLooping);
+    };
+
+    useEffect(() => {
+        setActiveShield(true)
+        setTimer( shieldOptions.timer * 1000 )
+        setBloques( shieldOptions.bloques )
+        setPausa( shieldOptions.pausa * 1000 )
+    }, [shieldOptions])
+
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`}>
-
+            
             <div className={styles.card_container}>
             <div>
                 <CardTitle text={!sending ? 'Enviar' : 'Enviando' } />
@@ -151,16 +193,20 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                     
                 </div>
 
-                {/* <video width="320" height="240" autoPlay controls={false} loop>
-                                <source src="/fire-bkgr.mp4" type="video/mp4" />
-                            </video> */}
-
                 <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
                     {!messagesLimitAchieved ?
-                        <>
+                        <div className={styles.footerBtns}>
+                            <aside className={ activeShield ? styles.activeShield : styles.activeShieldOff } onClick={()=>{ setActiveShield(!activeShield) }} >
+                                <div>
+                                    <img src="/shield-clock.svg"/>
+                                    <div className={styles.shieldFilter} ></div>
+                                </div>
+                               <aside onClick={()=>{ setModalShieldOptions(true) }}>
+                                    <img src="/icon_config.svg"/>
+                                </aside> 
+                            </aside>
                             {!exito ?
-                                <OrangeBtn text={!sending ? 'Enviar' : 'Enviando' } onClick={ () => 
-                                { if (!sending){ startSending() }}} />
+                                <OrangeBtn text={!isLooping ? 'Enviar' : 'Pausar' } onClick={handleButtonClick} />
                                 :
                                 <CustomColorBtn
                                 type="submit"
@@ -172,7 +218,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                 disable={ false}
                                 />
                             }
-                        </>
+                               
+                        </div>
                     :
                     <>
                         <button className={styles.limitedButton}>
