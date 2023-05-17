@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
+import { INotification } from '../../Notification/Notification';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
@@ -10,7 +11,6 @@ interface IModalImport {
 }
 
 export interface IFreeCard1 {
-    sampleTextProp : string;
     setActiveCard: (id: number) => void;
     setContactos : (contactos: ContactInfo[]) => void;
     activeCard : number;
@@ -20,6 +20,8 @@ export interface IFreeCard1 {
     handleRenderModal : (render: boolean) => void;
     finalList : ContactInfo[];
     setDroppedCsv : (droppedCsv: File) => void;
+    notification : INotification
+    setNotification : (notification: INotification) => void;
 }
 
 // type setPropsType = {
@@ -69,14 +71,13 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     )
 }
 
-const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv }) => {
+const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
 
 
     let idCard = 1;
 
     const grillaFondo = useRef(null);
     const [height, setHeight] = useState(0);
-
 
     const [newContact, setNewContact] = useState<ContactInfo>({
         nombre: '',
@@ -260,14 +261,19 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         event.preventDefault();
         setIsDragging(false);
         const file = event.dataTransfer.files[0];
-        console.log(file)
+
+        console.log(file.type)
         if (file.type === "text/csv") {
             handleRenderModal(true)
             setDroppedCsv(file)
         }else{
-            alert("El archivo debe ser un csv")
+            setNotification({
+                status : "error",
+                render : true,
+                message : "El archivo debe ser un csv",
+                modalReturn : () => {setNotification({...notification, render : false})}
+            })
         }
-        // onDropFile(file);
       };
 
 
@@ -401,6 +407,8 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                 {/* </div> */}
 
             </div>
+
+            
         </div>
     
     );

@@ -1,0 +1,16 @@
+
+.modal_timer h3{
+    font-size: 2em;
+    text-align: center;
+    margin: 10px 0;
+    color: #d23227;
+}
+.modal_timer p{
+    font-size: 0.9em;
+    text-align: center;
+    letter-spacing: 1px;
+    color: #f0f0f0;
+    font-weight: 100;
+    width: 80%;
+    margin: 10px auto 25px;
+}

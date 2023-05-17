@@ -15,7 +15,6 @@ import styles from './FreeCard.module.css';
 
 
 export interface IFreeCard3 {
-    sampleTextProp : string;
     setActiveCard: (id: number) => void;
     activeCard : number;
     contactos : ContactInfo[];

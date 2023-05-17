@@ -1,0 +1,74 @@
+.notificationCont{
+    position: fixed;
+    z-index: 999;
+    top: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    border: 1px solid var(--amarillo);
+    border-radius: 5;
+    padding: 25px 20px;
+    border-radius: 10px;
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+    width: 33vw;
+}
+.notificationCont>div{
+  /* display: flex;
+  justify-content: space-between;
+  align-items: center; */
+}
+.notificationCont>div img{
+  width: 64px;
+  margin: auto;
+  display: block;
+}
+.notificationCont>div span{
+  font-size: 0.9em;
+  color: #e9e9e9;
+  text-align: center;
+  display: block;
+  margin: 15px 0;
+  color: #e9e9e9;
+  letter-spacing: 1px;
+}
+.notifBtns{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 25px;
+}
+.notifOk{
+  padding: 8px 16px;
+  border-radius: 10px;
+  background-color: #7561ca57;
+  border: 1px solid var(--rosita2);
+  color: var(--rosita2);
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.notifCancel{
+  padding: 8px 16px;
+  border-radius: 10px;
+  background-color: #3e1d1d;
+  border: 1px solid #911515;
+  color: #fff;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.checkNotif{
+  border: 1px solid greenyellow;
+  padding: 15px;
+  border-radius: 50px;
+}
+.errorNotif{
+  border: 1px solid #911515;
+  padding: 15px;
+  border-radius: 50px;
+}
+.alertNotif{
+  border: 1px solid var(--newViolet);
+  padding: 15px;
+  border-radius: 50px;
+}

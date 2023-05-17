@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import NavBottom from '../NavBottom/NavBottom';
+import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
-import { mockFreeCard1Props } from './Card/FreeCard3.mocks';
 import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
 import FreeCard3 from './Card/SendFree';
@@ -63,6 +63,17 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [renderDialog, setRenderDialog] = useState<boolean>(true)
     const [dragonAnim, setDragonAnim] = useState<string>('')
 
+    const [notification, setNotification] = useState<INotification>({
+        status : "success",
+        render : false,
+        message : "",
+        modalReturn : ()=>{}
+    })
+
+
+    function handleReturnModal(value:boolean) {
+        setNotification({...notification, render : false})
+    }
 
     const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
@@ -178,7 +189,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             <div className={styles.cards_cont}>
                     
                     <FreeCard3
-                        {...mockFreeCard1Props.base}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={finalList}
@@ -192,7 +202,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                     />
 
                     <FreeCard1 
-                        {...mockFreeCard1Props.base}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={contactos}
@@ -202,9 +211,10 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         handleRenderModal={handleRenderModal}
                         finalList={finalList}
                         setDroppedCsv={setDroppedCsv}
+                        notification={notification}
+                        setNotification={setNotification}
                     />
                     <FreeCard2
-                        {...mockFreeCard1Props.base}
                         setReadyMessage={setReadyMessage}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
@@ -213,6 +223,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         selectedSecuence={selectedSecuence}
                         setSelectedSecuence={setSelectedSecuence}
                         setBreadcrumb={setBreadcrumb}
+                        notification={notification}
+                        setNotification={setNotification}         
                     />
 
                     
@@ -272,11 +284,10 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                     </div>
                 </div>
             }
-
             
-           
+            {notification.render && <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} /> }
 
-           
+
         </div>
     
     );

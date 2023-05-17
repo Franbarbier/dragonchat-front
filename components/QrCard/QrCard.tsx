@@ -2,6 +2,7 @@ import Cookie from 'js-cookie';
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import CardTitle from "../cards/CardTitle/CardTitle";
+import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './QrCard.module.css';
 
@@ -26,6 +27,13 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string>("");
     
+    const [notification, setNotification] = useState<INotification>({
+        status : "success",
+        render : false,
+        message : "",
+        modalReturn : ()=>{}
+    })
+
     const linkedWhatsapp = linked_whatsapp;
    
     useEffect(()=>{
@@ -51,8 +59,17 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
         });
 
         socket.on("ready", (err) => {
-            alert("Whatsapp sincronizado con éxito! Antes de enviar mensajes, asegurate que haya terminado la sincronizacion. Desde tus dispositivos vinculados en la app.")
-            location.href = "/"
+            setNotification({
+                status : "success",
+                render : true,
+                message : "Whatsapp sincronizado con éxito! Antes de enviar mensajes, asegurate que haya terminado la sincronizacion. Desde tus dispositivos vinculados en la app.",
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                    location.href = "/"
+                }})
+            setTimeout(() => {
+                location.href = "/"
+            }, 6000);
         });
         
     },[socket])

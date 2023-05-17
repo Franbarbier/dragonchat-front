@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { INotification } from '../../Notification/Notification';
 import AddChatBox from './AddChatBox';
 import ChatBox from './ChatBox';
 import { IChat } from './ConversationPremium';
@@ -17,7 +18,9 @@ import ModalSplit from './ModalSplit';
 export interface IChatWindow {
    chatData? : IChat[],
    setChatData : (chat:IChat[]) => void,
-   index?: number
+   index?: number,
+   notification: INotification,
+   setNotification: (notification: INotification) => void
 }
 
 export interface ISplitModal {
@@ -28,7 +31,7 @@ export interface ISplitModal {
  
 
 
-const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index }) => {
+const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notification, setNotification }) => {
 
     const [chat, setChat] = useState( chatData ? chatData : [] )
 
@@ -88,14 +91,14 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index }) => 
                         <div className={styles.chat_window} ref={chatWindowRef}>
                             <div className={styles.chat} >
                                 {chat.map((message, index)=>(
-                                    <ChatBox index={index} message={message} setChat={setChat} chat={chat} splitModal={splitModal} setSplitModal={setSplitModal} setParentIndex={setParentIndex}/>
+                                    <ChatBox index={index} message={message} setChat={setChat} chat={chat} splitModal={splitModal} setSplitModal={setSplitModal} setParentIndex={setParentIndex} notification={notification} setNotification={setNotification} />
                                 ))}
                             </div>
                         </div>
                         <AddChatBox arrMessages={chat} setArrMessages={setChat} splitModal={splitModal} setSplitModal={setSplitModal} scrollToBottom={scrollToBottom}/>
                     </div>
                     {splitModal != null &&
-                        <ModalSplit splitModal={splitModal} setSplitModal={setSplitModal} chat={chat} setChat={setChat} parentIndex={parentIndex} setParentIndex={setParentIndex} scrollToBottom={scrollToBottom}/>
+                        <ModalSplit splitModal={splitModal} setSplitModal={setSplitModal} chat={chat} setChat={setChat} parentIndex={parentIndex} setParentIndex={setParentIndex} scrollToBottom={scrollToBottom} notification={notification} setNotification={setNotification}/>
                     }
                 </div>
             </div>

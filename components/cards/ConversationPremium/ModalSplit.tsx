@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
+import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
 import ChatWindow, { ISplitModal } from './ChatWindow';
 import { IChat } from './ConversationPremium';
@@ -13,6 +14,8 @@ export interface IModalSplit {
     parentIndex: number,
     setParentIndex : (i:number) => void;
     scrollToBottom : ()=> void,
+    notification: INotification,
+    setNotification: (notification: INotification) => void
     
 }
 
@@ -56,7 +59,7 @@ const InfoModal: React.FC<{ setInfoModal: (i:boolean) => void, type: any } > = (
     )
 }
 
-const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, setChat, parentIndex, setParentIndex, scrollToBottom }) => {
+const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, setChat, parentIndex, setParentIndex, scrollToBottom, notification, setNotification }) => {
     
     const [keyWords, setKeyWords] = useState<string[]>(splitModal ? splitModal.info.key_words : []);
     const [splitSecuence, setSplitSecuence] = useState(splitModal ? splitModal.info.split_chat : []);
@@ -135,16 +138,40 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
             }, 100);
         }
         if (keyWords.length == 0) {
-            alert(`Agrega al menos una palabra para ${ splitModal?.type == 'exclude' ? "excluir" : "incluir"}`)
+            setNotification({
+                status : "error",
+                render : true,
+                message : `Agrega al menos una palabra para ${ splitModal?.type == 'exclude' ? "excluir" : "incluir"}`,
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
         }
         if (splitSecuence.length == 0) {
-            alert('Agrega al menos una respuesta a la secuencia')
+            setNotification({
+                status : "error",
+                render : true,
+                message :'Agrega al menos una respuesta a la secuencia',
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
         }
         if (splitData.name == "") {
-            alert('Debes asignarle un nombre al split')
+            setNotification({
+                status : "error",
+                render : true,
+                message :'Debes asignarle un nombre al split',
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
         }
         if ( splitSecuence[0].info == "") {
-            alert('Completa al menos un mensaje')
+            setNotification({
+                status : "error",
+                render : true,
+                message :'Completa al menos un mensaje',
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
         }
     }
 
@@ -207,7 +234,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
             </div>
 
             {/* Aca va el chat window */}
-            <ChatWindow chatData={splitSecuence} setChatData={setSplitSecuence} />
+            <ChatWindow chatData={splitSecuence} setChatData={setSplitSecuence} notification={notification} setNotification={setNotification} />
 
         </div>
         

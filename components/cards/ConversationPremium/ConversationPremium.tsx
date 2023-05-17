@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { INotification } from '../../Notification/Notification';
 import BlockedPreVisual from './BlockedPreVisual';
 import styles from './ConversationPremium.module.css';
 import DetailSecunce from './DetailSecuence';
@@ -7,6 +8,8 @@ export interface IConversationPremium {
     blocked : boolean;
     setSelectedSecuence:  (secuence: ISecuence) => void;
     selectedSecuence : ISecuence | null;
+    notification: INotification;
+    setNotification: (notification: INotification) => void;
 }
 
 // types of info:
@@ -43,7 +46,7 @@ interface IChatBox {
 
 
 
-const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence }) => {
+const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification }) => {
     
     const idCard = 2
  
@@ -67,7 +70,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
 
     return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
-            {!blocked ?
+            {blocked ?
             <>
                 {activeSecuence == null ?
                     <div>
@@ -92,7 +95,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                         
                     </div>
                 :
-                    <DetailSecunce isNew={isNew} secuence={activeSecuence} setActiveSecuence={setActiveSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} />
+                    <DetailSecunce isNew={isNew} secuence={activeSecuence} setActiveSecuence={setActiveSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} notification={notification} setNotification={setNotification} />
                 }
             </>
             :
