@@ -52,8 +52,9 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index }) => 
                 if(event.key == "k" || event.key == "K"){
 
                 }
-                
-                scrollToBottom()
+                setTimeout(() => {
+                    scrollToBottom()
+                }, 100);
             }
 
 
