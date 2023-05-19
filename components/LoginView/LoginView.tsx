@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
+import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './LoginView.module.css';
@@ -128,6 +129,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 </div>
 
             </form>
+            <Loader loading={logging} />
         </div>
     
     );

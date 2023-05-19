@@ -3,11 +3,11 @@ import styles from './QrWaitingRoom.module.css';
 
 
 export interface IQrWaitingRoom {
-    
+    queue : number;
 }
 
 
-const QrWaitingRoom: React.FC<IQrWaitingRoom> = ({ }) => {
+const QrWaitingRoom: React.FC<IQrWaitingRoom> = ({ queue }) => {
 
 
 
@@ -30,8 +30,8 @@ const QrWaitingRoom: React.FC<IQrWaitingRoom> = ({ }) => {
             <LoaderAnim />
             <div className={styles.queuInfo}>
                 <div>
-                    <p>Quedan <span>10 personas</span> para que llegue tu turno.</p>
-                    <span>(Máximo tiempo de espera: <span>110 minutos.</span>)</span>
+                    <p>Quedan <span>{queue} personas</span> para que llegue tu turno.</p>
+                    <span>(Máximo tiempo de espera: <span>{queue * 10} minutos.</span>)</span>
                 </div>
             </div>
         </div>

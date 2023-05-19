@@ -1,4 +1,4 @@
-.QrWaitingRoomCont{
+.QrWaitingRoomCont, .ReconnectCont{
     width: 40%;
     position: absolute;
     top: 50%;
