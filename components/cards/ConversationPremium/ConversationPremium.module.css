@@ -202,6 +202,11 @@
     font-size: 2.2em;
     cursor: pointer;
 }
+.lock_overlay>div svg{
+    width: 64px;
+    display: block;
+    margin: auto;
+}
 .lock_overlay>div:hover svg{ transform: scale(1.1); }
 .lock_overlay>div:hover p{ color: var(--amarillo); }
 .lock_overlay>div p{
@@ -412,27 +417,50 @@
 }
 .gridSecuences>div:hover{
     transform: scale(1.1);
+    z-index: 99;
 }
 .gridSecuences>div span{
-    position: absolute;
-    top: 110%;
-    left: 50%;
-    transform: translate(-50%, -150%);
     font-size: 0.6em;
+    padding-right: 5px;
+    margin-right: 5px;
+    border-right: 1px solid var(--newViolet);
+    /* background: ; */
+}
+
+.gridSecuences>div>div{
+    padding-top: 10%;
     opacity: 0;
+    transform: translate(-50%, -150%);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+}
+.gridSecuences>div:hover>div{
+    transform: translate(-50%, 0%);
+    opacity: 1;
+    width: max-content;
+}
+.gridSecuences>div>div>div{
+    /* background: red; */
+    width: max-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     background-color: #000;
     border: 1px solid var(--newViolet);
     box-shadow: 0px 0px 0px #000;
     padding: 5px 10px;
     border-radius: 15px;
-    /* background: ; */
+    
 }
-.gridSecuences>div:hover span{
-    transform: translate(-50%, 0%);
-    opacity: 1;
-
+.gridSecuences>div>div>div>img{
+    width: 12px;
 }
-
+.gridSecuences>div>div>div>img:hover{
+    transform: scale(1.1);
+    filter: brightness(1.5);
+}
 .gridSecuences>div>img{
     position: absolute;
     width: 60%;

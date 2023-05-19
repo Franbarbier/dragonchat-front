@@ -11,6 +11,9 @@
     top: 0;
 
 }
+.header_cont>nav>div{
+    width: 30%;
+}
 .settings_cont img{
     opacity: 0.8;
     cursor: pointer;
@@ -42,7 +45,7 @@
 .menu_cont{
     display: flex;
     align-items: center;
-    
+    justify-content: flex-end;
 }
 .referir_cont button{
     display: flex;
@@ -67,6 +70,24 @@
 .referir_cont>button>span{
     display: block;
 }
+
+.timerCont>div>div{
+    z-index: 4;
+    position: relative;
+    text-align: center;
+    padding: 5px 8px;
+    margin: auto;
+    width: fit-content;
+    border-radius: 3px;
+    border: 1px solid #d23227;
+    color: #d23227;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+.timerCont h4{
+    font-size: 1em;
+}
+
 
 @media (max-width: 750px) {
 

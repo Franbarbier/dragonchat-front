@@ -7,6 +7,7 @@ import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
 import MainCont from "../MainCont/MainCont";
+import { INotification } from "../Notification/Notification";
 import styles from './EditUserProfileView.module.css';
 
 export interface IEditUserProfileView {
@@ -29,6 +30,13 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
 
+  const [notification, setNotification] = useState<INotification>({
+    status : "success",
+    render : false,
+    message : "",
+    modalReturn : ()=>{}
+})
+
   async function handleDesvWpp(){
     const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;
     const response = await apiSenderWhatsappController.unlinkWhatsapp(userId);
@@ -48,7 +56,8 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
             Router.push("/login");
         }
     } catch (error: any) {
-        alert(error.response.data.error);
+        // (error.response.data.error);
+        return false;
     }
   }
 
@@ -56,11 +65,23 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
     const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
     try {
       const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
-      console.log(response);
-      alert("Perfil actualizado de forma exitosa!");
+
+      setNotification({
+        status : "success",
+        render : true,
+        message : "Perfil actualizado de forma exitosa!",
+        modalReturn : () => {
+            setNotification({...notification, render : false})
+        }})
+      
     } catch (error: any) {
-      console.log(error.response.data);
-      alert("Ups! algo salió mal.");
+      setNotification({
+        status : "error",
+        render : true,
+        message : "Ups! algo salió mal.",
+        modalReturn : () => {
+            setNotification({...notification, render : false})
+        }})
     }
   }
 

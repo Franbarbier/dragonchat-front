@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
+import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './LoginView.module.css';
 
@@ -22,6 +23,13 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
+
+    const [notification, setNotification] = useState<INotification>({
+        status : "success",
+        render : false,
+        message : "",
+        modalReturn : ()=>{}
+    })
 
     const [logging, setLogging] = useState<boolean>(false)
 
@@ -51,7 +59,13 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     
                 }else{
                     setLogging(false)
-                    alert('Los datos son incorrectos.')
+                    setNotification({
+                        status : "error",
+                        render : true,
+                        message : "Los datos son incorrectos.",
+                        modalReturn : () => {
+                            setNotification({...notification, render : false})
+                        }})
                 }
             }
             const login_status = await apiUserController.login(email, pass)
@@ -59,7 +73,14 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
 
         }else{
-            alert('Los datos estan incompletos')
+            setNotification({
+                status : "error",
+                render : true,
+                message : "Los datos estan incompletos.",
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
+            
         }
     }
 

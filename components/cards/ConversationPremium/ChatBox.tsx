@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { INotification } from '../../Notification/Notification';
 import { IChat } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
 
@@ -9,10 +10,12 @@ export interface IChatBox {
     index : number,
     setSplitModal : (modalData:IChat | null) => void,
     splitModal : IChat | null,
-    setParentIndex : (i:number) => void
+    setParentIndex : (i:number) => void,
+    notification: INotification,
+    setNotification: (notification: INotification) => void
 }
     
-const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitModal, splitModal, setParentIndex}) => {
+const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitModal, splitModal, setParentIndex, notification, setNotification }) => {
     
     const [txtHeight, setTxtHeight] = useState()
     const [previewSplit, setPreviewSplit] = useState<boolean>( false )
@@ -194,10 +197,19 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
                             />
                         </div>
                         <div>
-                            <img src="/delete_white.svg" alt="edit split"  onClick={()=>{
-                                    if (confirm("Desea eliminar este split?")) {
-                                        setChat( chat.filter( msg => msg != message  ))
-                                    }   
+                            <img src="/delete_white.svg" alt="delete split"  onClick={()=>{
+                                    setNotification({
+                                        status : "alert",
+                                        render : true,
+                                        message : "¿Desea eliminar este split?",
+                                        modalReturn : (booleanReturn)=>{
+                                            setNotification({...notification, render : false })
+                                            if ( booleanReturn ) {
+                                                setChat( chat.filter( msg => msg != message  ))
+                                            }
+                                        }
+                                    })
+                                    
                                 }}/>
                         </div>
                     </div>
