@@ -37,7 +37,14 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
 
     const [splitModal, setSplitModal] = useState<IChat | null>(null)
 
+    const [keyPressed, setKeyPressed] = useState<boolean>(false)
     const [ parentIndex , setParentIndex] = useState<number>(0)
+
+    const [lastMessageType, setLastMessageType] = useState('')
+
+    useEffect(() => {
+        setLastMessageType(chat[chat.length - 1]?.type)
+    }, [chat])
 
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
@@ -45,18 +52,20 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
             if (!(event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement)){
                 if (event.key == "m" || event.key == "M") {
                     setChat( [...chat, {info: "", color: "blue", type: "texto"}] )
-                    console.log("rock MMM")
+                    // Auto focus en el ultimo campo creado
+                    setKeyPressed(!keyPressed)
                 }
                 if(event.key == "c" || event.key == "C"){
+                    if (lastMessageType == "any" ) { return false; }
                     setChat( [...chat, {info: "Cualquier respuesta.", color: "red", type: "any"}] )
-                    console.log("rock CCCC")
 
                 }
                 if(event.key == "k" || event.key == "K"){
 
                 }
-                
-                scrollToBottom()
+                setTimeout(() => {
+                    scrollToBottom()
+                }, 100);
             }
 
 
@@ -71,6 +80,23 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
     useEffect(()=>{
         setChatData(chat)
     },[chat])
+
+    const [inputRefs, setInputRefs] = useState([]);
+    
+    useEffect(()=>{
+        // get last item from chat and if it is a "texto" type, focus on it
+        // if (chat.length > 0 && chat[chat.length-1].type == "texto") {
+        //     let lastChat = document.getElementById("chat"+(chat.length-1))
+        //     if (lastChat) {
+        //         lastChat.focus()
+        //     }
+        // }
+
+        console.log(chat[chat.length-1])
+
+    },[keyPressed])
+    
+
 
     const chatWindowRef = useRef<HTMLDivElement>(null)
 

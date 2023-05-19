@@ -56,6 +56,8 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
 
     const [activeSecuence, setActiveSecuence] = useState<ISecuence | null>()
 
+    const [gridHovered, setGridHovered] = useState<number | null>()
+
     function new_secuence() {
         console.log('crear y renderizar secuencia nueva')
         setActiveSecuence({
@@ -66,6 +68,13 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
         setIsNew(-1)
     }
 
+    const handleMouseEnter = (index) => {
+        setGridHovered(index);
+    };
+
+    const handleMouseLeave = () => {
+        setGridHovered(null);
+    };
 
 
     return (            
@@ -79,13 +88,27 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                                 <img src='/close.svg' />
                             </div>
                             {secuenciasCreadas.map((secuen, index)=>(
-                                <div key={`secuenNro${index}`}  onClick={()=>{ setActiveSecuence(secuen); setIsNew(index) }}>
+                                <div key={`secuenNro${index}`}
+                                    onClick={()=>{
+                                        setActiveSecuence(secuen); setIsNew(index)
+                                    }}
+                                    onMouseEnter={() => handleMouseEnter(index)}
+                                    onMouseLeave={handleMouseLeave}
+                                    style={{
+                                        opacity: gridHovered !== null && gridHovered !== index ? 0.5 : 1,
+                                      }}
+                                >
                                     <img src={ secuen.icon == "" ? "/dragonchat_logo.svg" : `/${secuen.icon}` } 
                                         onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                                             e.currentTarget.src = '/dragonchat_logo.svg';
                                         }} 
                                     />
-                                    <span>{secuen.name}</span>
+                                    <div>
+                                        <div>
+                                            <span>{secuen.name}</span>
+                                            <img src="/icon_config.svg" />
+                                        </div>
+                                    </div>
                                 </div>
                             ))
 
