@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { INotification } from '../../Notification/Notification';
 import { IChat } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
 
@@ -9,10 +10,12 @@ export interface IChatBox {
     index : number,
     setSplitModal : (modalData:IChat | null) => void,
     splitModal : IChat | null,
-    setParentIndex : (i:number) => void
+    setParentIndex : (i:number) => void,
+    notification: INotification,
+    setNotification: (notification: INotification) => void
 }
     
-const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitModal, splitModal, setParentIndex}) => {
+const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitModal, splitModal, setParentIndex, notification, setNotification }) => {
     
     const [txtHeight, setTxtHeight] = useState()
     const [previewSplit, setPreviewSplit] = useState<boolean>( false )
@@ -39,7 +42,6 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
         if (message.type == "followup") {
             let copyChat = [...chat]
             copyChat[index].info.delay = fupDelay
-            console.log(copyChat[index])
             setChat(copyChat)
         }
     }, [fupDelay])
@@ -66,6 +68,34 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
         }, [ref]);
       }
 
+      function handleKeyDown(e) {
+        // console.log(e.target.value)
+        if (e.key === "Enter") {
+            setChat( [...chat, {info: "", color: message.color, type: "texto"}] )
+            e.preventDefault();
+        }
+        if (e.key === "Enter" && e.shiftKey) {
+    
+            let copyChat = [...chat];
+
+            const start = e.currentTarget.selectionStart;
+            const end = e.currentTarget.selectionEnd;
+
+            copyChat[index].info =
+            copyChat[index].info.substring(0, start) +
+            "\n" +
+            copyChat[index].info.substring(end, copyChat[index].info.length);
+
+            setChat(copyChat);
+            e.currentTarget.setSelectionRange(start + 1, start + 1);
+
+            requestAnimationFrame(() => {
+                textarea.current?.setSelectionRange(start + 1, start + 1);
+            });
+            
+      }
+    }
+
 
     return (
         <div key={`mensajeChat${index}`}>
@@ -77,17 +107,20 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
             <div>
                 {message.type == "texto" &&
                     <textarea
+                    value={message.info}
                     ref={textarea}
                     onInput={ (e)=>{ checkHeight(e); } }
+                    onFocus={(e)=>{ checkHeight(e); }}
+                    onKeyDown={ (e)=>{ handleKeyDown(e) }}
                     onChange={(e)=>{
                         let copyChat = [...chat]
                         copyChat[index].info = e.target.value
                         setChat(copyChat)
-                        } 
+                        }
                     }
                     rows={1}
                     placeholder='Escribir mensaje' 
-                    >{message.info}</textarea>
+                    />
                 }
 
                 {message.type == "any" &&
@@ -98,7 +131,10 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
                     <>
                         <textarea
                         ref={textarea}
+                        onFocus={(e)=>{ checkHeight(e); }}
                         onInput={ (e)=>{ checkHeight(e)} }
+                        onKeyDown={ (e)=>{ handleKeyDown(e) }}
+                       
                         rows={1}
                         placeholder='Escribir mensaje'
                         onChange={(e)=>{
@@ -161,10 +197,19 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
                             />
                         </div>
                         <div>
-                            <img src="/delete_white.svg" alt="edit split"  onClick={()=>{
-                                    if (confirm("Desea eliminar este split?")) {
-                                        setChat( chat.filter( msg => msg != message  ))
-                                    }   
+                            <img src="/delete_white.svg" alt="delete split"  onClick={()=>{
+                                    setNotification({
+                                        status : "alert",
+                                        render : true,
+                                        message : "¿Desea eliminar este split?",
+                                        modalReturn : (booleanReturn)=>{
+                                            setNotification({...notification, render : false })
+                                            if ( booleanReturn ) {
+                                                setChat( chat.filter( msg => msg != message  ))
+                                            }
+                                        }
+                                    })
+                                    
                                 }}/>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { INotification } from '../../Notification/Notification';
 import BlockedPreVisual from './BlockedPreVisual';
 import styles from './ConversationPremium.module.css';
 import DetailSecunce from './DetailSecuence';
@@ -7,6 +8,8 @@ export interface IConversationPremium {
     blocked : boolean;
     setSelectedSecuence:  (secuence: ISecuence) => void;
     selectedSecuence : ISecuence | null;
+    notification: INotification;
+    setNotification: (notification: INotification) => void;
 }
 
 // types of info:
@@ -43,7 +46,7 @@ interface IChatBox {
 
 
 
-const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence }) => {
+const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification }) => {
     
     const idCard = 2
  
@@ -52,6 +55,8 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
     const [isNew, setIsNew] = useState<number>(-1)
 
     const [activeSecuence, setActiveSecuence] = useState<ISecuence | null>()
+
+    const [gridHovered, setGridHovered] = useState<number | null>()
 
     function new_secuence() {
         console.log('crear y renderizar secuencia nueva')
@@ -63,15 +68,18 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
         setIsNew(-1)
     }
 
-    useEffect(()=>{
-        console.log(activeSecuence)
-    },[activeSecuence])
+    const handleMouseEnter = (index) => {
+        setGridHovered(index);
+    };
 
-    console.log(isNew)
+    const handleMouseLeave = () => {
+        setGridHovered(null);
+    };
+
 
     return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
-            {!blocked ?
+            {blocked ?
             <>
                 {activeSecuence == null ?
                     <div>
@@ -80,8 +88,27 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                                 <img src='/close.svg' />
                             </div>
                             {secuenciasCreadas.map((secuen, index)=>(
-                                <div key={`secuenNro${index}`}  onClick={()=>{ setActiveSecuence(secuen); setIsNew(index) }}>
-                                    <img />
+                                <div key={`secuenNro${index}`}
+                                    onClick={()=>{
+                                        setActiveSecuence(secuen); setIsNew(index)
+                                    }}
+                                    onMouseEnter={() => handleMouseEnter(index)}
+                                    onMouseLeave={handleMouseLeave}
+                                    style={{
+                                        opacity: gridHovered !== null && gridHovered !== index ? 0.5 : 1,
+                                      }}
+                                >
+                                    <img src={ secuen.icon == "" ? "/dragonchat_logo.svg" : `/${secuen.icon}` } 
+                                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                                            e.currentTarget.src = '/dragonchat_logo.svg';
+                                        }} 
+                                    />
+                                    <div>
+                                        <div>
+                                            <span>{secuen.name}</span>
+                                            <img src="/icon_config.svg" />
+                                        </div>
+                                    </div>
                                 </div>
                             ))
 
@@ -91,7 +118,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                         
                     </div>
                 :
-                    <DetailSecunce isNew={isNew} secuence={activeSecuence} setActiveSecuence={setActiveSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} />
+                    <DetailSecunce isNew={isNew} secuence={activeSecuence} setActiveSecuence={setActiveSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} notification={notification} setNotification={setNotification} />
                 }
             </>
             :

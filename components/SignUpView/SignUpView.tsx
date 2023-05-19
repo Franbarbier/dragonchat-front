@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
+import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './SignUpView.module.css';
 
@@ -24,15 +25,32 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
     const [equalPass, setEqualPass] = useState(true)
     const [userExists, setUserExists] = useState(false)
 
+    const [notification, setNotification] = useState<INotification>({
+        status : "success",
+        render : false,
+        message : "",
+        modalReturn : ()=>{}
+    })
+
     async function handleCrearCuenta() {
         if (equalPass) {
             if( name != "" && email != "" && pass != "" && confirmPass != "" ){
                 await apiUserController.signUp(name, email, pass, confirmPass, setUserExists);
             }else{
-                alert('Asegurate de completar todos los campos!')
+                setNotification({
+                    status : "error",
+                    render : true,
+                    message : "Asegurate de completar todos los campos!",
+                    modalReturn : ()=>{setNotification({...notification, render : false })}
+                })
             }
         }else{
-            alert('Las contraseñas no coinciden!')
+            setNotification({
+                status : "error",
+                render : true,
+                message : "Las contraseñas no coinciden!",
+                modalReturn : ()=>{setNotification({...notification, render : false })}
+            })
         }
     }
 

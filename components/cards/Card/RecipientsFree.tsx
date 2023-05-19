@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
+import { INotification } from '../../Notification/Notification';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
@@ -10,7 +11,6 @@ interface IModalImport {
 }
 
 export interface IFreeCard1 {
-    sampleTextProp : string;
     setActiveCard: (id: number) => void;
     setContactos : (contactos: ContactInfo[]) => void;
     activeCard : number;
@@ -18,35 +18,66 @@ export interface IFreeCard1 {
     handleNewContact: (newContact: ContactInfo) => void;
     handleDeleteContact : (contact: ContactInfo) => void;
     handleRenderModal : (render: boolean) => void;
-    finalList : ContactInfo[]
+    finalList : ContactInfo[];
+    setDroppedCsv : (droppedCsv: File) => void;
+    notification : INotification
+    setNotification : (notification: INotification) => void;
 }
 
 // type setPropsType = {
 
 const allowedExtensions = ["csv"];
+interface ICustomContextMenu {
+    position: { x: number; y: number; index: number, type: string };
+    contextVisible: boolean;
+    executeFormat : (e, type:string, index:number) => void;
+    setContactos : (contactos: ContactInfo[]) => void;
+    finalList : ContactInfo[]
+}
+
+const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisible, executeFormat, finalList, setContactos }) => {
 
 
-const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList }) => {
+    function handlerPegar() {
+        navigator.clipboard.readText().then(text => { console.log(text);executeFormat( text, position.type, position.index)}) .catch(err => console.error('Failed to read clipboard contents: ', err));
+    }
+    function handleEliminar() {
+        const filteredArr = [...finalList];
+        filteredArr.splice(position.index,1)
+        setContactos(filteredArr)
+    }
+    function handleCopiar() {
+            navigator.clipboard.writeText(finalList[position.index][position.type]);
+    }
+
+    return(
+        <>
+        {contextVisible &&
+            <div 
+                style={{
+                    position: "absolute",
+                    top: `calc(${position.y}px - 10vh)`,
+                    left: `calc(${position.x}px - 25vw)`,
+                }}
+                className={styles.contextMenu} >
+            <ul>
+                <li onClick={ handleCopiar }><img src="/copy.svg"/><span>Copiar</span></li>
+                <li onClick={ handlerPegar }><img src="/paste.svg"/><span>Pegar</span></li>
+                <li onClick={ handleEliminar }><img src="/delete_white.svg" /><span>Eliminar</span></li>
+            </ul>
+        </div>
+        }
+        </>
+    )
+}
+
+const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
 
 
     let idCard = 1;
 
     const grillaFondo = useRef(null);
     const [height, setHeight] = useState(0);
-
-    // useEffect(() => {
-    //     if (grillaFondo.current) {
-    //     setHeight(grillaFondo.current);
-    //     }
-    // }, [grillaFondo]);
-
-    useEffect(() => {
-        if (grillaFondo.current) {
-            // console.log(grillaFondo.current.clientHeight)
-            
-        }
-    }, []);
-
 
     const [newContact, setNewContact] = useState<ContactInfo>({
         nombre: '',
@@ -56,18 +87,14 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
     const regex = new RegExp(/[^\d]/g);
     
     
-    function formatList(e, type:string, index:number){
 
-        // if(event.which === 13){}
+    function executeFormat(inputText:string, type: string, index:number) {
+
         let breaks = new RegExp("\n")
         let tabs = new RegExp("\t")
-        
-        let inputText = e.target.value;
 
         let prevCells:ContactInfo[] = finalList.slice(0, index)
 
-        var headersArray = ['nombre','estado', 'numero'];
-       
         if (!breaks.test(inputText) && !tabs.test(inputText)) {
             let updateContact = [...finalList]
             updateContact[index][type] = inputText
@@ -163,7 +190,13 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             var newContacts = prevCells.concat(output);
             setContactos(newContacts)
         }
+    }
 
+    function formatList(e:any, type:string, index:number){
+        let inputText = e.target.value;
+        if (typeof inputText === "string" && inputText.length > 0) {
+            executeFormat(inputText, type, index)
+        }
     };
 
 
@@ -184,14 +217,75 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
 
     // menu right clic
+    const [position, setPosition] = useState({ x: 0, y: 0 , index: 0, type : ''});
+    const [contextVisible, setContextVisible] = useState(false);
 
+    const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>, type, index) => {
+        event.preventDefault(); // prevent default context menu
+        setPosition({ x: event.clientX, y: event.clientY, index, type }); // save mouse position
+        setContextVisible(true); // show custom menu
+    };
+
+    const handleMenuClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        // handle menu click
+        setContextVisible(false); // hide menu
+    };
     
+    useEffect(() => {
+        // hide menu when clicked outside
+        const hideMenu = () => {
+            setContextVisible(false);
+        };
+        document.addEventListener("click", hideMenu);
+        return () => {
+            document.removeEventListener("click", hideMenu);
+        };
+    }, []);
+
+
+    // movida del drag n drop
+    const [isDragging, setIsDragging] = useState(false);
+
+
+    const handleDragOver = (event: React.DragEvent<HTMLTableElement>) => {
+        event.preventDefault();
+        setIsDragging(true);
+      };
     
+      const handleDragLeave = (event: React.DragEvent<HTMLTableElement>) => {
+        event.preventDefault();
+        setIsDragging(false);
+      };
+    
+      const handleDrop = (event: React.DragEvent<HTMLTableElement>) => {
+        event.preventDefault();
+        setIsDragging(false);
+        const file = event.dataTransfer.files[0];
+
+        console.log(file.type)
+        if (file.type === "text/csv") {
+            handleRenderModal(true)
+            setDroppedCsv(file)
+        }else{
+            setNotification({
+                status : "error",
+                render : true,
+                message : "El archivo debe ser un csv",
+                modalReturn : () => {setNotification({...notification, render : false})}
+            })
+        }
+      };
+
+
 
     return (
 
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
+            
 
+            <CustomContextMenu position={position} contextVisible={contextVisible} executeFormat={executeFormat} setContactos={setContactos} finalList={finalList}/>
+
+            
             <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
             <img src="/trama-car.svg" className={`${styles.tramaLeft} ${styles.tramas}`} />
             <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
@@ -206,9 +300,12 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                     <div style={{'margin': 'auto', 'width': '88%'}}>
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
                     </div>
-                    <span className={styles.list_counter}>{finalList.length - 1}</span>
                         
-                    <div className={styles.table_layout}>
+                    <div className={`${styles.table_layout}`}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                    >
                         
                     <div className={styles.grilla_oficial}>
                         {finalList.map((elementInArray, index) => ( 
@@ -223,13 +320,22 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                         :
                                         <div></div>
                                     }
-                                    <div className={styles.celda_table}>
-                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'nombre', index)} } value={elementInArray.nombre} />
+                                    <div className={styles.celda_table} onContextMenu={(e)=>handleContextMenu(e, 'nombre', index)}>
+                                        <textarea
+                                            rows={1}
+                                            onInput={ (e)=>{formatList(e, 'nombre', index)} }
+                                            value={elementInArray.nombre}
+                                        />
                                     </div>
-                                    <div className={styles.celda_table}>
+                                    <div className={styles.celda_table} onContextMenu={(e)=>handleContextMenu(e, 'numero', index)}>
                                         <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={elementInArray.numero} />
                                     </div>
-                                    { finalList.length - 1 !=  index ? <img src="/delete.svg" onClick={ ()=>{ setContactos( finalList.filter( ele => ele != elementInArray ) ) } } /> : <div></div>}
+                                    {/* { finalList.length - 1 !=  index ? <img src="/delete.svg" onClick={ ()=>{ setContactos( finalList.filter( ele => ele != elementInArray ) ) } } /> : <div></div>} */}
+                                    { finalList.length - 1 !=  index ?
+                                    
+                                    <img src="/close.svg" onClick={ ()=>{ setContactos( finalList.filter( ele => ele != elementInArray ) ) } } />
+                                    
+                                    : <div></div>}
                                 </div>
                                 </div>
                             ))
@@ -252,7 +358,9 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                                 </div>
                         ))}
                     </div>
-                       
+                    
+                    {isDragging && <div className={styles.dragging}>Drop file here</div>}
+
                     </div>
                     <div className={styles.footerBtns}>
                         <div>
@@ -299,6 +407,8 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                 {/* </div> */}
 
             </div>
+
+            
         </div>
     
     );

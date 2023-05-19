@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IChat } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
 
@@ -8,20 +8,31 @@ export interface IAddChatBox {
     arrMessages : IChat[],
     setSplitModal : (boolean: IChat | null)=> void,
     splitModal : IChat | null,
+    scrollToBottom : ()=> void,
 
 }
 type PossibleType = "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
 
 
-const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal }) => {
+const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, scrollToBottom }) => {
     
     // animate states
     const [hoverNewSign, setHoverNewSign] = useState(false)
 
+    const [lastMessageType, setLastMessageType] = useState('')
+
+    useEffect(() => {
+        setLastMessageType(arrMessages[arrMessages.length - 1]?.type)
+    }, [arrMessages])
+
     function addMessage(message:any, color:string, type:PossibleType){
 
+        if (type == "split" && lastMessageType == "any" ) { return false; }
+        if (type == "followup" && lastMessageType != "texto" ) { return false; }
         setArrMessages( [...arrMessages, {info:message, color, type: type}] )
-
+        setTimeout(() => {
+            scrollToBottom()
+        }, 100);
 
     }
 
@@ -37,6 +48,8 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
         }}
         
     }
+
+
     
     return (
         <div
@@ -57,13 +70,13 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
                         exit={{opacity: 0, y: 0, x : '-15%'}}
                         animate={{ opacity: hoverNewSign ? 1 : 0, x: hoverNewSign ? 0 : '-15%' , y : 0}}
                         >
-                        <div onClick={ ()=>{addMessage('','blue','texto'); setHoverNewSign(false) } }>
+                        <div onClick={ ()=>{addMessage('','blue','texto'); setHoverNewSign(false);} }>
                             <span>Mensaje</span>
                         </div>
                         <div>
                             <span>Archivo Adjunto</span>
                         </div>
-                        <div className={styles.followup} onClick={ ()=>{addMessage({message:''},'blue','followup'); setHoverNewSign(false) } } >
+                        <div className={`${styles.followup} ${lastMessageType != "texto" && styles.doNotAdd}`} onClick={ ()=>{addMessage({message:''},'blue','followup'); setHoverNewSign(false) } } >
                             <span>Mensaje Follow-up</span>
                         </div>
                     </motion.div>
@@ -72,18 +85,26 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
                             exit={{opacity: 0, y: 0, x : '15%'}}
                             animate={{ opacity: hoverNewSign ? 1 : 0, x: hoverNewSign ? 0 : '15%' , y : 0}}
                             >
-                        <div onClick={ ()=>{addMessage('Cualquier respuesta.','red','any'); setHoverNewSign(false) } }>
+                        <div onClick={ ()=>{
+                            if (lastMessageType != "any") {
+                                addMessage('Cualquier respuesta.','red','any'); setHoverNewSign(false)
+                            } 
+                            }}>
                             <p>Cualquier Respuesta.</p>
                         </div>
-                        <div className={styles.exceptuar} onClick={ ()=>{
-                            setSplitModal(newSplitModal('exclude'))
-                            setHoverNewSign(false)
+                        <div className={`${styles.exceptuar} ${lastMessageType == "any" && styles.doNotAdd}`} onClick={ ()=>{
+                            if (lastMessageType != "any") {   
+                                setSplitModal(newSplitModal('exclude'))
+                                setHoverNewSign(false)
+                            }
                         } }>
                             <p>Exceptuar</p>
                         </div>
-                        <div className={styles.solamente} onClick={ ()=>{
-                            setSplitModal(newSplitModal('include'))
-                            setHoverNewSign(false)
+                        <div className={`${styles.solamente}  ${lastMessageType == "any" && styles.doNotAdd}`} onClick={ ()=>{
+                            if (lastMessageType != "any") {   
+                                setSplitModal(newSplitModal('include'))
+                                setHoverNewSign(false)
+                            }
                             
                         } }>
                             <p>Solamente</p>

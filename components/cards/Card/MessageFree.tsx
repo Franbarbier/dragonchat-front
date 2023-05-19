@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
-import ConversationPremium, { ISecuence } from '../ConversationPremium/ConversationPremium';
+import ConversationPremium, { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
 import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {
-    sampleTextProp : string,
     setActiveCard: (id: number) => void,
     activeCard : number;
     mensaje : string;
@@ -12,9 +12,12 @@ export interface IFreeCard2 {
     setSelectedSecuence:  (secuence: ISecuence | null) => void;
     selectedSecuence : ISecuence | null;
     setReadyMessage : (ready: boolean) => void;
+    setBreadcrumb : (breadcrumb: IChat[]) => void;
+    notification : INotification;
+    setNotification : (notification: INotification) => void;
 }
 
-const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setReadyMessage}) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setReadyMessage, setBreadcrumb, notification, setNotification }) => {
 
     let idCard = 2;
 
@@ -32,6 +35,10 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
         setSelectedSecuence(null)
         setMensaje("")
     },[tab])
+
+    useEffect(()=>{
+        setBreadcrumb(selectedSecuence?.chat || [])
+    },[selectedSecuence])
     
 
 
@@ -68,7 +75,8 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                         </div>
                         :
                         <div>
-                            <ConversationPremium blocked={false} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} />
+                            <ConversationPremium blocked={true} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} notification={notification} setNotification={setNotification}
+                            />
                         </div>
 
                     }

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
+import { INotification } from '../../Notification/Notification';
+import Breadcrumb from './Breadcrumb';
 import ChatWindow from './ChatWindow';
 import { IChat, ISecuence } from './ConversationPremium';
 import styles from './ConversationPremium.module.css';
@@ -18,7 +20,9 @@ export interface ISecuencePremium {
     setActiveSecuence: (secuence: ISecuence | null) => void,
     secuenciasCreadas: ISecuence[],
     setSecuenciasCreadas: (secuences: ISecuence[]) => void,
-    isNew : number
+    isNew : number;
+    notification: INotification;
+    setNotification: (notification: INotification) => void;
 }
 
 interface IChatBox {
@@ -35,14 +39,10 @@ export interface SplitInfo{
 }
 
 
-const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCreadas, secuenciasCreadas, setActiveSecuence, isNew }) => {
+const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCreadas, secuenciasCreadas, setActiveSecuence, isNew, notification, setNotification }) => {
     
     const [secuenceInfo, setSecuenceInfo] = useState(secuence)
     const [secuenceInfoChat, setSecuenceInfoChat] = useState<IChat[]>(secuence ? secuence.chat : [])
-    
-    useEffect(()=>{
-        console.log(secuenceInfoChat)
-    },[secuenceInfoChat])
     
     const [icono, setIcono] = useState<File>();
 
@@ -68,7 +68,37 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
 
         console.log(secuenceInfo, secuenceInfoChat, secuence, icono)
 
-
+        if (secuenceInfo.name == "" ) {
+            setNotification({
+                status : "error",
+                render : true,
+                message : "Debes asignarle un nombre a la secuencia",
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
+            return false;
+        }
+        if (secuenceInfo.chat.length == 0) {
+            setNotification({
+                status : "error",
+                render : true,
+                message : "Debes agregar al menos un mensaje a la secuencia",
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
+            return false;
+        }
+        if (secuenceInfo.chat[0].info == "") {
+            setNotification({
+                status : "error",
+                render : true,
+                message : "No puedes enviar un mensaje vacío",
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
+            return false;
+        }
+        
         if(isNew  == -1 ){
             setSecuenciasCreadas([...secuenciasCreadas, secuenceInfo])
         }else{
@@ -77,9 +107,26 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
             setSecuenciasCreadas(secuences)
         }
         setActiveSecuence(null)
+        console.log("aaaaa")
     
     }
 
+    // useEffect(()=>{
+    //     console.log(secuenceInfoChat)
+    //     for (let index = 0; index < secuenceInfoChat.length; index++) {
+    //         const element = secuenceInfoChat[index];
+
+    //         if(element.type == 'include' || element.type == 'exclude'){
+    //             const bloque = `<div>
+    //                 <p> ${secuenceInfoChat[index - 1].info} </p>
+    //             </div>`
+    //             console.log(bloque)
+    //         }
+            
+    //     }
+
+    // },[secuenceInfoChat])
+    
 
         return (
                 <div style={{'height':'100%'}}>
@@ -102,18 +149,33 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                                 </div>
                             </div>
                             <div>
-                                <ChatWindow chatData={secuenceInfoChat} setChatData={setSecuenceInfoChat} />
+                                <ChatWindow chatData={secuenceInfoChat} setChatData={setSecuenceInfoChat} notification={notification} setNotification={setNotification} />
                             </div>
                         </div>
                         <div style={{'display': 'flex', 'justifyContent':'space-between'}}>
                             <div style={{ 'width' : '48%'}}>
                                 <CustomColorBtn
                                     type="submit"
-                                    text="Cancelar"
+                                    text="Regresar"
                                     backgroundColorInit="rgb(58 148 254 / 36%)"
                                     backgroundColorEnd="rgb(114 76 223 / 0%)"
                                     borderColor="#5573f0"
-                                    onClick={()=>{ setActiveSecuence(null) }}
+                                    onClick={()=>{
+                                        console.log(secuenceInfoChat)
+                                        if(secuenceInfoChat.length > 0){
+                                            setNotification({
+                                                status : "alert",
+                                                render : true,
+                                                message : "¿Estas seguro que quieres salir sin guardar los cambios?'",
+                                                modalReturn : (booleanReturn)=>{
+                                                    setNotification({...notification, render : false })
+                                                    if ( booleanReturn ) {
+                                                        setActiveSecuence(null)
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    }}
                                     disable={ false }
                                 />
                             </div>
@@ -129,7 +191,11 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                                 />
                             </div>
                         </div>
-                                
+                        
+
+                        <div className={styles.breadcrumbCont}>
+                            <Breadcrumb chat={secuenceInfoChat}/>
+                        </div>
                                 
                     </div>
        );

@@ -15,30 +15,33 @@ import styles from './FreeCard.module.css';
 
 
 export interface IFreeCard3 {
-    sampleTextProp : string;
     setActiveCard: (id: number) => void;
     activeCard : number;
     contactos : ContactInfo[];
     messagesLimitAchieved : boolean;
     setMessagesLimitAchieved : (limit: boolean) => void;
     mensaje: string ;
-    setContactos : (contactos: ContactInfo[]) => void
+    setContactos : (contactos: ContactInfo[]) => void;
+    modalShieldOptions : boolean;
+    setModalShieldOptions : (limit: boolean) => void;
+    shieldOptions : {
+        timer: number,
+        pausa : number,
+        bloques: number
+    };
+    
 }
 
-const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, setMessagesLimitAchieved, messagesLimitAchieved }) => {
+const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, setMessagesLimitAchieved, messagesLimitAchieved, modalShieldOptions, setModalShieldOptions, shieldOptions }) => {
 
     let idCard = 3;
     let router= useRouter()
 
     const [sending, setSending] = useState<boolean>(false)
-    const [isSent, setIsSent] = useState<boolean>(false)
-    const [contactosStatus, setContactosStatus] = useState(contactos)
     const [exito, setExito] = useState<boolean>(false)
-    const [hoverTimer, setHoverTimer] = useState<boolean>(false)
-
     const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>()
 
-
+    const [activeShield, setActiveShield] = useState<boolean>(false)
 
     async function sendMove(userInfo, count) {
         console.log(mensaje)
@@ -69,9 +72,17 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
     const [isLooping, setIsLooping] = useState(false);
     const [counter, setCounter] = useState(0);
-    const [timer, setTimer] = useState(1000);
-
+    
+    const [timer, setTimer] = useState(200);
+    const [bloques, setBloques] = useState<number>(0);
+    const [pausa, setPausa] = useState<number>(0);
+    
     useEffect(() => {
+        console.log(timer, bloques, pausa);
+    }, [timer, bloques, pausa]);
+    
+    useEffect(() => {
+
         let intervalId: NodeJS.Timeout;
 
         if (isLooping && counter < contactos.length -1) {
@@ -79,19 +90,44 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
             console.log("Looping...", counter);
             const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
             sendMove(userInfo, counter)
-            setCounter(counter + 1);
+
+            // Movida para pausar el loop cada X mensajes
+            if ((counter+1) % bloques === 0 && counter !== 0) {
+                clearInterval(intervalId); // Pause the loop
+                setTimeout(() => {
+                  // Resume the loop after X seconds
+                  intervalId = setInterval(() => {
+                    const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
+                    sendMove(userInfo, counter);
+                    setCounter((c) => c + 1);
+                  }, timer);
+                }, pausa);
+              } else {
+                setCounter((c) => c + 1);
+              }
+
+
+            // setCounter(counter + 1);
         }, timer);
         }
 
         return () => {
         clearInterval(intervalId);
         };
+
     }, [isLooping, counter]);
+
 
     const handleButtonClick = () => {
         setIsLooping(!isLooping);
     };
-  
+
+    useEffect(() => {
+        setActiveShield(true)
+        setTimer( shieldOptions.timer * 1000 )
+        setBloques( shieldOptions.bloques )
+        setPausa( shieldOptions.pausa * 1000 )
+    }, [shieldOptions])
 
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`}>
@@ -159,8 +195,17 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                 <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
                     {!messagesLimitAchieved ?
                         <div className={styles.footerBtns}>
+                            <aside className={ activeShield ? styles.activeShield : styles.activeShieldOff } onClick={()=>{ setActiveShield(!activeShield) }} >
+                                <div>
+                                    <img src="/shield-clock.svg"/>
+                                    <div className={styles.shieldFilter} ></div>
+                                </div>
+                               <aside onClick={()=>{ setModalShieldOptions(true) }}>
+                                    <img src="/icon_config.svg"/>
+                                </aside> 
+                            </aside>
                             {!exito ?
-                                <OrangeBtn text={!isLooping ? 'Enviar 🚀' : 'Pausar ⏸️' } onClick={handleButtonClick} />
+                                <OrangeBtn text={!isLooping ? 'Enviar' : 'Pausar' } onClick={handleButtonClick} />
                                 :
                                 <CustomColorBtn
                                 type="submit"
@@ -172,27 +217,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                 disable={ false}
                                 />
                             }
-                            <div className={styles.sendDelayCont} onMouseEnter={ ()=>{ setHoverTimer(true) } } onMouseLeave={ ()=>{ setHoverTimer(false) } }>
-                                <div>
-                                    <img src="/timer.svg" />
-                                </div>
-                                <div>
-                                    <input type="number" value={timer/1000} onChange={ (e)=>{setTimer( parseInt(e.target.value)*1000 )} } />
-                                    <span>segs.</span>
-                                </div>
-                                <AnimatePresence>
-                                {hoverTimer &&
-                                        <motion.p
-                                            initial={{opacity: 0, x: '-50%', y : 0}}
-                                            exit={{opacity: 0, x: '-50%', y : 0}}
-                                            animate={{ opacity: hoverTimer ? 1 : 0, y: hoverTimer ? -15 : 0 , x : "-50%"}}
-                                            >
-                                            Delay entre cada mensaje saliente.
-                                        </motion.p>
-
-                                }
-                                </AnimatePresence>
-                            </div>    
+                               
                         </div>
                     :
                     <>
