@@ -15,7 +15,7 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
     
     const url = 'https://qrcg-free-editor.qr-code-generator.com/main/assets/images/websiteQRCode_noFrame.png';
 
-    const [queue, setQueue] = useState(1);
+    const [queue, setQueue] = useState(0);
     const [reconnect, setReconnect] = useState(false);
 
     const logoutBtnStyle = {
