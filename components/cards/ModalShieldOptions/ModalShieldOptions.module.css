@@ -1,0 +1,123 @@
+.wireMsjs>div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.wireCont{ width: 50%; margin: 2px 0; }
+.bloqueCont{
+    padding: 2px;
+    border: 1px solid var(--newViolet);
+    background-color: #4c239c42;
+    border-radius: 5px;
+
+}
+.messageCont{
+    border: 1px solid var(--newViolet);
+    border-radius: 5px;
+    height: 15px;
+    background-color: rgba(7, 7, 148, 0.356);
+    margin-bottom: 4px;
+}
+.messageCont:last-child{
+    margin-bottom: 0px;
+}
+.blockSpace{
+    padding: 2px;
+    border-radius: 5px;
+    height: 30px;
+    background-color: #91151579;
+    border: 1px solid #911515;
+}
+.blockSpace>img{
+    height: 100%;
+    display: block;
+    margin: auto;
+}
+.nameCont{
+    width: 35%;
+    font-size: 0.7em;
+}
+.linesCont{
+    width: 25%
+}
+.linesCont hr{
+    border: 1px #fff dashed;
+    width: 70%;
+    margin: auto;
+}
+.linesCont>div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.linesCont>div>div{
+    width: 30%;
+    border: 2px #fff dashed;
+    border-left: none;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 20px;
+    margin-left: 15%;
+}
+.linesCont>div hr{
+    margin-right: 15%;
+
+}
+.shieldInputsCont{
+    margin-top: 10%;
+}
+.shieldInputsCont h6{
+    color: var(--rosita2);
+    text-align: center;
+    font-size: 0.6em;
+    font-weight: 300;
+    margin-bottom: 4px;
+
+}
+.shieldInputsCont>div>div{
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-bottom: 5%;
+}
+.shieldInputsCont>div:last-child{
+    margin-bottom: 0;
+}
+.shieldInputsCont>div>div>div{
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    border: 2px solid var(--newViolet);
+    border-radius: 90px;
+    background-color: var(--rosita2);
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+.shieldInputsCont>div>div span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+.shieldInputsCont>div input{
+    width: 70%;
+    padding: 2px 8px;
+    border: 1px solid var(--newViolet);
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.3);
+    font-size: 0.8em;
+    text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.shieldInputsCont input::-webkit-outer-spin-button, .shieldInputsCont input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* Firefox */
+.shieldInputsCont input[type=number] {
+    -moz-appearance: textfield;
+}

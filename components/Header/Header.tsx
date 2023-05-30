@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
+import ModalTimer from '../ModalTimer/ModalTimer';
 import styles from './Header.module.css';
 
 export interface IHeader {
@@ -19,6 +20,7 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
     const [rotateAnim, setRotateAnim] = useState<boolean>(false)
     const [buleano, setBuleano] = useState<boolean>(false)
     const [modalRef, setModalRef] = useState<boolean>(false)
+    const [modalTimer, setModalTimer] = useState<boolean>(false)
 
 
     useEffect(()=>{
@@ -48,8 +50,15 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
         <div className={styles.header_cont}>
             <nav>
                 <div>
-                    <img src={'boceto-logo.png'} />
+                    <img width={'130px'} src={'dragonchat_logo_full.svg'} />
 
+                </div>
+                <div className={styles.timerCont} onClick={ ()=>{ setModalTimer(true) } } >
+                    <div>
+                        <div>
+                            <h4>10:00</h4>
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.menu_cont}>
                     <div className={styles.referir_cont}>
@@ -72,6 +81,16 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
                     </div>
                 </div>
             }
+            {modalTimer &&
+                <div>
+                    <div>
+                        <ModalContainer closeModal={ ()=> {setModalTimer(false)} } addedClass="timerModal">
+                            <ModalTimer />
+                        </ModalContainer>
+                    </div>
+                </div>
+            }
+            
         </div>
     
     );

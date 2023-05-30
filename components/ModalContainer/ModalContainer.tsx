@@ -16,7 +16,7 @@ const ModalContainer: React.FC<IModalContainer> = ({ children, closeModal, added
 
     return (
         <div className={styles.modal_background}  onClick={ ()=> { closeModal(false) } } >
-            <div className={`${styles.modal_cont}  ${styles[addedClass]}`}  onClick={ (e)=> { e.stopPropagation() } } >
+            <div className={`${styles.modal_cont} ${styles[addedClass]}`}  onClick={ (e)=> { e.stopPropagation() } } >
                 <div className={styles.close_mod}  onClick={ ()=> { closeModal(false) } } >
                     <p>x</p>
                 </div>

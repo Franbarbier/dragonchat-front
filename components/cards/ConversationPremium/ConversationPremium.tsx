@@ -1,115 +1,133 @@
-import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
-import styles from '../Card/FreeCard.module.css';
+import React, { useState } from 'react';
+import { INotification } from '../../Notification/Notification';
+import BlockedPreVisual from './BlockedPreVisual';
+import styles from './ConversationPremium.module.css';
+import DetailSecunce from './DetailSecuence';
 
 export interface IConversationPremium {
     blocked : boolean;
+    setSelectedSecuence:  (secuence: ISecuence) => void;
+    selectedSecuence : ISecuence | null;
+    notification: INotification;
+    setNotification: (notification: INotification) => void;
 }
 
-interface IChat {
-    message? : string,
-    color?: string
+// types of info:
+// 1. texto : string
+// 2. followup : {message : string, delay: {hours: string, mins: string, secs: string}}
+// 3. include/exclude:  {name: string, key_words: [], split_chat : IChat[]}
+// 4. archivo : {url: string, name: string}
+// 5. any: string
+
+export interface IChat {
+    info : any,
+    color : string,
+    type : "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
+}
+export interface ISecuence {
+    name : string,
+    icon : string,
+    chat : IChat[]
 }
 
-const ConversationPremium: React.FC<IConversationPremium> = ({ blocked }) => {
 
-    const [chat, setChat] = useState<IChat[]>([])
 
-    const [modalAddMessage, setModalAddMessage] = useState('')
-    const [red_new_message, setRed_new_message] = useState('')
-    const [blue_new_message, setBlue_new_message] = useState('')
+export interface ISecuencePremium {
+    blocked : boolean
+}
 
+
+interface IChatBox {
+    message : IChat,
+    setChat : (chat:IChat[])=> void,
+    chat : IChat[],
+    index : number
+}
+
+
+
+const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification }) => {
+    
     const idCard = 2
+ 
+    
+    const [secuenciasCreadas, setSecuenciasCreadas] = useState<ISecuence[]>([])
+    const [isNew, setIsNew] = useState<number>(-1)
 
-    function addMessage(message:string, color:string){
-        setChat( [...chat, {message, color}] )
+    const [activeSecuence, setActiveSecuence] = useState<ISecuence | null>()
+
+    const [gridHovered, setGridHovered] = useState<number | null>()
+
+    function new_secuence() {
+        console.log('crear y renderizar secuencia nueva')
+        setActiveSecuence({
+            name : '',
+            icon : '',
+            chat : []
+        })
+        setIsNew(-1)
     }
 
-    useEffect(()=>{
-        if (blocked) {
-            setChat([
-                {message: '¡Manuel! Como va eso?', color: 'blue'},
-                {message: 'Hola, todo bien, vos?', color: 'red'},
-                {message: 'Excelente, ya te paso la guía !', color: 'blue'},
-                {message: 'la-respuesta-a-las-10-objeciones.pdf', color: 'blue'},
-                {message: 'Te va a ser muy útil :)', color: 'blue'},
-                {message: 'Muchas gracias!', color: 'red'},
-                {message: 'Quedamos en contacto', color: 'blue'}
-            ])
-        }
-    }, [])
+    const handleMouseEnter = (index) => {
+        setGridHovered(index);
+    };
+
+    const handleMouseLeave = () => {
+        setGridHovered(null);
+    };
 
 
-    return (
+    return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
-
-            <div className={styles.card_container}>
-               
-                <div className={styles.chat_window}>
+            {blocked ?
+            <>
+                {activeSecuence == null ?
                     <div>
-                        <div className={styles.add_messages}>
-                            <div className={`${styles.add_red_message} ${styles.red_type}`} onClick={(e)=>{
-                                e.stopPropagation()
-                                setModalAddMessage('red') }
-                                }>
-                                <p>+</p>
-                                {modalAddMessage == "red" &&
-                                <form className={styles.red_type}>
-                                    <textarea value={red_new_message} onChange={ (e)=>{ setRed_new_message(e.target.value) } }/>
-                                    <button onClick={ (e)=>{ 
-                                        e.preventDefault()
-                                        setRed_new_message('')
-                                        addMessage(red_new_message, "red") } }>Enviar</button>
-                                </form>
-                                }
+                        <div className={styles.gridSecuences}>
+                            <div className={styles.addNewSecuence} onClick={()=>{new_secuence()}}>
+                                <img src='/close.svg' />
                             </div>
-                            <div className={`${styles.add_blue_message} ${styles.blue_type}`} onClick={(e)=>{
-                                e.stopPropagation()
-                                setModalAddMessage('blue') }
-                                }>
-                                <p>+</p>
-                                {modalAddMessage == "blue" &&
-                                <form className={styles.blue_type}>
-                                    <textarea value={blue_new_message} onChange={ (e)=>{ setBlue_new_message(e.target.value) } }/>
-                                    <button onClick={ (e)=>{ 
-                                        e.preventDefault()
-                                        setBlue_new_message('')
-                                        addMessage(blue_new_message, "blue") } }>Enviar</button>
-                                </form>
-                                }
-                            </div>
-                        </div>
-                        <div>
-                            {chat.map(message => (
-
-                                <div className={styles.message_cont}>
-                                <div className={`${styles.message}  ${message.color == "blue" ? `${styles.blue_message} ${styles.blue_type}` : `${styles.red_message}
-                                        ${styles.red_type}` }`}>
+                            {secuenciasCreadas.map((secuen, index)=>(
+                                <div key={`secuenNro${index}`}
+                                    onClick={()=>{
+                                        setActiveSecuence(secuen); setIsNew(index)
+                                    }}
+                                    onMouseEnter={() => handleMouseEnter(index)}
+                                    onMouseLeave={handleMouseLeave}
+                                    style={{
+                                        opacity: gridHovered !== null && gridHovered !== index ? 0.5 : 1,
+                                      }}
+                                >
+                                    <img src={ secuen.icon == "" ? "/dragonchat_logo.svg" : `/${secuen.icon}` } 
+                                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                                            e.currentTarget.src = '/dragonchat_logo.svg';
+                                        }} 
+                                    />
                                     <div>
-                                        <p>{message.message}</p>
+                                        <div>
+                                            <span>{secuen.name}</span>
+                                            <img src="/icon_config.svg" />
+                                        </div>
                                     </div>
-                                    <img src="/delete_white.svg" onClick={()=>{ setChat( chat.filter( msg => msg != message  )) }}/>
                                 </div>
-                                </div>
+                            ))
 
-                            ))}
+                            }
+                           
                         </div>
+                        
                     </div>
-                    {blocked &&
-                        <div className={styles.lock_overlay}>
-                            <div>
-                                <FontAwesomeIcon icon={faLock} />
-                                <p>Desbloqueá esta funcionalidad</p>
-                            </div>
-                        </div>
-                    }
-                </div>
-                
-            </div>
+                :
+                    <DetailSecunce isNew={isNew} secuence={activeSecuence} setActiveSecuence={setActiveSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} notification={notification} setNotification={setNotification} />
+                }
+            </>
+            :
+                <BlockedPreVisual />
+            }
         </div>
-    
+        
     );
+    
 }
 
 export default ConversationPremium;
