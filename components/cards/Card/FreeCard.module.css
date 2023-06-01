@@ -247,11 +247,10 @@ background: #555;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 0%;
+    right: -0.7%;
     width: 6%;
-    background-color: #d74242;
     border-radius: 50px;
-    padding: 7px;
+    padding: 5px;
     cursor: pointer;
     opacity: 0;
 }
