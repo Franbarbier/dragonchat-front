@@ -6,6 +6,7 @@ import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
 
+
 interface IModalImport {
     modalImport : boolean;
 }
@@ -86,6 +87,11 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
   
     const regex = new RegExp(/[^\d]/g);
     
+
+
+    function checkIfNameOrNumber() {
+        
+    }
     
 
     function executeFormat(inputText:string, type: string, index:number) {
@@ -96,8 +102,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         let prevCells:ContactInfo[] = finalList.slice(0, index)
 
         if (!breaks.test(inputText) && !tabs.test(inputText)) {
+
             let updateContact = [...finalList]
             updateContact[index][type] = inputText
+            
 
             if (updateContact[index].nombre === "" && updateContact[index].numero === ""  ) {
                 updateContact.splice(index, 1)
@@ -140,12 +148,15 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
             var newList = [...finalList]
             newList = newList.slice(prevCells.length)
+
+            console.log(rawRows)
             
             rawRows.map((rawRow, index) => {
                 
                 let rowObject: any = {};
 
                 console.log(rawRow)
+                
                 if(newList[index]){
                     if (type == "numero") {                       
                         rowObject['numero'] = rawRow;
@@ -257,12 +268,12 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         setIsDragging(false);
       };
     
-      const handleDrop = (event: React.DragEvent<HTMLTableElement>) => {
+      const handleDrop = async (event: React.DragEvent<HTMLTableElement>) => {
         event.preventDefault();
         setIsDragging(false);
         const file = event.dataTransfer.files[0];
 
-        console.log(file.type)
+        
         if (file.type === "text/csv") {
             handleRenderModal(true)
             setDroppedCsv(file)
@@ -307,7 +318,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                         onDrop={handleDrop}
                     >
                         
-                    <div className={styles.grilla_oficial}>
+                    <div className={`${styles.grilla_oficial} ${isDragging && styles.draggedIcon }`} >
                         {finalList.map((elementInArray, index) => ( 
                                 <div className={styles.row_table}>
                                     <div>
@@ -360,6 +371,8 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                     </div>
                     
                     {isDragging && <div className={styles.dragging}>Drop file here</div>}
+                    
+                    {/* <div className={styles.dragging}>Drop file here</div> */}
 
                     </div>
                     <div className={styles.footerBtns}>

@@ -54,7 +54,6 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
     };
 
     useEffect(()=>{
-        console.log(icono)
         if (icono?.name) {
             setSecuenceInfo({...secuenceInfo, icon: icono.name})
         }
@@ -107,7 +106,6 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
             setSecuenciasCreadas(secuences)
         }
         setActiveSecuence(null)
-        console.log("aaaaa")
     
     }
 
@@ -156,7 +154,7 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                             <div style={{ 'width' : '48%'}}>
                                 <CustomColorBtn
                                     type="submit"
-                                    text="Regresar"
+                                    text="Resgresar"
                                     backgroundColorInit="rgb(58 148 254 / 36%)"
                                     backgroundColorEnd="rgb(114 76 223 / 0%)"
                                     borderColor="#5573f0"
@@ -166,7 +164,7 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                                             setNotification({
                                                 status : "alert",
                                                 render : true,
-                                                message : "¿Estas seguro que quieres salir sin guardar los cambios?'",
+                                                message : "¿Estas seguro que quieres salir sin guardar los cambios?",
                                                 modalReturn : (booleanReturn)=>{
                                                     setNotification({...notification, render : false })
                                                     if ( booleanReturn ) {
@@ -174,6 +172,8 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                                                     }
                                                 }
                                             })
+                                        }else{
+                                            setActiveSecuence(null)
                                         }
                                     }}
                                     disable={ false }

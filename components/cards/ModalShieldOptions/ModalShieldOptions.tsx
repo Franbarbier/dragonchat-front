@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import CardTitle from '../CardTitle/CardTitle';
 import styles from './ModalShieldOptions.module.css';
@@ -24,6 +24,15 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({ setShieldOptions, s
     const [pausaBloque, setPausaBloque] = useState<number>(0);
     const [pausaMensaje, setPausaMensaje] = useState<number>(0);
     
+    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef2 = useRef<HTMLInputElement>(null);
+    const inputRef3 = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        inputRef?.current?.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
+        inputRef2?.current?.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
+        inputRef3?.current?.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
+    },[])
 
     return (
         <div className={styles.ModalShieldOptions_cont}>
@@ -83,7 +92,7 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({ setShieldOptions, s
                                 <div onClick={()=> { if(tamanoBloque != 0) setTamanoBloque(tamanoBloque - 1)}}>
                                     <span>-</span>
                                 </div>
-                                <input type="number" value={tamanoBloque} onChange={(e)=>{setTamanoBloque(parseInt(e.target.value))}} />
+                                <input ref={inputRef} type="number" value={tamanoBloque} onChange={(e)=>{setTamanoBloque(parseInt(e.target.value))}} />
                                 <div onClick={()=> { setTamanoBloque(tamanoBloque + 1)}}>
                                     <span>+</span>
                                 </div>
@@ -95,7 +104,7 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({ setShieldOptions, s
                                 <div onClick={()=> { if(pausaBloque != 0) setPausaBloque(pausaBloque - 1)}}>
                                     <span>-</span>
                                 </div>
-                                <input type="number" value={pausaBloque} onChange={(e)=>{setPausaBloque(parseInt(e.target.value))}} />
+                                <input ref={inputRef2} type="number" value={pausaBloque} onChange={(e)=>{setPausaBloque(parseInt(e.target.value))}} />
                                 <div onClick={ ()=> {setPausaBloque(pausaBloque + 1)} }>
                                     <span>+</span>
                                 </div>
@@ -107,7 +116,7 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({ setShieldOptions, s
                                 <div onClick={()=> { if(pausaMensaje != 0) setPausaMensaje(pausaMensaje - 1)}}>
                                     <span>-</span>
                                 </div>
-                                <input type="number" value={pausaMensaje} onChange={(e)=>{setPausaMensaje(parseInt(e.target.value))}} />
+                                <input ref={inputRef3} type="number" value={pausaMensaje} onChange={(e)=>{setPausaMensaje(parseInt(e.target.value))}} />
                                 <div onClick={ ()=> {setPausaMensaje(pausaMensaje + 1)} }>
                                     <span >+</span>
                                 </div>

@@ -12,24 +12,20 @@ import styles from './LoginView.module.css';
 
 
 export interface ILoginView {
-
+    notification : INotification,
+    setNotification : (notification : INotification) => void,
 }
 
 
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const LoginView: React.FC<ILoginView> = ({  }) => {
+const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
 
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
-    const [notification, setNotification] = useState<INotification>({
-        status : "success",
-        render : false,
-        message : "",
-        modalReturn : ()=>{}
-    })
+    
 
     const [logging, setLogging] = useState<boolean>(false)
 
@@ -45,7 +41,6 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                         access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
                         user_id : login_status?.data.user_id
                     }
-                    console.log(login_status)
 
                     Cookies.set(
                       process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
@@ -73,6 +68,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
 
         }else{
+            setLogging(false)
             setNotification({
                 status : "error",
                 render : true,
@@ -128,8 +124,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 </div>
 
             </form>
-        </div>
-    
+        </div>    
     );
 }
 

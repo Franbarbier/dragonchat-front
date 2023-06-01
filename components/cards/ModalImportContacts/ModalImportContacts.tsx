@@ -29,8 +29,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
     Papa.parse(file, {
       header: true,
       complete: results => {
-        let newArr = results.data
-        
+        let newArr = results.data        
         renameKeys(newArr)
         setParsedCsvData(newArr)
       },
@@ -38,20 +37,27 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   };
 
   const onDropFn = useCallback(acceptedFiles => {
-      parseFile(acceptedFiles);
+        parseFile(acceptedFiles);
       setIsFile(true)
   }, []);
 
   
   function renameKeys(newArr:Array<any>) {
+
+    console.log(newArr)
+    function getAllKeys(obj) {
+      return Object.keys(obj);
+    }
+    
+    
     for (let index = 0; index < newArr.length; index++) {
       var element = newArr[index];
-      element.numero = element["Número"]
-      element.nombre = element["Nombre"]
+
+      element.numero = element[getAllKeys(element)[1]]
+      element.nombre = element[getAllKeys(element)[0]]
       delete element["Número"] 
       delete element["Nombre"] 
     }
-    console.log(newArr)
   }
   
   const handleDragOver = (event) => {
@@ -88,8 +94,7 @@ return (
           <div className={styles.table_cont}>
             {parsedCsvData.length > 0 &&
               <HeaderRow campos={campos} />
-            }
-            
+            } 
             {parsedCsvData.map((contact)=>(
               <>
                 <ContactRow contact={contact} campos={campos}  />
@@ -103,6 +108,18 @@ return (
 
             <div className={styles.saveOrEdit}>
               <label className={styles.labelFile} htmlFor="csvInput">Cambiar .CSV</label>
+              <input
+                        onChange={ (e)=>{ 
+                          if (e.target.files?.length) {
+                            onDropFn(e.target.files[0]);
+                          } 
+                        }}
+                        
+                        className={styles.csvInput}
+                        id="csvInput"
+                        name="file"
+                        type="File"
+                        />
               <OrangeBtn text="Subir contactos" onClick={()=>{
                                                             uploadContacts(parsedCsvData)
                                                             setModalImport(false)
@@ -126,7 +143,8 @@ return (
                   <div className={styles.infoIcon}>
                     <FontAwesomeIcon icon={faTableColumns} />
                   </div>
-                  <p>Los primeros campos de las columnas deben ser "Nombre" y "Número".</p>
+                  <p>La primer columna va a ser tomada como "Nombre" y la segunda como "Número".</p>
+
                 </div>
                 <div>
                   <div className={styles.infoIcon}>

@@ -1,8 +1,11 @@
 import Cookies from "js-cookie";
 import Router from "next/router";
+import { useState } from "react";
 import apiUserController from "../api/apiUserController";
 // import Cookies from "universal-cookie";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
+import MainCont from "../components/MainCont/MainCont";
+import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
 import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
@@ -10,6 +13,8 @@ import { GralProps } from "./_app";
 const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
     
     const url = 'https://qrcg-free-editor.qr-code-generator.com/main/assets/images/websiteQRCode_noFrame.png';
+
+    const [queue, setQueue] = useState<number>(2);
 
     const logoutBtnStyle = {
       'width': '100%',
@@ -44,10 +49,13 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
                     style={logoutBtnStyle}
                 >LOG OUT</button>
             </div>
-                {/* <MainCont width={40}>
+            {queue == 0 ? (
+                <MainCont width={40}>
                     <QrCard qr_url={url} linked_whatsapp={linkedWhatsapp}/>
-                </MainCont> */}
-                <QrWaitingRoom />
+                </MainCont>
+            ) :
+                <QrWaitingRoom queue={queue}/>
+            }
         </section>
     );
 };

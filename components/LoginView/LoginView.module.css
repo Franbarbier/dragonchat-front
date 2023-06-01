@@ -71,3 +71,9 @@
     border: none;
     cursor: pointer;
 }
+
+.loginContForNotif{
+    position: fixed;
+    top: -15vh;
+    right: -50vh;
+}

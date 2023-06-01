@@ -285,7 +285,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 </div>
             }
             
-            {notification.render && <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} /> }
+           <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
 
 
         </div>

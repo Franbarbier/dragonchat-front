@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect } from 'react';
 import styles from './Notification.module.css';
 
 export interface INotification {
@@ -16,30 +17,69 @@ const Notification: React.FC<INotification> = ({ status, render, message, modalR
         modalReturn(value); // Close the modal and pass the button value as the result
     };
 
-    return (
-        <AnimatePresence >
-        {render &&
-            <motion.div className={styles.notificationCont}
-                initial={{ opacity: 0, y : -50, x: '-50%' }}
-                exit={{ opacity: 0, y : -50, x: '-50%' }}
-                animate={{ opacity: 1, y : 0, x: '-50%' }}
-            >
-                <div>
-                    {status == 'success' && <img className={styles.checkNotif} src={`/check.svg`} alt="icon"/> }
-                    {status == 'error' && <img className={styles.errorNotif} src={`/close.svg`} alt="icon"/> }
-                    {status == 'alert' && <img className={styles.alertNotif} src={`/exclamation.svg`} alt="icon"/> }
-                    
-                    <span>{message}</span>
-                </div>
-                <div className={styles.notifBtns    }>
-                    {status == 'alert' &&
-                        <button onClick={()=>{ handleButtonClick(false) }} className={styles.notifCancel} >Cancelar</button>
-                    }
-                    <button onClick={()=>{ handleButtonClick(true) }} className={styles.notifOk}> {status == 'alert' ? "Confirmar" : "Entendido" }</button>
-
-                </div>
-            </motion.div>
+    useEffect(() => {
+        if(render && status == "success" || status == "error"){
+            setTimeout(() => {
+                modalReturn(true);
+            }, 3500);
         }
+    }, [render]);
+
+    return (
+        <AnimatePresence>
+            {render && (status == "success" || status == "error" ) && (
+
+                <motion.div className={styles.notificationCont}
+                initial={{ opacity: 0, x : 50 }}
+                exit={{ opacity: 0, x : 50 }}
+                animate={{ opacity: 1, x : 0 }}
+                key="notificationSimple"
+                >
+
+                    <div>
+                        {status == 'success' && <img className={styles.checkNotif} src={`/check.svg`} alt="icon"/> }
+                        {status == 'error' && <img className={styles.errorNotif} src={`/close.svg`} alt="icon"/> }
+                        {/* {status == 'alert' && <img className={styles.alertNotif} src={`/exclamation.svg`} alt="icon"/> } */}
+                        
+                        <span>{message}</span>
+                    </div>
+                    <div className={styles.notifBtns}>
+                        
+                        <button onClick={()=>{ handleButtonClick(true) }} className={styles.notifOk}>Entendido</button>
+
+                    </div>
+                </motion.div>
+            )}
+            {render && (status == "alert" ) && (
+                <motion.div className={styles.alertBckgr}
+                initial={{ opacity: 0 }}
+                exit={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                key="notificationSimple"
+                onClick={()=>{ handleButtonClick(false) }}
+                >
+
+                    <motion.div className={styles.notificationCont}
+                    initial={{ opacity: 0, x : 50 }}
+                    exit={{ opacity: 0, x : 50 }}
+                    animate={{ opacity: 1, x : 0 }}
+                    key="notificationAlert"
+                    onClick={(e)=>{ e.stopPropagation(); } }
+                    >
+
+                        <div>
+                            <img className={styles.alertNotif} src={`/exclamation.svg`} alt="icon"/>
+                            
+                            <span>{message}</span>
+                        </div>
+                        <div className={styles.notifBtns}>
+                            <button onClick={()=>{ handleButtonClick(false) }} className={styles.notifCancel} >Cancelar</button>
+                            <button onClick={()=>{ handleButtonClick(true) }} className={styles.notifOk}>Confirmar</button>
+
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
         </AnimatePresence>
     
     );

@@ -9,12 +9,13 @@ export interface IAddChatBox {
     setSplitModal : (boolean: IChat | null)=> void,
     splitModal : IChat | null,
     scrollToBottom : ()=> void,
+    focusLastMessage: ()=> void
 
 }
 type PossibleType = "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
 
 
-const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, scrollToBottom }) => {
+const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, scrollToBottom, focusLastMessage}) => {
     
     // animate states
     const [hoverNewSign, setHoverNewSign] = useState(false)
@@ -32,6 +33,7 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
         setArrMessages( [...arrMessages, {info:message, color, type: type}] )
         setTimeout(() => {
             scrollToBottom()
+            focusLastMessage()
         }, 100);
 
     }

@@ -58,7 +58,7 @@
     margin-top: 5%;
     /* border: 1px solid var(--violeta1); */
     border-radius: 10px;
-    padding: 5% 0 10%;
+    padding: 5% 0 5vw;
 }
 .splitModal .chat_window{
     height: 32vh;
@@ -381,18 +381,18 @@
 }
 .red_options>div{
     padding: 12px 16px;
-    border-bottom: 1px solid #c3472b;
+    border-bottom: 1px solid var(--red);
 }
 .red_options>div:last-child{
     border-bottom: none!important;
 }
 .red_options{
-    border: 1px solid #c3472b;
+    border: 1px solid var(--red);
     right: 200%;
 }
 .followup{background-color: #4100a8;}
-.exceptuar{background-color: #c3472b;}
-.solamente{background-color: #468446;}
+.exceptuar{background-color: var(--red);}
+.solamente{background-color: var(--green);}
 
 
 .doNotAdd{
@@ -412,14 +412,18 @@
     position: relative;
     border-radius: 8px;
     cursor: pointer;
-    border: 1px solid var(--newViolet);
+    border: 1px solid;
     background-image: linear-gradient(-45deg, #000000ab, transparent);
+}
+.gridSecuences>div:first-child{
+    border: 1px solid var(--newViolet);
+
 }
 .gridSecuences>div:hover{
     transform: scale(1.1);
     z-index: 99;
 }
-.gridSecuences>div span{
+.gridSecuences>div>div>div>span{
     font-size: 0.6em;
     padding-right: 5px;
     margin-right: 5px;
@@ -468,6 +472,26 @@
     top: 50%;
     transform: translate(-50%, -50%);
     user-select: none;
+}
+.menuOptions{
+    display: block;
+    position: absolute;
+    left: calc(100% + 5px);
+    top: 25%;
+    background-color: #000;
+    border: 1px solid var(--newViolet);
+    border-radius: 5px;
+}
+.menuOptions span{
+    padding: 8px 14px;
+    font-size: 0.6em;
+    display: block ;
+}
+.menuOptions span:last-child{
+    color: var(--red);
+}
+.menuOptions span:hover{
+    opacity: 0.6;
 }
 .addNewSecuence{
 
@@ -543,13 +567,13 @@
     border-radius: 5px;
 }
 .infoModal>div>h3.rojo{
-    border: 2px solid #c3472b;
+    border: 2px solid var(--red);
     background-color:rgba(197, 71, 43, 0.5);
     
 }
 .infoModal>div>h3.verde{
     background-color: rgba(70, 132, 70, 0.6);
-    border: 1px solid #468446;
+    border: 1px solid var(--green);
 }
 .infoModal>div>p{
     margin: 3% 0 5%;
@@ -592,10 +616,10 @@
     border-radius: 50px;
 }
 .ejemplosSplit>div>p span.verde{ color: #02ae02 }
-.ejemplosSplit>div>p span.rojo{ color: #c3472b }
+.ejemplosSplit>div>p span.rojo{ color: var(--red) }
 
 .exclude_cont>div>div>div, .exclude_cont{
-    border: 1px solid #c3472b;
+    border: 1px solid var(--red);
     background-color: rgba(226, 53, 53, 0.2);
 }
 .include_cont>div>div>div, .include_cont{
@@ -688,7 +712,7 @@
     inset: 0;
     padding: 1px;
     border-radius: 10px;
-    background: linear-gradient(45deg, #c3472b, var(--newViolet));
+    background: linear-gradient(45deg, var(--red), var(--newViolet));
     -webkit-mask: 
         linear-gradient(#fff 0 0) content-box, 
         linear-gradient(#fff 0 0);
@@ -883,7 +907,7 @@ scrollbar-width: none;  /* Firefox */
 .splitCont{
     align-self: center;
     margin: auto;
-    background: linear-gradient(45deg, #c3472b, var(--newViolet));
+    background: linear-gradient(45deg, var(--red), var(--newViolet));
     border-radius: 10px;
     padding: 1px;
     margin-top: 5px;
@@ -943,7 +967,7 @@ scrollbar-width: none;  /* Firefox */
     white-space: pre;
 }
 .excludeKey{
-    border: 1px solid #c3472b;
+    border: 1px solid var(--red);
     background-color: rgba(226, 53, 53, 0.2);
 }
 .includeKey{

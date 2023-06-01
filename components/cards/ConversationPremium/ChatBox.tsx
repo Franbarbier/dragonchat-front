@@ -29,7 +29,6 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
     
     const textarea = useRef<HTMLTextAreaElement>(null);
 
-
     function checkHeight(e){
         if (textarea.current) {   
             textarea.current.style.height = 'auto';
@@ -37,7 +36,6 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
             textarea.current.style.height = e.target.scrollHeight+'px'
         }
     }
-
 
     useEffect(()=>{
         if (message.type == "followup") {
@@ -97,6 +95,7 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
       }
     }
 
+    
 
     return (
         <div key={`mensajeChat${index}`}>
@@ -108,19 +107,19 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
             <div>
                 {message.type == "texto" &&
                     <textarea
-                    value={message.info}
-                    ref={textarea}
-                    onInput={ (e)=>{ checkHeight(e); } }
-                    onFocus={(e)=>{ checkHeight(e); }}
-                    onKeyDown={ (e)=>{ handleKeyDown(e) }}
-                    onChange={(e)=>{
-                        let copyChat = [...chat]
-                        copyChat[index].info = e.target.value
-                        setChat(copyChat)
+                        value={message.info}
+                        ref={textarea}
+                        onInput={ (e)=>{ checkHeight(e); } }
+                        onFocus={(e)=>{ checkHeight(e); }}
+                        onKeyDown={ (e)=>{ handleKeyDown(e) }}
+                        onChange={(e)=>{
+                            let copyChat = [...chat]
+                            copyChat[index].info = e.target.value
+                            setChat(copyChat)
+                            }
                         }
-                    }
-                    rows={1}
-                    placeholder='Escribir mensaje' 
+                        rows={1}
+                        placeholder='Escribir mensaje'
                     />
                 }
 

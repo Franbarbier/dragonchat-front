@@ -285,6 +285,23 @@ background: #555;
 .grilla_fondo .celda_table{
     background-color: rgba(0, 0, 0, 0.32);
 }
+.draggedIcon{ cursor: none; }
+
+.dragging{
+    width: 89%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    position: absolute;
+    background: #00000096;
+    border: 1px dashed var(--amarillo);
+    border-radius: 10px;
+    top: 0;
+    display: flex;
+    z-index: 3;
+    justify-content: center;
+    align-items: center;
+}
 #card3 .card_container>div:nth-child(2){
     height: 80%;
 }
@@ -321,6 +338,7 @@ background: #555;
     margin-bottom: 2.5%;
     position: relative;
     overflow: hidden;
+    box-shadow: 0px 2px 10px -3px #000000;
 }
 .row_card>div {
     position: relative;
@@ -380,7 +398,7 @@ background: #555;
     
 }
 
-.estado_envio img{
+.estado_envio{
     position: absolute!important;
     right: 3%;
     top: 50%;
@@ -778,7 +796,7 @@ background: #555;
 .footerBtns{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
 }
 .footerBtns>div{
     width: 48%;
@@ -787,6 +805,48 @@ background: #555;
 .footerBtns button{
     height: 100%;
     font-size: 0.8em;
+}
+.footerBtns>aside{
+    width: 12%;
+    margin-right: 2%;
+    position: relative;
+    border: 1px solid;
+    /* height: 100%; */
+    margin-top: 3%;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.footerBtns>aside>div>img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 70%;
+}
+
+.footerBtns>aside>aside{
+    position: absolute;
+    bottom: 100%;
+    left: 0%;
+    width: 100%;
+    padding: 20% 30%;
+    transform: translateY(30%);
+    opacity: 0;
+}
+.footerBtns>aside:hover aside{
+    transform: translateY(0%);
+    opacity: 1;
+}
+.footerBtns>aside>aside:hover{
+    filter: brightness(1.5);
+}
+.shieldOn{
+    border-color: var(--green)!important;
+    background-color: #46844661;
+}
+.shieldOff{
+    border-color: var(--red)!important;
+    background-color: #c3472b57;
 }
 .limitedButton{
     position: relative;
