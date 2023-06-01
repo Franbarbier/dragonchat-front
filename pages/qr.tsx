@@ -14,7 +14,7 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
     
     const url = 'https://qrcg-free-editor.qr-code-generator.com/main/assets/images/websiteQRCode_noFrame.png';
 
-    const [queue, setQueue] = useState<number>(2);
+    const [queue, setQueue] = useState<number>(0);
 
     const logoutBtnStyle = {
       'width': '100%',
@@ -60,27 +60,27 @@ const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
     );
 };
 
-// Qr.getInitialProps = async (context) => {
-//   const req = context.req;
+Qr.getInitialProps = async (context) => {
+  const req = context.req;
 
-// //   ~ codigo para testear ~
+//   ~ codigo para testear ~
 
-//   if (req) {
-//     const headers = new Headers({
-//       "Content-Type": "application/json",
-//     });
-//     const cookies = new Cookies(req.headers.cookie);
-//     const accessToken = cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "").access_token;
-//     headers.append("Authorization", `Bearer ${accessToken}`);
-//     const apiResponse = await fetch(
-//       `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
-//       { headers }
-//     );
-//     const data = await apiResponse.json();
-//     return { linkedWhatsapp: data.data.connected_whatsapp == 1};
-//   }
-//   return { linkedWhatsapp: false};
-// };
+  if (req) {
+    const headers = new Headers({
+      "Content-Type": "application/json",
+    });
+    const cookies = new Cookies(req.headers.cookie);
+    const accessToken = cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "").access_token;
+    headers.append("Authorization", `Bearer ${accessToken}`);
+    const apiResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
+      { headers }
+    );
+    const data = await apiResponse.json();
+    return { linkedWhatsapp: data.data.connected_whatsapp == 1};
+  }
+  return { linkedWhatsapp: false};
+};
 
 Qr.getLayout = (page) => {
     return (
