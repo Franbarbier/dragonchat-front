@@ -35,8 +35,6 @@ const QrWaitingRoom: React.FC<IQrWaitingRoom> = ({ queue }) => {
                 </div>
             </div>
         </div>
-        
-        
     
     );
 }
