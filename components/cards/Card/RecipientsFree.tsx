@@ -88,12 +88,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
     const regex = new RegExp(/[^\d]/g);
     
 
-
-    function checkIfNameOrNumber() {
-        
-    }
-    
-
     function executeFormat(inputText:string, type: string, index:number) {
 
         let breaks = new RegExp("\n")
@@ -118,7 +112,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             let rawRows = inputText.split("\n");
 
             let output : ContactInfo[] = [];
-            console.log(rawRows)
             rawRows.forEach((rawRow, idx) => {
 
                 let rowObject: any = {};
@@ -142,20 +135,15 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         }else if(breaks.test(inputText)){
 
             let rawRows = inputText.split("\n");
-            console.log(rawRows)
 
             let output : ContactInfo[] = [];
 
             var newList = [...finalList]
             newList = newList.slice(prevCells.length)
-
-            console.log(rawRows)
             
             rawRows.map((rawRow, index) => {
                 
                 let rowObject: any = {};
-
-                console.log(rawRow)
                 
                 if(newList[index]){
                     if (type == "numero") {                       
@@ -180,15 +168,12 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             });
 
             var newContacts = prevCells.concat(output);
-            console.log(newContacts)
             setContactos(newContacts)
             
 
         }else if(tabs.test(inputText )){
 
             let rawCols = inputText.split("\t");
-            console.log(rawCols)
-
             let output : ContactInfo[] = [];
 
             let rowObject: any = {};
@@ -219,7 +204,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         }else{
             selectedList[index].selected = false
         }
-        console.log(selectedList[index].selected)
         setContactos(selectedList)
     }
 

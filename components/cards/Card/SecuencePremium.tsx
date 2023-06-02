@@ -27,8 +27,6 @@ const SecuenceMessage: React.FC<ISecuenceMessage> = ({ setActiveCard, activeCard
         setChat( [...chat, {message, color}] )
     }
 
-    console.log(chat)
-
 
     return (
         <div

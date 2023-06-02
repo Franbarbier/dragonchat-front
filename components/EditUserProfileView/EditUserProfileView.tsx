@@ -44,7 +44,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
       user.connected_whatsapp = 0
     } else {
       const data = await response.json();
-      console.log(data);
     }
   }
   async function handleLogout(){

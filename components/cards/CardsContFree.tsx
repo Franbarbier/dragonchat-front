@@ -177,10 +177,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         };
       })
 
-  
-      useEffect(() => {
-          console.log("dammmn bro",breadcrumb)
-      }, [breadcrumb])
 
     
 

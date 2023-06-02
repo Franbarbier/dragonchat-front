@@ -61,7 +61,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
     const [menuOptions, setMenuOptions] = useState<number | null>(null)
 
     function new_secuence() {
-        console.log('crear y renderizar secuencia nueva')
         setEditSecuence({
             name : '',
             icon : '',
@@ -86,7 +85,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
           if (menuConfig.current !== event.target ) {
             setMenuOptions(null);
           }
-        //   console.log(menuOpt.current == event.target || menuConfig.current == event.target )
         };
         document.addEventListener('click', handleOutsideClick);
     

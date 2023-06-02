@@ -15,9 +15,7 @@ export interface IQrCard {
 
 const socket = io(`${process.env.NEXT_PUBLIC_API_SENDER_SOCKET_URL}`)
 
-socket.on("connect", () => {
-    console.log(socket.id)
-});
+
 
 
 const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
@@ -44,19 +42,13 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
         });
         
         socket.on("connection_qr", (arg) => {
-            console.log(arg); // world
             setActiveQr(arg.src)
             setLoadingQr(false)
 
         });
         
-        socket.on("connection_status", (data) => {
-            console.log(data);
-        })
-        
-        socket.on("connect_error", (err) => {
-            console.log(`connect_error due to ${err.message}`);
-        });
+
+
 
         socket.on("ready", (err) => {
             setNotification({

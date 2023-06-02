@@ -44,7 +44,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     const [activeShield, setActiveShield] = useState<boolean>(false)
 
     async function sendMove(userInfo, count) {
-        console.log(mensaje)
             const destinatario = contactos[count];
             let newContacts = [...contactos];
             newContacts[count].estado = "pending";
@@ -77,9 +76,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     const [bloques, setBloques] = useState<number>(0);
     const [pausa, setPausa] = useState<number>(0);
     
-    useEffect(() => {
-        console.log(timer, bloques, pausa);
-    }, [timer, bloques, pausa]);
+
     
     useEffect(() => {
 
@@ -87,7 +84,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
         if (isLooping && counter < contactos.length -1) {
         intervalId = setInterval(() => {
-            console.log("Looping...", counter);
             const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
             sendMove(userInfo, counter)
 

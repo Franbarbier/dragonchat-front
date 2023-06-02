@@ -65,8 +65,6 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
     
     function validacionCrearSecuencia() {
 
-        console.log(secuenceInfo, secuenceInfoChat, secuence, icono)
-
         if (secuenceInfo.name == "" ) {
             setNotification({
                 status : "error",
@@ -108,22 +106,6 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
         setActiveSecuence(null)
     
     }
-
-    // useEffect(()=>{
-    //     console.log(secuenceInfoChat)
-    //     for (let index = 0; index < secuenceInfoChat.length; index++) {
-    //         const element = secuenceInfoChat[index];
-
-    //         if(element.type == 'include' || element.type == 'exclude'){
-    //             const bloque = `<div>
-    //                 <p> ${secuenceInfoChat[index - 1].info} </p>
-    //             </div>`
-    //             console.log(bloque)
-    //         }
-            
-    //     }
-
-    // },[secuenceInfoChat])
     
 
         return (
@@ -159,7 +141,6 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                                     backgroundColorEnd="rgb(114 76 223 / 0%)"
                                     borderColor="#5573f0"
                                     onClick={()=>{
-                                        console.log(secuenceInfoChat)
                                         if(secuenceInfoChat.length > 0){
                                             setNotification({
                                                 status : "alert",

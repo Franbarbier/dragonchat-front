@@ -44,11 +44,9 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   
   function renameKeys(newArr:Array<any>) {
 
-    console.log(newArr)
     function getAllKeys(obj) {
       return Object.keys(obj);
     }
-    
     
     for (let index = 0; index < newArr.length; index++) {
       var element = newArr[index];

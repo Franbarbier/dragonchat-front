@@ -68,7 +68,6 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
       }
 
       function handleKeyDown(e) {
-        // console.log(e.target.value)
         if (e.key === "Enter") {
             setChat( [...chat, {info: "", color: message.color, type: "texto"}] )
             e.preventDefault();

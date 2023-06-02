@@ -108,11 +108,9 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
 
             if (lastChild && lastChild.tagName === 'DIV') {
                 const inputElement = lastChild.querySelector('textarea');
-                console.log(inputElement, "inputElement")
                 if (inputElement) {
                     setTimeout(() => {
                         inputElement.focus();
-                        console.log(inputElement.value, "inputElement")
                     }, 200);
                 }
             }
