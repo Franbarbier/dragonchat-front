@@ -1,5 +1,4 @@
-import { getCookie } from "cookies-next";
-import Cookies from "js-cookie";
+import { getCookie, deleteCookie } from "cookies-next";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
@@ -40,10 +39,10 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user }) => {
   }
   async function handleLogout() {
     try {
-      const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+      const accessToken = JSON.parse(String(getCookie(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || ''))).access_token;
       const response = await apiUserController.logout(accessToken);
       if (response.status == 200) {
-        Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+        deleteCookie(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || '');
         Router.push("/login");
       }
     } catch (error: any) {
@@ -52,7 +51,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user }) => {
   }
 
   async function editUserProfile() {
-    const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+    const accessToken = JSON.parse(String(getCookie(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || ''))).access_token;
     try {
       const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
       console.log(response);
