@@ -2,7 +2,6 @@ import { getCookie } from "cookies-next";
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AnimatePresence, motion } from 'framer-motion';
-import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../../api/apiSenderWhatsappController';
@@ -92,7 +91,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos 
         if (isLooping && counter < contactos.length - 1) {
             intervalId = setInterval(() => {
                 console.log("Looping...", counter);
-                const userInfo = JSON.parse(Cookie.get('dragonchat_login') || "{}");
+                const userInfo = JSON.parse(String(getCookie(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || '')) || "{}");
                 sendMove(userInfo, counter)
 
                 // Movida para pausar el loop cada X mensajes
@@ -101,7 +100,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos 
                     setTimeout(() => {
                         // Resume the loop after X seconds
                         intervalId = setInterval(() => {
-                            const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
+                            const userInfo = JSON.parse(String(getCookie(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || '')) || "{}");
                             sendMove(userInfo, counter);
                             setCounter((c) => c + 1);
                         }, timer);

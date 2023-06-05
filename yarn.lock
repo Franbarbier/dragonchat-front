@@ -7485,11 +7485,6 @@
     "merge-stream" "^2.0.0"
     "supports-color" "^8.0.0"
 
-"js-cookie@^3.0.1":
-  "integrity" "sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw=="
-  "resolved" "https://registry.npmjs.org/js-cookie/-/js-cookie-3.0.5.tgz"
-  "version" "3.0.5"
-
 "js-string-escape@^1.0.1":
   "integrity" "sha512-Smw4xcfIQ5LVjAOuJCvN/zIodzA/BBSsluuoSykP+lUvScIi4U6RJLfwHet5cxFnCswUjISV8oAXaqaJDY3chg=="
   "resolved" "https://registry.npmjs.org/js-string-escape/-/js-string-escape-1.0.1.tgz"
