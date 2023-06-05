@@ -1,12 +1,13 @@
+import { getCookie } from "cookies-next";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
 import apiUserController from "../../api/apiUserController";
-import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
 import MainCont from "../MainCont/MainCont";
+import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from './EditUserProfileView.module.css';
 
 export interface IEditUserProfileView {
@@ -21,16 +22,15 @@ export interface IEditUserProfileView {
   }
 }
 
-
-const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
+const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user }) => {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
 
-  async function handleDesvWpp(){
-    const response = await apiSenderWhatsappController.unlinkWhatsapp();
+  async function handleDesvWpp() {
+    const response = await apiSenderWhatsappController.unlinkWhatsapp(getCookie(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || ''));
     if (response.status == 200) {
       user.connected_whatsapp = 0
     } else {
@@ -38,16 +38,16 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
       console.log(data);
     }
   }
-  async function handleLogout(){
+  async function handleLogout() {
     try {
-        const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
-        const response = await apiUserController.logout(accessToken);
-        if (response.status == 200) {
-            Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-            Router.push("/login");
-        }
+      const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+      const response = await apiUserController.logout(accessToken);
+      if (response.status == 200) {
+        Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+        Router.push("/login");
+      }
     } catch (error: any) {
-        alert(error.response.data.error);
+      alert(error.response.data.error);
     }
   }
 
@@ -63,14 +63,14 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     if (confirmPass != '' && confirmPass != pass) {
-        setEqualPass(false)
-    }else{
-        setEqualPass(true)
+      setEqualPass(false)
+    } else {
+      setEqualPass(true)
     }
 
-},[confirmPass])
+  }, [confirmPass])
 
   return (
     <MainCont width={90} maxWidth={340}>
@@ -94,52 +94,52 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
               onChange={setEmail}
             />
             <label className={styles.input_label} htmlFor="">CONTRASEÑA</label>
-            <InputGral placeholder='• • • • • • • •' type="password" value={pass} onChange={ setPass }/>
+            <InputGral placeholder='• • • • • • • •' type="password" value={pass} onChange={setPass} />
             <label className={styles.input_label} htmlFor="">CONFIRMAR CONTRASEÑA</label>
-            <InputGral placeholder='• • • • • • • •' type="password" value={confirmPass} onChange={ setConfirmPass }/>
+            <InputGral placeholder='• • • • • • • •' type="password" value={confirmPass} onChange={setConfirmPass} />
             {!equalPass &&
-                <p className={styles.alert}>Las contraseñas no coinciden :(</p>
+              <p className={styles.alert}>Las contraseñas no coinciden :(</p>
             }
           </div>
           <div className={styles.buttons}>
-          {
-            user.connected_whatsapp == 1?
-            <CustomColorBtn
-              type="button"
-              text="DESVINCULAR WHATSAPP"
-              backgroundColorInit="#c21c3b"
-              backgroundColorEnd="#f94f4f"
-              borderColor="#f94f4f"
-              onClick={handleDesvWpp}
-            /> 
-            :
-            <CustomColorBtn
-              type="button"
-              text="VINCULAR WHATSAPP"
-              backgroundColorInit="#c21c3b"
-              backgroundColorEnd="#f94f4f"
-              borderColor="#f94f4f"
-              onClick={() => {
-                return Router.push("/qr")
-              }}
-            />
-          }
-          {
-            equalPass && 
-            <CustomColorBtn
-              type="submit"
-              text="GUARDAR CAMBIOS"
-              backgroundColorInit="#c21c3b"
-              backgroundColorEnd="#f9bd4f"
-              borderColor="#e17846"
-              onClick={editUserProfile}
-            />
-          }
+            {
+              user.connected_whatsapp == 1 ?
+                <CustomColorBtn
+                  type="button"
+                  text="DESVINCULAR WHATSAPP"
+                  backgroundColorInit="#c21c3b"
+                  backgroundColorEnd="#f94f4f"
+                  borderColor="#f94f4f"
+                  onClick={handleDesvWpp}
+                />
+                :
+                <CustomColorBtn
+                  type="button"
+                  text="VINCULAR WHATSAPP"
+                  backgroundColorInit="#c21c3b"
+                  backgroundColorEnd="#f94f4f"
+                  borderColor="#f94f4f"
+                  onClick={() => {
+                    return Router.push("/qr")
+                  }}
+                />
+            }
+            {
+              equalPass &&
+              <CustomColorBtn
+                type="submit"
+                text="GUARDAR CAMBIOS"
+                backgroundColorInit="#c21c3b"
+                backgroundColorEnd="#f9bd4f"
+                borderColor="#e17846"
+                onClick={editUserProfile}
+              />
+            }
 
-          <div className={styles.logout_btn}>
-            <hr />
-            <button onClick={ handleLogout }>CERRAR SESION</button>
-          </div>
+            <div className={styles.logout_btn}>
+              <hr />
+              <button onClick={handleLogout}>CERRAR SESION</button>
+            </div>
 
           </div>
         </form>

@@ -1,17 +1,17 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { CookieValueTypes } from 'cookies-next';
 
 const API_URL = process.env.NEXT_PUBLIC_API_SENDER_URL;
-const ACCESS_TOKEN = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
 
 const apiSenderWhatsappController = {
-    unlinkWhatsapp: async () => {
+    unlinkWhatsapp: async (cookie: CookieValueTypes) => {
+        const accessToken = cookie && JSON.parse(String(cookie)).access_token
         const url = `${API_URL}/client/close_client`;
         const response = await fetch(url, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${ACCESS_TOKEN}`,
+                'Authorization': `Bearer ${accessToken}`,
             },
         });
         if (response.status == 200) {
@@ -22,11 +22,12 @@ const apiSenderWhatsappController = {
 
         return response;
     },
-    sendMessage: async (userId, receiverName, message, receiverNumber) => {
+    sendMessage: async (userId, receiverName, message, receiverNumber, cookie: CookieValueTypes) => {
         try {
+            const accessToken = cookie && JSON.parse(String(cookie)).access_token
             const headers = new Headers({
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${ACCESS_TOKEN}`,
+                "Authorization": `Bearer ${accessToken}`,
             });
 
             const payload = { user: userId, name: receiverName, message: message, number: receiverNumber };
