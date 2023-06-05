@@ -5,8 +5,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_SENDER_URL;
 const ACCESS_TOKEN = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
 
 const apiSenderWhatsappController = {
-    unlinkWhatsapp: async (userId) => {
-        const url = `${API_URL}/client/close_client/${userId}`;
+    unlinkWhatsapp: async () => {
+        const url = `${API_URL}/client/close_client`;
         const response = await fetch(url, {
             method: "PUT",
             headers: {
