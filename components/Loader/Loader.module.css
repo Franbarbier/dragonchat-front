@@ -1,0 +1,119 @@
+/* Loader component */
+.loadingCont{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 0.5vh;
+    background-color: red;
+    transition: width 0.3s;
+    /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+    animation: loading 1.5s linear 0.5s infinite alternate-reverse;
+    background-image: linear-gradient(to right, #c21c3b, #e17846, #8865ce, #f9bd4f );
+    background-size: 200%;
+  
+    z-index: 1000;
+  }
+  @keyframes loading{
+    0%{ background-position: 0; }
+    100%{ background-position: 100%; }
+  }
+
+
+  /* Otra opcion de loader */
+  .loadingCont2{
+    position: fixed;
+    display: block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    /* background: #000; */
+    animation: loading2 1.5s linear 0.5s infinite alternate-reverse;
+    /* border: 1px solid var(--amarillo); */
+    z-index: 1000;
+  }
+  .loadingCont2>div{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+  .preloader {
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+  .loader {
+      display: block;
+      position: absolute;
+      left: 15%;
+      top: 15%;
+      width: 70%;
+      height: 70%;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--newViolet);
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+  }
+  .loader:before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--rosita1);
+      -webkit-animation: spin 3s linear infinite;
+      animation: spin 3s linear infinite;
+  }
+  .loader:after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--rosita2);
+      -webkit-animation: spin 1.5s linear infinite;
+      animation: spin 1.5s linear infinite;
+  }
+  @-webkit-keyframes spin {
+      0%   {
+          -webkit-transform: rotate(0deg);
+          -ms-transform: rotate(0deg);
+          transform: rotate(0deg);
+      }
+      100% {
+          -webkit-transform: rotate(360deg);
+          -ms-transform: rotate(360deg);
+          transform: rotate(360deg);
+      }
+  }
+  @keyframes spin {
+      0%   {
+          -webkit-transform: rotate(0deg);
+          -ms-transform: rotate(0deg);
+          transform: rotate(0deg);
+      }
+      100% {
+          -webkit-transform: rotate(360deg);
+          -ms-transform: rotate(360deg);
+          transform: rotate(360deg);
+      }
+  }
+  .loadingBckgr{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 1000;
+    
+  }

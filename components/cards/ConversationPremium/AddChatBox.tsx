@@ -30,7 +30,9 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
         if (type == "split" && lastMessageType == "any" ) { return false; }
         if (type == "followup" && lastMessageType != "texto" ) { return false; }
         setArrMessages( [...arrMessages, {info:message, color, type: type}] )
-        scrollToBottom()
+        setTimeout(() => {
+            scrollToBottom()
+        }, 100);
 
     }
 
@@ -83,7 +85,11 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
                             exit={{opacity: 0, y: 0, x : '15%'}}
                             animate={{ opacity: hoverNewSign ? 1 : 0, x: hoverNewSign ? 0 : '15%' , y : 0}}
                             >
-                        <div onClick={ ()=>{addMessage('Cualquier respuesta.','red','any'); setHoverNewSign(false) } }>
+                        <div onClick={ ()=>{
+                            if (lastMessageType != "any") {
+                                addMessage('Cualquier respuesta.','red','any'); setHoverNewSign(false)
+                            } 
+                            }}>
                             <p>Cualquier Respuesta.</p>
                         </div>
                         <div className={`${styles.exceptuar} ${lastMessageType == "any" && styles.doNotAdd}`} onClick={ ()=>{

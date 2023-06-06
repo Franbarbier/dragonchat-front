@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import apiUserController from "../../api/apiUserController";
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
+import { INotification } from "../Notification/Notification";
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import OtpInput from "../OtpInput/OtpInput";
 import styles from "./NewPasswordView.module.css";
@@ -15,6 +16,13 @@ const NewPasswordView: React.FC<INewPasswordView> = ({}) => {
   const [otp, setOtp] = useState('');
   const [validOtp, setValidOtp] = useState();
 
+  const [notification, setNotification] = useState<INotification>({
+    status : "success",
+    render : false,
+    message : "",
+    modalReturn : ()=>{}
+})
+
   const onChange = (value: string) => setOtp(value);
 
   async function handleChangePassword() {
@@ -22,7 +30,13 @@ const NewPasswordView: React.FC<INewPasswordView> = ({}) => {
         // hit user api to actually change the pass and redirect to login
         apiUserController.passwordRecoverChangePassword(otp, newPass, confirmNewPass);
     } else {
-        alert("Las contaseñas no coinciden")
+        setNotification({
+          status : "error",
+          render : true,
+          message : "Las contaseñas no coinciden.",
+          modalReturn : () => {
+              setNotification({...notification, render : false})
+          }})
     }
   }
 

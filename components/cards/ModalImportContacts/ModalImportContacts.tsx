@@ -38,10 +38,8 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   };
 
   const onDropFn = useCallback(acceptedFiles => {
-   
       parseFile(acceptedFiles);
       setIsFile(true)
-    
   }, []);
 
   
