@@ -5,6 +5,7 @@ import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import InputGral from '../InputGral/InputGral';
+import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import styles from './LoginView.module.css';
@@ -14,11 +15,15 @@ export interface ILoginView {
 }
 
 const LoginView: React.FC<ILoginView> = ({ }) => {
-
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
-
     const [logging, setLogging] = useState<boolean>(false)
+    const [notification, setNotification] = useState<INotification>({
+        status: "success",
+        render: false,
+        message: "",
+        modalReturn: () => { }
+    })
 
     async function handleLogin(e) {
         e.preventDefault()
@@ -41,10 +46,24 @@ const LoginView: React.FC<ILoginView> = ({ }) => {
                 Router.push("/dash")
             } else {
                 setLogging(false)
-                alert('Los datos son incorrectos.')
+                setNotification({
+                    status: "error",
+                    render: true,
+                    message: "Los datos son incorrectos.",
+                    modalReturn: () => {
+                        setNotification({ ...notification, render: false })
+                    }
+                })
             }
         } else {
-            alert('Los datos estan incompletos')
+            setNotification({
+                status: "error",
+                render: true,
+                message: "Los datos estan incompletos.",
+                modalReturn: () => {
+                    setNotification({ ...notification, render: false })
+                }
+            })
         }
     }
 
