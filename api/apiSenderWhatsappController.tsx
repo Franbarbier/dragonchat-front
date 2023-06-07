@@ -22,13 +22,17 @@ const apiSenderWhatsappController = {
     },
     sendMessage: async (userId, receiverName, message, receiverNumber, authToken: string) => {
         try {
-            const headers = new Headers({
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${authToken}`,
-            });
-
             const payload = { user: userId, name: receiverName, message: message, number: receiverNumber };
-            const response = await axios.post(`${API_URL}/message/send-basic`, payload, { headers: Object.fromEntries(headers) });
+            const response = await axios.post(
+                `${API_URL}/message/send-basic`,
+                payload,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${authToken}`,
+                    }
+                }
+            );
 
             return response
         } catch (error: any) {
