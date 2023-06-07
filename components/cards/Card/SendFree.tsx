@@ -1,6 +1,6 @@
-import { getCookie } from "cookies-next";
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getCookie } from "cookies-next";
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -15,7 +15,7 @@ import styles from './FreeCard.module.css';
 
 
 export interface IFreeCard3 {
-    sampleTextProp: string;
+    //sampleTextProp: string;
     setActiveCard: (id: number) => void;
     activeCard: number;
     contactos: ContactInfo[];
