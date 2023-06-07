@@ -47,8 +47,6 @@ export function AppProvider(props){
         })
     }, [loadingObjeciones, notifications])
 
-    // console.log(value)
-
     return <AppContext.Provider value={value} {...props} />
 
 }

@@ -6,22 +6,26 @@ import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
+import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './LoginView.module.css';
 
 
 export interface ILoginView {
-
+    notification : INotification,
+    setNotification : (notification : INotification) => void,
 }
 
 
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const LoginView: React.FC<ILoginView> = ({  }) => {
+const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
 
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
+
+    
 
     const [logging, setLogging] = useState<boolean>(false)
 
@@ -37,7 +41,6 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                         access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
                         user_id : login_status?.data.user_id
                     }
-                    console.log(login_status)
 
                     Cookies.set(
                       process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
@@ -51,7 +54,13 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                     
                 }else{
                     setLogging(false)
-                    alert('Los datos son incorrectos.')
+                    setNotification({
+                        status : "error",
+                        render : true,
+                        message : "Los datos son incorrectos.",
+                        modalReturn : () => {
+                            setNotification({...notification, render : false})
+                        }})
                 }
             }
             const login_status = await apiUserController.login(email, pass)
@@ -59,7 +68,15 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
 
         }else{
-            alert('Los datos estan incompletos')
+            setLogging(false)
+            setNotification({
+                status : "error",
+                render : true,
+                message : "Los datos estan incompletos.",
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
+            
         }
     }
 
@@ -107,8 +124,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 </div>
 
             </form>
-        </div>
-    
+        </div>    
     );
 }
 
