@@ -112,8 +112,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                     </button>
                 </div>
 
-                {/* Esto se esconde temporalmente hasta que se active el registre libre de usuarios */}
-                {/* <div className={styles.noAccount}>
+                <div className={styles.noAccount}>
                     <hr />
                     
                     <div>
@@ -122,7 +121,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                             <Link href='/signup'>Regístrate</Link>
                         </button>
                     </div>
-                </div> */}
+                </div>
 
             </form>
         </div>    
