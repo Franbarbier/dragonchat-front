@@ -15,7 +15,6 @@ import styles from './FreeCard.module.css';
 
 
 export interface IFreeCard3 {
-    sampleTextProp : string;
     setActiveCard: (id: number) => void;
     activeCard : number;
     contactos : ContactInfo[];
@@ -45,7 +44,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     const [activeShield, setActiveShield] = useState<boolean>(false)
 
     async function sendMove(userInfo, count) {
-        console.log(mensaje)
             const destinatario = contactos[count];
             let newContacts = [...contactos];
             newContacts[count].estado = "pending";
@@ -78,9 +76,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     const [bloques, setBloques] = useState<number>(0);
     const [pausa, setPausa] = useState<number>(0);
     
-    useEffect(() => {
-        console.log(timer, bloques, pausa);
-    }, [timer, bloques, pausa]);
+
     
     useEffect(() => {
 
@@ -88,7 +84,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
         if (isLooping && counter < contactos.length -1) {
         intervalId = setInterval(() => {
-            console.log("Looping...", counter);
             const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
             sendMove(userInfo, counter)
 
@@ -196,12 +191,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                 <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
                     {!messagesLimitAchieved ?
                         <div className={styles.footerBtns}>
-                            <aside className={ activeShield ? styles.activeShield : styles.activeShieldOff } onClick={()=>{ setActiveShield(!activeShield) }} >
+                            <aside className={ activeShield ? styles.shieldOn : styles.shieldOff } onClick={()=>{ setActiveShield(!activeShield) }} >
                                 <div>
                                     <img src="/shield-clock.svg"/>
                                     <div className={styles.shieldFilter} ></div>
                                 </div>
-                               <aside onClick={()=>{ setModalShieldOptions(true) }}>
+                               <aside onClick={(e)=>{ e.preventDefault(); setModalShieldOptions(true) }}>
                                     <img src="/icon_config.svg"/>
                                 </aside> 
                             </aside>

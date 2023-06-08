@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
+import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
 import ChatWindow, { ISplitModal } from './ChatWindow';
 import { IChat } from './ConversationPremium';
@@ -13,6 +14,8 @@ export interface IModalSplit {
     parentIndex: number,
     setParentIndex : (i:number) => void;
     scrollToBottom : ()=> void,
+    notification: INotification,
+    setNotification: (notification: INotification) => void
     
 }
 
@@ -56,7 +59,7 @@ const InfoModal: React.FC<{ setInfoModal: (i:boolean) => void, type: any } > = (
     )
 }
 
-const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, setChat, parentIndex, setParentIndex, scrollToBottom }) => {
+const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, setChat, parentIndex, setParentIndex, scrollToBottom, notification, setNotification }) => {
     
     const [keyWords, setKeyWords] = useState<string[]>(splitModal ? splitModal.info.key_words : []);
     const [splitSecuence, setSplitSecuence] = useState(splitModal ? splitModal.info.split_chat : []);
@@ -85,7 +88,6 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
     }
 
     useEffect(()=>{
-        console.log(keyWords)
         setSplitData({...splitData, key_words : keyWords})
     }, [keyWords])
 
@@ -93,19 +95,11 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
     function saveModalSplit() {
         if (keyWords.length >= 1 && splitSecuence.length >= 1 && splitData.name != "" && splitSecuence[0].info != "") {
                         
-            console.log(splitData)
-
             let subObj = {
                 name: splitData.name,
                 key_words: keyWords,
                 split_chat : splitSecuence
             }
-
-            console.log({
-                        type: splitModal?.type,
-                        color: 'red',
-                        info: subObj
-                    })
 
             if (parentIndex == 0) {
                 setChat([...chat, {
@@ -135,22 +129,45 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
             }, 100);
         }
         if (keyWords.length == 0) {
-            alert(`Agrega al menos una palabra para ${ splitModal?.type == 'exclude' ? "excluir" : "incluir"}`)
+            setNotification({
+                status : "error",
+                render : true,
+                message : `Agrega al menos una palabra para ${ splitModal?.type == 'exclude' ? "excluir" : "incluir"}`,
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
         }
         if (splitSecuence.length == 0) {
-            alert('Agrega al menos una respuesta a la secuencia')
+            setNotification({
+                status : "error",
+                render : true,
+                message :'Agrega al menos una respuesta a la secuencia',
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
         }
         if (splitData.name == "") {
-            alert('Debes asignarle un nombre al split')
+            setNotification({
+                status : "error",
+                render : true,
+                message :'Debes asignarle un nombre al split',
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
         }
         if ( splitSecuence[0].info == "") {
-            alert('Completa al menos un mensaje')
+            setNotification({
+                status : "error",
+                render : true,
+                message :'Completa al menos un mensaje',
+                modalReturn : () => {
+                    setNotification({...notification, render : false})
+                }})
         }
     }
 
 
     function cancelChanges() {
-        console.log(oldSecuence);
         setSplitSecuence([]);
         setSplitModal(null);
         setParentIndex(0)
@@ -196,7 +213,6 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
                         <img src="/refresh.svg" onClick={()=>{
 
                             let copySplit  = {...splitModal}
-                            // console.log(copySplit.type)
                             copySplit!.type = copySplit!.type == "exclude" ? "include" : "exclude"
                             const NewCopySplit = copySplit as IChat
                             setSplitModal(NewCopySplit)
@@ -207,7 +223,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
             </div>
 
             {/* Aca va el chat window */}
-            <ChatWindow chatData={splitSecuence} setChatData={setSplitSecuence} />
+            <ChatWindow chatData={splitSecuence} setChatData={setSplitSecuence} notification={notification} setNotification={setNotification} />
 
         </div>
         

@@ -4,7 +4,6 @@ import MainCont from "../../components/MainCont/MainCont";
 import { NextPageWithLayout } from "../page";
 
 const EditUserProfile : NextPageWithLayout<IEditUserProfileView> = ({user}) => {
-    console.log(user)
     return (
         <section>
             <MainCont width={90} maxWidth={340}>

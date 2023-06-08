@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SecuenceMessage from './Card/SecuencePremium';
 import styles from './CardsCont.module.css';
 
@@ -26,23 +26,7 @@ const CardsCont: React.FC<ICardsCont> = ({  }) => {
     const [contactos, setContactos] = useState<ContactInfo[]>([])
     const [mensaje, setMensaje] = useState<string>('')
     const [modalImport, setModalImport] = useState<boolean>(false)
-    
-    function handleNewContact(newContact:ContactInfo) {
-        setContactos([...contactos, newContact])
-    }
 
-    function handleDeleteContact(contact:ContactInfo) {
-        setContactos( contactos.filter(con => con !== contact) )
-    }
-
-    function handleRenderModal(render:boolean){
-        console.log(render)
-        setModalImport(render)
-    }
-
-    useEffect(()=>{
-        console.log(contactos)
-    },[contactos])
 
     return (
         <div>

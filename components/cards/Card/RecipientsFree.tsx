@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
+import { INotification } from '../../Notification/Notification';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
+
 
 interface IModalImport {
     modalImport : boolean;
 }
 
 export interface IFreeCard1 {
-    sampleTextProp : string;
     setActiveCard: (id: number) => void;
     setContactos : (contactos: ContactInfo[]) => void;
     activeCard : number;
@@ -20,6 +21,8 @@ export interface IFreeCard1 {
     handleRenderModal : (render: boolean) => void;
     finalList : ContactInfo[];
     setDroppedCsv : (droppedCsv: File) => void;
+    notification : INotification
+    setNotification : (notification: INotification) => void;
 }
 
 // type setPropsType = {
@@ -69,7 +72,7 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     )
 }
 
-const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv }) => {
+const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
 
 
     let idCard = 1;
@@ -77,14 +80,12 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
     const grillaFondo = useRef(null);
     const [height, setHeight] = useState(0);
 
-
     const [newContact, setNewContact] = useState<ContactInfo>({
         nombre: '',
         numero : ''
     })
   
     const regex = new RegExp(/[^\d]/g);
-    
     
 
     function executeFormat(inputText:string, type: string, index:number) {
@@ -95,8 +96,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         let prevCells:ContactInfo[] = finalList.slice(0, index)
 
         if (!breaks.test(inputText) && !tabs.test(inputText)) {
+
             let updateContact = [...finalList]
             updateContact[index][type] = inputText
+            
 
             if (updateContact[index].nombre === "" && updateContact[index].numero === ""  ) {
                 updateContact.splice(index, 1)
@@ -109,7 +112,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             let rawRows = inputText.split("\n");
 
             let output : ContactInfo[] = [];
-            console.log(rawRows)
             rawRows.forEach((rawRow, idx) => {
 
                 let rowObject: any = {};
@@ -133,7 +135,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         }else if(breaks.test(inputText)){
 
             let rawRows = inputText.split("\n");
-            console.log(rawRows)
 
             let output : ContactInfo[] = [];
 
@@ -143,8 +144,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             rawRows.map((rawRow, index) => {
                 
                 let rowObject: any = {};
-
-                console.log(rawRow)
+                
                 if(newList[index]){
                     if (type == "numero") {                       
                         rowObject['numero'] = rawRow;
@@ -168,15 +168,12 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             });
 
             var newContacts = prevCells.concat(output);
-            console.log(newContacts)
             setContactos(newContacts)
             
 
         }else if(tabs.test(inputText )){
 
             let rawCols = inputText.split("\t");
-            console.log(rawCols)
-
             let output : ContactInfo[] = [];
 
             let rowObject: any = {};
@@ -207,7 +204,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         }else{
             selectedList[index].selected = false
         }
-        console.log(selectedList[index].selected)
         setContactos(selectedList)
     }
 
@@ -256,18 +252,23 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         setIsDragging(false);
       };
     
-      const handleDrop = (event: React.DragEvent<HTMLTableElement>) => {
+      const handleDrop = async (event: React.DragEvent<HTMLTableElement>) => {
         event.preventDefault();
         setIsDragging(false);
         const file = event.dataTransfer.files[0];
-        console.log(file)
+
+        
         if (file.type === "text/csv") {
             handleRenderModal(true)
             setDroppedCsv(file)
         }else{
-            alert("El archivo debe ser un csv")
+            setNotification({
+                status : "error",
+                render : true,
+                message : "El archivo debe ser un csv",
+                modalReturn : () => {setNotification({...notification, render : false})}
+            })
         }
-        // onDropFile(file);
       };
 
 
@@ -301,7 +302,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                         onDrop={handleDrop}
                     >
                         
-                    <div className={styles.grilla_oficial}>
+                    <div className={`${styles.grilla_oficial} ${isDragging && styles.draggedIcon }`} >
                         {finalList.map((elementInArray, index) => ( 
                                 <div className={styles.row_table}>
                                     <div>
@@ -354,6 +355,8 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                     </div>
                     
                     {isDragging && <div className={styles.dragging}>Drop file here</div>}
+                    
+                    {/* <div className={styles.dragging}>Drop file here</div> */}
 
                     </div>
                     <div className={styles.footerBtns}>
@@ -401,6 +404,8 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                 {/* </div> */}
 
             </div>
+
+            
         </div>
     
     );
