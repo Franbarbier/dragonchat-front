@@ -1,8 +1,11 @@
 FROM node:16-alpine AS deps
+RUN apk add --no-cache libc6-compat
+RUN npm cache clean --force
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm install -g npm@9.6.7
+RUN npm install --legacy-peer-deps
 COPY . .
 
 
