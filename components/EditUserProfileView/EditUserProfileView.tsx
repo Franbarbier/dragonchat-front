@@ -38,8 +38,8 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
 })
 
   async function handleDesvWpp(){
-    const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;
-    const response = await apiSenderWhatsappController.unlinkWhatsapp(userId);
+    const authToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+    const response = await apiSenderWhatsappController.unlinkWhatsapp(authToken);
     if (response.status == 200) {
       user.connected_whatsapp = 0
     } else {

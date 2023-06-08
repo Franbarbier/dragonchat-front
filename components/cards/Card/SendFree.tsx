@@ -64,7 +64,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         }
                     }
                 }
-            const sentMessage = await apiSenderWhatsappController.sendMessage(userInfo.user_id, destinatario.nombre, mensaje, destinatario.numero)
+            const authToken = JSON.parse(Cookie.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+            const sentMessage = await apiSenderWhatsappController.sendMessage(
+                userInfo.user_id, destinatario.nombre, mensaje, destinatario.numero, authToken
+            )
             onSuccess()
     }
 
