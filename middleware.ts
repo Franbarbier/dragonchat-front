@@ -26,15 +26,16 @@ export async function middleware(req: NextRequest) {
     } else {
       const accessToken = JSON.parse(authenticated.value).access_token;
       headers.append("Authorization", `Bearer ${accessToken}`);
+      console.log("asdf", process.env.NEXT_PUBLIC_API_USER_URL)
       const apiResponse = await fetch(
         `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
         { headers }
       );
-      
+
       const data = await apiResponse.json();
       const isWhatsAppConnected = data.data.connected_whatsapp;
-     
-      
+
+
       if (!isWhatsAppConnected) {
         if (requestedPage !== "/qr" && requestedPage !== "/user/edit") {
           url.pathname = "/qr";
