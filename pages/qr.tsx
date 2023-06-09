@@ -1,3 +1,4 @@
+import cookie from 'cookie';
 import Cookies from "js-cookie";
 import Router from "next/router";
 import { useState } from "react";
@@ -61,11 +62,9 @@ const Qr: NextPageWithLayout<GralProps> = ({ linkedWhatsapp }) => {
 
 Qr.getInitialProps = async (context) => {
   const req = context.req;
-
-  if (req) {
-    console.log("asdf", req.headers.cookie);
-    // const cookies = new Cookies(req.headers.cookie);
-    const accessToken = Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "").access_token;
+  if (req?.headers.cookie) {
+    const cookies = cookie.parse(req.headers.cookie);
+    const { access_token: accessToken } = JSON.parse(cookies[process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || '']);
 
     const apiResponse = await fetch(
       `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
@@ -77,8 +76,10 @@ Qr.getInitialProps = async (context) => {
       }
     );
     const { data } = await apiResponse.json();
-    console.log("asdf", data.connected_whatsapp);
-    return { linkedWhatsapp: data.connected_whatsapp == 1 };
+
+    if (data?.connected_whatsapp) {
+      return { linkedWhatsapp: data.connected_whatsapp == 1 };
+    }
   }
 
   return { linkedWhatsapp: false };
