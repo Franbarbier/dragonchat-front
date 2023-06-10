@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (authCookie) {
-    const accessToken = JSON.parse(authCookie!.value).access_token;
+    const accessToken = JSON.parse(authCookie.value).access_token;
 
     const apiResponse = await fetch(
       `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
