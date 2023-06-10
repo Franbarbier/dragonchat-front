@@ -61,9 +61,8 @@ const Qr: NextPageWithLayout<GralProps> = ({ linkedWhatsapp }) => {
 };
 
 Qr.getInitialProps = async (context) => {
-  const req = context.req;
-  if (req?.headers.cookie) {
-    const cookies = cookie.parse(req.headers.cookie);
+  if (context.req?.headers.cookie) {
+    const cookies = cookie.parse(context.req.headers.cookie);
     const { access_token: accessToken } = JSON.parse(cookies[process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || '']);
 
     const apiResponse = await fetch(
