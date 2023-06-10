@@ -1,14 +1,12 @@
 import cookie from 'cookie';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
+import EditUserProfileView, { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
 import Header from '../components/Header/Header';
 import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { NextPageWithLayout } from './page';
-import EditUserProfile from './user/edit';
-
 
 const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
   const [openSettings, setOpenSettings] = useState<boolean>(false)
@@ -52,7 +50,7 @@ const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
               'marginTop': '5%'
             }}
             >
-              <EditUserProfile user={user} />
+              <EditUserProfileView user={user} />
             </div>
           </motion.div>
         )}
