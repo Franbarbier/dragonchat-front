@@ -30,11 +30,11 @@ export async function middleware(req: NextRequest) {
         `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
         { headers }
       );
-      
+
       const data = await apiResponse.json();
       const isWhatsAppConnected = data.data.connected_whatsapp;
-     
-      
+
+
       if (!isWhatsAppConnected) {
         if (requestedPage !== "/qr" && requestedPage !== "/user/edit") {
           url.pathname = "/qr";
