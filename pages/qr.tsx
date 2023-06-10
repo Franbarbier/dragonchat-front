@@ -9,7 +9,8 @@ import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { GralProps } from "./_app";
 import { NextPageWithLayout } from "./page";
-import { LOGIN_COOKIE } from '../constants/ index';
+import { API_USER_URL, LOGIN_COOKIE } from '../constants/ index';
+import { API_ROUTES } from '../enums';
 
 const Qr: NextPageWithLayout<GralProps> = ({ linkedWhatsapp }) => {
 
@@ -67,7 +68,7 @@ Qr.getInitialProps = async (context) => {
     const { access_token: accessToken } = JSON.parse(cookies[LOGIN_COOKIE || '']);
 
     const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
+      `${API_USER_URL}${API_ROUTES.WS}`,
       {
         headers: {
           "Content-Type": "application/json",

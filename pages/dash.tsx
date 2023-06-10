@@ -8,7 +8,8 @@ import CardsCont from '../components/cards/CardsContFree';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
-import { LOGIN_COOKIE } from '../constants/ index';
+import { API_USER_URL, LOGIN_COOKIE } from '../constants/ index';
+import { API_ROUTES } from '../enums';
 
 
 const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
@@ -73,7 +74,7 @@ Home.getInitialProps = async (context) => {
     const { access_token: accessToken } = JSON.parse(cookies[LOGIN_COOKIE || '']);
 
     const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_USER_URL}/auth/me`,
+      `${API_USER_URL}${API_ROUTES.AUTH_ME}`,
       {
         headers: {
           "Content-Type": "application/json",
