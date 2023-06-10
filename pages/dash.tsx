@@ -6,10 +6,10 @@ import Header from '../components/Header/Header';
 import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
-import { NextPageWithLayout } from './page';
-import EditUserProfile from './user/edit';
 import { API_USER_URL, LOGIN_COOKIE } from '../constants/ index';
 import { API_ROUTES } from '../enums';
+import { NextPageWithLayout } from './page';
+import EditUserProfile from './user/edit';
 
 
 const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
