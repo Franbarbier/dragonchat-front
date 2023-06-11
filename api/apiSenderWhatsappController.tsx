@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_SENDER_URL;
+import { API_URL } from '../constants/ index';
 
 const apiSenderWhatsappController = {
     unlinkWhatsapp: async (authToken: string) => {
