@@ -7,6 +7,9 @@ import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { NextPageWithLayout } from './page';
+import EditUserProfile from './user/edit';
+import { LOGIN_COOKIE } from '../constants/ index';
+
 
 const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
   const [openSettings, setOpenSettings] = useState<boolean>(false)
@@ -67,7 +70,7 @@ export default Home;
 Home.getInitialProps = async (context) => {
   if (context.req?.headers.cookie) {
     const cookies = cookie.parse(context.req.headers.cookie);
-    const { access_token: accessToken } = JSON.parse(cookies[process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || '']);
+    const { access_token: accessToken } = JSON.parse(cookies[LOGIN_COOKIE || '']);
 
     const apiResponse = await fetch(
       `${process.env.NEXT_PUBLIC_API_USER_URL}/auth/me`,
