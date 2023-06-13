@@ -8,7 +8,6 @@ import styles from './QrCard.module.css';
 
 
 export interface IQrCard {
-    qr_url : string;
     linked_whatsapp: boolean;
 }
 
@@ -18,10 +17,8 @@ const socket = io(`${process.env.NEXT_PUBLIC_API_SENDER_SOCKET_URL}`)
 
 
 
-const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
+const QrCard: React.FC<IQrCard> = ({ linked_whatsapp }) => {
 
-
-    const [showQr, setShowQr] = useState<boolean>(false);
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string>("");
     

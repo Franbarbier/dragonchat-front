@@ -3,19 +3,18 @@ import Cookies from "js-cookie";
 import Router from "next/router";
 import { useState } from "react";
 import apiUserController from "../api/apiUserController";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
 import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
-import { GralProps } from "./_app";
-import { NextPageWithLayout } from "./page";
 import { API_USER_URL, LOGIN_COOKIE } from '../constants/ index';
 import { API_ROUTES } from '../enums';
+import { NextPageWithLayout } from "./page";
+import { GralProps } from "./_app";
 
 const Qr: NextPageWithLayout<GralProps> = ({ linkedWhatsapp }) => {
 
-  const url = 'https://qrcg-free-editor.qr-code-generator.com/main/assets/images/websiteQRCode_noFrame.png';
-
+  // Este "0" hard codeado es para ocultar la cola de espera, el 0 hace referencia a la cantidad de personas en la cola.
   const [queue, setQueue] = useState<number>(0);
 
   const logoutBtnStyle = {
@@ -53,7 +52,7 @@ const Qr: NextPageWithLayout<GralProps> = ({ linkedWhatsapp }) => {
       </div>
       {queue == 0 ? (
         <MainCont width={40}>
-          <QrCard qr_url={url} linked_whatsapp={linkedWhatsapp} />
+          <QrCard linked_whatsapp={linkedWhatsapp} />
         </MainCont>
       ) :
         <QrWaitingRoom queue={queue} />
