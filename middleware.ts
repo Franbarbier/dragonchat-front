@@ -1,52 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
+import { API_USER_URL, LOGIN_COOKIE } from "./constants/ index";
+import { API_ROUTES, ROUTES } from "./enums";
 
-const headers = new Headers({
-  "Content-Type": "application/json",
-});
+const handleRedirect = (req: NextRequest, route: ROUTES) => {
+  const newUrl = req.nextUrl.clone();
+  newUrl.pathname = route;
+  return NextResponse.redirect(newUrl);
+}
 
 export async function middleware(req: NextRequest) {
-  // commons
-  const requestedPage = req.nextUrl.pathname;
-  const url = req.nextUrl.clone();
+  const authCookie = req.cookies.get(LOGIN_COOKIE || "");
 
-  // verify if dragonchat_login cookie exists
-  const authenticated = req.cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "");
-  const isAuthenticated = authenticated !== undefined;
-  const isLoginPage = requestedPage === "/login";
+  if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie) {
+    return handleRedirect(req, ROUTES.LOGIN);
+  }
 
-  let response = NextResponse.next();
+  if (req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && authCookie) {
+    return handleRedirect(req, ROUTES.DASH);
+  }
 
-  if (!isAuthenticated && !isLoginPage) {
-    url.pathname = "/login";
-    response = NextResponse.redirect(url);
-  } else if (isAuthenticated) {
-    if (isLoginPage) {
-      url.pathname = "/dash";
-      response = NextResponse.redirect(url);
-    } else {
-      const accessToken = JSON.parse(authenticated.value).access_token;
-      headers.append("Authorization", `Bearer ${accessToken}`);
-      const apiResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
-        { headers }
-      );
-      
-      const data = await apiResponse.json();
-      const isWhatsAppConnected = data.data.connected_whatsapp;
-     
-      
-      if (!isWhatsAppConnected) {
-        if (requestedPage !== "/qr" && requestedPage !== "/user/edit") {
-          url.pathname = "/qr";
-          response = NextResponse.redirect(url);
+  if (authCookie) {
+    const accessToken = JSON.parse(authCookie.value).access_token;
+
+    const apiResponse = await fetch(
+      `${API_USER_URL}${API_ROUTES.WS}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`
         }
       }
+    );
+    const { data } = await apiResponse.json();
+
+    if (!data?.connected_whatsapp && !req.nextUrl.pathname.startsWith(ROUTES.QR) && !req.nextUrl.pathname.startsWith(ROUTES.USER_EDIT)) {
+      return handleRedirect(req, ROUTES.QR);
     }
   }
-  return response;
+
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit"],
-  // matcher: [],
 };
