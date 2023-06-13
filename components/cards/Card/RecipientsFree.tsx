@@ -56,9 +56,7 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     function handleCopiar() {
             navigator.clipboard.writeText(finalList[position.index][position.type]);
     }
-    useEffect(()=>{
-        console.log(finalList)
-    },[finalList])
+
 
     return(
         <>
