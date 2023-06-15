@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { API_URL } from '../constants/ index';
+import { API_SENDER_URL } from '../constants/ index';
+import { API_ROUTES } from '../enums';
 
 const apiSenderWhatsappController = {
     unlinkWhatsapp: async (authToken: string) => {
-        const url = `${API_URL}/client/close_client`;
+        const url = `${API_SENDER_URL}${API_ROUTES.UNLINK_WSP}`;
         const response = await fetch(url, {
             method: "PUT",
             headers: {
@@ -23,7 +24,7 @@ const apiSenderWhatsappController = {
         try {
             const payload = { user: userId, name: receiverName, message: message, number: receiverNumber };
             const response = await axios.post(
-                `${API_URL}/message/send-basic`,
+                `${API_SENDER_URL}${API_ROUTES.SEND_MSG}`,
                 payload,
                 {
                     headers: {
@@ -38,7 +39,59 @@ const apiSenderWhatsappController = {
             return error
         }
 
-    }
-}
+    },
+    connect: async (authToken: string) => {
+        try {
+            const response = await axios.post(
+                `${API_SENDER_URL}${API_ROUTES.CONNECT}`,
+                {},
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${authToken}`,
+                    }
+                }
+            );
+
+            return response
+        } catch (error: any) {
+            return error
+        }
+    },
+    getQR: async (authToken: string) => {
+        try {
+            const response = await axios.get(
+                `${API_SENDER_URL}${API_ROUTES.GET_QR}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${authToken}`,
+                    }
+                }
+            );
+
+            return response
+        } catch (error: any) {
+            return error
+        }
+    },
+    isConnected: async (authToken: string) => {
+        try {
+            const response = await axios.get(
+                `${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${authToken}`,
+                    }
+                }
+            );
+
+            return response
+        } catch (error: any) {
+            return error
+        }
+    },
+};
 
 export default apiSenderWhatsappController;
