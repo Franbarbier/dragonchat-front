@@ -1,0 +1,40 @@
+.errCont{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.errCont>div h4{
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 400;
+  color: #ddd;
+}
+.errCont>div h6{
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 3%;
+  font-size: 1.2em;
+}
+.errCont>div>div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.errCont>div>div h2{
+  font-size: 128px
+}
+.errCont>div>div img{
+  height: 128px;
+}
+.goBack{
+  padding: 8px 16px;
+  border-radius: 5px;
+  background-color: #000;
+  border: 1px solid var(--newPink);
+  color: var(--newPink);
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin: 5% auto;
+  display: block;
+}
