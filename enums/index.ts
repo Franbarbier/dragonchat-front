@@ -9,7 +9,7 @@ export enum ROUTES {
 export enum API_ROUTES {
   WS = '/ws',
   AUTH_ME = '/auth/me',
-  UNLINK_WSP = '/client/close_client',
+  DISCONNECT = '/whatsapp/disconnect',
   SEND_MSG = '/message/send-basic',
   CONNECT = '/whatsapp/connect',
   GET_QR = '/whatsapp/qr',

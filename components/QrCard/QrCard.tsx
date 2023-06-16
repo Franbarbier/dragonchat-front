@@ -82,9 +82,11 @@ const QrCard: React.FC = () => {
                         <img src={activeQr} width="75%" alt="qrWhatsappImage" onLoad={handleIsConnected} />
                     </div>
                 )}
-                <div style={{ "opacity": loadingQr ? "0.3" : "1" }}>
-                    <OrangeBtn text="Generar QR" onClick={handleEmitID} />
-                </div>
+                {!activeQr && (
+                    <div style={{ "opacity": loadingQr ? "0.3" : "1" }}>
+                        <OrangeBtn text="Generar QR" onClick={handleEmitID} />
+                    </div>
+                )}
             </div>
         </>
     );
