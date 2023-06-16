@@ -1,10 +1,10 @@
 import cookie from 'cookie';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
-import Header from '../components/Header/Header';
 import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
+import { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
+import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { API_USER_URL, LOGIN_COOKIE } from '../constants/ index';
 import { API_ROUTES } from '../enums';
