@@ -33,10 +33,12 @@ interface ICustomContextMenu {
     contextVisible: boolean;
     executeFormat : (e, type:string, index:number) => void;
     setContactos : (contactos: ContactInfo[]) => void;
-    finalList : ContactInfo[]
+    finalList : ContactInfo[];
+    notification : INotification;
+    setNotification : (notification: INotification) => void;
 }
 
-const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisible, executeFormat, finalList, setContactos }) => {
+const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisible, executeFormat, finalList, setContactos, notification, setNotification }) => {
 
 
     function handlerPegar() {
@@ -45,11 +47,16 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     function handleEliminar() {
         const filteredArr = [...finalList];
         filteredArr.splice(position.index,1)
-        setContactos(filteredArr)
+        if (filteredArr.length > 1) {
+            setContactos(filteredArr)
+        }else{
+            setContactos([{nombre: '', numero: ''}])
+        }
     }
     function handleCopiar() {
             navigator.clipboard.writeText(finalList[position.index][position.type]);
     }
+
 
     return(
         <>
@@ -278,7 +285,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
             
 
-            <CustomContextMenu position={position} contextVisible={contextVisible} executeFormat={executeFormat} setContactos={setContactos} finalList={finalList}/>
+            <CustomContextMenu position={position} contextVisible={contextVisible} executeFormat={executeFormat} setContactos={setContactos} finalList={finalList} notification={notification} setNotification={setNotification} />
 
             
             <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
