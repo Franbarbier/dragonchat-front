@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { API_USER_URL, LOGIN_COOKIE } from "./constants/ index";
+import { API_SENDER_URL, LOGIN_COOKIE } from "./constants/ index";
 import { API_ROUTES, ROUTES } from "./enums";
 
 const handleRedirect = (req: NextRequest, route: ROUTES) => {
@@ -21,19 +21,22 @@ export async function middleware(req: NextRequest) {
 
   if (authCookie) {
     const accessToken = JSON.parse(authCookie.value).access_token;
-
     const apiResponse = await fetch(
-      `${API_USER_URL}${API_ROUTES.WS}`,
+      `${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}`,
       {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`
+          "Authorization": `Bearer ${accessToken}`,
         }
       }
     );
-    const { data } = await apiResponse.json();
+    const response = await apiResponse.json();
 
-    if (!data?.connected_whatsapp && !req.nextUrl.pathname.startsWith(ROUTES.QR) && !req.nextUrl.pathname.startsWith(ROUTES.USER_EDIT)) {
+    if (req.nextUrl.pathname.startsWith(ROUTES.QR) && (response?.phoneConnected || response?.userData)) {
+      return handleRedirect(req, ROUTES.DASH);
+    }
+
+    if(!req.nextUrl.pathname.startsWith(ROUTES.QR) && !(response?.phoneConnected || response?.userData)) {
       return handleRedirect(req, ROUTES.QR);
     }
   }
