@@ -3,21 +3,23 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/ index';
-import Notification, { INotification } from '../Notification/Notification';
-import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import CardTitle from "../cards/CardTitle/CardTitle";
+import Loader from '../Loader/Loader';
+import { INotification } from '../Notification/Notification';
+import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './QrCard.module.css';
 
-const QrCard: React.FC = () => {
+export interface IQrCard {
+    notification : INotification,
+    setNotification : (notification : INotification) => void,
+}
+
+
+const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const router = useRouter();
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
-    const [notification, setNotification] = useState<INotification>({
-        status: "success",
-        render: false,
-        message: "",
-        modalReturn: () => { }
-    })
+    
 
     const handleCall = async (accessToken: string) => {
         const { data: dataConnect } = await apiSenderWhatsappController.isConnected(accessToken)
@@ -40,9 +42,9 @@ const QrCard: React.FC = () => {
 
     const dispatchError = () => {
         setNotification({
-            status: "alert",
+            status: "error",
             render: true,
-            message: "Hubo un error en la conexión",
+            message: "Hubo un error en la conexión, intentalo de nuev en un minuto.",
             modalReturn: () => {
                 setNotification({ ...notification, render: false })
             }
@@ -72,13 +74,14 @@ const QrCard: React.FC = () => {
 
     return (
         <>
-            <Notification {...notification} />
+            <Loader loading={loadingQr} />
 
             <div className={styles.qrCard_cont}>
                 <CardTitle text="Vincular dispositivo" />
 
                 {activeQr && (
                     <div>
+                        <h4>Escanea el QR y aguarda un momento  : )</h4>
                         <img src={activeQr} width="75%" alt="qrWhatsappImage" onLoad={handleIsConnected} />
                     </div>
                 )}
