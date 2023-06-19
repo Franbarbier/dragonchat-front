@@ -44,7 +44,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         setNotification({
             status: "error",
             render: true,
-            message: "Hubo un error en la conexión, intentalo de nuev en un minuto.",
+            message: "Hubo un error en la conexión, intentalo de nuevo en un minuto.",
             modalReturn: () => {
                 setNotification({ ...notification, render: false })
             }
