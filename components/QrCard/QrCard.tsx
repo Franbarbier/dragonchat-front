@@ -4,8 +4,9 @@ import { useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/ index';
 import CardTitle from "../cards/CardTitle/CardTitle";
+import Notification, { INotification } from '../Notification/Notification';
 import Loader from '../Loader/Loader';
-import { INotification } from '../Notification/Notification';
+
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './QrCard.module.css';
 
