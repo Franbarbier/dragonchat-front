@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
 import ModalTimer from '../ModalTimer/ModalTimer';
+import Notification, { INotification } from '../Notification/Notification';
 import styles from './Header.module.css';
 
 export interface IHeader {
@@ -45,9 +46,16 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
     }, [openSettings])
 
     
+    const [notification, setNotification] = useState<INotification>({
+        status : "success",
+        render : false,
+        message : "",
+        modalReturn : ()=>{}
+    })
 
     return (
         <div className={styles.header_cont}>
+            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
             <nav>
                 <div>
                     <img width={'130px'} src={'dragonchat_logo_full.svg'} />
@@ -76,7 +84,7 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
                 <div>
                     <div>
                         <ModalContainer closeModal={ ()=> {setModalRef(false)} } addedClass="refAmis">
-                            <ModalReferiAmigos />
+                            <ModalReferiAmigos notification={notification} setNotification={setNotification} />
                         </ModalContainer>
                     </div>
                 </div>

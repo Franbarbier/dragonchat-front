@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
+import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './LoginView.module.css';
@@ -89,6 +90,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
    
     return (
         <div className={styles.login_cont} >
+            <Loader loading={logging} />
             <form>
                 <CardTitle text="Ingresa al futuro" />
                 <div>
