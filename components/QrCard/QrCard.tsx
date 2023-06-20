@@ -25,7 +25,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const handleCall = async (accessToken: string) => {
         const { data: dataConnect } = await apiSenderWhatsappController.isConnected(accessToken)
 
-        if (dataConnect.qrCode) {
+        if (dataConnect?.qrCode) {
             setActiveQr(dataConnect.qrCode)
         }
 
