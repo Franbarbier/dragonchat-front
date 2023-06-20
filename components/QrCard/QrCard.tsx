@@ -3,16 +3,16 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/ index';
-import CardTitle from "../cards/CardTitle/CardTitle";
-import Notification, { INotification } from '../Notification/Notification';
 import Loader from '../Loader/Loader';
+import { INotification } from '../Notification/Notification';
+import CardTitle from "../cards/CardTitle/CardTitle";
 
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './QrCard.module.css';
 
 export interface IQrCard {
-    notification : INotification,
-    setNotification : (notification : INotification) => void,
+    notification: INotification,
+    setNotification: (notification: INotification) => void,
 }
 
 
@@ -20,11 +20,16 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const router = useRouter();
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
-    
+
 
     const handleCall = async (accessToken: string) => {
         const { data: dataConnect } = await apiSenderWhatsappController.isConnected(accessToken)
-        return dataConnect?.phoneConnected || dataConnect?.userData;
+
+        if (dataConnect.qrCode) {
+            setActiveQr(dataConnect.qrCode)
+        }
+
+        return dataConnect?.phoneConnected;
     };
 
     const handleIsConnected = () => {
@@ -38,7 +43,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             } else {
                 router.push("/dash")
             }
-        }, 3000);
+        }, 4000);
     };
 
     const dispatchError = () => {
