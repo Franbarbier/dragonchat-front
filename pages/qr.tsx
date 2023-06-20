@@ -1,14 +1,14 @@
-import cookie from 'cookie';
 import Cookies from "js-cookie";
 import Router from "next/router";
 import { useState } from "react";
 import apiUserController from "../api/apiUserController";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
+import Notification, { INotification } from '../components/Notification/Notification';
 import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
-import { GralProps } from "./_app";
 import { NextPageWithLayout } from "./page";
+import { GralProps } from "./_app";
 
 const Qr: NextPageWithLayout<GralProps> = () => {
   const [queue, setQueue] = useState<number>(0);
@@ -37,9 +37,18 @@ const Qr: NextPageWithLayout<GralProps> = () => {
     }
   }
 
+  const [notification, setNotification] = useState<INotification>({
+    status : "success",
+    render : false,
+    message : "",
+    modalReturn : ()=>{}
+})
+
 
   return (
     <section>
+      <Notification {...notification} />
+
       <div style={{ 'position': 'absolute', 'top': '5%', 'right': ' 5%' }}>
         <button
           onClick={handleLogout}
@@ -48,7 +57,7 @@ const Qr: NextPageWithLayout<GralProps> = () => {
       </div>
       {queue == 0 ? (
         <MainCont width={40}>
-          <QrCard />
+          <QrCard notification={notification} setNotification={setNotification}/>
         </MainCont>
       ) :
         <QrWaitingRoom queue={queue} />
