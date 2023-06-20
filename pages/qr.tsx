@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import apiUserController from "../api/apiUserController";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
@@ -44,6 +44,22 @@ const Qr: NextPageWithLayout<GralProps> = () => {
     modalReturn : ()=>{}
 })
 
+const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobileDevice = window.matchMedia('(max-width: 768px)').matches;
+      setIsMobile(isMobileDevice);
+    };
+    // Initial check
+    handleResize();
+    // Listen for window resize
+    window.addEventListener('resize', handleResize);
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <section>
@@ -56,7 +72,7 @@ const Qr: NextPageWithLayout<GralProps> = () => {
         >LOG OUT</button>
       </div>
       {queue == 0 ? (
-        <MainCont width={40}>
+        <MainCont width={isMobile ? 90 : 40}>
           <QrCard notification={notification} setNotification={setNotification}/>
         </MainCont>
       ) :
