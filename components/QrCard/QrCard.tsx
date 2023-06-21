@@ -26,7 +26,8 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
             if (dataConnect?.phoneConnected) {
                 setLoadingQr(true);
-                router.push("/dash")
+                window.location.href= "/dash";
+                //router.push("/dash")
             } else {
                 if (dataConnect?.qrCode !== activeQr) {
                     setActiveQr(dataConnect?.qrCode)
