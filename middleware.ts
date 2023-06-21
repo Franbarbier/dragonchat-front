@@ -15,10 +15,6 @@ export async function middleware(req: NextRequest) {
     return handleRedirect(req, ROUTES.LOGIN);
   }
 
-  if (req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && authCookie) {
-    return handleRedirect(req, ROUTES.DASH);
-  }
-
   if (authCookie) {
     const accessToken = JSON.parse(authCookie.value).access_token;
     const apiResponse = await fetch(
@@ -32,12 +28,26 @@ export async function middleware(req: NextRequest) {
     );
     const response = await apiResponse.json();
 
-    if (req.nextUrl.pathname.startsWith(ROUTES.QR) && (response?.phoneConnected || response?.userData)) {
-      return handleRedirect(req, ROUTES.DASH);
+    if(!response) {
+      return NextResponse.error();
     }
 
-    if(!req.nextUrl.pathname.startsWith(ROUTES.QR) && !(response?.phoneConnected || response?.userData)) {
-      return handleRedirect(req, ROUTES.QR);
+    if(!response.phoneConnected) {
+      if (req.nextUrl.pathname.startsWith(ROUTES.QR)) {
+        return NextResponse.next();
+      }
+  
+      if (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) {
+        return handleRedirect(req, ROUTES.QR);
+      }
+    } else {
+      if (req.nextUrl.pathname.startsWith(ROUTES.DASH)) {
+        return NextResponse.next();
+      }
+
+      if (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) {
+        return handleRedirect(req, ROUTES.DASH);
+      }
     }
   }
 
