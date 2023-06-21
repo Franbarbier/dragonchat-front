@@ -1,5 +1,4 @@
 import Cookie from 'js-cookie';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/ index';
@@ -15,7 +14,6 @@ export interface IQrCard {
 }
 
 const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
-    const router = useRouter();
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
 
@@ -27,7 +25,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             if (dataConnect?.phoneConnected) {
                 setLoadingQr(true);
                 window.location.href= "/dash";
-                //router.push("/dash")
             } else {
                 if (dataConnect?.qrCode !== activeQr) {
                     setActiveQr(dataConnect?.qrCode)
