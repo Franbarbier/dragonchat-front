@@ -28,26 +28,16 @@ export async function middleware(req: NextRequest) {
     );
     const response = await apiResponse.json();
 
-    if(!response) {
+    if (!response) {
       return NextResponse.error();
     }
 
-    if(!response.phoneConnected) {
-      if (req.nextUrl.pathname.startsWith(ROUTES.QR)) {
-        return NextResponse.next();
-      }
-  
-      if (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) {
-        return handleRedirect(req, ROUTES.QR);
-      }
-    } else {
-      if (req.nextUrl.pathname.startsWith(ROUTES.DASH)) {
-        return NextResponse.next();
-      }
+    if (response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
+      return handleRedirect(req, ROUTES.DASH);
+    }
 
-      if (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) {
-        return handleRedirect(req, ROUTES.DASH);
-      }
+    if (!response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
+      return handleRedirect(req, ROUTES.QR);
     }
   }
 
