@@ -72,12 +72,12 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
             <div>
                 <CardTitle text="Registrarse" />
 
-                <div>
+                {/* <div>
                     <button className={styles.googleInit}>
                         <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Continuar con Google</span>
                     </button>
-                </div>
+                </div> */}
                 
                 <h6>Registrarte con tu email</h6>
                 <div>
