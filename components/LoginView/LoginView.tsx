@@ -31,7 +31,6 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
     const [logging, setLogging] = useState<boolean>(false)
 
     async function handleLogin() {
-        // e.preventDefault()
         setLogging(true)
         if (email != "" && pass != "") {
             
