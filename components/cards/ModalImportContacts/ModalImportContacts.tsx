@@ -148,7 +148,7 @@ return (
                   <div className={styles.infoIcon}>
                     <FontAwesomeIcon icon={faFileCircleCheck} />
                   </div>
-                  <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href="/Plantilla DragonChat - Importar contactos.csv" >acá</a>.</p>
+                  <p>Puedes ver un ejemplo o descargarlo haciendo clic <b><u><a href="/Plantilla DragonChat - Importar contactos.csv" >ACA</a></u></b>.</p>
                 </div>
               </div>
               <div className={styles.dropCont}

@@ -80,7 +80,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     const [pausa, setPausa] = useState<number>(0);
     
 
-    
     useEffect(() => {
 
         let intervalId: NodeJS.Timeout;

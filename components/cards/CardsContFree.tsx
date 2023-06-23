@@ -56,12 +56,15 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         bloques: 0
     })
 
-
     const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
     const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
     const [renderDialog, setRenderDialog] = useState<boolean>(true)
     const [dragonAnim, setDragonAnim] = useState<string>('')
+
+    const [tamanoBloque, setTamanoBloque] = useState<number>(0);
+    const [pausaBloque, setPausaBloque] = useState<number>(0);
+    const [pausaMensaje, setPausaMensaje] = useState<number>(0);
 
     const [notification, setNotification] = useState<INotification>({
         status : "success",
@@ -275,7 +278,13 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 <div className={styles.modal_shield_option}>
                     <div>
                         <ModalContainer closeModal={ ()=>{ setModalShieldOptions(false) } } addedClass={"modal_shield_option"}>
-                            <ModalShieldOptions setShieldOptions={setShieldOptions} setModalShieldOptions={setModalShieldOptions} />
+                            <ModalShieldOptions setShieldOptions={setShieldOptions} setModalShieldOptions={setModalShieldOptions}
+                            tamanoBloque={tamanoBloque}
+                            setTamanoBloque={setTamanoBloque}
+                            pausaBloque={pausaBloque}
+                            setPausaBloque={setPausaBloque}
+                            pausaMensaje={pausaMensaje}
+                            setPausaMensaje={setPausaMensaje} />
                         </ModalContainer>
                     </div>
                 </div>
