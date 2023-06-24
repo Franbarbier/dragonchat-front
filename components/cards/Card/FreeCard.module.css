@@ -978,7 +978,7 @@ background: #555;
     .row_card span.contact_example{
         font-size: 0.8em;
     }
-
+    
     .delete_contact{
         font-size: 0.7em;
         top: 50%;
@@ -998,6 +998,9 @@ background: #555;
     }
     .celda_table textarea{
         font-size: 0.7em;
+    }
+    .row_card span{
+        font-size: 0.65em;
     }
     #card2 .tabs_cont>div{
         font-size: 0.9em;

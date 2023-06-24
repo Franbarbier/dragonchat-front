@@ -2,6 +2,7 @@ import { faCloudArrowUp, faFileCircleCheck, faFileCsv, faTableColumns } from '@f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
+import { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
@@ -13,20 +14,39 @@ export interface IModalImportContacts {
     setModalImport : (render: boolean) => void;
     uploadContacts: (contacts: ContactInfo[]) => void;
     inheritFile : File | null;
+    notification : INotification;
+    setNotification : (notification: INotification) => void;
 }
 
 
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile}) => {
+const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile, notification, setNotification}) => {
 
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [isFile, setIsFile] = useState<boolean>(false);
 
+  function checkFileType(file) {
+    console.log( "Se esta ejecutando el check file", file.type)
+    if (file.type == "text/csv") {
+      return true 
+    }else{
+
+      setNotification({
+        status : "error",
+        render : true,
+        message : "El archivo debe ser un csv",
+        modalReturn : () => {setNotification({...notification, render : false})}
+      })
+      return false
+    }
+  }
+
 
   const parseFile = file  => {
-    Papa.parse(file, {
+
+      Papa.parse(file, {
       header: true,
       complete: results => {
         let newArr = results.data        
@@ -35,10 +55,11 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
       },
     });
   };
+  
 
   const onDropFn = useCallback(acceptedFiles => {
         parseFile(acceptedFiles);
-      setIsFile(true)
+        setIsFile(true)
   }, []);
 
   
@@ -65,12 +86,16 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   const handleDrop = (event) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files[0];
-      setIsFile(true)
-      parseFile(droppedFile);
+    checkFileType(droppedFile)
+    setIsFile(true)
+    parseFile(droppedFile);
   };
   
   useEffect(()=>{
+
+    
     if (inheritFile != null && inheritFile != undefined) {
+      checkFileType(inheritFile)
       onDropFn(inheritFile)
       setIsFile(true)
 
@@ -109,6 +134,7 @@ return (
               <input
                         onChange={ (e)=>{ 
                           if (e.target.files?.length) {
+                            checkFileType(e.target.files[0])
                             onDropFn(e.target.files[0]);
                           } 
                         }}

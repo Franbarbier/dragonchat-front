@@ -269,7 +269,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 <div className={styles.modal_position_card1}>
                     <div>
                         <ModalContainer closeModal={ handleRenderModal } >
-                            <ModalImportContacts setModalImport={setModalImport} uploadContacts={setContactos} inheritFile={droppedCsv}/>
+                            <ModalImportContacts setModalImport={setModalImport} uploadContacts={setContactos} inheritFile={droppedCsv} notification={notification} setNotification={setNotification} />
                         </ModalContainer>
                     </div>
                 </div>
