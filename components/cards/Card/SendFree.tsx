@@ -29,16 +29,17 @@ export interface IFreeCard3 {
         pausa : number,
         bloques: number
     };
+    finishSending : boolean;
+    setFinishSending : (finish: boolean) => void;
     
 }
 
-const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, setMessagesLimitAchieved, messagesLimitAchieved, modalShieldOptions, setModalShieldOptions, shieldOptions }) => {
+const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=[], setContactos, mensaje, setMessagesLimitAchieved, messagesLimitAchieved, modalShieldOptions, setModalShieldOptions, shieldOptions, finishSending, setFinishSending }) => {
 
     let idCard = 3;
     let router= useRouter()
 
     const [sending, setSending] = useState<boolean>(false)
-    const [exito, setExito] = useState<boolean>(false)
     const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>()
 
     const [activeShield, setActiveShield] = useState<boolean>(false)
@@ -75,7 +76,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
     const [isLooping, setIsLooping] = useState(false);
     const [counter, setCounter] = useState(0);
     
-    const [timer, setTimer] = useState(200);
+    const [timer, setTimer] = useState(1000);
     const [bloques, setBloques] = useState<number>(0);
     const [pausa, setPausa] = useState<number>(0);
     
@@ -127,6 +128,16 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
         setPausa( shieldOptions.pausa * 1000 )
     }, [shieldOptions])
 
+
+    useEffect(() => {
+        if (dejarDeEnviar || counter == contactos.length -1) {
+            setIsLooping(false)
+            setFinishSending(true)
+        }
+    }, [dejarDeEnviar, counter])
+
+
+
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`}>
             
@@ -164,8 +175,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                 <div className="column50">
                                     <div>
                                         <>
-                                    
-                                    
                                         <span>{contact.nombre}</span>
                                         </>
                                     </div>
@@ -177,7 +186,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                 </div>
                                     
                                 {/* <div className={styles.estado_envio}> */}
-                                    {contact.estado == "success" && <img className={styles.estado_envio} src="/cierto.png" />}
+                                    {contact.estado == "success" && <img className={styles.estado_envio} src="/check.svg" />}
                                     {contact.estado == "error" && <img className={styles.estado_envio} src="/close.svg" />}
                                 {/* </div> */}
                             </div>
@@ -202,7 +211,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                     <img src="/icon_config.svg"/>
                                 </aside> 
                             </aside>
-                            {!exito ?
+                            {!finishSending ?
                                 <OrangeBtn text={!isLooping ? 'Enviar' : 'Pausar' } onClick={handleButtonClick} />
                                 :
                                 <CustomColorBtn
