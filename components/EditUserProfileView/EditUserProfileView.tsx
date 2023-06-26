@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
 import apiUserController from "../../api/apiUserController";
 import { LOGIN_COOKIE } from "../../constants/ index";
+import { ROUTES } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
@@ -45,7 +46,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
     const response = await apiSenderWhatsappController.disconnect(authToken);
 
     if (response) {
-      Router.push("/qr");
+      Router.push(`${ ROUTES.QR }}`);
     }
     setLoading(false)
 
@@ -57,14 +58,12 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
       const response = await apiUserController.logout(accessToken);
       if (response.status == 200) {
         Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-        Router.push("/login");
+        Router.push(`${ ROUTES.LOGIN }`);
         setLoading(false)
 
       }
     } catch (error: any) {
-      // (error.response.data.error);
         setLoading(false)
-
       return false;
     }
   }

@@ -8,6 +8,7 @@ import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from '../components/Notification/Notification';
 import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
+import { ROUTES } from "../enums";
 import useDeviceType from "../utils/checkDevice";
 import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
@@ -37,7 +38,7 @@ const Qr: NextPageWithLayout<GralProps> = () => {
       const response = await apiUserController.logout(accessToken);
       if (response.status == 200) {
         Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-        Router.push("/login");
+        Router.push(`${ROUTES.LOGIN}`);
         setLoading(false)
 
       }

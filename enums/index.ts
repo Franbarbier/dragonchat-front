@@ -4,6 +4,7 @@ export enum ROUTES {
   PREMIUM = '/premium',
   LOGIN = '/login',
   USER_EDIT = '/user/edit',
+  NEW_PASS = '/new_password',
 };
 
 export enum API_ROUTES {

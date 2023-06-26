@@ -183,7 +183,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             <div className={styles.cards_cont}>
                     
                     <FreeCard3
-                        setActiveCard={(val:any)=>setActiveCard(val)}
+                        setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={finalList}
                         setContactos={setContactos}
@@ -199,7 +199,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                     />
 
                     <FreeCard1 
-                        setActiveCard={(val:any)=>setActiveCard(val)}
+                        setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={contactos}
                         setContactos={setContactos}
@@ -213,7 +213,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                     />
                     <FreeCard2
                         setReadyMessage={setReadyMessage}
-                        setActiveCard={(val:any)=>setActiveCard(val)}
+                        setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
                         mensaje={mensaje}
                         setMensaje={setMensaje}

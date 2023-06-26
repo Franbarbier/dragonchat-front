@@ -3,6 +3,7 @@ import Router, { useRouter } from "next/router";
 
 import { useEffect, useState } from "react";
 import apiUserController from "../../api/apiUserController";
+import { ROUTES } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
@@ -22,14 +23,9 @@ const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
   }
 
   useEffect(() => {
-    Router.prefetch('/new_password');
+    Router.prefetch(`${ROUTES.NEW_PASS}`);
   }, [])
-
-  function returnToLogin() {
-    router.push("/login");
-  }
   
-
   return (
     <div className={styles.recover_password_cont}>
       <div>
@@ -59,7 +55,7 @@ const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
                   onClick={()=>{ handleRecoverPassword }}
                   disable={ false }
               />
-              <Link href="/login">
+              <Link href={`${ROUTES.LOGIN}`}>
                 <button className={styles.login}>VOLVER AL LOGIN</button>
               </Link>
         </form>
