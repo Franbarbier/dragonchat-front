@@ -46,7 +46,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
     const response = await apiSenderWhatsappController.disconnect(authToken);
 
     if (response) {
-      Router.push(`${ ROUTES.QR }}`);
+      Router.push(ROUTES.QR);
     }
     setLoading(false)
 
@@ -58,7 +58,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
       const response = await apiUserController.logout(accessToken);
       if (response.status == 200) {
         Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-        Router.push(`${ ROUTES.LOGIN }`);
+        Router.push(ROUTES.LOGIN);
         setLoading(false)
 
       }

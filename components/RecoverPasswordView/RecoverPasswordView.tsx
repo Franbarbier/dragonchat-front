@@ -23,7 +23,7 @@ const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
   }
 
   useEffect(() => {
-    Router.prefetch(`${ROUTES.NEW_PASS}`);
+    Router.prefetch(ROUTES.NEW_PASS);
   }, [])
   
   return (
@@ -55,7 +55,7 @@ const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
                   onClick={()=>{ handleRecoverPassword }}
                   disable={ false }
               />
-              <Link href={`${ROUTES.LOGIN}`}>
+              <Link href={ROUTES.LOGIN}>
                 <button className={styles.login}>VOLVER AL LOGIN</button>
               </Link>
         </form>
