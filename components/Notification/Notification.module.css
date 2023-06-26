@@ -88,3 +88,15 @@
   background: #000000a3;
   z-index: 99;
 }
+
+@media (max-width: 768px) {
+  .notificationCont{
+    top: auto;
+    bottom: 5%;
+    right: 5%;
+    width: 90vw;
+  }
+  .notificationCont>div span{
+    width: 100%;
+  }
+}

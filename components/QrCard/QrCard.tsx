@@ -2,10 +2,10 @@ import Cookie from 'js-cookie';
 import { useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/ index';
+import CardTitle from "../cards/CardTitle/CardTitle";
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
-import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from './QrCard.module.css';
 
 export interface IQrCard {

@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
 import apiUserController from "../../api/apiUserController";
 import { LOGIN_COOKIE } from "../../constants/ index";
+import { ROUTES } from '../../enums';
+import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
-import MainCont from "../MainCont/MainCont";
 import { INotification } from "../Notification/Notification";
-import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from './EditUserProfileView.module.css';
 
 export interface IEditUserProfileView {
@@ -21,15 +21,17 @@ export interface IEditUserProfileView {
     created_at: string,
     updated_at: string
   }
+  setLoading : (value : boolean) => void
 }
 
 
-const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user }) => {
+const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading }) => {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
+
 
   const [notification, setNotification] = useState<INotification>({
     status: "success",
@@ -39,23 +41,29 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user }) => {
   })
 
   async function handleDesvWpp() {
+    setLoading(true)
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiSenderWhatsappController.disconnect(authToken);
 
     if (response) {
-      Router.push("/qr");
+      Router.push(ROUTES.QR);
     }
+    setLoading(false)
+
   }
   async function handleLogout() {
+    setLoading(true)
     try {
       const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
       const response = await apiUserController.logout(accessToken);
       if (response.status == 200) {
         Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-        Router.push("/login");
+        Router.push(ROUTES.LOGIN);
+        setLoading(false)
+
       }
     } catch (error: any) {
-      // (error.response.data.error);
+        setLoading(false)
       return false;
     }
   }
@@ -95,8 +103,9 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user }) => {
 
   }, [confirmPass])
 
+  const logout = true;
+
   return (
-    <MainCont width={90} maxWidth={340}>
       <div>
         <CardTitle text="Opciones" />
         <form>
@@ -152,7 +161,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user }) => {
           </div>
         </form>
       </div>
-    </MainCont>
   );
 };
 

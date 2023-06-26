@@ -197,7 +197,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
     function formatList(e:any, type:string, index:number){
         let inputText = e.target.value;
-        if (typeof inputText === "string" && inputText.length > 0) {
+        if (typeof inputText === "string" && inputText.length >= 0) {
             executeFormat(inputText, type, index)
         }
     };
