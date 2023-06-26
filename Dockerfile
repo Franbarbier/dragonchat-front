@@ -1,10 +1,12 @@
 FROM node:16-alpine AS deps
+RUN apk add --no-cache libc6-compat
+RUN npm cache clean --force
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm install -g npm@latest
+RUN npm install --legacy-peer-deps
 COPY . .
-
 
 
 FROM node:16-alpine AS builder
@@ -15,7 +17,7 @@ RUN npm run build
 
 FROM node:16-alpine AS runner
 WORKDIR /app
-#ENV NODE_ENV production
+ENV NODE_ENV production
 
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/public ./public
