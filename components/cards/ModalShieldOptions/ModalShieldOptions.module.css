@@ -121,3 +121,10 @@
 .shieldInputsCont input[type=number] {
     -moz-appearance: textfield;
 }
+
+/* if mobile */
+@media (max-width: 500px){
+    .shieldInputsCont{
+        margin-bottom: 10%;
+    }
+}

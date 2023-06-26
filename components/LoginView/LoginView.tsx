@@ -5,10 +5,10 @@ import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import CardTitle from '../cards/CardTitle/CardTitle';
+import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
-import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './LoginView.module.css';
 
 
@@ -30,8 +30,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
 
     const [logging, setLogging] = useState<boolean>(false)
 
-    async function handleLogin(e) {
-        e.preventDefault()
+    async function handleLogin() {
         setLogging(true)
         if (email != "" && pass != "") {
             
@@ -107,11 +106,22 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                 </div>
 
                 <div>
-                    <OrangeBtn type="submit" text={logging ? "Verificando datos" : "Iniciar sesión" } onClick={ handleLogin }/>
-                    <button className={styles.googleInit} type='button'>
+                    <CustomColorBtn
+                        type="submit"
+                        text="GUARDAR CAMBIOS"
+                        backgroundColorInit="#c21c3b"
+                        backgroundColorEnd="#f9bd4f"
+                        borderColor="#e17846"
+                        onClick={ (e)=>{ 
+                            e.preventDefault()
+                            handleLogin()
+                        } }
+                    />
+
+                    {/* <button className={styles.googleInit} type='button'>
                         <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Iniciar sesión con Google</span>
-                    </button>
+                    </button> */}
                 </div>
 
                 {/* Esto se esconde temporalmente hasta que se active el registre libre de usuarios */}

@@ -1002,5 +1002,13 @@ background: #555;
     #card2 .tabs_cont>div{
         font-size: 0.9em;
     }
-
+    .row_card span{
+        font-size: 0.75em;
+    }
+    .row_table{
+        /* padding: 0 2%; */
+    }
+    .card{
+        padding: 30px 15px 65px;
+    }
 }
