@@ -2,7 +2,7 @@ import { faCloudArrowUp, faFileCircleCheck, faFileCsv, faTableColumns } from '@f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
-import { INotification } from '../../Notification/Notification';
+import Notification, { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
@@ -11,92 +11,66 @@ import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from './ModalImportContacts.module.css';
 
 export interface IModalImportContacts {
-    setModalImport : (render: boolean) => void;
-    uploadContacts: (contacts: ContactInfo[]) => void;
-    inheritFile : File | null;
-    notification : INotification;
-    setNotification : (notification: INotification) => void;
-}
+  setModalImport: (render: boolean) => void;
+  uploadContacts: (contacts: ContactInfo[]) => void;
+  inheritFile: File | null;
+};
 
-
-
-// interface contactosArr extends Array<ContactInfo>{}
-
-const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile, notification, setNotification}) => {
-
-  const [parsedCsvData, setParsedCsvData] = useState([]);
+const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile }) => {
+  const [parsedCsvData, setParsedCsvData] = useState<Array<{ numero: string, nombre: string }>>([]);
   const [isFile, setIsFile] = useState<boolean>(false);
+  const [notification, setNotification] = useState<INotification>({
+    status: "error",
+    render: false,
+    message: "",
+    modalReturn: () => null,
+  })
 
-  async function checkFileType(file) {
-    console.log( "Se esta ejecutando el check file", file.type)
-    if (file.type == "text/csv") {
-      return true 
-    }else{
-
-      setNotification({
-        status : "error",
-        render : true,
-        message : "El archivo debe ser un csv",
-        modalReturn : () => {setNotification({...notification, render : false})}
-      })
-      return false
-    }
-  }
-
-
-  const parseFile = file  => {
-
-      Papa.parse(file, {
+  const parseFile = (file: File) => {
+    Papa.parse(file, {
       header: true,
-      complete: results => {
-        let newArr = results.data        
-        renameKeys(newArr)
-        setParsedCsvData(newArr)
+      transformHeader: (header: string) => header.replaceAll('N', 'n').replaceAll('ú', 'u'),
+      complete: ({ data }: { data: Array<{ numero: string, nombre: string }> }) => {
+        if (data?.length > 0 && data[0].nombre && data[0].numero) {
+          setIsFile(true)
+          setParsedCsvData(data)
+        } else {
+          setNotification({
+            status: "error",
+            render: true,
+            message: 'El contenido del archivo es inválido',
+            modalReturn: () => setNotification({ ...notification, render: false })
+          })
+        }
       },
     });
   };
   
 
-  const onDropFn = useCallback(acceptedFiles => {
-        parseFile(acceptedFiles);
-        setIsFile(true)
-  }, []);
-
-  
-  function renameKeys(newArr:Array<any>) {
-
-    function getAllKeys(obj) {
-      return Object.keys(obj);
+  const onDropFn = useCallback((file: File) => {
+    if (file.type === 'text/csv') {
+      parseFile(file);
+    } else {
+      setNotification({
+        status: "error",
+        render: true,
+        message: 'El contenido subido no es un archivo válido',
+        modalReturn: () => setNotification({ ...notification, render: false })
+      })
     }
-    
-    for (let index = 0; index < newArr.length; index++) {
-      var element = newArr[index];
+  }, [parseFile, setIsFile, setNotification]);
 
-      element.numero = element[getAllKeys(element)[1]]
-      element.nombre = element[getAllKeys(element)[0]]
-      delete element["Número"] 
-      delete element["Nombre"] 
-    }
-  }
-  
-  const handleDragOver = (event) => {
-    event.preventDefault();
+  const handleDrop = (file: File, e: Event) => {
+    e.preventDefault();
+    onDropFn(file);
   };
 
-  const handleDrop = async (event) => {
-    event.preventDefault();
-    const droppedFile = event.dataTransfer.files[0];
-    setIsFile(true)
-    parseFile(droppedFile);
-  };
-  
-  // useEffect(()=>{
-  //   if (inheritFile != null && inheritFile != undefined) {
-  //     onDropFn(inheritFile)
-  //     setIsFile(true)
-
-  //   }
-  // }, [inheritFile])
+  useEffect(() => {
+    if (inheritFile != null && inheritFile != undefined) {
+      onDropFn(inheritFile)
+      setIsFile(true)
+    }
+  }, [inheritFile])
 
 
   useEffect(() => {
@@ -108,103 +82,93 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
 
   const campos = ["Nombre", "Número"]
 
+  return (
+    <div>
+      <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
 
-  const InputFileCSV = () => {
-    return <input
-                  onChange={ (e)=>{ 
-                    if (e.target.files?.length) {
-                      // checkFileType(e.target.files[0])
-                      console.log("inputChanged", e.target.files[0])
-                      return false
-                      // onDropFn(e.target.files[0]);
-                    } 
-                  }}
-                  
+      <div className={styles.table_cont}>
+        {parsedCsvData.length > 0 &&
+          <HeaderRow campos={campos} />
+        }
+        {parsedCsvData.map((contact) => (
+          <>
+            <ContactRow contact={contact} campos={campos} />
+          </>
+        ))
+        }
+      </div>
+
+      {isFile ?
+        <div className={styles.saveOrEdit}>
+          <label className={styles.labelFile} htmlFor="csvInput">Cambiar .CSV</label>
+          <input
+            onChange={(e) => {
+              if (e.target.files?.length) {
+                onDropFn(e.target.files[0]);
+              }
+            }}
+
+            className={styles.csvInput}
+            id="csvInput"
+            name="file"
+            type="File"
+          />
+          <OrangeBtn text="Subir contactos" onClick={() => {
+            uploadContacts(parsedCsvData)
+            setModalImport(false)
+          }} />
+        </div>
+        :
+        <>
+          <div className={styles.infoCsv}>
+            <div className={styles.infoTitle}>
+              {/* <h5>Importar contactos</h5> */}
+              <CardTitle text="Importar contactos" />
+            </div>
+            <div className={styles.infoData}>
+              <div>
+                <div className={styles.infoIcon}>
+                  <FontAwesomeIcon icon={faFileCsv} />
+                </div>
+                <p>El archivo debe ser .csv</p>
+              </div>
+              <div>
+                <div className={styles.infoIcon}>
+                  <FontAwesomeIcon icon={faTableColumns} />
+                </div>
+                <p>La primer columna va a ser tomada como "Nombre" y la segunda como "Número".</p>
+
+              </div>
+              <div>
+                <div className={styles.infoIcon}>
+                  <FontAwesomeIcon icon={faFileCircleCheck} />
+                </div>
+                <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href="/Plantilla DragonChat - Importar contactos.csv" >acá</a>.</p>
+              </div>
+            </div>
+            <div className={styles.dropCont}
+              onDragOver={e => { e.preventDefault() }}
+              onDrop={e => e.dataTransfer.files && e.dataTransfer.files.length > 0 && handleDrop(e.dataTransfer.files[0], e)}
+            >
+              <div>
+                <label htmlFor="csvInput" />
+                <FontAwesomeIcon icon={faCloudArrowUp} />
+                <p>Arrastrar archivo</p>
+                <button>Elegir archivo</button>
+                <input
+                  onChange={e => e.target.files && e.target.files.length > 0 && onDropFn(e.target.files[0])}
                   className={styles.csvInput}
                   id="csvInput"
                   name="file"
                   type="File"
-            />
-  }
-
-
-return (
-        <div>
-          <div className={styles.table_cont}>
-            {parsedCsvData.length > 0 &&
-              <HeaderRow campos={campos} />
-            } 
-            {parsedCsvData.map((contact)=>(
-              <>
-                <ContactRow contact={contact} campos={campos}  />
-              </>
-            ))
-
-            }
+                />
+              </div>
+            </div>
           </div>
-
-          {isFile ?
-
-            <div className={styles.saveOrEdit}>
-              <label className={styles.labelFile} htmlFor="csvInput">Cambiar .CSV</label>
-              <InputFileCSV />
-              <OrangeBtn text="Subir contactos" onClick={()=>{
-                                                            uploadContacts(parsedCsvData)
-                                                            setModalImport(false)
-                                                          }}/>
-            </div>
-          :
-          <>
-            <div className={styles.infoCsv}>
-              <div className={styles.infoTitle}>
-                {/* <h5>Importar contactos</h5> */}
-                <CardTitle text="Importar contactos" />
-              </div>
-              <div className={styles.infoData}>
-                <div>
-                  <div className={styles.infoIcon}>
-                    <FontAwesomeIcon icon={faFileCsv} />
-                  </div>
-                  <p>El archivo debe ser .csv</p>
-                </div>
-                <div>
-                  <div className={styles.infoIcon}>
-                    <FontAwesomeIcon icon={faTableColumns} />
-                  </div>
-                  <p>La primer columna va a ser tomada como "Nombre" y la segunda como "Número".</p>
-
-                </div>
-                <div>
-                  <div className={styles.infoIcon}>
-                    <FontAwesomeIcon icon={faFileCircleCheck} />
-                  </div>
-                  <p>Puedes ver un ejemplo o descargarlo haciendo clic <b><u><a href="/Plantilla DragonChat - Importar contactos.csv" >ACA</a></u></b>.</p>
-                </div>
-              </div>
-              <div className={styles.dropCont}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-              >
-                <div>
-                  {/* <div> */}
-                    <label htmlFor="csvInput" />
-                    <FontAwesomeIcon icon={faCloudArrowUp} />
-                    <p>Arrastrar archivo</p>
-                    <button>Elegir archivo</button>
-                    <InputFileCSV />
-                      </div>
-                {/* </div> */}
-              </div>
-
-                {/* <img src='/plantilla-ejemplo.jpg' width="200px"/> */}
-
-              {/* <label className={styles.labelFile} htmlFor="csvInput">Agregar .CSV</label> */}
-            </div>
-          </>
-          }
-
-        </div>
-      );
+        </>
+      }
+    </div >
+  );
 }
 
 export default ModalImportContacts;
