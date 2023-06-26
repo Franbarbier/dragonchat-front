@@ -154,7 +154,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                         <>
                         {contactos.length - 1 != index &&
                         
-                        // ${contact.status == "pending" && styles.fireLoader}
                             <div className={`${styles.row_card} ${contact.estado == "error" && styles.error} ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
 
                                 <AnimatePresence>

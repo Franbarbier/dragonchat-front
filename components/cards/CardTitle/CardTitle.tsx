@@ -6,7 +6,6 @@ export interface ICardTitle {
 
 
 
-// interface contactosArr extends Array<ContactInfo>{}
 
 const CardTitle: React.FC<ICardTitle> = ({ text }) => {
 

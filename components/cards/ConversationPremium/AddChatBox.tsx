@@ -57,7 +57,6 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
         <div
             className={`${styles.add_new_message_cont} ${ arrMessages.length >= 1 ?  styles.abajo : styles.medio }`}
             onMouseLeave={() => setHoverNewSign(false)}
-            // className={arrMessages.length >= 1 ?  styles.abajo : styles.medio }
         >
 
         <div onMouseEnter={() => setHoverNewSign(true)}>

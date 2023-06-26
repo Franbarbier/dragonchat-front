@@ -16,19 +16,13 @@ const NavBottom: React.FC<INavBottom> = ({setActiveCard, activeCard, checkPrevCa
   useEffect(()=>{
     switch (activeCard) {
       case 1:
-        // setTimeout(() => {
           setRuletaAngulo('0')
-        // }, 300);
        break;
       case 2:
-        // setTimeout(() => {
           setRuletaAngulo('-60')
-        // }, 300);
         break;
       case 3:
-        // setTimeout(() => {
           setRuletaAngulo('-120')
-        // }, 300);
         break;
           
       default:

@@ -25,7 +25,6 @@ export interface IFreeCard1 {
     setNotification : (notification: INotification) => void;
 }
 
-// type setPropsType = {
 
 const allowedExtensions = ["csv"];
 interface ICustomContextMenu {

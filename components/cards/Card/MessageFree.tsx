@@ -23,11 +23,6 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
 
     let idCard = 2;
 
-    // useEffect(()=>{
-    //     setSelectedSecuence(null)
-    //     setMensaje("")
-    // },[tab])
-
     useEffect(()=>{
         setBreadcrumb(selectedSecuence?.chat || [])
     },[selectedSecuence])
