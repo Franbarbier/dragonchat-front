@@ -15,3 +15,19 @@ export enum API_ROUTES {
   GET_QR = '/whatsapp/qr',
   IS_CONNECTED = '/whatsapp/check-user-conected',
 };
+
+export enum API_RESPONSES {
+  UNAUTHORIZED = 'unauthorized',
+  OK = 'ok'
+};
+
+export enum HTTP_HEADERS_KEYS {
+  CONTENT_TYPE = 'Content-Type',
+  ACCEPT = 'Accept',
+  AUTHORIZATION = 'Authorization',
+};
+
+export enum HTTP_HEADERS_VALUES {
+  APLICATION_JSON = 'application/json',
+  BEARER = 'Bearer',
+};
