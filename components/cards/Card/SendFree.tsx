@@ -185,10 +185,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                                     </div>
                                 </div>
                                     
-                                {/* <div className={styles.estado_envio}> */}
                                     {contact.estado == "success" && <img className={styles.estado_envio} src="/check.svg" />}
                                     {contact.estado == "error" && <img className={styles.estado_envio} src="/close.svg" />}
-                                {/* </div> */}
                             </div>
                             }
                             </>
@@ -202,8 +200,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
                 <div className={`${styles.options_cont} ${sending && styles.sending_anim_cont }`}>
                     {!messagesLimitAchieved ?
                         <div className={styles.footerBtns}>
-                            <aside className={ activeShield ? styles.shieldOn : styles.shieldOff } onClick={()=>{ setActiveShield(!activeShield) }} >
-                                <div>
+                            <aside className={ activeShield ? styles.shieldOn : styles.shieldOff }  >
+                                <div onClick={()=>{ setActiveShield(!activeShield) }}>
                                     <img src="/shield-clock.svg"/>
                                     <div className={styles.shieldFilter} ></div>
                                 </div>

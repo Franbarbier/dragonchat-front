@@ -850,7 +850,8 @@ background: #555;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 70%;
+    width: 100%;
+    padding: 0 22%;
 }
 
 .footerBtns>aside>aside{

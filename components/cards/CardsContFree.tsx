@@ -43,7 +43,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [tipoEnvio, setTipoEnvio] = useState<"difusion" | "conversacion">("difusion")
 
     const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
-    const [readyMessage, setReadyMessage] = useState<boolean>(false)
 
     const [droppedCsv, setDroppedCsv] = useState<File | null>(null)
 
@@ -110,7 +109,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 if (finalList.length > 1 && checkAllListFields()) setActiveCard(activeCard+1)
                 break;
             case 2:
-                if (readyMessage) setActiveCard(activeCard+1)
+                if ( tipoEnvio == "difusion" && mensaje != "" || tipoEnvio == "conversacion" && selectedSecuence != null ) setActiveCard(activeCard+1) 
                 break;
             case 3:
                  return false

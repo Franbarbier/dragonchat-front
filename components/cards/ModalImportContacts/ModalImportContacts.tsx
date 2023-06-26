@@ -2,7 +2,7 @@ import { faCloudArrowUp, faFileCircleCheck, faFileCsv, faTableColumns } from '@f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
-import Notification, { INotification } from '../../Notification/Notification';
+import { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
@@ -81,8 +81,6 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
 
   return (
     <div>
-      <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
-
       <div className={styles.table_cont}>
         {parsedCsvData.length > 0 &&
           <HeaderRow campos={campos} />
