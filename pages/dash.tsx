@@ -6,6 +6,7 @@ import CardsCont from '../components/cards/CardsContFree';
 import { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
 import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
+import Loader from '../components/Loader/Loader';
 import { API_USER_URL, LOGIN_COOKIE } from '../constants/ index';
 import { API_ROUTES } from '../enums';
 import { NextPageWithLayout } from './page';
@@ -14,9 +15,11 @@ import EditUserProfile from './user/edit';
 
 const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
   const [openSettings, setOpenSettings] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
+      <Loader loading={loading} />
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings} />
 
       <AnimatePresence>
@@ -54,7 +57,7 @@ const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
               'marginTop': '5%'
             }}
             >
-              <EditUserProfile user={user} />
+              <EditUserProfile user={user} setLoading={setLoading}/>
             </div>
           </motion.div>
         )}
