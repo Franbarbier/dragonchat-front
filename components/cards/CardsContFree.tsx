@@ -38,8 +38,11 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
     const [mensaje, setMensaje] = useState<string>('')
+    
+    const [tipoEnvio, setTipoEnvio] = useState<"difusion" | "conversacion">("difusion")
+
     const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
-    const [readMessage, setReadyMessage] = useState<boolean>(false)
+    const [readyMessage, setReadyMessage] = useState<boolean>(false)
 
     const [droppedCsv, setDroppedCsv] = useState<File | null>(null)
 
@@ -56,11 +59,9 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         bloques: 0
     })
 
-    const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
     const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
     const [renderDialog, setRenderDialog] = useState<boolean>(true)
-    const [dragonAnim, setDragonAnim] = useState<string>('')
 
     const [tamanoBloque, setTamanoBloque] = useState<number>(0);
     const [pausaBloque, setPausaBloque] = useState<number>(0);
@@ -73,14 +74,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         modalReturn : ()=>{}
     })
 
-
-    function handleReturnModal(value:boolean) {
-        setNotification({...notification, render : false})
-    }
-
     const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
-
 
     useEffect(() => {
         const checkIsMobile = () => {
@@ -92,8 +87,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     }, [])
 
 
-    
-    
     function handleNewContact(newContact:ContactInfo) {
         setContactos([...contactos, newContact])
     }
@@ -122,7 +115,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 if (finalList.length > 1 && checkAllListFields()) setActiveCard(activeCard+1)
                 break;
             case 2:
-                if (readMessage) setActiveCard(activeCard+1)
+                if (readyMessage) setActiveCard(activeCard+1)
                 break;
             case 3:
                  return false
@@ -214,7 +207,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setNotification={setNotification}
                     />
                     <FreeCard2
-                        setReadyMessage={setReadyMessage}
                         setActiveCard={(val:any)=>setActiveCard(val)}
                         activeCard={activeCard}
                         mensaje={mensaje}
@@ -223,7 +215,9 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setSelectedSecuence={setSelectedSecuence}
                         setBreadcrumb={setBreadcrumb}
                         notification={notification}
-                        setNotification={setNotification}         
+                        setNotification={setNotification}      
+                        tipoEnvio={tipoEnvio}
+                        setTipoEnvio={setTipoEnvio}
                     />
 
                     

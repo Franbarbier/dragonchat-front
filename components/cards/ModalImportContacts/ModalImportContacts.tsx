@@ -14,17 +14,14 @@ export interface IModalImportContacts {
   setModalImport: (render: boolean) => void;
   uploadContacts: (contacts: ContactInfo[]) => void;
   inheritFile: File | null;
+  notification: INotification;
+  setNotification: (notification: INotification) => void;
 };
 
-const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile }) => {
+const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile, notification, setNotification }) => {
   const [parsedCsvData, setParsedCsvData] = useState<Array<{ numero: string, nombre: string }>>([]);
   const [isFile, setIsFile] = useState<boolean>(false);
-  const [notification, setNotification] = useState<INotification>({
-    status: "error",
-    render: false,
-    message: "",
-    modalReturn: () => null,
-  })
+  
 
   const parseFile = (file: File) => {
     Papa.parse(file, {
@@ -143,7 +140,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                 <div className={styles.infoIcon}>
                   <FontAwesomeIcon icon={faFileCircleCheck} />
                 </div>
-                <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href="/Plantilla DragonChat - Importar contactos.csv" >acá</a>.</p>
+                <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href="/Plantilla Ejemplo.numbers" >acá</a>.</p>
               </div>
             </div>
             <div className={styles.dropCont}
