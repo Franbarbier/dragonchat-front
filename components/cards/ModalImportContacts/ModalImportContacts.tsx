@@ -27,7 +27,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [isFile, setIsFile] = useState<boolean>(false);
 
-  function checkFileType(file) {
+  async function checkFileType(file) {
     console.log( "Se esta ejecutando el check file", file.type)
     if (file.type == "text/csv") {
       return true 
@@ -83,24 +83,20 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
     event.preventDefault();
   };
 
-  const handleDrop = (event) => {
+  const handleDrop = async (event) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files[0];
-    checkFileType(droppedFile)
     setIsFile(true)
     parseFile(droppedFile);
   };
   
-  useEffect(()=>{
+  // useEffect(()=>{
+  //   if (inheritFile != null && inheritFile != undefined) {
+  //     onDropFn(inheritFile)
+  //     setIsFile(true)
 
-    
-    if (inheritFile != null && inheritFile != undefined) {
-      checkFileType(inheritFile)
-      onDropFn(inheritFile)
-      setIsFile(true)
-
-    }
-  }, [inheritFile])
+  //   }
+  // }, [inheritFile])
 
 
   useEffect(() => {
@@ -111,6 +107,26 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   }, []);
 
   const campos = ["Nombre", "Número"]
+
+
+  const InputFileCSV = () => {
+    return <input
+                  onChange={ (e)=>{ 
+                    if (e.target.files?.length) {
+                      // checkFileType(e.target.files[0])
+                      console.log("inputChanged", e.target.files[0])
+                      return false
+                      // onDropFn(e.target.files[0]);
+                    } 
+                  }}
+                  
+                  className={styles.csvInput}
+                  id="csvInput"
+                  name="file"
+                  type="File"
+            />
+  }
+
 
 return (
         <div>
@@ -131,19 +147,7 @@ return (
 
             <div className={styles.saveOrEdit}>
               <label className={styles.labelFile} htmlFor="csvInput">Cambiar .CSV</label>
-              <input
-                        onChange={ (e)=>{ 
-                          if (e.target.files?.length) {
-                            checkFileType(e.target.files[0])
-                            onDropFn(e.target.files[0]);
-                          } 
-                        }}
-                        
-                        className={styles.csvInput}
-                        id="csvInput"
-                        name="file"
-                        type="File"
-                        />
+              <InputFileCSV />
               <OrangeBtn text="Subir contactos" onClick={()=>{
                                                             uploadContacts(parsedCsvData)
                                                             setModalImport(false)
@@ -187,18 +191,7 @@ return (
                     <FontAwesomeIcon icon={faCloudArrowUp} />
                     <p>Arrastrar archivo</p>
                     <button>Elegir archivo</button>
-                    <input
-                        onChange={ (e)=>{ 
-                          if (e.target.files?.length) {
-                            onDropFn(e.target.files[0]);
-                          } 
-                        }}
-                        
-                        className={styles.csvInput}
-                        id="csvInput"
-                        name="file"
-                        type="File"
-                        />
+                    <InputFileCSV />
                       </div>
                 {/* </div> */}
               </div>
