@@ -14,8 +14,8 @@ const HeaderRow: React.FC<IHeaderRow> = ({ campos }) => {
 
     return (
         <div className={styles.table_headers}>
-           {campos.map((campo)=>(
-            <div className={`column${columnWidth}`}>
+           {campos.map((campo, i)=>(
+            <div key={`headerRow${campo}${i}`} className={`column${columnWidth}`}>
                 <h6>{campo}</h6>
             </div>
            ))}
