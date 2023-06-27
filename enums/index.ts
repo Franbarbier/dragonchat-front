@@ -32,3 +32,8 @@ export enum HTTP_HEADERS_VALUES {
   APLICATION_JSON = 'application/json',
   BEARER = 'Bearer',
 };
+export enum CONSTANTS {
+  DIFUSION = 'difusion',
+  CONVERSACION = 'conversacion',
+  CSV_EXAMPLE = '/Plantilla Ejemplo.numbers'
+};

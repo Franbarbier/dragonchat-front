@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { CONSTANTS } from '../../enums';
 import useDeviceType from '../../utils/checkDevice';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
@@ -38,7 +39,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     
     const [mensaje, setMensaje] = useState<string>('')
     
-    const [tipoEnvio, setTipoEnvio] = useState<"difusion" | "conversacion">("difusion")
+    const [tipoEnvio, setTipoEnvio] = useState<CONSTANTS.DIFUSION | CONSTANTS.CONVERSACION>(CONSTANTS.DIFUSION)
 
     const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
 
@@ -107,7 +108,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 if (finalList.length > 1 && checkAllListFields()) setActiveCard(activeCard+1)
                 break;
             case 2:
-                if ( tipoEnvio == "difusion" && mensaje != "" || tipoEnvio == "conversacion" && selectedSecuence != null ) setActiveCard(activeCard+1) 
+                if ( tipoEnvio == CONSTANTS.DIFUSION && mensaje != "" || tipoEnvio == CONSTANTS.CONVERSACION && selectedSecuence != null ) setActiveCard(activeCard+1) 
                 break;
             case 3:
                  return false

@@ -2,6 +2,7 @@ import { faCloudArrowUp, faFileCircleCheck, faFileCsv, faTableColumns } from '@f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
+import { CONSTANTS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
@@ -138,7 +139,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                 <div className={styles.infoIcon}>
                   <FontAwesomeIcon icon={faFileCircleCheck} />
                 </div>
-                <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href="/Plantilla Ejemplo.numbers" >acá</a>.</p>
+                <p>Puedes ver un ejemplo o descargarlo haciendo clic <b><u><a href={CONSTANTS.CSV_EXAMPLE} >ACA</a> </u></b>.</p>
               </div>
             </div>
             <div className={styles.dropCont}
