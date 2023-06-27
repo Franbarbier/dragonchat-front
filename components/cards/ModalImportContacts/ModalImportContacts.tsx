@@ -59,7 +59,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
     }
   }, [parseFile, setIsFile, setNotification]);
 
-  const handleDrop = (file: File, e: Event) => {
+  const handleDrop = (file: File, e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     onDropFn(file);
   };

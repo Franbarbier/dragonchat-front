@@ -27,6 +27,8 @@ export interface IFreeCard3 {
     pausa: number;
     bloques: number;
   };
+  finishSending: boolean;
+  setFinishSending: (finish: boolean) => void;
 }
 
 const FreeCard3: React.FC<IFreeCard3> = ({
@@ -40,12 +42,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   modalShieldOptions,
   setModalShieldOptions,
   shieldOptions,
+  finishSending,
+  setFinishSending,
 }) => {
   let idCard = 3;
   let router = useRouter();
 
   const [sending, setSending] = useState<boolean>(false);
-  const [exito, setExito] = useState<boolean>(false);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
 
   const [activeShield, setActiveShield] = useState<boolean>(false);
@@ -154,6 +157,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           }, pauseTime);
         });
       };
+
       const lastIndexBlock = arrayOfBlocks.length - 1;
       arrayOfBlocks.forEach(async (block, i) => {
         console.time(`block ${i}`);
@@ -174,6 +178,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     setPausa(shieldOptions.pausa * 1000);
   }, [shieldOptions]);
 
+  useEffect(() => {
+    if (dejarDeEnviar) {
+      setIsLooping(false);
+      setFinishSending(true);
+    }
+  }, [dejarDeEnviar]);
+
   return (
     <div
       className={`${styles.card} ${styles["numberCard" + activeCard]} ${
@@ -188,28 +199,27 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         <div className={styles.card_table_cont}>
           <HeaderRow campos={["Nombre", "Número"]} key="header-row-sendFree" />
 
-          <div key={"enviando_table"} className={`${styles.table_rows} ${styles.enviando_table}`}>
+          <div className={`${styles.table_rows} ${styles.enviando_table}`}>
             {contactos.map((contact, index) => (
               <>
                 {contactos.length - 1 != index && (
                   // ${contact.status == "pending" && styles.fireLoader}
                   <div
-                    key={`${contact.nombre}${index}`}
                     className={`${styles.row_card} ${
                       contact.estado == "error" && styles.error
                     } ${contact.estado == "success" && styles.success}`}
+                    key={contact.nombre + index}
                   >
-                    <AnimatePresence key={`AnimatePresence${contact.nombre}${index}`}>
+                    <AnimatePresence>
                       {contact.estado == "pending" && (
                         <motion.aside
-                          key={`motion${contact.nombre}${index}`}
                           className={styles.fuegoLoader}
                           initial={{ opacity: 0 }}
                           exit={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                         >
-                          <video key={`video${contact.nombre}${index}`} autoPlay loop>
-                            <source key={`source${contact.nombre}${index}`} src="/dc_fuego_min.mp4" type="video/mp4" />
+                          <video autoPlay loop>
+                            <source src="/dc_fuego_min.mp4" type="video/mp4" />
                           </video>
                         </motion.aside>
                       )}
@@ -230,10 +240,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
                     {/* <div className={styles.estado_envio}> */}
                     {contact.estado == "success" && (
-                      <img key={`cierto${contact.nombre}${index}`} className={styles.estado_envio} src="/cierto.png" />
+                      <img className={styles.estado_envio} src="/check.svg" />
                     )}
                     {contact.estado == "error" && (
-                      <img key={`close${contact.nombre}${index}`} className={styles.estado_envio} src="/close.svg" />
+                      <img className={styles.estado_envio} src="/close.svg" />
                     )}
                     {/* </div> */}
                   </div>
@@ -268,7 +278,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     <img src="/icon_config.svg" />
                   </aside>
                 </aside>
-                {!exito ? (
+                {!finishSending ? (
                   <OrangeBtn
                     text={!isLooping ? "Enviar" : "Pausar"}
                     onClick={handleButtonClick}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import useDeviceType from '../../utils/checkDevice';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import NavBottom from '../NavBottom/NavBottom';
@@ -58,10 +59,11 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
 
     const [wppMessage, setWppMessage] = useState<boolean>(false)
-    const [isMobile, setIsMobile] = useState<boolean>(false)
     const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
     const [renderDialog, setRenderDialog] = useState<boolean>(true)
     const [dragonAnim, setDragonAnim] = useState<string>('')
+
+    const [finishSending, setFinishSending] = useState<boolean>(false)
 
     const [notification, setNotification] = useState<INotification>({
         status : "success",
@@ -69,6 +71,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         message : "",
         modalReturn : ()=>{}
     })
+
 
 
     function handleReturnModal(value:boolean) {
@@ -79,14 +82,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     
 
 
-    useEffect(() => {
-        const checkIsMobile = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        checkIsMobile();
-        window.addEventListener('resize', checkIsMobile);
-        return () => window.removeEventListener('resize', checkIsMobile);
-    }, [])
+    
 
 
     
@@ -137,7 +133,9 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 setActiveCard(activeCard-1)
                 break;
             case 3:
-                setActiveCard(activeCard-1)
+                if (!finishSending) {   
+                    setActiveCard(activeCard-1)
+                }
                 break;
         
             default:
@@ -163,7 +161,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         
     },[contactos])
 
-
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
             if (event.key == "Enter" && activeCard == 1) {
@@ -178,6 +175,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
       })
 
 
+    const isMobile = useDeviceType();
     
 
     return (
@@ -185,7 +183,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             <div className={styles.cards_cont}>
                     
                     <FreeCard3
-                        setActiveCard={(val:any)=>setActiveCard(val)}
+                        setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={finalList}
                         setContactos={setContactos}
@@ -195,10 +193,13 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         modalShieldOptions={modalShieldOptions}
                         setModalShieldOptions={setModalShieldOptions}
                         shieldOptions={shieldOptions}
+                        finishSending={finishSending}
+                        setFinishSending={setFinishSending}
+
                     />
 
                     <FreeCard1 
-                        setActiveCard={(val:any)=>setActiveCard(val)}
+                        setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={contactos}
                         setContactos={setContactos}
@@ -212,7 +213,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                     />
                     <FreeCard2
                         setReadyMessage={setReadyMessage}
-                        setActiveCard={(val:any)=>setActiveCard(val)}
+                        setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
                         mensaje={mensaje}
                         setMensaje={setMensaje}
@@ -229,7 +230,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 || !checkAllListFields() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ checkNextCard() } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
-            <div className={`${styles.prevCard} ${activeCard == 1 && styles.arrow_disabled}`} onClick={ ()=>{  checkPrevCard()} }>
+            <div className={`${styles.prevCard} ${activeCard == 1 || finishSending && (styles.arrow_disabled)}`} onClick={ ()=>{  checkPrevCard()} }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
 
