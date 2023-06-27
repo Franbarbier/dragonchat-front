@@ -1,7 +1,7 @@
 import { faCloudArrowUp, faFileCircleCheck, faFileCsv, faTableColumns } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
-import { useCallback, useEffect, useState } from "react";
+import { DragEvent, useCallback, useEffect, useState } from "react";
 import Notification, { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
@@ -59,7 +59,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
     }
   }, [parseFile, setIsFile, setNotification]);
 
-  const handleDrop = (file: File, e: Event) => {
+  const handleDrop = (file: File, e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     onDropFn(file);
   };
