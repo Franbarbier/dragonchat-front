@@ -85,9 +85,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({ setActiveCard, activeCard, contactos=
 
         let intervalId: NodeJS.Timeout;
 
-        if (isLooping && counter < contactos.length -1) {
+        if (isLooping && counter < contactos.length - 1) {
         intervalId = setInterval(() => {
             const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
+            
             sendMove(userInfo, counter)
 
             // Movida para pausar el loop cada X mensajes

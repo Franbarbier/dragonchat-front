@@ -32,8 +32,6 @@ export interface ContactInfo {
 
 const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
-    
-    // const [activeCard, setActiveCard] = useState<IdCard>(1)
     const [activeCard, setActiveCard] = useState<number>(1)
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
@@ -145,11 +143,9 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         })
         const lastObject = contactos[contactos.length - 1];
 
-        // if (lastObject != undefined) {   
             if (lastObject.hasOwnProperty("nombre") && lastObject.nombre != "" || lastObject.hasOwnProperty("numero") && lastObject.numero != "" ) {
                 filtered = [...filtered, {'nombre':'', 'numero':''}]
             }
-        // }
 
         setFinalList(filtered)
         

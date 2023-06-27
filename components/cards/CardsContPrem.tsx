@@ -16,17 +16,11 @@ export interface ContactInfo {
     status? : "success" | "error" | "pending",
 }
 
-// interface contactosArr extends Array<ContactInfo>{}
 
 const CardsCont: React.FC<ICardsCont> = ({  }) => {
 
     
-    // const [activeCard, setActiveCard] = useState<IdCard>(1)
     const [activeCard, setActiveCard] = useState<number>(1)
-    const [contactos, setContactos] = useState<ContactInfo[]>([])
-    const [mensaje, setMensaje] = useState<string>('')
-    const [modalImport, setModalImport] = useState<boolean>(false)
-
 
     return (
         <div>
