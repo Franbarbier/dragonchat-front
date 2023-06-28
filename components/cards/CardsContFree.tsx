@@ -101,6 +101,15 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         return true
     }
 
+    function definedMessage() {
+        // if (activeCard == 2) {
+            if ( tipoEnvio == CONSTANTS.DIFUSION && mensaje != "" || tipoEnvio == CONSTANTS.CONVERSACION && selectedSecuence != null && activeCard == 2 ) {
+                return false
+            // }
+        }
+        return true
+    }
+
     function checkNextCard() {
     
         switch (activeCard) {
@@ -108,7 +117,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 if (finalList.length > 1 && checkAllListFields()) setActiveCard(activeCard+1)
                 break;
             case 2:
-                if ( tipoEnvio == CONSTANTS.DIFUSION && mensaje != "" || tipoEnvio == CONSTANTS.CONVERSACION && selectedSecuence != null ) setActiveCard(activeCard+1) 
+                if ( !definedMessage() ) setActiveCard(activeCard+1) 
                 break;
             case 3:
                  return false
@@ -219,7 +228,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                     
 
             </div>
-            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 || !checkAllListFields() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ checkNextCard() } }>
+            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 || checkAllListFields() || definedMessage() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ checkNextCard() } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
             <div className={`${styles.prevCard} ${activeCard == 1 || finishSending && (styles.arrow_disabled)}`} onClick={ ()=>{  checkPrevCard()} }>
