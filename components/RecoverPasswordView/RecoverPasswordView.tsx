@@ -48,7 +48,7 @@ const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
 
             <CustomColorBtn
                   type="submit"
-                  text="Guardar secuencia"
+                  text="Guardar cambios"
                   backgroundColorInit="#c21c3b"
                   backgroundColorEnd="#f9bd4f"
                   borderColor="#e17846"

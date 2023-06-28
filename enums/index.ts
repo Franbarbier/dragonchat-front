@@ -32,3 +32,16 @@ export enum HTTP_HEADERS_VALUES {
   APLICATION_JSON = 'application/json',
   BEARER = 'Bearer',
 };
+
+export enum STATUS {
+  ERROR = 'error',
+  SUCCESS = 'success',
+};
+
+export enum FILE_TYPE {
+  CSV = 'text/csv',
+};
+
+export enum FILE {
+  CONTACTS_CSV = '/Plantilla DragonChat - Importar contactos.csv',
+};
