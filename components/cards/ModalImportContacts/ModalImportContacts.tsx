@@ -30,11 +30,12 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   const parseFile = (file: File) => {
     Papa.parse(file, {
       header: true,
+      skipEmptyLines: true,
       transformHeader: (header: string) => header.toLowerCase().replaceAll('ú', 'u'),
       complete: ({ data }: { data: Array<{ numero: string, nombre: string }> }) => {
         if (data?.length > 0 && data[0].nombre && data[0].numero) {
           setIsFile(true)
-          setParsedCsvData(data.filter(d => d.nombre && d.numero))
+          setParsedCsvData(data.filter(d => d.nombre?.replaceAll(' ', '') !== '' && d.numero?.replaceAll(' ', '') !== ''))
         } else {
           setNotification({
             status: STATUS.ERROR,
