@@ -32,3 +32,10 @@ export enum HTTP_HEADERS_VALUES {
   APLICATION_JSON = 'application/json',
   BEARER = 'Bearer',
 };
+
+export enum SENDING_STATE {
+  INIT = 'init',
+  SENDING = 'sending',
+  PAUSED = 'paused',
+  FINISH = 'finish',
+};

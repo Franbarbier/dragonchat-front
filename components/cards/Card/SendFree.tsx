@@ -5,6 +5,7 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
+import { SENDING_STATE } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import CardTitle from "../CardTitle/CardTitle";
@@ -49,9 +50,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   let router = useRouter();
 
   const [sending, setSending] = useState<boolean>(false);
+  const [timers, setTimers] = useState<Array<NodeJS.Timeout>>([]);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
+  const [sendingState, setSendingState] = useState<SENDING_STATE>(SENDING_STATE.INIT);
 
   const [activeShield, setActiveShield] = useState<boolean>(false);
+
+  const [timer, setTimer] = useState(200);
+  const [bloques, setBloques] = useState<number>(0);
+  const [pausa, setPausa] = useState<number>(0);
 
   async function sendMove(userInfo, count) {
     const destinatario = contactos[count];
@@ -87,20 +94,21 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     onSuccess();
   }
 
-  const [isLooping, setIsLooping] = useState(false);
+  
 
-  const [timer, setTimer] = useState(200);
-  const [bloques, setBloques] = useState<number>(0);
-  const [pausa, setPausa] = useState<number>(0);
+  useEffect(() => {
 
-  const handleButtonClick = async () => {
-    setIsLooping(!isLooping);
-    if (isLooping) {
+    if (sendingState === SENDING_STATE.SENDING) {
       const arrayOfBlocks: Array<Array<ContactInfo>> = contactos.reduce(
         (accumulator, actualValue) => {
           if (
             actualValue.nombre.trim() === "" ||
             actualValue.numero.trim() === ""
+          ) {
+            return accumulator;
+          }
+          if (
+            actualValue.estado === "success" || actualValue.estado === "error"
           ) {
             return accumulator;
           }
@@ -119,55 +127,44 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         new Array<Array<ContactInfo>>()
       );
 
+      const contacts = contactos.filter(
+        (c) => c.numero.trim() !== '' && c.nombre.trim() !== ''
+      );
       const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
 
-      const delayMesagges = async (contact, userInfo, messageNumber) => {
-        return new Promise<NodeJS.Timeout>((resolve) => {
-          const timerTime = messageNumber * timer;
+      let localTimers: Array<NodeJS.Timeout> = [];
+      arrayOfBlocks.forEach((block, blockIndex) => {
+        block.forEach((contact, contactIndex) => {
+          const blockTime = (blockIndex * pausa);          
+          const contactTime = (contactIndex * timer);
+          const ms = blockTime + contactTime
           const timerId = setTimeout(() => {
-            if (isLooping) {
-              const index = contactos.findIndex(
-                (c) => c.numero === contact.numero
-              );
-              sendMove(userInfo, index);
-            }
-
-            resolve(timerId);
-          }, timerTime);
-        });
-      };
-
-      let delayBlocks = async (
-        block: Array<ContactInfo>,
-        userInfo,
-        blockNumber
-      ) => {
-        return new Promise<NodeJS.Timeout>((resolve) => {
-          const pauseTime = blockNumber * pausa;
-          const timerlId = setTimeout(() => {
-            Promise.all(
-              block.map(async (contact, i) => {
-                console.time(`mensaje ${blockNumber * bloques + i}`);
-                const id = await delayMesagges(contact, userInfo, i);
-                console.timeEnd(`mensaje ${blockNumber * bloques + i}`);
-                clearTimeout(id);
-              })
+            const index = contacts.findIndex(
+              (c) => c.numero === contact.numero
             );
-            resolve(timerlId);
-          }, pauseTime);
-        });
-      };
-
-      const lastIndexBlock = arrayOfBlocks.length - 1;
-      arrayOfBlocks.forEach(async (block, i) => {
-        console.time(`block ${i}`);
-        const id = await delayBlocks(block, userInfo, i);
-        console.timeEnd(`block ${i}`);
-        clearTimeout(id);
-        if (i === lastIndexBlock) {
-          setIsLooping(false);
-        }
+            sendMove(userInfo, index);
+            if (index === contacts.length -1 ) {
+              setSendingState(SENDING_STATE.FINISH);
+            }
+          }, ms);
+          localTimers.push(timerId);
+        })        
       });
+      setTimers(localTimers);
+      // sendMessage(userInfo, arrayOfBlocks);
+    }
+
+  }, [sendingState])
+
+  const handleButtonClick = async () => {
+    if (sendingState === SENDING_STATE.INIT || sendingState === SENDING_STATE.PAUSED) {
+      setSendingState(SENDING_STATE.SENDING);
+    } 
+    if (sendingState === SENDING_STATE.SENDING) {
+      setSendingState(SENDING_STATE.PAUSED);
+      timers.forEach((timerId) => {
+        clearTimeout(timerId);
+      })
     }
   };
 
@@ -180,7 +177,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   useEffect(() => {
     if (dejarDeEnviar) {
-      setIsLooping(false);
+      setSendingState(SENDING_STATE.FINISH);
       setFinishSending(true);
     }
   }, [dejarDeEnviar]);
@@ -278,12 +275,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     <img src="/icon_config.svg" />
                   </aside>
                 </aside>
-                {!finishSending ? (
-                  <OrangeBtn
-                    text={!isLooping ? "Enviar" : "Pausar"}
-                    onClick={handleButtonClick}
-                  />
-                ) : (
+                {sendingState === SENDING_STATE.FINISH ? (
                   <CustomColorBtn
                     type="submit"
                     text="Crear nueva difusion"
@@ -294,6 +286,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                       router.reload();
                     }}
                     disable={false}
+                  />                  
+                ) : (
+                  <OrangeBtn
+                    text={sendingState === SENDING_STATE.SENDING ? "Pausar" : "Enviar"}
+                    onClick={handleButtonClick}
                   />
                 )}
               </div>
