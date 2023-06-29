@@ -108,7 +108,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                 <div>
                     <CustomColorBtn
                         type="submit"
-                        text="GUARDAR CAMBIOS"
+                        text="INICIAR SESIÓN"
                         backgroundColorInit="#c21c3b"
                         backgroundColorEnd="#f9bd4f"
                         borderColor="#e17846"
