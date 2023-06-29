@@ -4,9 +4,9 @@ import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiUserController from "../../api/apiUserController";
 import { ROUTES } from '../../enums';
-import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
+import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from "./RecoverPasswordView.module.css";
 
 export interface IRecoverPasswordView {}
@@ -48,7 +48,7 @@ const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
 
             <CustomColorBtn
                   type="submit"
-                  text="Guardar secuencia"
+                  text="Continuar"
                   backgroundColorInit="#c21c3b"
                   backgroundColorEnd="#f9bd4f"
                   borderColor="#e17846"

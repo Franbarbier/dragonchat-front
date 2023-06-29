@@ -1,9 +1,9 @@
 import { faCloudArrowUp, faFileCircleCheck, faFileCsv, faTableColumns } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
-import { useCallback, useEffect, useState } from "react";
-import { CONSTANTS } from '../../../enums';
-import { INotification } from '../../Notification/Notification';
+import { DragEvent, useCallback, useEffect, useState } from "react";
+import { FILE, FILE_TYPE, STATUS } from '../../../enums';
+import Notification, { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
@@ -22,19 +22,26 @@ export interface IModalImportContacts {
 const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile, notification, setNotification }) => {
   const [parsedCsvData, setParsedCsvData] = useState<Array<{ numero: string, nombre: string }>>([]);
   const [isFile, setIsFile] = useState<boolean>(false);
+  const [notification, setNotification] = useState<INotification>({
+    status: STATUS.ERROR,
+    render: false,
+    message: "",
+    modalReturn: () => null,
+  })
   
 
   const parseFile = (file: File) => {
     Papa.parse(file, {
       header: true,
-      transformHeader: (header: string) => header.replaceAll('N', 'n').replaceAll('ú', 'u'),
+      skipEmptyLines: true,
+      transformHeader: (header: string) => header.toLowerCase().replaceAll('ú', 'u'),
       complete: ({ data }: { data: Array<{ numero: string, nombre: string }> }) => {
         if (data?.length > 0 && data[0].nombre && data[0].numero) {
           setIsFile(true)
-          setParsedCsvData(data)
+          setParsedCsvData(data.filter(d => d.nombre?.replaceAll(' ', '') !== '' && d.numero?.replaceAll(' ', '') !== ''))
         } else {
           setNotification({
-            status: "error",
+            status: STATUS.ERROR,
             render: true,
             message: 'El contenido del archivo es inválido',
             modalReturn: () => setNotification({ ...notification, render: false })
@@ -43,14 +50,13 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
       },
     });
   };
-  
 
   const onDropFn = useCallback((file: File) => {
-    if (file.type === 'text/csv') {
+    if (file.type === FILE_TYPE.CSV) {
       parseFile(file);
     } else {
       setNotification({
-        status: "error",
+        status: STATUS.ERROR,
         render: true,
         message: 'El contenido subido no es un archivo válido',
         modalReturn: () => setNotification({ ...notification, render: false })
@@ -82,6 +88,8 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
 
   return (
     <div>
+      <Notification {...notification} />
+
       <div className={styles.table_cont}>
         {parsedCsvData.length > 0 &&
           <HeaderRow campos={campos} />
@@ -98,12 +106,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
         <div className={styles.saveOrEdit}>
           <label className={styles.labelFile} htmlFor="csvInput">Cambiar .CSV</label>
           <input
-            onChange={(e) => {
-              if (e.target.files?.length) {
-                onDropFn(e.target.files[0]);
-              }
-            }}
-
+            onChange={(e) => (e.target.files && e.target.files.length) && onDropFn(e.target.files[0])}
             className={styles.csvInput}
             id="csvInput"
             name="file"
@@ -118,7 +121,6 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
         <>
           <div className={styles.infoCsv}>
             <div className={styles.infoTitle}>
-              {/* <h5>Importar contactos</h5> */}
               <CardTitle text="Importar contactos" />
             </div>
             <div className={styles.infoData}>
@@ -139,12 +141,12 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                 <div className={styles.infoIcon}>
                   <FontAwesomeIcon icon={faFileCircleCheck} />
                 </div>
-                <p>Puedes ver un ejemplo o descargarlo haciendo clic <b><u><a href={CONSTANTS.CSV_EXAMPLE} >ACA</a> </u></b>.</p>
+                <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href={FILE.CONTACTS_CSV} >acá</a>.</p>
               </div>
             </div>
             <div className={styles.dropCont}
               onDragOver={e => { e.preventDefault() }}
-              onDrop={e => e.dataTransfer.files && e.dataTransfer.files.length > 0 && handleDrop(e.dataTransfer.files[0], e)}
+              onDrop={e => e.dataTransfer.files.length > 0 && handleDrop(e.dataTransfer.files[0], e)}
             >
               <div>
                 <label htmlFor="csvInput" />
@@ -152,7 +154,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                 <p>Arrastrar archivo</p>
                 <button>Elegir archivo</button>
                 <input
-                  onChange={e => e.target.files && e.target.files.length > 0 && onDropFn(e.target.files[0])}
+                  onChange={e => (e.target.files && e.target.files.length > 0) && onDropFn(e.target.files[0])}
                   className={styles.csvInput}
                   id="csvInput"
                   name="file"

@@ -32,8 +32,21 @@ export enum HTTP_HEADERS_VALUES {
   APLICATION_JSON = 'application/json',
   BEARER = 'Bearer',
 };
-export enum CONSTANTS {
+export enum MESSAGE_TYPE {
   DIFUSION = 'difusion',
   CONVERSACION = 'conversacion',
-  CSV_EXAMPLE = '/Plantilla Ejemplo.numbers'
 };
+
+export enum STATUS {
+  ERROR = 'error',
+  SUCCESS = 'success',
+};
+
+export enum FILE_TYPE {
+  CSV = 'text/csv',
+};
+
+export enum FILE {
+  CONTACTS_CSV = '/Plantilla Ejemplo.numbers',
+};
+
