@@ -151,7 +151,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         })        
       });
       setTimers(localTimers);
-      // sendMessage(userInfo, arrayOfBlocks);
     }
 
   }, [sendingState])
