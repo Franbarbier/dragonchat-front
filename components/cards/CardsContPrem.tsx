@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { STATUS } from '../../enums';
 import SecuenceMessage from './Card/SecuencePremium';
 import styles from './CardsCont.module.css';
 
@@ -13,7 +14,7 @@ type IdCard = {
 export interface ContactInfo {
     name : string,
     wpp : string,
-    status? : "success" | "error" | "pending",
+    status? : STATUS.SUCCESS | STATUS.ERROR | STATUS.PENDING,
 }
 
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
@@ -130,7 +131,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
         }
         if (keyWords.length == 0) {
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message : `Agrega al menos una palabra para ${ splitModal?.type == 'exclude' ? "excluir" : "incluir"}`,
                 modalReturn : () => {
@@ -139,7 +140,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
         }
         if (splitSecuence.length == 0) {
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message :'Agrega al menos una respuesta a la secuencia',
                 modalReturn : () => {
@@ -148,7 +149,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
         }
         if (splitData.name == "") {
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message :'Debes asignarle un nombre al split',
                 modalReturn : () => {
@@ -157,7 +158,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
         }
         if ( splitSecuence[0].info == "") {
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message :'Completa al menos un mensaje',
                 modalReturn : () => {

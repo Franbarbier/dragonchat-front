@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { DragEvent, useCallback, useEffect, useState } from "react";
 import { FILE, FILE_TYPE, STATUS } from '../../../enums';
-import Notification, { INotification } from '../../Notification/Notification';
+import { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
@@ -21,14 +21,7 @@ export interface IModalImportContacts {
 
 const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile, notification, setNotification }) => {
   const [parsedCsvData, setParsedCsvData] = useState<Array<{ numero: string, nombre: string }>>([]);
-  const [isFile, setIsFile] = useState<boolean>(false);
-  const [notification, setNotification] = useState<INotification>({
-    status: STATUS.ERROR,
-    render: false,
-    message: "",
-    modalReturn: () => null,
-  })
-  
+  const [isFile, setIsFile] = useState<boolean>(false);  
 
   const parseFile = (file: File) => {
     Papa.parse(file, {
@@ -88,8 +81,6 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
 
   return (
     <div>
-      <Notification {...notification} />
-
       <div className={styles.table_cont}>
         {parsedCsvData.length > 0 &&
           <HeaderRow campos={campos} />

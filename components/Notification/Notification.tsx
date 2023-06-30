@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { STATUS } from '../../enums';
 import styles from './Notification.module.css';
 
 export interface INotification {
-    status : "success" | "error" | "alert";
+    status : STATUS.SUCCESS | STATUS.ERROR | STATUS.ALERT;
     render : boolean;
     message : string;
     modalReturn : (value:boolean) => void;
@@ -18,7 +19,7 @@ const Notification: React.FC<INotification> = ({ status, render, message, modalR
     };
 
     useEffect(() => {
-        if(render && status == "success" || status == "error"){
+        if(render && status == STATUS.SUCCESS || status == STATUS.ERROR){
             setTimeout(() => {
                 modalReturn(true);
             }, 3500);
@@ -27,7 +28,7 @@ const Notification: React.FC<INotification> = ({ status, render, message, modalR
 
     return (
         <AnimatePresence>
-            {render && (status == "success" || status == "error" ) && (
+            {render && (status == STATUS.SUCCESS || status == STATUS.ERROR ) && (
 
                 <motion.div className={styles.notificationCont}
                 initial={{ opacity: 0, x : 50 }}
@@ -37,8 +38,8 @@ const Notification: React.FC<INotification> = ({ status, render, message, modalR
                 >
 
                     <div>
-                        {status == 'success' && <img className={styles.checkNotif} src={`/check.svg`} alt="icon"/> }
-                        {status == 'error' && <img className={styles.errorNotif} src={`/close.svg`} alt="icon"/> }
+                        {status == STATUS.SUCCESS && <img className={styles.checkNotif} src={`/check.svg`} alt="icon"/> }
+                        {status == STATUS.ERROR && <img className={styles.errorNotif} src={`/close.svg`} alt="icon"/> }
                         {/* {status == 'alert' && <img className={styles.alertNotif} src={`/exclamation.svg`} alt="icon"/> } */}
                         
                         <span>{message}</span>
@@ -50,7 +51,7 @@ const Notification: React.FC<INotification> = ({ status, render, message, modalR
                     </div>
                 </motion.div>
             )}
-            {render && (status == "alert" ) && (
+            {render && (status == STATUS.ALERT ) && (
                 <motion.div className={styles.alertBckgr}
                 initial={{ opacity: 0 }}
                 exit={{ opacity: 0 }}

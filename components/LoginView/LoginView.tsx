@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
+import { STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
@@ -55,7 +56,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                 }else{
                     setLogging(false)
                     setNotification({
-                        status : "error",
+                        status : STATUS.ERROR,
                         render : true,
                         message : "Los datos son incorrectos.",
                         modalReturn : () => {
@@ -70,7 +71,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
         }else{
             setLogging(false)
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message : "Los datos estan incompletos.",
                 modalReturn : () => {

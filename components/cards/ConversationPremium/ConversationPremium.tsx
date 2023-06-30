@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
+import { STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import BlockedPreVisual from './BlockedPreVisual';
 import styles from './ConversationPremium.module.css';
@@ -96,7 +97,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
 
     return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
-            {!blocked ?
+            {blocked ?
             <>
                 {editSecuence == null ?
                     <div>
@@ -161,7 +162,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                                                         onClick={(e)=>{
                                                             e.preventDefault()
                                                             setNotification({
-                                                                status : "alert",
+                                                                status : STATUS.ALERT,
                                                                 render : true,
                                                                 message : `¿Estas seguro que quieres eliminar esta secuencia: ${secuen.name} ?`,
                                                                 modalReturn : (booleanReturn)=>{

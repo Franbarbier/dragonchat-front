@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CONSTANTS } from '../../enums';
+import { MESSAGE_TYPE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
@@ -25,7 +25,7 @@ type IdCard = {
 export interface ContactInfo {
     nombre : string,
     numero : string,
-    estado? : "success" | "error" | "pending",
+    estado? : STATUS.SUCCESS | STATUS.ERROR | STATUS.PENDING,
     selected? : boolean
 }
 
@@ -39,7 +39,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     
     const [mensaje, setMensaje] = useState<string>('')
     
-    const [tipoEnvio, setTipoEnvio] = useState<CONSTANTS.DIFUSION | CONSTANTS.CONVERSACION>(CONSTANTS.DIFUSION)
+    const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
     const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
 
@@ -69,7 +69,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [finishSending, setFinishSending] = useState<boolean>(false)
 
     const [notification, setNotification] = useState<INotification>({
-        status : "success",
+        status : STATUS.SUCCESS,
         render : false,
         message : "",
         modalReturn : ()=>{}
@@ -103,7 +103,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
     function definedMessage() {
         // if (activeCard == 2) {
-            if ( tipoEnvio == CONSTANTS.DIFUSION && mensaje != "" || tipoEnvio == CONSTANTS.CONVERSACION && selectedSecuence != null && activeCard == 2 ) {
+            if ( tipoEnvio == MESSAGE_TYPE.DIFUSION && mensaje != "" || tipoEnvio == MESSAGE_TYPE.CONVERSACION && selectedSecuence != null && activeCard == 2 ) {
                 return false
             // }
         }

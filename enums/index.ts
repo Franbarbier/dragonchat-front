@@ -40,6 +40,8 @@ export enum MESSAGE_TYPE {
 export enum STATUS {
   ERROR = 'error',
   SUCCESS = 'success',
+  ALERT = 'alert',
+  PENDING = 'pending'
 };
 
 export enum FILE_TYPE {

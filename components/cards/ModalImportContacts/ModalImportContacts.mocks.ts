@@ -1,3 +1,4 @@
+import { STATUS } from '../../../enums';
 import { IModalImportContacts } from './ModalImportContacts';
 
 const base: IModalImportContacts = {
@@ -5,7 +6,7 @@ const base: IModalImportContacts = {
     uploadContacts: (contacts) => {return false},
     inheritFile: null,
     notification: {
-        status : "error",
+        status : STATUS.ERROR,
         render : true,
         message : "El archivo debe ser un csv",
         modalReturn : () => {return false},

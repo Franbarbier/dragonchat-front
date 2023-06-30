@@ -1,3 +1,4 @@
+import { STATUS } from "../../enums";
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../Notification/Notification";
@@ -34,7 +35,7 @@ return (
                         borderColor="#5573f0"
                         onClick={()=>{
                           setNotification({
-                              status : "error",
+                              status : STATUS.ERROR,
                               render : true,
                               message : "Esta funcion no esta disponible por el momento.",
                               modalReturn : ()=>{  setNotification({...notification, render : false }) }

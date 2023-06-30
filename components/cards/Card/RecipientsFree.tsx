@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import { ContactInfo } from '../CardsContFree';
@@ -269,7 +270,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             setDroppedCsv(file)
         }else{
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message : "El archivo debe ser un csv",
                 modalReturn : () => {setNotification({...notification, render : false})}

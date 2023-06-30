@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { CONSTANTS } from '../../../enums';
+import { MESSAGE_TYPE } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
 import ConversationPremium, { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
@@ -17,7 +17,7 @@ export interface IFreeCard2 {
     notification : INotification;
     setNotification : (notification: INotification) => void;
     tipoEnvio : string;
-    setTipoEnvio : (tab: CONSTANTS.DIFUSION | CONSTANTS.CONVERSACION) => void;
+    setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
 }
 
 const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio }) => {
@@ -42,20 +42,20 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                 <div>
                     <div className={styles.tabs_cont}>
                         <div>
-                            <div className={`${styles.difu_tab} ${tipoEnvio == CONSTANTS.DIFUSION && styles.active_tab}`}
-                            onClick={ ()=>{ setTipoEnvio(CONSTANTS.DIFUSION) } }
+                            <div className={`${styles.difu_tab} ${tipoEnvio == MESSAGE_TYPE.DIFUSION && styles.active_tab}`}
+                            onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.DIFUSION) } }
                             >
                                 <h6>Difusión</h6>
                             </div>
-                            <div className={`${styles.conv_tab} ${tipoEnvio == CONSTANTS.CONVERSACION && styles.active_tab}`}
-                            onClick={ ()=>{ setTipoEnvio(CONSTANTS.CONVERSACION) } }
+                            <div className={`${styles.conv_tab} ${tipoEnvio == MESSAGE_TYPE.CONVERSACION && styles.active_tab}`}
+                            onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.CONVERSACION) } }
                             >
                                 <h6>Conversación</h6>
                             </div>
                         </div>
                     </div>
                     </div>
-                    {tipoEnvio == CONSTANTS.DIFUSION ?
+                    {tipoEnvio == MESSAGE_TYPE.DIFUSION ?
                         <div className={styles.options_cont}>
                             <div className={styles.message}>
                                 <textarea placeholder='Utilizando la variable `[name]` en tu mensaje, la misma será reemplazada por el nombre de cada uno de los destinatarios definidos en la sección anterior. Ejemplo: `Hola [name], tengo algo para enviarte que te va a encantar`' value={mensaje} onChange={ (e)=>{ setMensaje(e.target.value) } } />

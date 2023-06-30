@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiUserController from "../../api/apiUserController";
+import { STATUS } from "../../enums";
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
 import { INotification } from "../Notification/Notification";
@@ -17,7 +18,7 @@ const NewPasswordView: React.FC<INewPasswordView> = ({}) => {
   const [validOtp, setValidOtp] = useState();
 
   const [notification, setNotification] = useState<INotification>({
-    status : "success",
+    status : STATUS.SUCCESS,
     render : false,
     message : "",
     modalReturn : ()=>{}
@@ -31,7 +32,7 @@ const NewPasswordView: React.FC<INewPasswordView> = ({}) => {
         apiUserController.passwordRecoverChangePassword(otp, newPass, confirmNewPass);
     } else {
         setNotification({
-          status : "error",
+          status : STATUS.ERROR,
           render : true,
           message : "Las contaseñas no coinciden.",
           modalReturn : () => {
