@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MESSAGE_TYPE, STATUS } from '../../enums/index';
+import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
@@ -74,6 +74,9 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         message : "",
         modalReturn : ()=>{}
     })
+
+    const [sendingState, setSendingState] = useState<SENDING_STATE>(SENDING_STATE.INIT);
+
 
     const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
@@ -195,7 +198,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         shieldOptions={shieldOptions}
                         finishSending={finishSending}
                         setFinishSending={setFinishSending}
-
+                        sendingState={sendingState}
+                        setSendingState={setSendingState}
                     />
 
                     <FreeCard1 

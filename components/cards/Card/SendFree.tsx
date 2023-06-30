@@ -181,66 +181,72 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
   }, [dejarDeEnviar]);
 
-    return (
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`}>
-            
-            <div className={styles.card_container}>
-            <div>
-                <CardTitle text={!sending ? 'Enviar' : 'Enviando' } />
-            </div>
-            <div className={styles.card_table_cont}>
+  return (
+    <div
+      className={`${styles.card} ${styles["numberCard" + activeCard]} ${
+        activeCard == idCard && styles.active
+      }`}
+      id={`${styles["card" + idCard]}`}
+    >
+      <div className={styles.card_container}>
+        <div>
+          <CardTitle text={!sending ? "Enviar" : "Enviando"} />
+        </div>
+        <div className={styles.card_table_cont}>
+          <HeaderRow campos={["Nombre", "Número"]} key="header-row-sendFree" />
 
-                <HeaderRow campos={["Nombre", "Número"]} key="header-row-sendFree"/>
-             
-                <div className={`${styles.table_rows} ${styles.enviando_table}`}>
-                    {contactos.map((contact, index)=>(
+          <div className={`${styles.table_rows} ${styles.enviando_table}`}>
+            {contactos.map((contact, index) => (
+              <>
+                {contactos.length - 1 != index && (
+                  // ${contact.status == "pending" && styles.fireLoader}
+                  <div
+                    className={`${styles.row_card} ${
+                      contact.estado == "error" && styles.error
+                    } ${contact.estado == "success" && styles.success}`}
+                    key={contact.nombre + index}
+                  >
+                    <AnimatePresence>
+                      {contact.estado == "pending" && (
+                        <motion.aside
+                          className={styles.fuegoLoader}
+                          initial={{ opacity: 0 }}
+                          exit={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                        >
+                          <video autoPlay loop>
+                            <source src="/dc_fuego_min.mp4" type="video/mp4" />
+                          </video>
+                        </motion.aside>
+                      )}
+                    </AnimatePresence>
+
+                    <div className="column50">
+                      <div>
                         <>
-                        {contactos.length - 1 != index &&
-                        
-                        // ${contact.status == "pending" && styles.fireLoader}
-                            <div className={`${styles.row_card} ${contact.estado == "error" && styles.error} ${contact.estado == "success" && styles.success}`} key={contact.nombre+index} >
+                          <span>{contact.nombre}</span>
+                        </>
+                      </div>
+                    </div>
+                    <div className="column50">
+                      <div>
+                        <span>+{contact.numero}</span>
+                      </div>
+                    </div>
 
-                                <AnimatePresence>
-
-                                {contact.estado == "pending" && 
-                                    <motion.aside className={styles.fuegoLoader}
-                                        initial={{ opacity: 0 }}
-                                        exit={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                    >
-                                        <video autoPlay loop>
-                                            <source src="/dc_fuego_min.mp4" type="video/mp4" />
-                                        </video>
-                                    </motion.aside>
-                                }
-                                </AnimatePresence>
-
-                                <div className="column50">
-                                    <div>
-                                        <>
-                                        <span>{contact.nombre}</span>
-                                        </>
-                                    </div>
-                                </div>
-                                <div className="column50">
-                                    <div>
-                                        <span>+{contact.numero}</span>
-                                    </div>
-                                </div>
-                                    
-                                {/* <div className={styles.estado_envio}> */}
-                                    {contact.estado == "success" && <img className={styles.estado_envio} src="/check.svg" />}
-                                    {contact.estado == "error" && <img className={styles.estado_envio} src="/close.svg" />}
-                                {/* </div> */}
-                            </div>
-                            }
-                            </>
-                        ))
-
-                        }
-
-                    
-                </div>
+                    {/* <div className={styles.estado_envio}> */}
+                    {contact.estado == "success" && (
+                      <img className={styles.estado_envio} src="/check.svg" />
+                    )}
+                    {contact.estado == "error" && (
+                      <img className={styles.estado_envio} src="/close.svg" />
+                    )}
+                    {/* </div> */}
+                  </div>
+                )}
+              </>
+            ))}
+          </div>
 
           <div
             className={`${styles.options_cont} ${
