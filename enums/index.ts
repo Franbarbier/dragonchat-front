@@ -33,6 +33,13 @@ export enum HTTP_HEADERS_VALUES {
   BEARER = 'Bearer',
 };
 
+export enum SENDING_STATE {
+  INIT = 'init',
+  SENDING = 'sending',
+  PAUSED = 'paused',
+  FINISH = 'finish',
+};
+
 export enum STATUS {
   ERROR = 'error',
   SUCCESS = 'success',
