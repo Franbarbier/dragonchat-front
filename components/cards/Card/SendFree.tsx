@@ -8,8 +8,8 @@ import apiSenderWhatsappController from "../../../api/apiSenderWhatsappControlle
 import { SENDING_STATE } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
-import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
+import CardTitle from "../CardTitle/CardTitle";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from "./FreeCard.module.css";
 
