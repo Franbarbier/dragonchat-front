@@ -23,7 +23,7 @@ export async function middleware(req: NextRequest) {
     }
 
     const apiResponse = await fetch(
-      `${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}`,
+      `${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}?validateqr=false`,
       {
         headers: {
           [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON,
@@ -32,7 +32,7 @@ export async function middleware(req: NextRequest) {
       }
     );
     const response = await apiResponse.json();
-
+      debugger
     if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
       if (process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME) {
         req.cookies.delete(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
