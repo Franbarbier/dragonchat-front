@@ -97,7 +97,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
 
     function checkAllListFields() {
-        console.log(123)
         var values = new Set();
         for (let index = 0; index < finalList.length - 1; index++) {
             const element = finalList[index];
