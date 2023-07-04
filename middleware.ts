@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { API_SENDER_URL, LOGIN_COOKIE } from "./constants/ index";
-import { API_RESPONSES, API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from "./enums";
+import { API_PARAMS, API_RESPONSES, API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from "./enums";
 
 const handleRedirect = (req: NextRequest, route: ROUTES) => {
   const newUrl = req.nextUrl.clone();
@@ -21,9 +21,10 @@ export async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname.includes(ROUTES.LOGIN)) {
       return NextResponse.next();
     }
+    const validateQR = false;
 
     const apiResponse = await fetch(
-      `${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}?validateqr=false`,
+      `${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}?${API_PARAMS.VALIDATE_QR}=${validateQR}`,
       {
         headers: {
           [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON,
@@ -32,7 +33,7 @@ export async function middleware(req: NextRequest) {
       }
     );
     const response = await apiResponse.json();
-      debugger
+
     if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
       if (process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME) {
         req.cookies.delete(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
