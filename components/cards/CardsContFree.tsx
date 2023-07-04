@@ -242,7 +242,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
             </div>
 
-            {/* finalList.length === 1 || activeCard === 3 || checkAllListFields() || definedMessage()  */}
             <div className={`${styles.nextCard} ${ !checkNextCard() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( checkNextCard() ) setActiveCard(activeCard+1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>

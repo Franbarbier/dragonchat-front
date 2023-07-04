@@ -21,8 +21,8 @@ return (
             <div>
                 <p>Al compartir este enlace:</p>
                 <ul>
-                    <li><img src="cierto.png"/>Tu amigo ganará <span>15 mensjaes extras diarios.</span></li>
-                    <li><img src="cierto.png"/>Tu ganarás <span>10 mensjaes extras diarios.</span></li>
+                    <li><img src="cierto.png"/>Tu amigo ganará <span>15 mensajes extras diarios.</span></li>
+                    <li><img src="cierto.png"/>Tu ganarás <span>10 mensajes extras diarios.</span></li>
                 </ul>
                 <div>
                     <h6>COMPARTE TU ENLACE</h6>
