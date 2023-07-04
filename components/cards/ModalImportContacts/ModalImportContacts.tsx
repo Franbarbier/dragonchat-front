@@ -125,7 +125,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                 <div className={styles.infoIcon}>
                   <FontAwesomeIcon icon={faTableColumns} />
                 </div>
-                <p>La primer columna va a ser tomada como "Nombre" y la segunda como "Número".</p>
+                <p>La primera columna va a ser tomada como "Nombre" y la segunda como "Número".</p>
 
               </div>
               <div>
