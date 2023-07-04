@@ -133,11 +133,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
 
       let localTimers: Array<NodeJS.Timeout> = [];
+      let messagesCount = 0;
       arrayOfBlocks.forEach((block, blockIndex) => {
-        block.forEach((contact, contactIndex) => {
+        block.forEach((contact) => {
           const blockTime = (blockIndex * pausa);          
-          const contactTime = (contactIndex * timer);
-          const ms = blockTime + contactTime
+          const contactTime = (messagesCount * timer);
+          const ms = blockTime + contactTime;
+          messagesCount ++;
           const timerId = setTimeout(() => {
             const index = contacts.findIndex(
               (c) => c.numero === contact.numero

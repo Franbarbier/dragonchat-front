@@ -17,6 +17,10 @@ export enum API_ROUTES {
   IS_CONNECTED = '/whatsapp/check-user-conected',
 };
 
+export enum API_PARAMS {
+  VALIDATE_QR = 'validateqr',
+};
+
 export enum API_RESPONSES {
   UNAUTHORIZED = 'unauthorized',
   OK = 'ok'
