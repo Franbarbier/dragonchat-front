@@ -18,9 +18,11 @@ export interface IFreeCard2 {
     setNotification : (notification: INotification) => void;
     tipoEnvio : string;
     setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
+    activeSecuence : number | null;
+    setActiveSecuence : (id: number | null) => void;
 }
 
-const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence }) => {
 
     let idCard = 2;
 
@@ -31,7 +33,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
 
 
     return (
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
+        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}} key={`card${idCard}`} >
             <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
             <img src="/trama-car.svg" className={`${styles.tramaLeft} ${styles.tramas}`} />
             <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
@@ -63,7 +65,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                         </div>
                         :
                         <div>
-                            <ConversationPremium blocked={true} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} notification={notification} setNotification={setNotification} />
+                            <ConversationPremium blocked={true} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} notification={notification} setNotification={setNotification} activeSecuence={activeSecuence} setActiveSecuence={setActiveSecuence} />
                         </div>
 
                     }

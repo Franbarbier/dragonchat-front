@@ -12,6 +12,8 @@ export interface IConversationPremium {
     selectedSecuence : ISecuence | null;
     notification: INotification;
     setNotification: (notification: INotification) => void;
+    activeSecuence : number | null;
+    setActiveSecuence : (id: number | null) => void; 
 }
 
 // types of info:
@@ -48,7 +50,7 @@ interface IChatBox {
 
 
 
-const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification }) => {
+const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification, setActiveSecuence, activeSecuence }) => {
     
     const idCard = 2
  
@@ -57,7 +59,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
     const [isNew, setIsNew] = useState<number>(-1)
 
     const [editSecuence, setEditSecuence] = useState<ISecuence | null>(null)
-    const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
     const [gridHovered, setGridHovered] = useState<number | null>(null)
     const [menuOptions, setMenuOptions] = useState<number | null>(null)
 

@@ -28,8 +28,9 @@ export interface IFreeCard3 {
     pausa: number;
     bloques: number;
   };
-  finishSending: boolean;
-  setFinishSending: (finish: boolean) => void;
+
+  sendingState: SENDING_STATE;
+  setSendingState: (state: SENDING_STATE) => void;
 }
 
 const FreeCard3: React.FC<IFreeCard3> = ({
@@ -43,8 +44,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   modalShieldOptions,
   setModalShieldOptions,
   shieldOptions,
-  finishSending,
-  setFinishSending,
+  sendingState,
+  setSendingState
 }) => {
   let idCard = 3;
   let router = useRouter();
@@ -52,7 +53,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const [sending, setSending] = useState<boolean>(false);
   const [timers, setTimers] = useState<Array<NodeJS.Timeout>>([]);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
-  const [sendingState, setSendingState] = useState<SENDING_STATE>(SENDING_STATE.INIT);
 
   const [activeShield, setActiveShield] = useState<boolean>(false);
 
@@ -177,7 +177,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   useEffect(() => {
     if (dejarDeEnviar) {
       setSendingState(SENDING_STATE.FINISH);
-      setFinishSending(true);
     }
   }, [dejarDeEnviar]);
 
@@ -187,6 +186,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         activeCard == idCard && styles.active
       }`}
       id={`${styles["card" + idCard]}`}
+      key={`card${idCard}`}
     >
       <div className={styles.card_container}>
         <div>

@@ -56,6 +56,6 @@ export enum FILE_TYPE {
 };
 
 export enum FILE {
-  CONTACTS_CSV = '/Plantilla Ejemplo.numbers',
+  CONTACTS_CSV = '/ImportContactsEg.csv',
 };
 

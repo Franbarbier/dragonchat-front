@@ -66,8 +66,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [pausaBloque, setPausaBloque] = useState<number>(0);
     const [pausaMensaje, setPausaMensaje] = useState<number>(0);
 
-    const [finishSending, setFinishSending] = useState<boolean>(false)
-
     const [notification, setNotification] = useState<INotification>({
         status : STATUS.SUCCESS,
         render : false,
@@ -76,6 +74,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     })
 
     const [sendingState, setSendingState] = useState<SENDING_STATE>(SENDING_STATE.INIT);
+    const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
+    const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
 
 
     const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
@@ -94,19 +94,36 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     function handleRenderModal(render:boolean){
         setModalImport(render)
     }
+
+
     function checkAllListFields() {
+        console.log(123)
+        var values = new Set();
         for (let index = 0; index < finalList.length - 1; index++) {
             const element = finalList[index];
             if (element.nombre == "" || element.numero == "") {
                 return false
             }
+            
+            if (values.has(element.numero)) {
+                return false
+            }
+            values.add(element.numero)            
         }
         return true
     }
 
+    // useEffect(()=>{
+    //     if (finalList.length > 1 && checkAllListFields()) {
+    //         setIsNumberRepeated(false)
+    //     } else {
+    //         setIsNumberRepeated(true)
+    //     }
+    // },[finalList])
+
     function definedMessage() {
         // if (activeCard == 2) {
-            if ( tipoEnvio == MESSAGE_TYPE.DIFUSION && mensaje != "" || tipoEnvio == MESSAGE_TYPE.CONVERSACION && selectedSecuence != null && activeCard == 2 ) {
+            if ( tipoEnvio == MESSAGE_TYPE.DIFUSION && mensaje != "" || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2 ) {
                 return false
             // }
         }
@@ -117,10 +134,10 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     
         switch (activeCard) {
             case 1:
-                if (finalList.length > 1 && checkAllListFields()) setActiveCard(activeCard+1)
-                break;
+                if (finalList.length > 1 && checkAllListFields()) return true;
+                // falta agregar que no se repitan los numeros
             case 2:
-                if ( !definedMessage() ) setActiveCard(activeCard+1) 
+                if ( !definedMessage() ) return true; 
                 break;
             case 3:
                  return false
@@ -135,13 +152,14 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             case 1:
                 return false
             case 2:
-                setActiveCard(activeCard-1)
-                break;
-            case 3:
-                if (!finishSending) {   
-                    setActiveCard(activeCard-1)
+                if (sendingState != SENDING_STATE.INIT) {
+                    return false
                 }
-                break;
+            case 3:
+                if (sendingState == SENDING_STATE.FINISH || sendingState == SENDING_STATE.SENDING) {   
+                    return false
+                }
+                return true
         
             default:
                 break;
@@ -168,7 +186,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         function handleKeyPress(event: KeyboardEvent) {
             if (event.key == "Enter" && activeCard == 1) {
                 event.preventDefault()
-                checkNextCard()
+                if ( checkNextCard() ) setActiveCard(activeCard+1)
             }
         }
         document.addEventListener("keydown", handleKeyPress);
@@ -196,8 +214,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         modalShieldOptions={modalShieldOptions}
                         setModalShieldOptions={setModalShieldOptions}
                         shieldOptions={shieldOptions}
-                        finishSending={finishSending}
-                        setFinishSending={setFinishSending}
                         sendingState={sendingState}
                         setSendingState={setSendingState}
                     />
@@ -227,15 +243,20 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setNotification={setNotification}      
                         tipoEnvio={tipoEnvio}
                         setTipoEnvio={setTipoEnvio}
+                        activeSecuence={activeSecuence}
+                        setActiveSecuence={setActiveSecuence}
                     />
 
                     
 
             </div>
-            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 || checkAllListFields() || definedMessage() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ checkNextCard() } }>
+
+            {/* finalList.length === 1 || activeCard === 3 || checkAllListFields() || definedMessage()  */}
+            <div className={`${styles.nextCard} ${ !checkNextCard() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( checkNextCard() ) setActiveCard(activeCard+1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
-            <div className={`${styles.prevCard} ${activeCard == 1 || finishSending && (styles.arrow_disabled)}`} onClick={ ()=>{  checkPrevCard()} }>
+            
+            <div className={`${styles.prevCard} ${ !checkPrevCard() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( checkPrevCard() ) setActiveCard(activeCard-1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
 

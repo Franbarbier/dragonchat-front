@@ -132,7 +132,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                 <div className={styles.infoIcon}>
                   <FontAwesomeIcon icon={faFileCircleCheck} />
                 </div>
-                <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href={FILE.CONTACTS_CSV} >acá</a>.</p>
+                <p>Puedes ver un ejemplo o descargarlo haciendo clic <b><u><a href={FILE.CONTACTS_CSV} >ACA</a></u></b>.</p>
               </div>
             </div>
             <div className={styles.dropCont}
