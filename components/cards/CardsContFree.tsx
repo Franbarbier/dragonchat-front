@@ -112,19 +112,11 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         return true
     }
 
-    // useEffect(()=>{
-    //     if (finalList.length > 1 && checkAllListFields()) {
-    //         setIsNumberRepeated(false)
-    //     } else {
-    //         setIsNumberRepeated(true)
-    //     }
-    // },[finalList])
+
 
     function definedMessage() {
-        // if (activeCard == 2) {
             if ( tipoEnvio == MESSAGE_TYPE.DIFUSION && mensaje != "" || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2 ) {
                 return false
-            // }
         }
         return true
     }
