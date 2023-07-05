@@ -98,7 +98,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
 
     return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
-            {blocked ?
+            {!blocked ?
             <>
                 {editSecuence == null ?
                     <div>
