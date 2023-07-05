@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
+import { STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import BlockedPreVisual from './BlockedPreVisual';
 import styles from './ConversationPremium.module.css';
@@ -11,6 +12,8 @@ export interface IConversationPremium {
     selectedSecuence : ISecuence | null;
     notification: INotification;
     setNotification: (notification: INotification) => void;
+    activeSecuence : number | null;
+    setActiveSecuence : (id: number | null) => void; 
 }
 
 // types of info:
@@ -47,7 +50,7 @@ interface IChatBox {
 
 
 
-const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification }) => {
+const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification, setActiveSecuence, activeSecuence }) => {
     
     const idCard = 2
  
@@ -56,7 +59,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
     const [isNew, setIsNew] = useState<number>(-1)
 
     const [editSecuence, setEditSecuence] = useState<ISecuence | null>(null)
-    const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
     const [gridHovered, setGridHovered] = useState<number | null>(null)
     const [menuOptions, setMenuOptions] = useState<number | null>(null)
 
@@ -96,7 +98,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
 
     return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
-            {!blocked ?
+            {blocked ?
             <>
                 {editSecuence == null ?
                     <div>
@@ -161,7 +163,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                                                         onClick={(e)=>{
                                                             e.preventDefault()
                                                             setNotification({
-                                                                status : "alert",
+                                                                status : STATUS.ALERT,
                                                                 render : true,
                                                                 message : `¿Estas seguro que quieres eliminar esta secuencia: ${secuen.name} ?`,
                                                                 modalReturn : (booleanReturn)=>{

@@ -3,13 +3,14 @@ import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
+import { STATUS } from "../enums";
 import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
 
 const Login : NextPageWithLayout<GralProps> = (GralProps) => {
 
     const [notification, setNotification] = useState<INotification>({
-        status : "success",
+        status : STATUS.SUCCESS,
         render : false,
         message : "",
         modalReturn : ()=>{}

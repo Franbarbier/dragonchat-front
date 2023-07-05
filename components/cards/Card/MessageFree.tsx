@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { MESSAGE_TYPE } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
 import ConversationPremium, { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
@@ -11,30 +12,19 @@ export interface IFreeCard2 {
     setMensaje: (msj: string) => void;
     setSelectedSecuence:  (secuence: ISecuence | null) => void;
     selectedSecuence : ISecuence | null;
-    setReadyMessage : (ready: boolean) => void;
+   
     setBreadcrumb : (breadcrumb: IChat[]) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
+    tipoEnvio : string;
+    setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
+    activeSecuence : number | null;
+    setActiveSecuence : (id: number | null) => void;
 }
 
-const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setReadyMessage, setBreadcrumb, notification, setNotification }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence }) => {
 
     let idCard = 2;
-
-    const [tab, setTab] = useState<string>("difusion")
-
-    useEffect(()=>{ 
-        if (mensaje != "" || selectedSecuence != null) {
-            setReadyMessage(true)
-        }else{
-            setReadyMessage(false)
-        }
-    },[mensaje, selectedSecuence])
-
-    useEffect(()=>{
-        setSelectedSecuence(null)
-        setMensaje("")
-    },[tab])
 
     useEffect(()=>{
         setBreadcrumb(selectedSecuence?.chat || [])
@@ -43,7 +33,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
 
 
     return (
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
+        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}} key={`card${idCard}`} >
             <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
             <img src="/trama-car.svg" className={`${styles.tramaLeft} ${styles.tramas}`} />
             <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
@@ -54,20 +44,20 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                 <div>
                     <div className={styles.tabs_cont}>
                         <div>
-                            <div className={`${styles.difu_tab} ${tab == "difusion" && styles.active_tab}`}
-                            onClick={ ()=>{ setTab("difusion") } }
+                            <div className={`${styles.difu_tab} ${tipoEnvio == MESSAGE_TYPE.DIFUSION && styles.active_tab}`}
+                            onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.DIFUSION) } }
                             >
                                 <h6>Difusión</h6>
                             </div>
-                            <div className={`${styles.conv_tab} ${tab == "conversacion" && styles.active_tab}`}
-                            onClick={ ()=>{ setTab("conversacion") } }
+                            <div className={`${styles.conv_tab} ${tipoEnvio == MESSAGE_TYPE.CONVERSACION && styles.active_tab}`}
+                            onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.CONVERSACION) } }
                             >
                                 <h6>Conversación</h6>
                             </div>
                         </div>
                     </div>
                     </div>
-                    {tab == "difusion" ?
+                    {tipoEnvio == MESSAGE_TYPE.DIFUSION ?
                         <div className={styles.options_cont}>
                             <div className={styles.message}>
                                 <textarea placeholder='Utilizando la variable `[name]` en tu mensaje, la misma será reemplazada por el nombre de cada uno de los destinatarios definidos en la sección anterior. Ejemplo: `Hola [name], tengo algo para enviarte que te va a encantar`' value={mensaje} onChange={ (e)=>{ setMensaje(e.target.value) } } />
@@ -75,7 +65,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                         </div>
                         :
                         <div>
-                            <ConversationPremium blocked={true} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} notification={notification} setNotification={setNotification} />
+                            <ConversationPremium blocked={true} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} notification={notification} setNotification={setNotification} activeSecuence={activeSecuence} setActiveSecuence={setActiveSecuence} />
                         </div>
 
                     }

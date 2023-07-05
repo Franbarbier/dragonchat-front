@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
 import apiUserController from "../../api/apiUserController";
 import { LOGIN_COOKIE } from "../../constants/ index";
-import { ROUTES } from '../../enums';
+import { ROUTES, STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
@@ -34,7 +34,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
 
 
   const [notification, setNotification] = useState<INotification>({
-    status: "success",
+    status: STATUS.SUCCESS,
     render: false,
     message: "",
     modalReturn: () => { }
@@ -74,7 +74,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
       const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
 
       setNotification({
-        status: "success",
+        status: STATUS.SUCCESS,
         render: true,
         message: "Perfil actualizado de forma exitosa!",
         modalReturn: () => {
@@ -84,7 +84,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
 
     } catch (error: any) {
       setNotification({
-        status: "error",
+        status: STATUS.ERROR,
         render: true,
         message: "Ups! algo salió mal.",
         modalReturn: () => {

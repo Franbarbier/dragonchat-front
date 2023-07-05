@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 
 import { IChat } from './ConversationPremium';
@@ -198,7 +199,7 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
                         <div>
                             <img src="/delete_white.svg" alt="delete split"  onClick={()=>{
                                     setNotification({
-                                        status : "alert",
+                                        status : STATUS.ALERT,
                                         render : true,
                                         message : "¿Desea eliminar este split?",
                                         modalReturn : (booleanReturn)=>{

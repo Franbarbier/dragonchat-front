@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
@@ -24,7 +25,7 @@ type IdCard = {
 export interface ContactInfo {
     nombre : string,
     numero : string,
-    estado? : "success" | "error" | "pending",
+    estado? : STATUS.SUCCESS | STATUS.ERROR | STATUS.PENDING,
     selected? : boolean
 }
 
@@ -32,15 +33,15 @@ export interface ContactInfo {
 
 const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
-    
-    // const [activeCard, setActiveCard] = useState<IdCard>(1)
     const [activeCard, setActiveCard] = useState<number>(1)
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
     const [mensaje, setMensaje] = useState<string>('')
+    
+    const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
+
     const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
-    const [readMessage, setReadyMessage] = useState<boolean>(false)
 
     const [droppedCsv, setDroppedCsv] = useState<File | null>(null)
 
@@ -58,35 +59,30 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     })
 
 
-    const [wppMessage, setWppMessage] = useState<boolean>(false)
     const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
     const [renderDialog, setRenderDialog] = useState<boolean>(true)
-    const [dragonAnim, setDragonAnim] = useState<string>('')
 
-    const [finishSending, setFinishSending] = useState<boolean>(false)
+    const [tamanoBloque, setTamanoBloque] = useState<number>(0);
+    const [pausaBloque, setPausaBloque] = useState<number>(0);
+    const [pausaMensaje, setPausaMensaje] = useState<number>(0);
 
     const [notification, setNotification] = useState<INotification>({
-        status : "success",
+        status : STATUS.SUCCESS,
         render : false,
         message : "",
         modalReturn : ()=>{}
     })
 
+    const [sendingState, setSendingState] = useState<SENDING_STATE>(SENDING_STATE.INIT);
+    const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
+    const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
 
-
-    function handleReturnModal(value:boolean) {
-        setNotification({...notification, render : false})
-    }
 
     const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
     
 
 
-    
 
-
-    
-    
     function handleNewContact(newContact:ContactInfo) {
         setContactos([...contactos, newContact])
     }
@@ -98,12 +94,29 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     function handleRenderModal(render:boolean){
         setModalImport(render)
     }
+
+
     function checkAllListFields() {
+        var values = new Set();
         for (let index = 0; index < finalList.length - 1; index++) {
             const element = finalList[index];
             if (element.nombre == "" || element.numero == "") {
                 return false
             }
+            
+            if (values.has(element.numero)) {
+                return false
+            }
+            values.add(element.numero)            
+        }
+        return true
+    }
+
+
+
+    function definedMessage() {
+            if ( tipoEnvio == MESSAGE_TYPE.DIFUSION && mensaje != "" || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2 ) {
+                return false
         }
         return true
     }
@@ -112,10 +125,10 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     
         switch (activeCard) {
             case 1:
-                if (finalList.length > 1 && checkAllListFields()) setActiveCard(activeCard+1)
-                break;
+                if (finalList.length > 1 && checkAllListFields()) return true;
+                // falta agregar que no se repitan los numeros
             case 2:
-                if (readMessage) setActiveCard(activeCard+1)
+                if ( !definedMessage() ) return true; 
                 break;
             case 3:
                  return false
@@ -130,13 +143,14 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             case 1:
                 return false
             case 2:
-                setActiveCard(activeCard-1)
-                break;
-            case 3:
-                if (!finishSending) {   
-                    setActiveCard(activeCard-1)
+                if (sendingState != SENDING_STATE.INIT) {
+                    return false
                 }
-                break;
+            case 3:
+                if (sendingState == SENDING_STATE.FINISH || sendingState == SENDING_STATE.SENDING) {   
+                    return false
+                }
+                return true
         
             default:
                 break;
@@ -151,11 +165,9 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         })
         const lastObject = contactos[contactos.length - 1];
 
-        // if (lastObject != undefined) {   
             if (lastObject.hasOwnProperty("nombre") && lastObject.nombre != "" || lastObject.hasOwnProperty("numero") && lastObject.numero != "" ) {
                 filtered = [...filtered, {'nombre':'', 'numero':''}]
             }
-        // }
 
         setFinalList(filtered)
         
@@ -165,7 +177,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         function handleKeyPress(event: KeyboardEvent) {
             if (event.key == "Enter" && activeCard == 1) {
                 event.preventDefault()
-                checkNextCard()
+                if ( checkNextCard() ) setActiveCard(activeCard+1)
             }
         }
         document.addEventListener("keydown", handleKeyPress);
@@ -193,9 +205,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         modalShieldOptions={modalShieldOptions}
                         setModalShieldOptions={setModalShieldOptions}
                         shieldOptions={shieldOptions}
-                        finishSending={finishSending}
-                        setFinishSending={setFinishSending}
-
+                        sendingState={sendingState}
+                        setSendingState={setSendingState}
                     />
 
                     <FreeCard1 
@@ -212,7 +223,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setNotification={setNotification}
                     />
                     <FreeCard2
-                        setReadyMessage={setReadyMessage}
                         setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
                         mensaje={mensaje}
@@ -221,16 +231,22 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setSelectedSecuence={setSelectedSecuence}
                         setBreadcrumb={setBreadcrumb}
                         notification={notification}
-                        setNotification={setNotification}         
+                        setNotification={setNotification}      
+                        tipoEnvio={tipoEnvio}
+                        setTipoEnvio={setTipoEnvio}
+                        activeSecuence={activeSecuence}
+                        setActiveSecuence={setActiveSecuence}
                     />
 
                     
 
             </div>
-            <div className={`${styles.nextCard} ${finalList.length === 1 || activeCard === 3 || !checkAllListFields() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ checkNextCard() } }>
+
+            <div className={`${styles.nextCard} ${ !checkNextCard() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( checkNextCard() ) setActiveCard(activeCard+1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
-            <div className={`${styles.prevCard} ${activeCard == 1 || finishSending && (styles.arrow_disabled)}`} onClick={ ()=>{  checkPrevCard()} }>
+            
+            <div className={`${styles.prevCard} ${ !checkPrevCard() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( checkPrevCard() ) setActiveCard(activeCard-1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
 
@@ -267,7 +283,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 <div className={styles.modal_position_card1}>
                     <div>
                         <ModalContainer closeModal={ handleRenderModal } >
-                            <ModalImportContacts setModalImport={setModalImport} uploadContacts={setContactos} inheritFile={droppedCsv}/>
+                            <ModalImportContacts setModalImport={setModalImport} uploadContacts={setContactos} inheritFile={droppedCsv} notification={notification} setNotification={setNotification} />
                         </ModalContainer>
                     </div>
                 </div>
@@ -276,7 +292,13 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 <div className={styles.modal_shield_option}>
                     <div>
                         <ModalContainer closeModal={ ()=>{ setModalShieldOptions(false) } } addedClass={"modal_shield_option"}>
-                            <ModalShieldOptions setShieldOptions={setShieldOptions} setModalShieldOptions={setModalShieldOptions} />
+                            <ModalShieldOptions setShieldOptions={setShieldOptions} setModalShieldOptions={setModalShieldOptions}
+                            tamanoBloque={tamanoBloque}
+                            setTamanoBloque={setTamanoBloque}
+                            pausaBloque={pausaBloque}
+                            setPausaBloque={setPausaBloque}
+                            pausaMensaje={pausaMensaje}
+                            setPausaMensaje={setPausaMensaje} />
                         </ModalContainer>
                     </div>
                 </div>

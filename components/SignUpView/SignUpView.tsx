@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
+import { STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
 import { INotification } from '../Notification/Notification';
@@ -26,7 +27,7 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
     const [userExists, setUserExists] = useState(false)
 
     const [notification, setNotification] = useState<INotification>({
-        status : "success",
+        status : STATUS.SUCCESS,
         render : false,
         message : "",
         modalReturn : ()=>{}
@@ -38,7 +39,7 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
                 await apiUserController.signUp(name, email, pass, confirmPass, setUserExists);
             }else{
                 setNotification({
-                    status : "error",
+                    status : STATUS.ERROR,
                     render : true,
                     message : "Asegurate de completar todos los campos!",
                     modalReturn : ()=>{setNotification({...notification, render : false })}
@@ -46,7 +47,7 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
             }
         }else{
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message : "Las contraseñas no coinciden!",
                 modalReturn : ()=>{setNotification({...notification, render : false })}
