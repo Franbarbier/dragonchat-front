@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import Breadcrumb from './Breadcrumb';
@@ -67,7 +68,7 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
 
         if (secuenceInfo.name == "" ) {
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message : "Debes asignarle un nombre a la secuencia",
                 modalReturn : () => {
@@ -77,7 +78,7 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
         }
         if (secuenceInfo.chat.length == 0) {
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message : "Debes agregar al menos un mensaje a la secuencia",
                 modalReturn : () => {
@@ -87,7 +88,7 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
         }
         if (secuenceInfo.chat[0].info == "") {
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message : "No puedes enviar un mensaje vacío",
                 modalReturn : () => {
@@ -143,7 +144,7 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                                     onClick={()=>{
                                         if(secuenceInfoChat.length > 0){
                                             setNotification({
-                                                status : "alert",
+                                                status : STATUS.ALERT,
                                                 render : true,
                                                 message : "¿Estas seguro que quieres salir sin guardar los cambios?",
                                                 modalReturn : (booleanReturn)=>{

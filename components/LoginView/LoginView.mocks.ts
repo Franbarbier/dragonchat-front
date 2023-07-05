@@ -1,8 +1,9 @@
+import { STATUS } from '../../enums';
 import { ILoginView } from './LoginView';
 
 const base: ILoginView = {
     notification : {
-        status : "success",
+        status : STATUS.SUCCESS,
         render : true,
         message : "string",
         modalReturn : (value) => {return false}

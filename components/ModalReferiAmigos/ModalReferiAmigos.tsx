@@ -1,3 +1,4 @@
+import { STATUS } from "../../enums";
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../Notification/Notification";
@@ -20,8 +21,8 @@ return (
             <div>
                 <p>Al compartir este enlace:</p>
                 <ul>
-                    <li><img src="cierto.png"/>Tu amigo ganará <span>15 mensjaes extras diarios.</span></li>
-                    <li><img src="cierto.png"/>Tu ganarás <span>10 mensjaes extras diarios.</span></li>
+                    <li><img src="cierto.png"/>Tu amigo ganará <span>15 mensajes extras diarios.</span></li>
+                    <li><img src="cierto.png"/>Tu ganarás <span>10 mensajes extras diarios.</span></li>
                 </ul>
                 <div>
                     <h6>COMPARTE TU ENLACE</h6>
@@ -34,7 +35,7 @@ return (
                         borderColor="#5573f0"
                         onClick={()=>{
                           setNotification({
-                              status : "error",
+                              status : STATUS.ERROR,
                               render : true,
                               message : "Esta funcion no esta disponible por el momento.",
                               modalReturn : ()=>{  setNotification({...notification, render : false }) }

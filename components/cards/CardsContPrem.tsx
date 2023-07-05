@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { STATUS } from '../../enums';
 import SecuenceMessage from './Card/SecuencePremium';
 import styles from './CardsCont.module.css';
 
@@ -13,20 +14,14 @@ type IdCard = {
 export interface ContactInfo {
     name : string,
     wpp : string,
-    status? : "success" | "error" | "pending",
+    status? : STATUS.SUCCESS | STATUS.ERROR | STATUS.PENDING,
 }
 
-// interface contactosArr extends Array<ContactInfo>{}
 
 const CardsCont: React.FC<ICardsCont> = ({  }) => {
 
     
-    // const [activeCard, setActiveCard] = useState<IdCard>(1)
     const [activeCard, setActiveCard] = useState<number>(1)
-    const [contactos, setContactos] = useState<ContactInfo[]>([])
-    const [mensaje, setMensaje] = useState<string>('')
-    const [modalImport, setModalImport] = useState<boolean>(false)
-
 
     return (
         <div>

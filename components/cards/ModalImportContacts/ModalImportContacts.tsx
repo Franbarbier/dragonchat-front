@@ -2,30 +2,26 @@ import { faCloudArrowUp, faFileCircleCheck, faFileCsv, faTableColumns } from '@f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
-import Notification, { INotification } from '../../Notification/Notification';
+import { FILE, FILE_TYPE, STATUS } from '../../../enums';
+import { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
-import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
+import CardTitle from "../CardTitle/CardTitle";
 import ContactRow from "../ContactRow/ContactRow";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from './ModalImportContacts.module.css';
-import { FILE, FILE_TYPE, STATUS } from '../../../enums';
 
 export interface IModalImportContacts {
   setModalImport: (render: boolean) => void;
   uploadContacts: (contacts: ContactInfo[]) => void;
   inheritFile: File | null;
+  notification: INotification;
+  setNotification: (notification: INotification) => void;
 };
 
-const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile }) => {
+const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile, notification, setNotification }) => {
   const [parsedCsvData, setParsedCsvData] = useState<Array<{ numero: string, nombre: string }>>([]);
-  const [isFile, setIsFile] = useState<boolean>(false);
-  const [notification, setNotification] = useState<INotification>({
-    status: STATUS.ERROR,
-    render: false,
-    message: "",
-    modalReturn: () => null,
-  })
+  const [isFile, setIsFile] = useState<boolean>(false);  
 
   const parseFile = (file: File) => {
     Papa.parse(file, {
@@ -85,8 +81,6 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
 
   return (
     <div>
-      <Notification {...notification} />
-
       <div className={styles.table_cont}>
         {parsedCsvData.length > 0 &&
           <HeaderRow campos={campos} />
@@ -131,14 +125,14 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                 <div className={styles.infoIcon}>
                   <FontAwesomeIcon icon={faTableColumns} />
                 </div>
-                <p>La primer columna va a ser tomada como "Nombre" y la segunda como "Número".</p>
+                <p>La primera columna va a ser tomada como "Nombre" y la segunda como "Número".</p>
 
               </div>
               <div>
                 <div className={styles.infoIcon}>
                   <FontAwesomeIcon icon={faFileCircleCheck} />
                 </div>
-                <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href={FILE.CONTACTS_CSV} >acá</a>.</p>
+                <p>Puedes ver un ejemplo o descargarlo haciendo clic <b><u><a href={FILE.CONTACTS_CSV} >ACA</a></u></b>.</p>
               </div>
             </div>
             <div className={styles.dropCont}

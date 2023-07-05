@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import { ContactInfo } from '../CardsContFree';
@@ -25,9 +26,7 @@ export interface IFreeCard1 {
     setNotification : (notification: INotification) => void;
 }
 
-// type setPropsType = {
 
-const allowedExtensions = ["csv"];
 interface ICustomContextMenu {
     position: { x: number; y: number; index: number, type: string };
     contextVisible: boolean;
@@ -79,7 +78,7 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     )
 }
 
-const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
+const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification}) => {
 
 
     let idCard = 1;
@@ -214,9 +213,23 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         setContactos(selectedList)
     }
 
+    
+    useEffect(()=>{
 
-
-
+        let values = new Set();
+        for (let index = 0; index < finalList.length - 1; index++) {
+            const element = finalList[index];            
+            if (values.has(element.numero)) {
+                setNotification({
+                    status : STATUS.ERROR,
+                    render : true,
+                    message : "No puede haber numeros repetidos en la lista.",
+                    modalReturn : () => {setNotification({...notification, render : false})}
+                })
+            }
+            values.add(element.numero)            
+        }
+    },[finalList])
 
     // menu right clic
     const [position, setPosition] = useState({ x: 0, y: 0 , index: 0, type : ''});
@@ -270,7 +283,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             setDroppedCsv(file)
         }else{
             setNotification({
-                status : "error",
+                status : STATUS.ERROR,
                 render : true,
                 message : "El archivo debe ser un csv",
                 modalReturn : () => {setNotification({...notification, render : false})}
@@ -282,7 +295,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
     return (
 
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
+        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}} key={`card${idCard}`} >
             
 
             <CustomContextMenu position={position} contextVisible={contextVisible} executeFormat={executeFormat} setContactos={setContactos} finalList={finalList} notification={notification} setNotification={setNotification} />
@@ -295,7 +308,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             <div className={styles.card_container} >
                 <div>
                     <CardTitle text={`${finalList.length - 1} Destinatarios`} />
-
                 </div>
                 {/* <div className={styles.card_table_cont}> */}
                     
@@ -311,7 +323,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                         
                     <div className={`${styles.grilla_oficial} ${isDragging && styles.draggedIcon }`} >
                         {finalList.map((elementInArray, index) => ( 
-                                <div className={styles.row_table}>
+                                <div className={styles.row_table} key={`recipient${index}`} >
                                     <div>
                                     { finalList.length - 1 !=  index ?
                                         <aside onClick={ ()=>{ setSelection(index) } } className={ `${elementInArray.selected && styles.rowSelected}`  }>

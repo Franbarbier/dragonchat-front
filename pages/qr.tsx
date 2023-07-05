@@ -8,7 +8,7 @@ import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from '../components/Notification/Notification';
 import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
-import { ROUTES } from "../enums";
+import { ROUTES, STATUS } from "../enums";
 import useDeviceType from "../utils/checkDevice";
 import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
@@ -49,7 +49,7 @@ const Qr: NextPageWithLayout<GralProps> = () => {
   }
 
   const [notification, setNotification] = useState<INotification>({
-    status : "success",
+    status : STATUS.SUCCESS,
     render : false,
     message : "",
     modalReturn : ()=>{}

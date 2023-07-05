@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { STATUS } from '../../enums';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
 import ModalTimer from '../ModalTimer/ModalTimer';
@@ -47,7 +48,7 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
 
     
     const [notification, setNotification] = useState<INotification>({
-        status : "success",
+        status : STATUS.SUCCESS,
         render : false,
         message : "",
         modalReturn : ()=>{}
