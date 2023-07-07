@@ -38,6 +38,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
     const [mensaje, setMensaje] = useState<string>('')
+    const [messages, setMessages] = useState<string[]>([''])
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
@@ -115,7 +116,10 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
 
     function definedMessage() {
-            if ( tipoEnvio == MESSAGE_TYPE.DIFUSION && mensaje != "" || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2 ) {
+
+        function hasEmptyString() { return messages.some((str) => str === ''); }
+
+        if ( tipoEnvio == MESSAGE_TYPE.DIFUSION && !hasEmptyString() || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2 ) {
                 return false
         }
         return true
@@ -207,6 +211,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         shieldOptions={shieldOptions}
                         sendingState={sendingState}
                         setSendingState={setSendingState}
+                        messages={messages}
                     />
 
                     <FreeCard1 
@@ -236,6 +241,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setTipoEnvio={setTipoEnvio}
                         activeSecuence={activeSecuence}
                         setActiveSecuence={setActiveSecuence}
+                        messages={messages}
+                        setMessages={setMessages}
                     />
 
                     
