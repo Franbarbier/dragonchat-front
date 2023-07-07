@@ -18,18 +18,6 @@ const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notifi
     const copy = useRef<HTMLTextAreaElement>(null);
 
     const textToCopy = '[name]';
-
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(text)
-          .then(() => {
-            console.log('Text copied to clipboard:', text);
-            // Set a state variable to indicate the success message
-          })
-          .catch((error) => {
-            console.error('Error copying text to clipboard:', error);
-            // Set a state variable to indicate the error message
-          });
-      };
       
     const handleCopy = () => {
         navigator.clipboard.writeText(copy.current!.innerHTML)
