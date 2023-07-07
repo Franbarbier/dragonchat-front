@@ -107,13 +107,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     onSuccess();
   }
 
-  // for (let i = 0; i < 10; i++) {
-  //   const stringIndex = i % messages.length;
-  //   const currentString = messages[stringIndex];
-  //   // Send currentString to the recipient
-  
-  //   console.log(`Sending ${currentString} to recipient ${i + 1}`);
-  // }
+
 
   useEffect(() => {
 

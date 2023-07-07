@@ -1,7 +1,33 @@
 .basicMessages_cont>div{
-  height: 53vh;
+  height: 42vh;
   overflow: auto;
   padding: 5px;
+}
+.basicMessages_cont ul li {
+  list-style: circle;
+  font-size: 0.8em;
+  padding: 0 5px;
+  margin-bottom: 10px;
+  width: 95%;
+  margin-left: 5%;
+  letter-spacing: 1px;
+}
+
+.basicMessages_cont ul li strong{
+  cursor: pointer;
+  position: relative;
+}
+.copied::after {
+  content: "Copied!";
+  background-color: green;
+  position: absolute;
+  font-weight: 300;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 115%;
+  padding: 3px 5px;
+  border-radius: 5px;
+  transition: .2s;
 }
 .messages_cont{
   display: flex;

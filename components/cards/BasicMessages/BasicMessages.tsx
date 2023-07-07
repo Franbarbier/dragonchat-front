@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
@@ -13,8 +14,41 @@ export interface IBasicMessages {
 
 const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notification, setNotification }) => {
    
+
+    const copy = useRef<HTMLTextAreaElement>(null);
+
+    const textToCopy = '[name]';
+
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text)
+          .then(() => {
+            console.log('Text copied to clipboard:', text);
+            // Set a state variable to indicate the success message
+          })
+          .catch((error) => {
+            console.error('Error copying text to clipboard:', error);
+            // Set a state variable to indicate the error message
+          });
+      };
+      
+    const handleCopy = () => {
+        navigator.clipboard.writeText(copy.current!.innerHTML)
+        .then(() => {
+            // add class to ref
+            copy.current!.classList.add(styles.copied);
+            setTimeout(()=>{
+                copy.current!.classList.remove(styles.copied);
+            }
+            , 2000)
+        })
+    };
+  
     return (
             <div className={styles.basicMessages_cont}>
+                <ul>
+                    <li>Escribiendo <strong ref={copy} onClick={ handleCopy }>[name]</strong> se va a enviar dinamicamente el nombre del destinatario.</li>
+                    <li>Puedes agregar alternativas del mensaje que se enviará, se alternaran equitativamente entre todos los destinatarios.</li>
+                </ul>
                <div>
                     {messages.map((message, index)=>{
                         return (
@@ -49,7 +83,7 @@ const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notifi
                     <div>
                         <CustomColorBtn
                             type="submit"
-                            text="Agregar nuevo mensaje"
+                            text="Agregar alternativa de mensaje"
                             backgroundColorInit="#13013780"
                             backgroundColorEnd="#13013780"
                             borderColor="var(--newViolet)"
