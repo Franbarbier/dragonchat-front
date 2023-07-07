@@ -16,8 +16,6 @@ const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notifi
    
 
     const copy = useRef<HTMLTextAreaElement>(null);
-
-    const textToCopy = '[name]';
       
     const handleCopy = () => {
         navigator.clipboard.writeText(copy.current!.innerHTML)
