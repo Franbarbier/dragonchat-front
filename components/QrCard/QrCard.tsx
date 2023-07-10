@@ -76,9 +76,31 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                 <CardTitle text="Vincular dispositivo" />
 
                 {activeQr && (
-                    <div>
-                        <h4>{'Escanea el QR y aguarda un momento  : )'}</h4>
-                        <img src={activeQr} width="75%" alt="qrWhatsappImage" onLoad={handleIsConnected} />
+                    <div className={styles.qrSteps}>
+                        
+                        <div className={styles.instruciones_cont}>
+                            <div>
+                                <img src='/cellphone.svg' />
+                                <p>Desde tu WhatsApp</p>
+                            </div>
+                            <div>
+                                    <img src='/settings1.svg' />
+                                    <div>
+                                        <p>Dispositivos vinculados</p>
+                                        <span>(Dentro de "Ajustes" en iOS)</span>
+                                    </div>
+                            </div>
+                            <div>
+                                <img src='/touch.svg' />
+                                <p> "Vincular un dispositivo"</p>
+                            </div>
+                        </div>
+
+                        <div className={styles.qrImg_cont}>
+                            <h4>{'Escanea el QR y aguarda un momento  : )'}</h4>
+                            <img src={activeQr} alt="qrWhatsappImage" onLoad={handleIsConnected} />
+                        </div>
+
                     </div>
                 )}
                 {!activeQr && (

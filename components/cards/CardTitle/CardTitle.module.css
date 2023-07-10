@@ -11,7 +11,6 @@
   font-weight: 600;
   font-size: 18px;
   letter-spacing: 1px;
-  /* color: var(--rosita2); */
   background: linear-gradient(to top right, #eee, var(--rosita2) 30%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -20,11 +19,10 @@
   position: relative;
   padding: 0 5%;
   width: fill-available;
-  white-space: pre;
+  /* white-space: pre; */
 }
 
 .title_lines {
-  /* width: 100%; */
   height: 2px;
   display: block;
   background-color: rebeccapurple;

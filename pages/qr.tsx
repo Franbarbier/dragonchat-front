@@ -60,7 +60,7 @@ const Qr: NextPageWithLayout<GralProps> = () => {
 
 
   return (
-    <section style={{"paddingTop": isMobile ? "15%" : '' }}>
+    <section style={{"paddingTop": isMobile ? "15%" : '0%' }}>
       <Loader loading={loading} />
       <Notification {...notification} />
 
@@ -71,9 +71,11 @@ const Qr: NextPageWithLayout<GralProps> = () => {
         >LOG OUT</button>
       </div>
       {queue == 0 ? (
-        <MainCont width={isMobile ? 90 : 40} style={ isMobile ? {'top' : "55%" } : {}  }>
-          <QrCard notification={notification} setNotification={setNotification}/>
-        </MainCont>
+        <>
+          <MainCont width={isMobile ? 90 : 40} style={ isMobile ? {'top' : "55%" } : {'top' : "50%" }  }>
+            <QrCard notification={notification} setNotification={setNotification}/>
+          </MainCont>
+        </>
       ) :
         <QrWaitingRoom queue={queue} />
       }
