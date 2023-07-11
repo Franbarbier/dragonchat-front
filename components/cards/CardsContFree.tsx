@@ -105,6 +105,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 return false
             }
             
+            console.log(element.numero, values.has(element.numero))
+            
             if (values.has(element.numero)) {
                 return false
             }
@@ -113,19 +115,13 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
         return true
     }
 
-    // return !(tipoEnvio == MESSAGE_TYPE.DIFUSION && !hasEmptyString() || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2)
-
 
     function definedMessage() {
 
         function hasEmptyString() { return messages.some((str) => str === ''); }
 
-        console.log("test codigo pablo", !(tipoEnvio == MESSAGE_TYPE.DIFUSION && !hasEmptyString() || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2))
+        return !(tipoEnvio == MESSAGE_TYPE.DIFUSION && !hasEmptyString() || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2)
 
-        if ( tipoEnvio == MESSAGE_TYPE.DIFUSION && !hasEmptyString() || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2 ) {
-                return false
-        }
-        return true
     }
 
     function checkNextCard() {
