@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { MESSAGE_TYPE } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
+import BasicMessages from '../BasicMessages/BasicMessages';
 import CardTitle from '../CardTitle/CardTitle';
 import ConversationPremium, { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
 import styles from './FreeCard.module.css';
@@ -20,9 +21,12 @@ export interface IFreeCard2 {
     setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
     activeSecuence : number | null;
     setActiveSecuence : (id: number | null) => void;
+
+    messages : string[];
+    setMessages : (mensajes: string[]) => void;
 }
 
-const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence, messages, setMessages }) => {
 
     let idCard = 2;
 
@@ -59,9 +63,11 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                     </div>
                     {tipoEnvio == MESSAGE_TYPE.DIFUSION ?
                         <div className={styles.options_cont}>
-                            <div className={styles.message}>
+                            {/* <div className={styles.message}>
                                 <textarea placeholder='Utilizando la variable `[name]` en tu mensaje, la misma será reemplazada por el nombre de cada uno de los destinatarios definidos en la sección anterior. Ejemplo: `Hola [name], tengo algo para enviarte que te va a encantar`' value={mensaje} onChange={ (e)=>{ setMensaje(e.target.value) } } />
-                            </div>
+                            </div> */}
+                            <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
+                            
                         </div>
                         :
                         <div>

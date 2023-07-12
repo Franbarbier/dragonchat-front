@@ -219,7 +219,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         let values = new Set();
         for (let index = 0; index < finalList.length - 1; index++) {
             const element = finalList[index];            
-            if (values.has(element.numero)) {
+            if (values.has(element.numero) && element.numero != "") {
                 setNotification({
                     status : STATUS.ERROR,
                     render : true,

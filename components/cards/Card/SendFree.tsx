@@ -31,6 +31,7 @@ export interface IFreeCard3 {
 
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
+  messages: string[];
 }
 
 const FreeCard3: React.FC<IFreeCard3> = ({
@@ -45,10 +46,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   setModalShieldOptions,
   shieldOptions,
   sendingState,
-  setSendingState
+  setSendingState,
+  messages
 }) => {
   let idCard = 3;
   let router = useRouter();
+  const sendingTime = (Math.floor(Math.random() * 5) + 1)*1000;
 
   const [sending, setSending] = useState<boolean>(false);
   const [timers, setTimers] = useState<Array<NodeJS.Timeout>>([]);
@@ -56,15 +59,24 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   const [activeShield, setActiveShield] = useState<boolean>(false);
 
-  const [timer, setTimer] = useState(200);
+  const [timer, setTimer] = useState(sendingTime);
   const [bloques, setBloques] = useState<number>(0);
   const [pausa, setPausa] = useState<number>(0);
 
   async function sendMove(userInfo, count) {
+
+    
+
     const destinatario = contactos[count];
     let newContacts = [...contactos];
     newContacts[count].estado = STATUS.PENDING;
     setContactos(newContacts);
+    
+    // Check which message to send
+    const stringIndex = count % messages.length;
+    const currentMessage = messages[stringIndex];
+
+    // Send currentString to the recipient    
     const onSuccess = () => {
       if (sentMessage?.status == 200) {
         let newContacts = [...contactos];
@@ -84,17 +96,18 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     const authToken = JSON.parse(
       Cookie.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)
     ).access_token;
+    
     const sentMessage = await apiSenderWhatsappController.sendMessage(
       userInfo.user_id,
       destinatario.nombre,
-      mensaje,
+      mensaje = currentMessage,
       destinatario.numero,
       authToken
     );
     onSuccess();
   }
 
-  
+
 
   useEffect(() => {
 
@@ -171,7 +184,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   useEffect(() => {
     setActiveShield(true);
-    setTimer(shieldOptions.timer > 0 ? shieldOptions.timer * 1000 : 200);
+    setTimer(shieldOptions.timer > 0 ? (shieldOptions.timer * 1000) + sendingTime : sendingTime);
     setBloques(shieldOptions.bloques);
     setPausa(shieldOptions.pausa * 1000);
   }, [shieldOptions]);
