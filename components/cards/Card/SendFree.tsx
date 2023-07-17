@@ -96,6 +96,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     const authToken = JSON.parse(
       Cookie.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)
     ).access_token;
+
+    console.log(count, timer, sendingTime, destinatario.numero)
     
     const sentMessage = await apiSenderWhatsappController.sendMessage(
       userInfo.user_id,
