@@ -41,7 +41,7 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
 
 
     function handlerPegar() {
-        navigator.clipboard.readText().then(text => { console.log(text);executeFormat( text, position.type, position.index)}) .catch(err => console.error('Failed to read clipboard contents: ', err));
+        navigator.clipboard.readText().then(text => { executeFormat( text, position.type, position.index)}) .catch(err => console.error('Failed to read clipboard contents: ', err));
     }
     function handleEliminar() {
         const filteredArr = [...finalList];
