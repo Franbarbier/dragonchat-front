@@ -105,7 +105,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 return false
             }
             
-            console.log(element.numero, values.has(element.numero))
             
             if (values.has(element.numero)) {
                 return false
