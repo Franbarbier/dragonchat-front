@@ -102,8 +102,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       destinatario.nombre,
       mensaje = currentMessage,
       destinatario.numero,
-      authToken,
-      cronometro
+      authToken
     );
     onSuccess();
   }

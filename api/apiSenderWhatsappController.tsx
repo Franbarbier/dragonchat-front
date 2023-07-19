@@ -22,7 +22,7 @@ const apiSenderWhatsappController = {
             return error
         }
     },
-    sendMessage: async (user, name, message, phone, authToken: string, cronometro) => {
+    sendMessage: async (user, name, message, phone, authToken: string) => {
         try {
             const payload = { user, name, message, phone };
             const response = await axios.post(`${API_SENDER_URL}${API_ROUTES.SEND_MSG}`, payload, { headers: getHeaders(authToken) });
