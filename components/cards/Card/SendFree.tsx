@@ -205,12 +205,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }, [dejarDeEnviar]);
 
   const [cronometro, setCronometro] = useState<number>(0);
-
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-
     if (toggle) {
       intervalId = setInterval(() => {
         // Lógica de la función a ejecutar cada X segundos
@@ -224,7 +222,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }, [toggle]);
 
 
-  
   return (
 
     
