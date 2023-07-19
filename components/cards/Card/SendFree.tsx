@@ -177,8 +177,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   const handleButtonClick = async () => {
 
-    setToggle(true);
-
     if (sendingState === SENDING_STATE.INIT || sendingState === SENDING_STATE.PAUSED) {
       setSendingState(SENDING_STATE.SENDING);
     } 
@@ -203,23 +201,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
   }, [dejarDeEnviar]);
 
-  const [cronometro, setCronometro] = useState<number>(0);
-  const [toggle, setToggle] = useState(false);
-
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-    if (toggle) {
-      intervalId = setInterval(() => {
-        // Lógica de la función a ejecutar cada X segundos
-        setCronometro((cronometro) => cronometro + 1);
-      }, 1000); // Intervalo de tiempo en milisegundos (5 segundos en este ejemplo)
-    }
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [toggle]);
-
 
   return (
 
@@ -230,10 +211,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }`}
     id={`${styles["card" + idCard]}`}
     key={`card${idCard}`}
-    >
-
-      <button>{cronometro}</button>
-      
+    >      
       <div className={styles.card_container}>
         <div>
           <CardTitle text={!sending ? "Enviar" : "Enviando"} />
