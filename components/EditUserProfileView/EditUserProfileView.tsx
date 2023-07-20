@@ -19,13 +19,16 @@ export interface IEditUserProfileView {
     email: string;
     connected_whatsapp: number,
     created_at: string,
-    updated_at: string
+    updated_at: string,
   }
-  setLoading : (value : boolean) => void
+  setLoading : (value : boolean) => void,
+  notification: INotification,
+  setNotification: (value: INotification) => void
 }
 
 
-const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading }) => {
+const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading, notification, setNotification }) => {
+  
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [pass, setPass] = useState('')
@@ -33,12 +36,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
   const [equalPass, setEqualPass] = useState(true);
 
 
-  const [notification, setNotification] = useState<INotification>({
-    status: STATUS.SUCCESS,
-    render: false,
-    message: "",
-    modalReturn: () => { }
-  })
+  
 
   async function handleDesvWpp() {
     setLoading(true)
@@ -73,14 +71,16 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
     try {
       const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
 
-      setNotification({
-        status: STATUS.SUCCESS,
-        render: true,
-        message: "Perfil actualizado de forma exitosa!",
-        modalReturn: () => {
-          setNotification({ ...notification, render: false })
-        }
-      })
+      if (response.status == 200) {
+        setNotification({
+          status: STATUS.SUCCESS,
+          render: true,
+          message: "Perfil actualizado de forma exitosa!",
+          modalReturn: () => {
+            setNotification({ ...notification, render: false })
+          }
+        })
+      }
 
     } catch (error: any) {
       setNotification({
@@ -95,20 +95,21 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
   }
 
   useEffect(() => {
-    if (confirmPass != '' && confirmPass != pass) {
+    if ((confirmPass != '' || pass != '') && confirmPass != pass) {
       setEqualPass(false)
     } else {
       setEqualPass(true)
     }
 
-  }, [confirmPass])
+  }, [confirmPass, pass])
 
   const logout = true;
 
   return (
       <div>
+        
         <CardTitle text="Opciones" />
-        <form>
+        <form onSubmit={(e)=> e.preventDefault() } >
           <div>
             <label className={styles.input_label} htmlFor="">NOMBRE</label>
             <InputGral
@@ -116,6 +117,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
               type="text"
               value={name}
               onChange={setName}
+              isDisabled={true}
               classes={["error"]}
             />
             <label className={styles.input_label} htmlFor="">E-MAIL</label>
@@ -124,6 +126,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading 
               type="email"
               value={email}
               onChange={setEmail}
+              isDisabled={true}
             />
             <label className={styles.input_label} htmlFor="">CONTRASEÑA</label>
             <InputGral placeholder='• • • • • • • •' type="password" value={pass} onChange={setPass} />

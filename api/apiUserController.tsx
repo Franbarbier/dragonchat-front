@@ -44,11 +44,12 @@ const apiUserController = {
             "Content-Type": "application/json",
           });
         headers.append("Authorization", `Bearer ${accessToken}`);
-        const payload = { name: name, email: email};
+
+        let payload;
         if (password != '') {
-            payload["password"] = password
-            payload["password_confirmation"] = passwordConfirmation
+            payload = { password: password, password_confirmation: passwordConfirmation };
         }
+            
         const response = await axios.put(`${authUrl}/update`, payload, {headers: Object.fromEntries(headers)});
         return response;
     },

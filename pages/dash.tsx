@@ -7,8 +7,9 @@ import { IEditUserProfileView } from '../components/EditUserProfileView/EditUser
 import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import Loader from '../components/Loader/Loader';
+import Notification, { INotification } from '../components/Notification/Notification';
 import { API_USER_URL, LOGIN_COOKIE } from '../constants/ index';
-import { API_ROUTES } from '../enums';
+import { API_ROUTES, STATUS } from '../enums';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
@@ -16,6 +17,13 @@ import EditUserProfile from './user/edit';
 const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
   const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
+
+  const [notification, setNotification] = useState<INotification>({
+    status: STATUS.SUCCESS,
+    render: false,
+    message: "",
+    modalReturn: () => { }
+  })
 
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
@@ -57,7 +65,8 @@ const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
               'marginTop': '5%'
             }}
             >
-              <EditUserProfile user={user} setLoading={setLoading}/>
+              <Notification {...notification} />
+              <EditUserProfile user={user} setLoading={setLoading} notification={notification} setNotification={setNotification} />
             </div>
           </motion.div>
         )}
