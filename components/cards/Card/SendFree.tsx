@@ -52,8 +52,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   let idCard = 3;
   let router = useRouter();
 
-  const sendingTime = (Math.floor(Math.random() * 5) + 1)*1000;
-
   const [sending, setSending] = useState<boolean>(false);
   const [timers, setTimers] = useState<Array<NodeJS.Timeout>>([]);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
