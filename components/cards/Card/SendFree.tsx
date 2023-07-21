@@ -51,7 +51,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 }) => {
   let idCard = 3;
   let router = useRouter();
-  const sendingTime = (Math.floor(Math.random() * 5) + 1)*1000;
 
   const [sending, setSending] = useState<boolean>(false);
   const [timers, setTimers] = useState<Array<NodeJS.Timeout>>([]);
@@ -59,13 +58,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   const [activeShield, setActiveShield] = useState<boolean>(false);
 
-  const [timer, setTimer] = useState(sendingTime);
+  const [timer, setTimer] = useState(0);
   const [bloques, setBloques] = useState<number>(0);
   const [pausa, setPausa] = useState<number>(0);
 
   async function sendMove(userInfo, count) {
-
-    
 
     const destinatario = contactos[count];
     let newContacts = [...contactos];
@@ -93,6 +90,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         }
       }
     };
+
     const authToken = JSON.parse(
       Cookie.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)
     ).access_token;
@@ -110,6 +108,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
   useEffect(() => {
+
+    // Numero aleatoria para desrobotizar los envios
+    
 
     if (sendingState === SENDING_STATE.SENDING) {
       const arrayOfBlocks: Array<Array<ContactInfo>> = contactos.reduce(
@@ -153,17 +154,19 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           const contactTime = (messagesCount * timer);
           const ms = blockTime + contactTime;
           messagesCount ++;
+                    
           const timerId = setTimeout(() => {
             const index = contacts.findIndex(
               (c) => c.numero === contact.numero
-            );
+              );
+
             sendMove(userInfo, index);
             if (index === contacts.length -1 ) {
               setSendingState(SENDING_STATE.FINISH);
             }
-          }, ms);
+          }, ( ms + (Math.floor(Math.random() * 5) + 1)*1000 ) );
           localTimers.push(timerId);
-        })        
+        })
       });
       setTimers(localTimers);
     }
@@ -171,6 +174,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }, [sendingState])
 
   const handleButtonClick = async () => {
+
     if (sendingState === SENDING_STATE.INIT || sendingState === SENDING_STATE.PAUSED) {
       setSendingState(SENDING_STATE.SENDING);
     } 
@@ -184,7 +188,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   useEffect(() => {
     setActiveShield(true);
-    setTimer(shieldOptions.timer > 0 ? (shieldOptions.timer * 1000) + sendingTime : sendingTime);
+    setTimer(shieldOptions.timer > 0 ? (shieldOptions.timer * 1000) : 1000);
     setBloques(shieldOptions.bloques);
     setPausa(shieldOptions.pausa * 1000);
   }, [shieldOptions]);
@@ -195,14 +199,17 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
   }, [dejarDeEnviar]);
 
+
   return (
+
+    
     <div
-      className={`${styles.card} ${styles["numberCard" + activeCard]} ${
-        activeCard == idCard && styles.active
-      }`}
-      id={`${styles["card" + idCard]}`}
-      key={`card${idCard}`}
-    >
+    className={`${styles.card} ${styles["numberCard" + activeCard]} ${
+      activeCard == idCard && styles.active
+    }`}
+    id={`${styles["card" + idCard]}`}
+    key={`card${idCard}`}
+    >      
       <div className={styles.card_container}>
         <div>
           <CardTitle text={!sending ? "Enviar" : "Enviando"} />

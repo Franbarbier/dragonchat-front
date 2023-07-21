@@ -535,7 +535,8 @@ background: #555;
     margin-bottom: 8%;
 }
 #card2 .tabs_cont>div>div{
-    width: 50%;
+    /* width: 50%; */
+    width: 100%;
     text-align: center;
     border: 1px solid var(--rosita1);
     padding: 8px;
@@ -550,8 +551,8 @@ background: #555;
     letter-spacing: 1px;
 }
 .difu_tab{
-    border-top-right-radius: 0!important;
-    border-bottom-right-radius: 0!important;
+    /* border-top-right-radius: 0!important; */
+    /* border-bottom-right-radius: 0!important; */
     border-right: none!important;
 }
 .conv_tab{
