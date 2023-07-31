@@ -60,9 +60,6 @@
 }
 
 .modal_shield_option{ width: 35vw; }
-<<<<<<< HEAD
-.timerModal { width: 35vw; }
-=======
 .timerModal { width: 35vw; }
 
 /* if mobile modal cont more width */
@@ -81,4 +78,3 @@
     .timerModal { width: 80vw; }
     .modal_shield_option>div{ margin: 8% 0; }
 }
->>>>>>> develop

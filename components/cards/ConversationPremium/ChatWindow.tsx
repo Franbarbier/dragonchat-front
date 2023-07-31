@@ -44,10 +44,6 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
 
     useEffect(() => {
         setLastMessageType(chat[chat.length - 1]?.type)
-<<<<<<< HEAD
-    }, [chat])
-
-=======
         setChatData(chat)
     }, [chat])
 
@@ -62,17 +58,11 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
 
     }
         
->>>>>>> develop
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
           // check if event target is not an input or a textarea
             if (!(event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement)){
                 if (event.key == "m" || event.key == "M") {
-<<<<<<< HEAD
-                    setChat( [...chat, {info: "", color: "blue", type: "texto"}] )
-                    // Auto focus en el ultimo campo creado
-                    setKeyPressed(!keyPressed)
-=======
                     setTimeout(() => {
                         setChat( [...chat, {info: "", color: "blue", type: "texto"}] )
 
@@ -83,7 +73,6 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
                     // Auto focus en el ultimo campo creado
                     setKeyPressed(!keyPressed)
                     
->>>>>>> develop
                 }
                 if(event.key == "c" || event.key == "C"){
                     if (lastMessageType == "any" ) { return false; }
@@ -117,32 +106,6 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
             const parentElement = parentRef.current;
             const lastChild = parentElement?.lastElementChild;
 
-<<<<<<< HEAD
-    const [inputRefs, setInputRefs] = useState([]);
-    
-    useEffect(()=>{
-        // get last item from chat and if it is a "texto" type, focus on it
-        // if (chat.length > 0 && chat[chat.length-1].type == "texto") {
-        //     let lastChat = document.getElementById("chat"+(chat.length-1))
-        //     if (lastChat) {
-        //         lastChat.focus()
-        //     }
-        // }
-
-        console.log(chat[chat.length-1])
-
-    },[keyPressed])
-    
-
-
-    const chatWindowRef = useRef<HTMLDivElement>(null)
-
-
-    function scrollToBottom() {
-        if (chatWindowRef.current) {
-            chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-          }
-=======
             if (lastChild && lastChild.tagName === 'DIV') {
                 const inputElement = lastChild.querySelector('textarea');
                 if (inputElement) {
@@ -152,7 +115,6 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
                 }
             }
         }, 0);
->>>>>>> develop
     }
 
 

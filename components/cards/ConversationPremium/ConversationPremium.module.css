@@ -423,11 +423,7 @@
     transform: scale(1.1);
     z-index: 99;
 }
-<<<<<<< HEAD
-.gridSecuences>div span{
-=======
 .gridSecuences>div>div>div>span{
->>>>>>> develop
     font-size: 0.6em;
     padding-right: 5px;
     margin-right: 5px;

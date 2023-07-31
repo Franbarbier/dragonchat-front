@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-import { useEffect, useState } from 'react';
-import { INotification } from '../../Notification/Notification';
-=======
 import { useEffect } from 'react';
 import { MESSAGE_TYPE } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import BasicMessages from '../BasicMessages/BasicMessages';
->>>>>>> develop
 import CardTitle from '../CardTitle/CardTitle';
 import ConversationPremium, { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
 import styles from './FreeCard.module.css';
@@ -22,11 +17,6 @@ export interface IFreeCard2 {
     setBreadcrumb : (breadcrumb: IChat[]) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
-<<<<<<< HEAD
-}
-
-const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setReadyMessage, setBreadcrumb, notification, setNotification }) => {
-=======
     tipoEnvio : string;
     setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
     activeSecuence : number | null;
@@ -37,7 +27,6 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
 }
 
 const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence, messages, setMessages }) => {
->>>>>>> develop
 
     let idCard = 2;
 
@@ -82,12 +71,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                         </div>
                         :
                         <div>
-<<<<<<< HEAD
-                            <ConversationPremium blocked={true} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} notification={notification} setNotification={setNotification}
-                            />
-=======
                             <ConversationPremium blocked={true} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} notification={notification} setNotification={setNotification} activeSecuence={activeSecuence} setActiveSecuence={setActiveSecuence} />
->>>>>>> develop
                         </div>
 
                     }

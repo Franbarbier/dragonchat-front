@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-=======
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
 import { STATUS } from '../../../enums';
->>>>>>> develop
 import { INotification } from '../../Notification/Notification';
 import BlockedPreVisual from './BlockedPreVisual';
 import styles from './ConversationPremium.module.css';
@@ -16,11 +12,8 @@ export interface IConversationPremium {
     selectedSecuence : ISecuence | null;
     notification: INotification;
     setNotification: (notification: INotification) => void;
-<<<<<<< HEAD
-=======
     activeSecuence : number | null;
     setActiveSecuence : (id: number | null) => void; 
->>>>>>> develop
 }
 
 // types of info:
@@ -57,11 +50,7 @@ interface IChatBox {
 
 
 
-<<<<<<< HEAD
-const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification }) => {
-=======
 const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification, setActiveSecuence, activeSecuence }) => {
->>>>>>> develop
     
     const idCard = 2
  
@@ -73,7 +62,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
     const [gridHovered, setGridHovered] = useState<number | null>(null)
     const [menuOptions, setMenuOptions] = useState<number | null>(null)
 
-    const [gridHovered, setGridHovered] = useState<number | null>()
 
     function new_secuence() {
         setEditSecuence({
@@ -91,8 +79,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
     const handleMouseLeave = () => {
         setGridHovered(null);
     };
-<<<<<<< HEAD
-=======
 
     const menuOpt = useRef(null);
     const menuConfig = useRef(null);
@@ -109,7 +95,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
           document.removeEventListener('click', handleOutsideClick);
         };
       }, []);
->>>>>>> develop
 
 
     return (            
@@ -125,22 +110,15 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                             {secuenciasCreadas.map((secuen, index)=>(
                                 <div key={`secuenNro${index}`}
                                     onClick={()=>{
-<<<<<<< HEAD
-                                        setActiveSecuence(secuen); setIsNew(index)
-=======
                                         setActiveSecuence( index == activeSecuence ? null : index  );
                                         setIsNew(index)
->>>>>>> develop
                                     }}
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}
                                     style={{
                                         opacity: gridHovered !== null && gridHovered !== index ? 0.5 : 1,
-<<<<<<< HEAD
-=======
                                         filter: activeSecuence !== null && activeSecuence !== index ? "brightness(0.6)" : "brightness(1)",
                                         borderColor: activeSecuence == index ? "#fffb11" : "#7545d8",
->>>>>>> develop
                                       }}
                                 >
                                     <img src={ secuen.icon == "" ? "/dragonchat_logo.svg" : `/${secuen.icon}` } 
@@ -149,11 +127,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                                         }} 
                                     />
                                     <div>
-<<<<<<< HEAD
-                                        <div>
-                                            <span>{secuen.name}</span>
-                                            <img src="/icon_config.svg" />
-=======
                                         <div
                                             style={{
                                                 borderColor: activeSecuence == index ? "#fffb11" : "#7545d8",
@@ -206,7 +179,6 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                                                 </motion.div>
                                                 }
                                             </AnimatePresence>
->>>>>>> develop
                                         </div>
                                     </div>
                                 </div>
@@ -218,11 +190,7 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                         
                     </div>
                 :
-<<<<<<< HEAD
-                    <DetailSecunce isNew={isNew} secuence={activeSecuence} setActiveSecuence={setActiveSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} notification={notification} setNotification={setNotification} />
-=======
                     <DetailSecunce isNew={isNew} secuence={editSecuence} setActiveSecuence={setEditSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} notification={notification} setNotification={setNotification} />
->>>>>>> develop
                 }
             </>
             :

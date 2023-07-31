@@ -33,10 +33,7 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
         setArrMessages( [...arrMessages, {info:message, color, type: type}] )
         setTimeout(() => {
             scrollToBottom()
-<<<<<<< HEAD
-=======
             focusLastMessage()
->>>>>>> develop
         }, 100);
 
     }

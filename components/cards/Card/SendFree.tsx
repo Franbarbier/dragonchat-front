@@ -14,23 +14,6 @@ import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from "./FreeCard.module.css";
 
 export interface IFreeCard3 {
-<<<<<<< HEAD
-    setActiveCard: (id: number) => void;
-    activeCard : number;
-    contactos : ContactInfo[];
-    messagesLimitAchieved : boolean;
-    setMessagesLimitAchieved : (limit: boolean) => void;
-    mensaje: string ;
-    setContactos : (contactos: ContactInfo[]) => void;
-    modalShieldOptions : boolean;
-    setModalShieldOptions : (limit: boolean) => void;
-    shieldOptions : {
-        timer: number,
-        pausa : number,
-        bloques: number
-    };
-    
-=======
   setActiveCard: (id: number) => void;
   activeCard: number;
   contactos: ContactInfo[];
@@ -49,7 +32,6 @@ export interface IFreeCard3 {
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
   messages: string[];
->>>>>>> develop
 }
 
 const FreeCard3: React.FC<IFreeCard3> = ({

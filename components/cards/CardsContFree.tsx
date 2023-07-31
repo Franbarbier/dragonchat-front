@@ -78,12 +78,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
     const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
 
-    const [notification, setNotification] = useState<INotification>({
-        status : "success",
-        render : false,
-        message : "",
-        modalReturn : ()=>{}
-    })
+
 
 
     function handleReturnModal(value:boolean) {
@@ -208,11 +203,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             <div className={styles.cards_cont}>
                     
                     <FreeCard3
-<<<<<<< HEAD
-                        setActiveCard={(val:any)=>setActiveCard(val)}
-=======
                         setActiveCard={(val:number)=>setActiveCard(val)}
->>>>>>> develop
                         activeCard={activeCard}
                         contactos={finalList}
                         setContactos={setContactos}
@@ -228,11 +219,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                     />
 
                     <FreeCard1 
-<<<<<<< HEAD
-                        setActiveCard={(val:any)=>setActiveCard(val)}
-=======
                         setActiveCard={(val:number)=>setActiveCard(val)}
->>>>>>> develop
                         activeCard={activeCard}
                         contactos={contactos}
                         setContactos={setContactos}
@@ -245,12 +232,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setNotification={setNotification}
                     />
                     <FreeCard2
-<<<<<<< HEAD
-                        setReadyMessage={setReadyMessage}
-                        setActiveCard={(val:any)=>setActiveCard(val)}
-=======
                         setActiveCard={(val:number)=>setActiveCard(val)}
->>>>>>> develop
                         activeCard={activeCard}
                         mensaje={mensaje}
                         setMensaje={setMensaje}
@@ -258,9 +240,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setSelectedSecuence={setSelectedSecuence}
                         setBreadcrumb={setBreadcrumb}
                         notification={notification}
-<<<<<<< HEAD
-                        setNotification={setNotification}         
-=======
                         setNotification={setNotification}      
                         tipoEnvio={tipoEnvio}
                         setTipoEnvio={setTipoEnvio}
@@ -268,7 +247,6 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setActiveSecuence={setActiveSecuence}
                         messages={messages}
                         setMessages={setMessages}
->>>>>>> develop
                     />
 
                     
@@ -337,11 +315,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 </div>
             }
             
-<<<<<<< HEAD
-            {notification.render && <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} /> }
-=======
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
->>>>>>> develop
 
 
         </div>

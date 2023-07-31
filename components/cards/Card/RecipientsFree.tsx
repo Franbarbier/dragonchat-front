@@ -78,11 +78,7 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     )
 }
 
-<<<<<<< HEAD
-const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
-=======
 const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification}) => {
->>>>>>> develop
 
 
     let idCard = 1;
@@ -281,21 +277,13 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         setIsDragging(false);
         const file = event.dataTransfer.files[0];
 
-<<<<<<< HEAD
-        console.log(file.type)
-=======
         
->>>>>>> develop
         if (file.type === "text/csv") {
             handleRenderModal(true)
             setDroppedCsv(file)
         }else{
             setNotification({
-<<<<<<< HEAD
-                status : "error",
-=======
                 status : STATUS.ERROR,
->>>>>>> develop
                 render : true,
                 message : "El archivo debe ser un csv",
                 modalReturn : () => {setNotification({...notification, render : false})}

@@ -131,11 +131,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
         }
         if (keyWords.length == 0) {
             setNotification({
-<<<<<<< HEAD
-                status : "error",
-=======
                 status : STATUS.ERROR,
->>>>>>> develop
                 render : true,
                 message : `Agrega al menos una palabra para ${ splitModal?.type == 'exclude' ? "excluir" : "incluir"}`,
                 modalReturn : () => {
@@ -144,11 +140,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
         }
         if (splitSecuence.length == 0) {
             setNotification({
-<<<<<<< HEAD
-                status : "error",
-=======
                 status : STATUS.ERROR,
->>>>>>> develop
                 render : true,
                 message :'Agrega al menos una respuesta a la secuencia',
                 modalReturn : () => {
@@ -157,11 +149,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
         }
         if (splitData.name == "") {
             setNotification({
-<<<<<<< HEAD
-                status : "error",
-=======
                 status : STATUS.ERROR,
->>>>>>> develop
                 render : true,
                 message :'Debes asignarle un nombre al split',
                 modalReturn : () => {
@@ -170,11 +158,7 @@ const ModalSplit: React.FC<IModalSplit> = ({ setSplitModal, splitModal, chat, se
         }
         if ( splitSecuence[0].info == "") {
             setNotification({
-<<<<<<< HEAD
-                status : "error",
-=======
                 status : STATUS.ERROR,
->>>>>>> develop
                 render : true,
                 message :'Completa al menos un mensaje',
                 modalReturn : () => {
