@@ -1,29 +1,28 @@
+import { STATUS } from "../../enums";
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
+import { INotification } from "../Notification/Notification";
 import styles from './ModalReferiAmigos.module.css';
 
 export interface IModalReferiAmigos {
-    // setModalImport : (render: boolean) => void;
-    // uploadContacts: (contacts: ContactInfo[]) => void
+    notification: INotification,
+    setNotification: (notification: INotification) => void
 }
 
 
 
-// interface contactosArr extends Array<ContactInfo>{}
-
-const ModalReferiAmigos: React.FC<IModalReferiAmigos> = ({  }) => {
-
- 
+const ModalReferiAmigos: React.FC<IModalReferiAmigos> = ({ notification, setNotification }) => {
 
 return (
         <div className={styles.modal_ref}>
+
           <div>
             <CardTitle text="REFERI AMIGOS" />
             <div>
                 <p>Al compartir este enlace:</p>
                 <ul>
-                    <li><img src="cierto.png"/>Tu amigo ganará <span>15 mensjaes extras diarios.</span></li>
-                    <li><img src="cierto.png"/>Tu ganarás <span>10 mensjaes extras diarios.</span></li>
+                    <li><img src="cierto.png"/>Tu amigo ganará <span>15 mensajes extras diarios.</span></li>
+                    <li><img src="cierto.png"/>Tu ganarás <span>10 mensajes extras diarios.</span></li>
                 </ul>
                 <div>
                     <h6>COMPARTE TU ENLACE</h6>
@@ -34,7 +33,14 @@ return (
                         backgroundColorInit="#724cdf"
                         backgroundColorEnd="#3a94fe"
                         borderColor="#5573f0"
-                        onClick={()=>{alert('Esta función no estará disponible proximamente')}}
+                        onClick={()=>{
+                          setNotification({
+                              status : STATUS.ERROR,
+                              render : true,
+                              message : "Esta funcion no esta disponible por el momento.",
+                              modalReturn : ()=>{  setNotification({...notification, render : false }) }
+                          })
+                        }}
                     />
                 </div>
             </div>

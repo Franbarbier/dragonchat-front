@@ -19,7 +19,6 @@ const apiUserController = {
                 setUserExists(true);
             } else {
                 alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
-                console.log(error);
             }
         }
         return;
@@ -30,7 +29,6 @@ const apiUserController = {
             const response = await axios.post(`${authUrl}/login`, payload);
             return response;
         } catch(error) {
-            console.log(error);
         }
     },
     logout: async (accessToken) => {
@@ -46,11 +44,12 @@ const apiUserController = {
             "Content-Type": "application/json",
           });
         headers.append("Authorization", `Bearer ${accessToken}`);
-        const payload = { name: name, email: email};
+
+        let payload;
         if (password != '') {
-            payload["password"] = password
-            payload["password_confirmation"] = passwordConfirmation
+            payload = { password: password, password_confirmation: passwordConfirmation };
         }
+            
         const response = await axios.put(`${authUrl}/update`, payload, {headers: Object.fromEntries(headers)});
         return response;
     },
@@ -93,7 +92,6 @@ const apiUserController = {
                 Router.push("/login");
             }
         } catch (error: any) {
-            console.log(error);
             alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
         }
         return;

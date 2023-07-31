@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
+=======
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { STATUS } from '../../../enums';
+>>>>>>> develop
 import { INotification } from '../../Notification/Notification';
 import BlockedPreVisual from './BlockedPreVisual';
 import styles from './ConversationPremium.module.css';
@@ -10,6 +16,11 @@ export interface IConversationPremium {
     selectedSecuence : ISecuence | null;
     notification: INotification;
     setNotification: (notification: INotification) => void;
+<<<<<<< HEAD
+=======
+    activeSecuence : number | null;
+    setActiveSecuence : (id: number | null) => void; 
+>>>>>>> develop
 }
 
 // types of info:
@@ -46,7 +57,11 @@ interface IChatBox {
 
 
 
+<<<<<<< HEAD
 const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification }) => {
+=======
+const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelectedSecuence, selectedSecuence, notification, setNotification, setActiveSecuence, activeSecuence }) => {
+>>>>>>> develop
     
     const idCard = 2
  
@@ -54,13 +69,14 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
     const [secuenciasCreadas, setSecuenciasCreadas] = useState<ISecuence[]>([])
     const [isNew, setIsNew] = useState<number>(-1)
 
-    const [activeSecuence, setActiveSecuence] = useState<ISecuence | null>()
+    const [editSecuence, setEditSecuence] = useState<ISecuence | null>(null)
+    const [gridHovered, setGridHovered] = useState<number | null>(null)
+    const [menuOptions, setMenuOptions] = useState<number | null>(null)
 
     const [gridHovered, setGridHovered] = useState<number | null>()
 
     function new_secuence() {
-        console.log('crear y renderizar secuencia nueva')
-        setActiveSecuence({
+        setEditSecuence({
             name : '',
             icon : '',
             chat : []
@@ -75,13 +91,32 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
     const handleMouseLeave = () => {
         setGridHovered(null);
     };
+<<<<<<< HEAD
+=======
+
+    const menuOpt = useRef(null);
+    const menuConfig = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+          if (menuConfig.current !== event.target ) {
+            setMenuOptions(null);
+          }
+        };
+        document.addEventListener('click', handleOutsideClick);
+    
+        return () => {
+          document.removeEventListener('click', handleOutsideClick);
+        };
+      }, []);
+>>>>>>> develop
 
 
     return (            
         <div className={` ${styles.SecuencePremiumCard}`} >
             {blocked ?
             <>
-                {activeSecuence == null ?
+                {editSecuence == null ?
                     <div>
                         <div className={styles.gridSecuences}>
                             <div className={styles.addNewSecuence} onClick={()=>{new_secuence()}}>
@@ -90,12 +125,22 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                             {secuenciasCreadas.map((secuen, index)=>(
                                 <div key={`secuenNro${index}`}
                                     onClick={()=>{
+<<<<<<< HEAD
                                         setActiveSecuence(secuen); setIsNew(index)
+=======
+                                        setActiveSecuence( index == activeSecuence ? null : index  );
+                                        setIsNew(index)
+>>>>>>> develop
                                     }}
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}
                                     style={{
                                         opacity: gridHovered !== null && gridHovered !== index ? 0.5 : 1,
+<<<<<<< HEAD
+=======
+                                        filter: activeSecuence !== null && activeSecuence !== index ? "brightness(0.6)" : "brightness(1)",
+                                        borderColor: activeSecuence == index ? "#fffb11" : "#7545d8",
+>>>>>>> develop
                                       }}
                                 >
                                     <img src={ secuen.icon == "" ? "/dragonchat_logo.svg" : `/${secuen.icon}` } 
@@ -104,9 +149,64 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                                         }} 
                                     />
                                     <div>
+<<<<<<< HEAD
                                         <div>
                                             <span>{secuen.name}</span>
                                             <img src="/icon_config.svg" />
+=======
+                                        <div
+                                            style={{
+                                                borderColor: activeSecuence == index ? "#fffb11" : "#7545d8",
+                                            }}>
+                                            <span
+                                            style={{
+                                                borderColor: activeSecuence == index ? "#fffb11" : "#7545d8",
+                                            }}>{secuen.name}</span>
+                                            <img src="/icon_config.svg"
+                                                ref={menuConfig}
+                                                onClick={(e)=>{
+                                                    e.stopPropagation()
+                                                    setMenuOptions(index == menuOptions ? null : index)
+                                                    // setSelectedSecuence(secuen)
+                                                }}
+                                            />
+                                            <AnimatePresence>
+                                                {menuOptions == index &&
+                                                <motion.div className={styles.menuOptions} onClick={(e)=>{ e.stopPropagation() } } ref={menuOpt}>
+                                                    <span
+                                                        onClick={(e)=>{
+                                                            e.preventDefault()
+                                                            setEditSecuence(secuen)
+                                                        }}
+                                                    >Editar</span>
+                                                    <span
+                                                        onClick={(e)=>{
+                                                            e.preventDefault()
+                                                            let copiaNueva = {...secuen}
+                                                            copiaNueva.name = `Copia de - ${copiaNueva.name}`
+                                                            setSecuenciasCreadas([...secuenciasCreadas, copiaNueva])
+                                                        }}
+                                                    >Duplicar</span>
+                                                    <span
+                                                        onClick={(e)=>{
+                                                            e.preventDefault()
+                                                            setNotification({
+                                                                status : STATUS.ALERT,
+                                                                render : true,
+                                                                message : `¿Estas seguro que quieres eliminar esta secuencia: ${secuen.name} ?`,
+                                                                modalReturn : (booleanReturn)=>{
+                                                                    setNotification({...notification, render : false })
+                                                                    if ( booleanReturn ) {
+                                                                        setSecuenciasCreadas(secuenciasCreadas.filter((secuence, i)=> i != index))
+                                                                    }
+                                                                }
+                                                            })
+                                                        }}
+                                                    >Eliminar</span>
+                                                </motion.div>
+                                                }
+                                            </AnimatePresence>
+>>>>>>> develop
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +218,11 @@ const ConversationPremium: React.FC<IConversationPremium> = ({ blocked, setSelec
                         
                     </div>
                 :
+<<<<<<< HEAD
                     <DetailSecunce isNew={isNew} secuence={activeSecuence} setActiveSecuence={setActiveSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} notification={notification} setNotification={setNotification} />
+=======
+                    <DetailSecunce isNew={isNew} secuence={editSecuence} setActiveSecuence={setEditSecuence} secuenciasCreadas={secuenciasCreadas} setSecuenciasCreadas={setSecuenciasCreadas} notification={notification} setNotification={setNotification} />
+>>>>>>> develop
                 }
             </>
             :

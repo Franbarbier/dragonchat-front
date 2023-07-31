@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import { ContactInfo } from '../CardsContFree';
 import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
+
 
 interface IModalImport {
     modalImport : boolean;
@@ -24,31 +26,36 @@ export interface IFreeCard1 {
     setNotification : (notification: INotification) => void;
 }
 
-// type setPropsType = {
 
-const allowedExtensions = ["csv"];
 interface ICustomContextMenu {
     position: { x: number; y: number; index: number, type: string };
     contextVisible: boolean;
     executeFormat : (e, type:string, index:number) => void;
     setContactos : (contactos: ContactInfo[]) => void;
-    finalList : ContactInfo[]
+    finalList : ContactInfo[];
+    notification : INotification;
+    setNotification : (notification: INotification) => void;
 }
 
-const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisible, executeFormat, finalList, setContactos }) => {
+const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisible, executeFormat, finalList, setContactos, notification, setNotification }) => {
 
 
     function handlerPegar() {
-        navigator.clipboard.readText().then(text => { console.log(text);executeFormat( text, position.type, position.index)}) .catch(err => console.error('Failed to read clipboard contents: ', err));
+        navigator.clipboard.readText().then(text => { executeFormat( text, position.type, position.index)}) .catch(err => console.error('Failed to read clipboard contents: ', err));
     }
     function handleEliminar() {
         const filteredArr = [...finalList];
         filteredArr.splice(position.index,1)
-        setContactos(filteredArr)
+        if (filteredArr.length > 1) {
+            setContactos(filteredArr)
+        }else{
+            setContactos([{nombre: '', numero: ''}])
+        }
     }
     function handleCopiar() {
             navigator.clipboard.writeText(finalList[position.index][position.type]);
     }
+
 
     return(
         <>
@@ -71,7 +78,11 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     )
 }
 
+<<<<<<< HEAD
 const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
+=======
+const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification}) => {
+>>>>>>> develop
 
 
     let idCard = 1;
@@ -86,7 +97,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
   
     const regex = new RegExp(/[^\d]/g);
     
-    
 
     function executeFormat(inputText:string, type: string, index:number) {
 
@@ -96,8 +106,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         let prevCells:ContactInfo[] = finalList.slice(0, index)
 
         if (!breaks.test(inputText) && !tabs.test(inputText)) {
+
             let updateContact = [...finalList]
             updateContact[index][type] = inputText
+            
 
             if (updateContact[index].nombre === "" && updateContact[index].numero === ""  ) {
                 updateContact.splice(index, 1)
@@ -110,7 +122,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             let rawRows = inputText.split("\n");
 
             let output : ContactInfo[] = [];
-            console.log(rawRows)
             rawRows.forEach((rawRow, idx) => {
 
                 let rowObject: any = {};
@@ -134,7 +145,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         }else if(breaks.test(inputText)){
 
             let rawRows = inputText.split("\n");
-            console.log(rawRows)
 
             let output : ContactInfo[] = [];
 
@@ -144,8 +154,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             rawRows.map((rawRow, index) => {
                 
                 let rowObject: any = {};
-
-                console.log(rawRow)
+                
                 if(newList[index]){
                     if (type == "numero") {                       
                         rowObject['numero'] = rawRow;
@@ -169,15 +178,12 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             });
 
             var newContacts = prevCells.concat(output);
-            console.log(newContacts)
             setContactos(newContacts)
             
 
         }else if(tabs.test(inputText )){
 
             let rawCols = inputText.split("\t");
-            console.log(rawCols)
-
             let output : ContactInfo[] = [];
 
             let rowObject: any = {};
@@ -194,7 +200,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
     function formatList(e:any, type:string, index:number){
         let inputText = e.target.value;
-        if (typeof inputText === "string" && inputText.length > 0) {
+        if (typeof inputText === "string" && inputText.length >= 0) {
             executeFormat(inputText, type, index)
         }
     };
@@ -208,13 +214,26 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         }else{
             selectedList[index].selected = false
         }
-        console.log(selectedList[index].selected)
         setContactos(selectedList)
     }
 
+    
+    useEffect(()=>{
 
-
-
+        let values = new Set();
+        for (let index = 0; index < finalList.length - 1; index++) {
+            const element = finalList[index];            
+            if (values.has(element.numero) && element.numero != "") {
+                setNotification({
+                    status : STATUS.ERROR,
+                    render : true,
+                    message : "No puede haber numeros repetidos en la lista.",
+                    modalReturn : () => {setNotification({...notification, render : false})}
+                })
+            }
+            values.add(element.numero)            
+        }
+    },[finalList])
 
     // menu right clic
     const [position, setPosition] = useState({ x: 0, y: 0 , index: 0, type : ''});
@@ -257,18 +276,26 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         setIsDragging(false);
       };
     
-      const handleDrop = (event: React.DragEvent<HTMLTableElement>) => {
+      const handleDrop = async (event: React.DragEvent<HTMLTableElement>) => {
         event.preventDefault();
         setIsDragging(false);
         const file = event.dataTransfer.files[0];
 
+<<<<<<< HEAD
         console.log(file.type)
+=======
+        
+>>>>>>> develop
         if (file.type === "text/csv") {
             handleRenderModal(true)
             setDroppedCsv(file)
         }else{
             setNotification({
+<<<<<<< HEAD
                 status : "error",
+=======
+                status : STATUS.ERROR,
+>>>>>>> develop
                 render : true,
                 message : "El archivo debe ser un csv",
                 modalReturn : () => {setNotification({...notification, render : false})}
@@ -280,10 +307,10 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
     return (
 
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}}>
+        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}} key={`card${idCard}`} >
             
 
-            <CustomContextMenu position={position} contextVisible={contextVisible} executeFormat={executeFormat} setContactos={setContactos} finalList={finalList}/>
+            <CustomContextMenu position={position} contextVisible={contextVisible} executeFormat={executeFormat} setContactos={setContactos} finalList={finalList} notification={notification} setNotification={setNotification} />
 
             
             <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
@@ -293,7 +320,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             <div className={styles.card_container} >
                 <div>
                     <CardTitle text={`${finalList.length - 1} Destinatarios`} />
-
                 </div>
                 {/* <div className={styles.card_table_cont}> */}
                     
@@ -307,9 +333,9 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                         onDrop={handleDrop}
                     >
                         
-                    <div className={styles.grilla_oficial}>
+                    <div className={`${styles.grilla_oficial} ${isDragging && styles.draggedIcon }`} >
                         {finalList.map((elementInArray, index) => ( 
-                                <div className={styles.row_table}>
+                                <div className={styles.row_table} key={`recipient${index}`} >
                                     <div>
                                     { finalList.length - 1 !=  index ?
                                         <aside onClick={ ()=>{ setSelection(index) } } className={ `${elementInArray.selected && styles.rowSelected}`  }>
@@ -360,6 +386,8 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                     </div>
                     
                     {isDragging && <div className={styles.dragging}>Drop file here</div>}
+                    
+                    {/* <div className={styles.dragging}>Drop file here</div> */}
 
                     </div>
                     <div className={styles.footerBtns}>

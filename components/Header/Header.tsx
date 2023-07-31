@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
+import { STATUS } from '../../enums';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
 import ModalTimer from '../ModalTimer/ModalTimer';
+<<<<<<< HEAD
+=======
+import Notification, { INotification } from '../Notification/Notification';
+>>>>>>> develop
 import styles from './Header.module.css';
 
 export interface IHeader {
@@ -45,21 +50,37 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
     }, [openSettings])
 
     
+    const [notification, setNotification] = useState<INotification>({
+        status : STATUS.SUCCESS,
+        render : false,
+        message : "",
+        modalReturn : ()=>{}
+    })
 
     return (
         <div className={styles.header_cont}>
+            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
             <nav>
                 <div>
                     <img width={'130px'} src={'dragonchat_logo_full.svg'} />
 
                 </div>
+<<<<<<< HEAD
                 <div className={styles.timerCont} onClick={ ()=>{ setModalTimer(true) } } >
+=======
+                {/* Esto se comenta porque hasta que se implemente el timer no se va a usar */}
+                {/* <div className={styles.timerCont} onClick={ ()=>{ setModalTimer(true) } } >
+>>>>>>> develop
                     <div>
                         <div>
                             <h4>10:00</h4>
                         </div>
                     </div>
+<<<<<<< HEAD
                 </div>
+=======
+                </div> */}
+>>>>>>> develop
                 <div className={styles.menu_cont}>
                     <div className={styles.referir_cont}>
                         <button onClick={()=>{setModalRef(true)}}>
@@ -76,7 +97,7 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
                 <div>
                     <div>
                         <ModalContainer closeModal={ ()=> {setModalRef(false)} } addedClass="refAmis">
-                            <ModalReferiAmigos />
+                            <ModalReferiAmigos notification={notification} setNotification={setNotification} />
                         </ModalContainer>
                     </div>
                 </div>

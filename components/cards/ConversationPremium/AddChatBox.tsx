@@ -9,12 +9,13 @@ export interface IAddChatBox {
     setSplitModal : (boolean: IChat | null)=> void,
     splitModal : IChat | null,
     scrollToBottom : ()=> void,
+    focusLastMessage: ()=> void
 
 }
 type PossibleType = "texto" | "archivo" | "followup" | "any" | "exclude" | "include" | "split";
 
 
-const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, scrollToBottom }) => {
+const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSplitModal, splitModal, scrollToBottom, focusLastMessage}) => {
     
     // animate states
     const [hoverNewSign, setHoverNewSign] = useState(false)
@@ -32,6 +33,10 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
         setArrMessages( [...arrMessages, {info:message, color, type: type}] )
         setTimeout(() => {
             scrollToBottom()
+<<<<<<< HEAD
+=======
+            focusLastMessage()
+>>>>>>> develop
         }, 100);
 
     }
@@ -55,7 +60,6 @@ const AddChatBox: React.FC<IAddChatBox> = ({ arrMessages, setArrMessages, setSpl
         <div
             className={`${styles.add_new_message_cont} ${ arrMessages.length >= 1 ?  styles.abajo : styles.medio }`}
             onMouseLeave={() => setHoverNewSign(false)}
-            // className={arrMessages.length >= 1 ?  styles.abajo : styles.medio }
         >
 
         <div onMouseEnter={() => setHoverNewSign(true)}>

@@ -2,6 +2,8 @@ import { faCloudArrowUp, faFileCircleCheck, faFileCsv, faTableColumns } from '@f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
+import { FILE, FILE_TYPE, STATUS } from '../../../enums';
+import { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
@@ -10,33 +12,39 @@ import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from './ModalImportContacts.module.css';
 
 export interface IModalImportContacts {
-    setModalImport : (render: boolean) => void;
-    uploadContacts: (contacts: ContactInfo[]) => void;
-    inheritFile : File | null;
-}
+  setModalImport: (render: boolean) => void;
+  uploadContacts: (contacts: ContactInfo[]) => void;
+  inheritFile: File | null;
+  notification: INotification;
+  setNotification: (notification: INotification) => void;
+};
 
+const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile, notification, setNotification }) => {
+  const [parsedCsvData, setParsedCsvData] = useState<Array<{ numero: string, nombre: string }>>([]);
+  const [isFile, setIsFile] = useState<boolean>(false);  
 
-
-// interface contactosArr extends Array<ContactInfo>{}
-
-const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, uploadContacts, inheritFile}) => {
-
-  const [parsedCsvData, setParsedCsvData] = useState([]);
-  const [isFile, setIsFile] = useState<boolean>(false);
-
-
-  const parseFile = file  => {
+  const parseFile = (file: File) => {
     Papa.parse(file, {
       header: true,
-      complete: results => {
-        let newArr = results.data
-        
-        renameKeys(newArr)
-        setParsedCsvData(newArr)
+      skipEmptyLines: true,
+      transformHeader: (header: string) => header.toLowerCase().replaceAll('ú', 'u'),
+      complete: ({ data }: { data: Array<{ numero: string, nombre: string }> }) => {
+        if (data?.length > 0 && data[0].nombre && data[0].numero) {
+          setIsFile(true)
+          setParsedCsvData(data.filter(d => d.nombre?.replaceAll(' ', '') !== '' && d.numero?.replaceAll(' ', '') !== ''))
+        } else {
+          setNotification({
+            status: STATUS.ERROR,
+            render: true,
+            message: 'El contenido del archivo es inválido',
+            modalReturn: () => setNotification({ ...notification, render: false })
+          })
+        }
       },
     });
   };
 
+<<<<<<< HEAD
   const onDropFn = useCallback(acceptedFiles => {
       parseFile(acceptedFiles);
       setIsFile(true)
@@ -50,26 +58,30 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
       element.nombre = element["Nombre"]
       delete element["Número"] 
       delete element["Nombre"] 
+=======
+  const onDropFn = useCallback((file: File) => {
+    if (file.type === FILE_TYPE.CSV) {
+      parseFile(file);
+    } else {
+      setNotification({
+        status: STATUS.ERROR,
+        render: true,
+        message: 'El contenido subido no es un archivo válido',
+        modalReturn: () => setNotification({ ...notification, render: false })
+      })
+>>>>>>> develop
     }
-    console.log(newArr)
-  }
-  
-  const handleDragOver = (event) => {
-    event.preventDefault();
+  }, [parseFile, setIsFile, setNotification]);
+
+  const handleDrop = (file: File, e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    onDropFn(file);
   };
 
-  const handleDrop = (event) => {
-    event.preventDefault();
-    const droppedFile = event.dataTransfer.files[0];
-      setIsFile(true)
-      parseFile(droppedFile);
-  };
-  
-  useEffect(()=>{
+  useEffect(() => {
     if (inheritFile != null && inheritFile != undefined) {
       onDropFn(inheritFile)
       setIsFile(true)
-
     }
   }, [inheritFile])
 
@@ -83,93 +95,85 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
 
   const campos = ["Nombre", "Número"]
 
-return (
-        <div>
-          <div className={styles.table_cont}>
-            {parsedCsvData.length > 0 &&
-              <HeaderRow campos={campos} />
-            }
-            
-            {parsedCsvData.map((contact)=>(
-              <>
-                <ContactRow contact={contact} campos={campos}  />
-              </>
-            ))
-
-            }
-          </div>
-
-          {isFile ?
-
-            <div className={styles.saveOrEdit}>
-              <label className={styles.labelFile} htmlFor="csvInput">Cambiar .CSV</label>
-              <OrangeBtn text="Subir contactos" onClick={()=>{
-                                                            uploadContacts(parsedCsvData)
-                                                            setModalImport(false)
-                                                          }}/>
-            </div>
-          :
+  return (
+    <div>
+      <div className={styles.table_cont}>
+        {parsedCsvData.length > 0 &&
+          <HeaderRow campos={campos} />
+        }
+        {parsedCsvData.map((contact) => (
           <>
-            <div className={styles.infoCsv}>
-              <div className={styles.infoTitle}>
-                {/* <h5>Importar contactos</h5> */}
-                <CardTitle text="Importar contactos" />
-              </div>
-              <div className={styles.infoData}>
-                <div>
-                  <div className={styles.infoIcon}>
-                    <FontAwesomeIcon icon={faFileCsv} />
-                  </div>
-                  <p>El archivo debe ser .csv</p>
-                </div>
-                <div>
-                  <div className={styles.infoIcon}>
-                    <FontAwesomeIcon icon={faTableColumns} />
-                  </div>
-                  <p>Los primeros campos de las columnas deben ser "Nombre" y "Número".</p>
-                </div>
-                <div>
-                  <div className={styles.infoIcon}>
-                    <FontAwesomeIcon icon={faFileCircleCheck} />
-                  </div>
-                  <p>Puedes ver un ejemplo o descargarlo haciendo clic <a href="/Plantilla DragonChat - Importar contactos.csv" >acá</a>.</p>
-                </div>
-              </div>
-              <div className={styles.dropCont}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-              >
-                <div>
-                  {/* <div> */}
-                    <label htmlFor="csvInput" />
-                    <FontAwesomeIcon icon={faCloudArrowUp} />
-                    <p>Arrastrar archivo</p>
-                    <button>Elegir archivo</button>
-                    <input
-                        onChange={ (e)=>{ 
-                          if (e.target.files?.length) {
-                            onDropFn(e.target.files[0]);
-                          } 
-                        }}
-                        
-                        className={styles.csvInput}
-                        id="csvInput"
-                        name="file"
-                        type="File"
-                        />
-                      </div>
-                {/* </div> */}
-              </div>
-
-                {/* <img src='/plantilla-ejemplo.jpg' width="200px"/> */}
-
-              {/* <label className={styles.labelFile} htmlFor="csvInput">Agregar .CSV</label> */}
-            </div>
+            <ContactRow contact={contact} campos={campos} />
           </>
-          }
+        ))
+        }
+      </div>
 
+      {isFile ?
+        <div className={styles.saveOrEdit}>
+          <label className={styles.labelFile} htmlFor="csvInput">Cambiar .CSV</label>
+          <input
+            onChange={(e) => (e.target.files && e.target.files.length) && onDropFn(e.target.files[0])}
+            className={styles.csvInput}
+            id="csvInput"
+            name="file"
+            type="File"
+          />
+          <OrangeBtn text="Subir contactos" onClick={() => {
+            uploadContacts(parsedCsvData)
+            setModalImport(false)
+          }} />
         </div>
-      );
+        :
+        <>
+          <div className={styles.infoCsv}>
+            <div className={styles.infoTitle}>
+              <CardTitle text="Importar contactos" />
+            </div>
+            <div className={styles.infoData}>
+              <div>
+                <div className={styles.infoIcon}>
+                  <FontAwesomeIcon icon={faFileCsv} />
+                </div>
+                <p>El archivo debe ser .csv</p>
+              </div>
+              <div>
+                <div className={styles.infoIcon}>
+                  <FontAwesomeIcon icon={faTableColumns} />
+                </div>
+                <p>La primera columna va a ser tomada como "Nombre" y la segunda como "Número".</p>
+
+              </div>
+              <div>
+                <div className={styles.infoIcon}>
+                  <FontAwesomeIcon icon={faFileCircleCheck} />
+                </div>
+                <p>Puedes ver un ejemplo o descargarlo haciendo clic <b><u><a href={FILE.CONTACTS_CSV} >ACA</a></u></b>.</p>
+              </div>
+            </div>
+            <div className={styles.dropCont}
+              onDragOver={e => { e.preventDefault() }}
+              onDrop={e => e.dataTransfer.files.length > 0 && handleDrop(e.dataTransfer.files[0], e)}
+            >
+              <div>
+                <label htmlFor="csvInput" />
+                <FontAwesomeIcon icon={faCloudArrowUp} />
+                <p>Arrastrar archivo</p>
+                <button>Elegir archivo</button>
+                <input
+                  onChange={e => (e.target.files && e.target.files.length > 0) && onDropFn(e.target.files[0])}
+                  className={styles.csvInput}
+                  id="csvInput"
+                  name="file"
+                  type="File"
+                />
+              </div>
+            </div>
+          </div>
+        </>
+      }
+    </div >
+  );
 }
 
 export default ModalImportContacts;

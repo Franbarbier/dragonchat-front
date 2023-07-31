@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
+import { STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
 import { INotification } from '../Notification/Notification';
@@ -26,7 +27,11 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
     const [userExists, setUserExists] = useState(false)
 
     const [notification, setNotification] = useState<INotification>({
+<<<<<<< HEAD
         status : "success",
+=======
+        status : STATUS.SUCCESS,
+>>>>>>> develop
         render : false,
         message : "",
         modalReturn : ()=>{}
@@ -38,7 +43,11 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
                 await apiUserController.signUp(name, email, pass, confirmPass, setUserExists);
             }else{
                 setNotification({
+<<<<<<< HEAD
                     status : "error",
+=======
+                    status : STATUS.ERROR,
+>>>>>>> develop
                     render : true,
                     message : "Asegurate de completar todos los campos!",
                     modalReturn : ()=>{setNotification({...notification, render : false })}
@@ -46,7 +55,11 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
             }
         }else{
             setNotification({
+<<<<<<< HEAD
                 status : "error",
+=======
+                status : STATUS.ERROR,
+>>>>>>> develop
                 render : true,
                 message : "Las contraseñas no coinciden!",
                 modalReturn : ()=>{setNotification({...notification, render : false })}
@@ -72,12 +85,12 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
             <div>
                 <CardTitle text="Registrarse" />
 
-                <div>
+                {/* <div>
                     <button className={styles.googleInit}>
                         <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Continuar con Google</span>
                     </button>
-                </div>
+                </div> */}
                 
                 <h6>Registrarte con tu email</h6>
                 <div>

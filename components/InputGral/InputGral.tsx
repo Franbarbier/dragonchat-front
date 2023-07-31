@@ -9,6 +9,7 @@ export interface IInputGral {
     value? : string | number;
     classes? : string[];
     onChange?: (e: string) => void;
+    isDisabled?: boolean;
 
 }
 
@@ -16,11 +17,11 @@ export interface IInputGral {
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const InputGral: React.FC<IInputGral> = ({ type='text', placeholder="", name="", value="" , onChange = ()=>{return ""}, classes=[]}) => {
+const InputGral: React.FC<IInputGral> = ({ type='text', placeholder="", name="", value="" , onChange = ()=>{return ""}, classes=[], isDisabled = false}) => {
     
     const [isPass, setIsPass] = useState(false)
     const [showHide, setShowHide] = useState(false)
-
+    
     useEffect(()=>{
         if (type == 'password') {
             setIsPass(true)
@@ -33,7 +34,7 @@ const InputGral: React.FC<IInputGral> = ({ type='text', placeholder="", name="",
 
     return (
         <div className={styles.input_cont} >
-            <input className={ classes.join(' ') } placeholder={placeholder} type={!showHide ? type : 'text'} name={name} value={value} onChange={ (e)=>{ onChange(e.target.value) } }/>
+            <input className={ classes.join(' ') } placeholder={placeholder} type={!showHide ? type : 'text'} name={name} value={value} onChange={ (e)=>{ onChange(e.target.value) } } disabled={isDisabled} />
             {isPass &&
                 <div onClick={showHidePass} className={styles.ojito} >
                 <img src={eyeImg.src} alt="eye-img"/>

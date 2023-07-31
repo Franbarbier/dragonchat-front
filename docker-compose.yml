@@ -1,7 +1,7 @@
 version: '3'
 services:
-  front-next:
-    image: dragonchat-front
+  dragonchat-front:
+    image: dragonchat-front:${IMAGE_TAG}
     container_name: dragonchat-front
     build: .
     restart: unless-stopped
@@ -9,11 +9,15 @@ services:
       - $PORT:$PORT
     environment:
       - PORT=$PORT
-    volumes:
-      - '.:/home/app-frontend'
-      - '/home/app-frontend/node_modules'
+      - NEXT_PUBLIC_API_SENDER_SOCKET_URL=$NEXT_PUBLIC_API_SENDER_SOCKET_URL
+      - NEXT_PUBLIC_API_SENDER_URL=$NEXT_PUBLIC_API_SENDER_URL
+      - NEXT_PUBLIC_API_USER_URL=$NEXT_PUBLIC_API_USER_URL
+      - NEXT_PUBLIC_LOGIN_COOKIE_NAME=$NEXT_PUBLIC_LOGIN_COOKIE_NAME
     networks:
-      - nginx-proxy-manager_npm
+          mynet: {}
+
+
 networks:
-  nginx-proxy-manager_npm:
-    external: true
+    mynet:
+        name: ${API_WSP_NETWORK}
+        external: true

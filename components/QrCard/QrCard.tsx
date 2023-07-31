@@ -1,30 +1,25 @@
 import Cookie from 'js-cookie';
-import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+import { useState } from 'react';
+import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
+import { LOGIN_COOKIE } from '../../constants/ index';
+import { STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
+<<<<<<< HEAD
+=======
+import Loader from '../Loader/Loader';
+>>>>>>> develop
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './QrCard.module.css';
 
-
 export interface IQrCard {
-    qr_url : string;
-    linked_whatsapp: boolean;
+    notification: INotification,
+    setNotification: (notification: INotification) => void,
 }
 
-
-const socket = io(`${process.env.NEXT_PUBLIC_API_SENDER_SOCKET_URL}`)
-
-socket.on("connect", () => {
-    console.log(socket.id)
-});
-
-
-const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
-
-
-    const [showQr, setShowQr] = useState<boolean>(false);
+const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
+<<<<<<< HEAD
     const [activeQr, setActiveQr] = useState<string>("");
     
     const [notification, setNotification] = useState<INotification>({
@@ -40,24 +35,40 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
         socket.on('message', function (data) {
             if (data.text == '¡Fallo la conexion!') {
                 location.reload()
+=======
+    const [activeQr, setActiveQr] = useState<string | null>(null);
+
+    const handleIsConnected = () => {
+        setTimeout(async () => {
+            const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
+            const { data: dataConnect } = await apiSenderWhatsappController.isConnected(accessToken)
+
+            if (dataConnect?.phoneConnected) {
+                setLoadingQr(true);
+                window.location.href= "/dash";
+            } else {
+                if (dataConnect?.qrCode !== activeQr) {
+                    setActiveQr(dataConnect?.qrCode)
+                } else {
+                    handleIsConnected();
+                }
+>>>>>>> develop
             }
-        });
-        
-        socket.on("connection_qr", (arg) => {
-            console.log(arg); // world
-            setActiveQr(arg.src)
-            setLoadingQr(false)
+        }, 4000);
+    };
 
-        });
-        
-        socket.on("connection_status", (data) => {
-            console.log(data);
+    const dispatchError = () => {
+        setNotification({
+            status: STATUS.ERROR,
+            render: true,
+            message: "Hubo un error en la conexión, intentalo de nuevo en un minuto.",
+            modalReturn: () => {
+                setNotification({ ...notification, render: false })
+            }
         })
-        
-        socket.on("connect_error", (err) => {
-            console.log(`connect_error due to ${err.message}`);
-        });
+    };
 
+<<<<<<< HEAD
         socket.on("ready", (err) => {
             setNotification({
                 status : "success",
@@ -81,46 +92,71 @@ const QrCard: React.FC<IQrCard> = ({ qr_url, linked_whatsapp }) => {
         socket.emit('create-session', {
             id: userInfo.user_id.toString(),
         });
+=======
+    const handleEmitID = async () => {
+>>>>>>> develop
         setLoadingQr(true);
-    }
 
+        const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
+        const { data: dataConnect } = await apiSenderWhatsappController.connect(accessToken)
+
+        if (dataConnect) {
+            const { data: dataQr } = await apiSenderWhatsappController.getQR(accessToken)
+
+            if (dataQr?.qr) {
+                setActiveQr(dataQr.qr);
+            } else {
+                dispatchError();
+            }
+        } else {
+            dispatchError();
+        }
+
+        setLoadingQr(false);
+    };
 
     return (
-        <div>
+        <>
+            <Loader loading={loadingQr} />
+
             <div className={styles.qrCard_cont}>
                 <CardTitle text="Vincular dispositivo" />
-                {!linkedWhatsapp?
-                    <p>Vincula tu Whatsapp esacaneando el código QR:</p>
-                    :
-                    <p>Ya posees un dispositivo vinculado.</p>
-                }
 
-                {loadingQr &&
-                    <div className={styles.loading_cont}>
-                        <p>Generando código, guarde un momento...</p>
-                    </div>
-                }
+                {activeQr && (
+                    <div className={styles.qrSteps}>
+                        
+                        <div className={styles.instruciones_cont}>
+                            <div>
+                                <img src='/cellphone.svg' />
+                                <p>Desde tu WhatsApp</p>
+                            </div>
+                            <div>
+                                    <img src='/settings1.svg' />
+                                    <div>
+                                        <p>Dispositivos vinculados</p>
+                                        <span>(Dentro de "Ajustes" en iOS)</span>
+                                    </div>
+                            </div>
+                            <div>
+                                <img src='/touch.svg' />
+                                <p> "Vincular un dispositivo"</p>
+                            </div>
+                        </div>
 
-                {activeQr != "" ?
-                    <div>
-                        <img src={activeQr} width="75%" alt="qrWhatsappImage"/>
-                    </div>
-                :   !linkedWhatsapp ?
-                    <div style={ {"opacity": loadingQr ? "0.3" : "1"}  }>
-                        <OrangeBtn text="Generar QR" onClick={()=>{ handleEmitID()}} />
-                    </div>
-                : 
-                    <div style={ {"opacity": loadingQr ? "0.3" : "1"}  }>
-                        <OrangeBtn text="IR AL DASH" onClick={()=>{ window.location.href = "/dash"  }} />
-                    </div>
-                }
+                        <div className={styles.qrImg_cont}>
+                            <h4>{'Escanea el QR y aguarda un momento  : )'}</h4>
+                            <img src={activeQr} alt="qrWhatsappImage" onLoad={handleIsConnected} />
+                        </div>
 
-                
+                    </div>
+                )}
+                {!activeQr && (
+                    <div style={{ "opacity": loadingQr ? "0.3" : "1" }}>
+                        <OrangeBtn text="Generar QR" onClick={handleEmitID} />
+                    </div>
+                )}
             </div>
-        </div>
-        
-        
-    
+        </>
     );
 }
 

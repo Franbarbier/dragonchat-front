@@ -1,3 +1,7 @@
+.wireMsjs{
+    width: 80%;
+    margin: auto;
+}
 .wireMsjs>div{
     display: flex;
     justify-content: space-between;
@@ -64,7 +68,7 @@
 
 }
 .shieldInputsCont{
-    margin-top: 10%;
+    margin: 10% 0;
 }
 .shieldInputsCont h6{
     color: var(--rosita2);
@@ -78,6 +82,8 @@
     display: flex;
     justify-content: space-between;
     align-items: stretch;
+    margin: auto;
+    width: 80%;
     margin-bottom: 5%;
 }
 .shieldInputsCont>div:last-child{
@@ -102,7 +108,7 @@
     user-select: none;
 }
 .shieldInputsCont>div input{
-    width: 70%;
+    width: 75%;
     padding: 2px 8px;
     border: 1px solid var(--newViolet);
     border-radius: 5px;
@@ -120,4 +126,11 @@
   /* Firefox */
 .shieldInputsCont input[type=number] {
     -moz-appearance: textfield;
+}
+
+/* if mobile */
+@media (max-width: 500px){
+    .shieldInputsCont{
+        margin-bottom: 10%;
+    }
 }

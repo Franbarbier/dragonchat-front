@@ -7,7 +7,6 @@ export interface IContactRow {
 }
 
 
-// interface contactosArr extends Array<ContactInfo>{}
 
 const ContactRow: React.FC<IContactRow> = ({ contact, campos }) => {
 

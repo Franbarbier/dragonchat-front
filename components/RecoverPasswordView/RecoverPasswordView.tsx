@@ -1,9 +1,12 @@
-import Router from "next/router";
+import Link from 'next/link';
+import Router, { useRouter } from "next/router";
+
 import { useEffect, useState } from "react";
 import apiUserController from "../../api/apiUserController";
-import CardTitle from "../cards/CardTitle/CardTitle";
+import { ROUTES } from '../../enums';
+import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
-import OrangeBtn from "../OrangeBtn/OrangeBtn";
+import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from "./RecoverPasswordView.module.css";
 
 export interface IRecoverPasswordView {}
@@ -12,16 +15,17 @@ const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
   const [email, setEmail] = useState("");
   const [existingUser, setExistingUser] = useState(true);
 
+  const router = useRouter();
+
   async function handleRecoverPassword(e) {
     e.preventDefault();
     await apiUserController.passwordRecoverSendEmail(email, setExistingUser);
   }
 
   useEffect(() => {
-    Router.prefetch('/new_password');
+    Router.prefetch(ROUTES.NEW_PASS);
   }, [])
   
-
   return (
     <div className={styles.recover_password_cont}>
       <div>
@@ -42,7 +46,18 @@ const RecoverPasswordView: React.FC<IRecoverPasswordView> = ({}) => {
                   <p className={styles.Alert}>El usuario no existe.</p>
             }
 
-            <OrangeBtn type="submit" text="Continuar" onClick={handleRecoverPassword} />
+            <CustomColorBtn
+                  type="submit"
+                  text="Continuar"
+                  backgroundColorInit="#c21c3b"
+                  backgroundColorEnd="#f9bd4f"
+                  borderColor="#e17846"
+                  onClick={()=>{ handleRecoverPassword }}
+                  disable={ false }
+              />
+              <Link href={ROUTES.LOGIN}>
+                <button className={styles.login}>VOLVER AL LOGIN</button>
+              </Link>
         </form>
       </div>
     </div>

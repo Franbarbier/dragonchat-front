@@ -4,38 +4,47 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
+import { STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
+import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
+<<<<<<< HEAD
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
+=======
+>>>>>>> develop
 import styles from './LoginView.module.css';
 
 
 export interface ILoginView {
-
+    notification : INotification,
+    setNotification : (notification : INotification) => void,
 }
 
 
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const LoginView: React.FC<ILoginView> = ({  }) => {
+const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
 
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
+<<<<<<< HEAD
     const [notification, setNotification] = useState<INotification>({
         status : "success",
         render : false,
         message : "",
         modalReturn : ()=>{}
     })
+=======
+    
+>>>>>>> develop
 
     const [logging, setLogging] = useState<boolean>(false)
 
-    async function handleLogin(e) {
-        e.preventDefault()
+    async function handleLogin() {
         setLogging(true)
         if (email != "" && pass != "") {
             
@@ -46,7 +55,6 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                         access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
                         user_id : login_status?.data.user_id
                     }
-                    console.log(login_status)
 
                     Cookies.set(
                       process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
@@ -61,7 +69,11 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 }else{
                     setLogging(false)
                     setNotification({
+<<<<<<< HEAD
                         status : "error",
+=======
+                        status : STATUS.ERROR,
+>>>>>>> develop
                         render : true,
                         message : "Los datos son incorrectos.",
                         modalReturn : () => {
@@ -74,8 +86,14 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
 
 
         }else{
+<<<<<<< HEAD
             setNotification({
                 status : "error",
+=======
+            setLogging(false)
+            setNotification({
+                status : STATUS.ERROR,
+>>>>>>> develop
                 render : true,
                 message : "Los datos estan incompletos.",
                 modalReturn : () => {
@@ -94,6 +112,7 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
    
     return (
         <div className={styles.login_cont} >
+            <Loader loading={logging} />
             <form>
                 <CardTitle text="Ingresa al futuro" />
                 <div>
@@ -110,14 +129,26 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                 </div>
 
                 <div>
-                    <OrangeBtn type="submit" text={logging ? "Verificando datos" : "Iniciar sesión" } onClick={ handleLogin }/>
-                    <button className={styles.googleInit} type='button'>
+                    <CustomColorBtn
+                        type="submit"
+                        text="INICIAR SESIÓN"
+                        backgroundColorInit="#c21c3b"
+                        backgroundColorEnd="#f9bd4f"
+                        borderColor="#e17846"
+                        onClick={ (e)=>{ 
+                            e.preventDefault()
+                            handleLogin()
+                        } }
+                    />
+
+                    {/* <button className={styles.googleInit} type='button'>
                         <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Iniciar sesión con Google</span>
-                    </button>
+                    </button> */}
                 </div>
 
-                <div className={styles.noAccount}>
+                {/* Esto se esconde temporalmente hasta que se active el registre libre de usuarios */}
+                {/* <div className={styles.noAccount}>
                     <hr />
                     
                     <div>
@@ -126,12 +157,16 @@ const LoginView: React.FC<ILoginView> = ({  }) => {
                             <Link href='/signup'>Regístrate</Link>
                         </button>
                     </div>
-                </div>
+                </div> */}
 
             </form>
+<<<<<<< HEAD
             <Loader loading={logging} />
         </div>
     
+=======
+        </div>    
+>>>>>>> develop
     );
 }
 

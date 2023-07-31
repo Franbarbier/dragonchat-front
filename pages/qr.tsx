@@ -1,112 +1,94 @@
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import apiUserController from "../api/apiUserController";
-// import Cookies from "universal-cookie";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
+import Loader from "../components/Loader/Loader";
 import MainCont from "../components/MainCont/MainCont";
+import Notification, { INotification } from '../components/Notification/Notification';
 import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
-import Reconnect from "../components/QrWaitingRoom/Reconnect";
+import { ROUTES, STATUS } from "../enums";
+import useDeviceType from "../utils/checkDevice";
 import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
 
-const Qr : NextPageWithLayout<GralProps> = ({linkedWhatsapp}) => {
-    
-    const url = 'https://qrcg-free-editor.qr-code-generator.com/main/assets/images/websiteQRCode_noFrame.png';
+const Qr: NextPageWithLayout<GralProps> = () => {
+  const [queue, setQueue] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false)
 
-    const [queue, setQueue] = useState(0);
-    const [reconnect, setReconnect] = useState(false);
 
-    const logoutBtnStyle = {
-      'width': '100%',
-      'padding': '8px 16px',
-      'borderRadius': '5px',
-      'backgroundColor': '#000',
-      'border': '1px solid var(--amarillo)',
-      'color': 'var(--amarillo)',
-      'cursor': 'pointer',
-      'letterSpacing': '1px',
-    }
-
-    async function handleLogout(){
-      try {
-          const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
-          const response = await apiUserController.logout(accessToken);
-          if (response.status == 200) {
-              Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-              Router.push("/login");
-          }
-      } catch (error: any) {
-          alert(error.response.data.error);
-      }
-    }
-    
-    useEffect(() => {
-        // URLSearc
-        const myURL = new URL(window.location.href);
-        if (myURL.searchParams.get('disconnected') == "") {
-            setReconnect(true)
-        }else{
-            setReconnect(false)
-        }
-
-    }, [])
-
-    return (
-        <section>
-            <div style={{ 'position': 'absolute', 'top': '5%', 'right':' 5%' }}>
-                <button
-                    onClick={handleLogout}
-                    style={logoutBtnStyle}
-                >LOG OUT</button>
-            </div>
-            
-            {!reconnect ?
-                <>
-                {queue > 0 ?
-                    <QrWaitingRoom queue={queue} />
-                    :
-                    <MainCont width={40}>
-                        <QrCard qr_url={url} linked_whatsapp={linkedWhatsapp}/>
-                    </MainCont>
-                }
-                </>
-            :
-                <Reconnect />
-            }
-        </section>
-    );
-};
-
-Qr.getInitialProps = async (context) => {
-  const req = context.req;
-
-//   ~ codigo para testear ~
-
-  if (req) {
-    const headers = new Headers({
-      "Content-Type": "application/json",
-    });
-    const cookies = new Cookies(req.headers.cookie);
-    const accessToken = cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME || "").access_token;
-    headers.append("Authorization", `Bearer ${accessToken}`);
-    const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_USER_URL}/ws`,
-      { headers }
-    );
-    const data = await apiResponse.json();
-    return { linkedWhatsapp: data.data.connected_whatsapp == 1};
+  const logoutBtnStyle = {
+    'width': '100%',
+    'padding': '8px 16px',
+    'borderRadius': '5px',
+    'backgroundColor': '#000',
+    'border': '1px solid var(--amarillo)',
+    'color': 'var(--amarillo)',
+    'cursor': 'pointer',
+    'letterSpacing': '1px',
   }
-  return { linkedWhatsapp: false};
+
+  async function handleLogout() {
+    
+    setLoading(true)
+
+    try {
+      const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+      const response = await apiUserController.logout(accessToken);
+      if (response.status == 200) {
+        Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+        Router.push(`${ROUTES.LOGIN}`);
+        setLoading(false)
+
+      }
+    } catch (error: any) {
+        alert(error.response.data.error);
+        setLoading(false)
+    }
+  }
+
+  const [notification, setNotification] = useState<INotification>({
+    status : STATUS.SUCCESS,
+    render : false,
+    message : "",
+    modalReturn : ()=>{}
+  })
+
+  const isMobile = useDeviceType();
+
+
+
+  return (
+    <section style={{"paddingTop": isMobile ? "15%" : '0%' }}>
+      <Loader loading={loading} />
+      <Notification {...notification} />
+
+      <div style={{ 'position': 'absolute', 'top': '5%', 'right': ' 5%' }}>
+        <button
+          onClick={handleLogout}
+          style={logoutBtnStyle}
+        >LOG OUT</button>
+      </div>
+      {queue == 0 ? (
+        <>
+          <MainCont width={isMobile ? 90 : 40} style={ isMobile ? {'top' : "55%" } : {'top' : "50%" }  }>
+            <QrCard notification={notification} setNotification={setNotification}/>
+          </MainCont>
+        </>
+      ) :
+        <QrWaitingRoom queue={queue} />
+      }
+    </section>
+  );
 };
 
 Qr.getLayout = (page) => {
-    return (
-        <PrimaryLayout>
-          {page}
-        </PrimaryLayout>
-      );
-  };
+  return (
+    <PrimaryLayout>
+      {page}
+    </PrimaryLayout>
+  );
+};
 
 export default Qr;

@@ -44,16 +44,46 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
 
     useEffect(() => {
         setLastMessageType(chat[chat.length - 1]?.type)
+<<<<<<< HEAD
     }, [chat])
 
+=======
+        setChatData(chat)
+    }, [chat])
+
+
+
+    const chatWindowRef = useRef<HTMLDivElement>(null)    
+    
+    function scrollToBottom() {
+        if (chatWindowRef.current) {
+            chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+        }
+
+    }
+        
+>>>>>>> develop
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
-            // check if event target is not an input or a textarea
+          // check if event target is not an input or a textarea
             if (!(event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement)){
                 if (event.key == "m" || event.key == "M") {
+<<<<<<< HEAD
                     setChat( [...chat, {info: "", color: "blue", type: "texto"}] )
                     // Auto focus en el ultimo campo creado
                     setKeyPressed(!keyPressed)
+=======
+                    setTimeout(() => {
+                        setChat( [...chat, {info: "", color: "blue", type: "texto"}] )
+
+                        // Movida para que se focusee el ultimo input
+                        focusLastMessage()
+
+                    }, 50);
+                    // Auto focus en el ultimo campo creado
+                    setKeyPressed(!keyPressed)
+                    
+>>>>>>> develop
                 }
                 if(event.key == "c" || event.key == "C"){
                     if (lastMessageType == "any" ) { return false; }
@@ -67,20 +97,27 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
                     scrollToBottom()
                 }, 100);
             }
-
-
         }
+    
         document.addEventListener("keydown", handleKeyPress);
+        
+        if (splitModal != null) {
+            document.removeEventListener("keydown", handleKeyPress);
+        }
+
         return () => {
           document.removeEventListener("keydown", handleKeyPress);
         };
-      })
+    });
 
+    const parentRef = useRef<HTMLDivElement>(null);
 
-    useEffect(()=>{
-        setChatData(chat)
-    },[chat])
+    function focusLastMessage() {
+        setTimeout(() => {
+            const parentElement = parentRef.current;
+            const lastChild = parentElement?.lastElementChild;
 
+<<<<<<< HEAD
     const [inputRefs, setInputRefs] = useState([]);
     
     useEffect(()=>{
@@ -105,9 +142,21 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
         if (chatWindowRef.current) {
             chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
           }
+=======
+            if (lastChild && lastChild.tagName === 'DIV') {
+                const inputElement = lastChild.querySelector('textarea');
+                if (inputElement) {
+                    setTimeout(() => {
+                        inputElement.focus();
+                    }, 200);
+                }
+            }
+        }, 0);
+>>>>>>> develop
     }
 
-    // get days between monday and friday
+
+//   useEffect(() => { focusLastMessage(); }, [keyPressed]);
 
 
     return (
@@ -115,13 +164,13 @@ const ChatWindow: React.FC<IChatWindow> = ({ chatData, setChatData, index, notif
                 <div>
                     <div className={styles.chat_cont} >
                         <div className={styles.chat_window} ref={chatWindowRef}>
-                            <div className={styles.chat} >
+                            <div className={styles.chat} ref={parentRef} >
                                 {chat.map((message, index)=>(
                                     <ChatBox index={index} message={message} setChat={setChat} chat={chat} splitModal={splitModal} setSplitModal={setSplitModal} setParentIndex={setParentIndex} notification={notification} setNotification={setNotification} />
                                 ))}
                             </div>
                         </div>
-                        <AddChatBox arrMessages={chat} setArrMessages={setChat} splitModal={splitModal} setSplitModal={setSplitModal} scrollToBottom={scrollToBottom}/>
+                        <AddChatBox arrMessages={chat} setArrMessages={setChat} splitModal={splitModal} setSplitModal={setSplitModal} scrollToBottom={scrollToBottom} focusLastMessage={focusLastMessage}/>
                     </div>
                     {splitModal != null &&
                         <ModalSplit splitModal={splitModal} setSplitModal={setSplitModal} chat={chat} setChat={setChat} parentIndex={parentIndex} setParentIndex={setParentIndex} scrollToBottom={scrollToBottom} notification={notification} setNotification={setNotification}/>

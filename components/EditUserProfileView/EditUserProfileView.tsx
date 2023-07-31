@@ -3,10 +3,11 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
 import apiUserController from "../../api/apiUserController";
+import { LOGIN_COOKIE } from "../../constants/ index";
+import { ROUTES, STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
-import MainCont from "../MainCont/MainCont";
 import { INotification } from "../Notification/Notification";
 import styles from './EditUserProfileView.module.css';
 
@@ -18,46 +19,50 @@ export interface IEditUserProfileView {
     email: string;
     connected_whatsapp: number,
     created_at: string,
-    updated_at: string
+    updated_at: string,
   }
+  setLoading : (value : boolean) => void,
+  notification: INotification,
+  setNotification: (value: INotification) => void
 }
 
 
-const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
+const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading, notification, setNotification }) => {
+  
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
 
-  const [notification, setNotification] = useState<INotification>({
-    status : "success",
-    render : false,
-    message : "",
-    modalReturn : ()=>{}
-})
 
-  async function handleDesvWpp(){
-    const userId = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).user_id;
-    const response = await apiSenderWhatsappController.unlinkWhatsapp(userId);
-    if (response.status == 200) {
-      user.connected_whatsapp = 0
-    } else {
-      const data = await response.json();
-      console.log(data);
+  
+
+  async function handleDesvWpp() {
+    setLoading(true)
+    const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
+    const response = await apiSenderWhatsappController.disconnect(authToken);
+
+    if (response) {
+      Router.push(ROUTES.QR);
     }
+    setLoading(false)
+
   }
-  async function handleLogout(){
+  async function handleLogout() {
+    setLoading(true)
     try {
-        const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
-        const response = await apiUserController.logout(accessToken);
-        if (response.status == 200) {
-            Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-            Router.push("/login");
-        }
+      const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+      const response = await apiUserController.logout(accessToken);
+      if (response.status == 200) {
+        Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+        Router.push(ROUTES.LOGIN);
+        setLoading(false)
+
+      }
     } catch (error: any) {
-        // (error.response.data.error);
-        return false;
+        setLoading(false)
+      return false;
     }
   }
 
@@ -66,39 +71,45 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
     try {
       const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
 
-      setNotification({
-        status : "success",
-        render : true,
-        message : "Perfil actualizado de forma exitosa!",
-        modalReturn : () => {
-            setNotification({...notification, render : false})
-        }})
-      
+      if (response.status == 200) {
+        setNotification({
+          status: STATUS.SUCCESS,
+          render: true,
+          message: "Perfil actualizado de forma exitosa!",
+          modalReturn: () => {
+            setNotification({ ...notification, render: false })
+          }
+        })
+      }
+
     } catch (error: any) {
       setNotification({
-        status : "error",
-        render : true,
-        message : "Ups! algo salió mal.",
-        modalReturn : () => {
-            setNotification({...notification, render : false})
-        }})
+        status: STATUS.ERROR,
+        render: true,
+        message: "Ups! algo salió mal.",
+        modalReturn: () => {
+          setNotification({ ...notification, render: false })
+        }
+      })
     }
   }
 
-  useEffect(()=>{
-    if (confirmPass != '' && confirmPass != pass) {
-        setEqualPass(false)
-    }else{
-        setEqualPass(true)
+  useEffect(() => {
+    if ((confirmPass != '' || pass != '') && confirmPass != pass) {
+      setEqualPass(false)
+    } else {
+      setEqualPass(true)
     }
 
-},[confirmPass])
+  }, [confirmPass, pass])
+
+  const logout = true;
 
   return (
-    <MainCont width={90} maxWidth={340}>
       <div>
+        
         <CardTitle text="Opciones" />
-        <form>
+        <form onSubmit={(e)=> e.preventDefault() } >
           <div>
             <label className={styles.input_label} htmlFor="">NOMBRE</label>
             <InputGral
@@ -106,6 +117,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
               type="text"
               value={name}
               onChange={setName}
+              isDisabled={true}
               classes={["error"]}
             />
             <label className={styles.input_label} htmlFor="">E-MAIL</label>
@@ -114,18 +126,17 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
               type="email"
               value={email}
               onChange={setEmail}
+              isDisabled={true}
             />
             <label className={styles.input_label} htmlFor="">CONTRASEÑA</label>
-            <InputGral placeholder='• • • • • • • •' type="password" value={pass} onChange={ setPass }/>
+            <InputGral placeholder='• • • • • • • •' type="password" value={pass} onChange={setPass} />
             <label className={styles.input_label} htmlFor="">CONFIRMAR CONTRASEÑA</label>
-            <InputGral placeholder='• • • • • • • •' type="password" value={confirmPass} onChange={ setConfirmPass }/>
+            <InputGral placeholder='• • • • • • • •' type="password" value={confirmPass} onChange={setConfirmPass} />
             {!equalPass &&
-                <p className={styles.alert}>Las contraseñas no coinciden :(</p>
+              <p className={styles.alert}>Las contraseñas no coinciden :(</p>
             }
           </div>
           <div className={styles.buttons}>
-          {
-            user.connected_whatsapp == 1?
             <CustomColorBtn
               type="button"
               text="DESVINCULAR WHATSAPP"
@@ -133,40 +144,26 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({user}) => {
               backgroundColorEnd="#f94f4f"
               borderColor="#f94f4f"
               onClick={handleDesvWpp}
-            /> 
-            :
-            <CustomColorBtn
-              type="button"
-              text="VINCULAR WHATSAPP"
-              backgroundColorInit="#c21c3b"
-              backgroundColorEnd="#f94f4f"
-              borderColor="#f94f4f"
-              onClick={() => {
-                return Router.push("/qr")
-              }}
             />
-          }
-          {
-            equalPass && 
-            <CustomColorBtn
-              type="submit"
-              text="GUARDAR CAMBIOS"
-              backgroundColorInit="#c21c3b"
-              backgroundColorEnd="#f9bd4f"
-              borderColor="#e17846"
-              onClick={editUserProfile}
-            />
-          }
+            {equalPass && (
+              <CustomColorBtn
+                type="submit"
+                text="GUARDAR CAMBIOS"
+                backgroundColorInit="#c21c3b"
+                backgroundColorEnd="#f9bd4f"
+                borderColor="#e17846"
+                onClick={editUserProfile}
+              />
+            )}
 
-          <div className={styles.logout_btn}>
-            <hr />
-            <button onClick={ handleLogout }>CERRAR SESION</button>
-          </div>
+            <div className={styles.logout_btn}>
+              <hr />
+              <button onClick={handleLogout}>CERRAR SESION</button>
+            </div>
 
           </div>
         </form>
       </div>
-    </MainCont>
   );
 };
 

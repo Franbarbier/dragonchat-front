@@ -4,7 +4,7 @@
     height: 100vh;
     left: 0;
     top: 0;
-    background: #0000004e;
+    background: #000000c7;
     /* -webkit-backdrop-filter: blur(20px); */
     /* backdrop-filter: blur(4px); */
     z-index: 100;
@@ -60,4 +60,25 @@
 }
 
 .modal_shield_option{ width: 35vw; }
+<<<<<<< HEAD
 .timerModal { width: 35vw; }
+=======
+.timerModal { width: 35vw; }
+
+/* if mobile modal cont more width */
+@media screen and (max-width: 768px){
+    .modal_cont{
+        width: 80vw;
+        max-width: 80vw;
+        padding: 30px 20px;
+
+
+    }
+    .refAmis{
+        width: 80vw!important;
+    }
+    .modal_shield_option{ width: 80vw; }
+    .timerModal { width: 80vw; }
+    .modal_shield_option>div{ margin: 8% 0; }
+}
+>>>>>>> develop

@@ -7,11 +7,11 @@ export interface ICustomColorBtn {
     backgroundColorEnd: string;
     disable?: boolean;
     borderColor: string,
-    onClick: () => void;
+    onClick: (arg:React.MouseEvent<HTMLElement>) => void;
 }
 
 const CustomColorBtn: React.FC<ICustomColorBtn> = ({ text, type="button", backgroundColorInit, backgroundColorEnd, borderColor, onClick, disable=false }) => {
-    return <button type={type} className={`${styles.customColorBtn} ${disable && styles.disabled}`} onClick={ ()=> { if(!disable){ onClick() }}} style={{background: `linear-gradient(0, ${backgroundColorInit}, ${backgroundColorEnd})`, border: `1px solid ${borderColor}`}}>{text}</button>;
+    return <button type={type} className={`${styles.customColorBtn} ${disable && styles.disabled}`} onClick={ (e)=> { if(!disable){ onClick(e) }}} style={{background: `linear-gradient(0, ${backgroundColorInit}, ${backgroundColorEnd})`, border: `1px solid ${borderColor}`}}>{text}</button>;
 }
 
 export default CustomColorBtn;

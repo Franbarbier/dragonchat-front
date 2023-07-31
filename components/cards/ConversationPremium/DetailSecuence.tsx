@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import Breadcrumb from './Breadcrumb';
@@ -54,7 +55,6 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
     };
 
     useEffect(()=>{
-        console.log(icono)
         if (icono?.name) {
             setSecuenceInfo({...secuenceInfo, icon: icono.name})
         }
@@ -66,11 +66,13 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
     
     function validacionCrearSecuencia() {
 
-        console.log(secuenceInfo, secuenceInfoChat, secuence, icono)
-
         if (secuenceInfo.name == "" ) {
             setNotification({
+<<<<<<< HEAD
                 status : "error",
+=======
+                status : STATUS.ERROR,
+>>>>>>> develop
                 render : true,
                 message : "Debes asignarle un nombre a la secuencia",
                 modalReturn : () => {
@@ -80,7 +82,11 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
         }
         if (secuenceInfo.chat.length == 0) {
             setNotification({
+<<<<<<< HEAD
                 status : "error",
+=======
+                status : STATUS.ERROR,
+>>>>>>> develop
                 render : true,
                 message : "Debes agregar al menos un mensaje a la secuencia",
                 modalReturn : () => {
@@ -90,7 +96,11 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
         }
         if (secuenceInfo.chat[0].info == "") {
             setNotification({
+<<<<<<< HEAD
                 status : "error",
+=======
+                status : STATUS.ERROR,
+>>>>>>> develop
                 render : true,
                 message : "No puedes enviar un mensaje vacío",
                 modalReturn : () => {
@@ -110,22 +120,6 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
         console.log("aaaaa")
     
     }
-
-    // useEffect(()=>{
-    //     console.log(secuenceInfoChat)
-    //     for (let index = 0; index < secuenceInfoChat.length; index++) {
-    //         const element = secuenceInfoChat[index];
-
-    //         if(element.type == 'include' || element.type == 'exclude'){
-    //             const bloque = `<div>
-    //                 <p> ${secuenceInfoChat[index - 1].info} </p>
-    //             </div>`
-    //             console.log(bloque)
-    //         }
-            
-    //     }
-
-    // },[secuenceInfoChat])
     
 
         return (
@@ -156,17 +150,22 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                             <div style={{ 'width' : '48%'}}>
                                 <CustomColorBtn
                                     type="submit"
-                                    text="Regresar"
+                                    text="Resgresar"
                                     backgroundColorInit="rgb(58 148 254 / 36%)"
                                     backgroundColorEnd="rgb(114 76 223 / 0%)"
                                     borderColor="#5573f0"
                                     onClick={()=>{
-                                        console.log(secuenceInfoChat)
                                         if(secuenceInfoChat.length > 0){
                                             setNotification({
+<<<<<<< HEAD
                                                 status : "alert",
                                                 render : true,
                                                 message : "¿Estas seguro que quieres salir sin guardar los cambios?'",
+=======
+                                                status : STATUS.ALERT,
+                                                render : true,
+                                                message : "¿Estas seguro que quieres salir sin guardar los cambios?",
+>>>>>>> develop
                                                 modalReturn : (booleanReturn)=>{
                                                     setNotification({...notification, render : false })
                                                     if ( booleanReturn ) {
@@ -174,6 +173,11 @@ const DetailSecunce: React.FC<ISecuencePremium> = ({ secuence, setSecuenciasCrea
                                                     }
                                                 }
                                             })
+<<<<<<< HEAD
+=======
+                                        }else{
+                                            setActiveSecuence(null)
+>>>>>>> develop
                                         }
                                     }}
                                     disable={ false }

@@ -27,20 +27,15 @@ const SecuenceMessage: React.FC<ISecuenceMessage> = ({ setActiveCard, activeCard
         setChat( [...chat, {message, color}] )
     }
 
-    console.log(chat)
-
 
     return (
         <div
-        // id="SecuencePremiumCard"
-        // className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} 
+                className={`${styles.card} ${styles.SecuencePremiumCard} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`}
+                id={`${styles['card'+idCard]}`}
 
-        className={`${styles.card} ${styles.SecuencePremiumCard} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`}
-        id={`${styles['card'+idCard]}`}
-
-        onClick={()=>{
-            setModalAddMessage('')
-        }}
+                onClick={()=>{
+                    setModalAddMessage('')
+                }}
         >
 
             <div className={styles.card_container}>
