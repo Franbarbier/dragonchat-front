@@ -3,10 +3,7 @@ import { STATUS } from '../../enums';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
 import ModalTimer from '../ModalTimer/ModalTimer';
-<<<<<<< HEAD
-=======
 import Notification, { INotification } from '../Notification/Notification';
->>>>>>> develop
 import styles from './Header.module.css';
 
 export interface IHeader {
@@ -65,22 +62,14 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
                     <img width={'130px'} src={'dragonchat_logo_full.svg'} />
 
                 </div>
-<<<<<<< HEAD
-                <div className={styles.timerCont} onClick={ ()=>{ setModalTimer(true) } } >
-=======
                 {/* Esto se comenta porque hasta que se implemente el timer no se va a usar */}
                 {/* <div className={styles.timerCont} onClick={ ()=>{ setModalTimer(true) } } >
->>>>>>> develop
                     <div>
                         <div>
                             <h4>10:00</h4>
                         </div>
                     </div>
-<<<<<<< HEAD
-                </div>
-=======
                 </div> */}
->>>>>>> develop
                 <div className={styles.menu_cont}>
                     <div className={styles.referir_cont}>
                         <button onClick={()=>{setModalRef(true)}}>
