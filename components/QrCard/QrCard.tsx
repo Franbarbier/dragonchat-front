@@ -4,10 +4,7 @@ import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/ index';
 import { STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
-<<<<<<< HEAD
-=======
 import Loader from '../Loader/Loader';
->>>>>>> develop
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './QrCard.module.css';
@@ -19,23 +16,6 @@ export interface IQrCard {
 
 const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
-<<<<<<< HEAD
-    const [activeQr, setActiveQr] = useState<string>("");
-    
-    const [notification, setNotification] = useState<INotification>({
-        status : "success",
-        render : false,
-        message : "",
-        modalReturn : ()=>{}
-    })
-
-    const linkedWhatsapp = linked_whatsapp;
-   
-    useEffect(()=>{
-        socket.on('message', function (data) {
-            if (data.text == '¡Fallo la conexion!') {
-                location.reload()
-=======
     const [activeQr, setActiveQr] = useState<string | null>(null);
 
     const handleIsConnected = () => {
@@ -52,7 +32,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                 } else {
                     handleIsConnected();
                 }
->>>>>>> develop
             }
         }, 4000);
     };
@@ -68,33 +47,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         })
     };
 
-<<<<<<< HEAD
-        socket.on("ready", (err) => {
-            setNotification({
-                status : "success",
-                render : true,
-                message : "Whatsapp sincronizado con éxito! Antes de enviar mensajes, asegurate que haya terminado la sincronizacion. Desde tus dispositivos vinculados en la app.",
-                modalReturn : () => {
-                    setNotification({...notification, render : false})
-                    location.href = "/"
-                }})
-            setTimeout(() => {
-                location.href = "/"
-            }, 6000);
-        });
-        
-    },[socket])
-
-
-
-    function handleEmitID() {
-        const userInfo = JSON.parse( Cookie.get('dragonchat_login') || "{}" );
-        socket.emit('create-session', {
-            id: userInfo.user_id.toString(),
-        });
-=======
     const handleEmitID = async () => {
->>>>>>> develop
         setLoadingQr(true);
 
         const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;

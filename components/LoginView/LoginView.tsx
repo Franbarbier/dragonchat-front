@@ -10,10 +10,6 @@ import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
-<<<<<<< HEAD
-import OrangeBtn from '../OrangeBtn/OrangeBtn';
-=======
->>>>>>> develop
 import styles from './LoginView.module.css';
 
 
@@ -31,16 +27,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
-<<<<<<< HEAD
-    const [notification, setNotification] = useState<INotification>({
-        status : "success",
-        render : false,
-        message : "",
-        modalReturn : ()=>{}
-    })
-=======
     
->>>>>>> develop
 
     const [logging, setLogging] = useState<boolean>(false)
 
@@ -69,11 +56,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                 }else{
                     setLogging(false)
                     setNotification({
-<<<<<<< HEAD
-                        status : "error",
-=======
                         status : STATUS.ERROR,
->>>>>>> develop
                         render : true,
                         message : "Los datos son incorrectos.",
                         modalReturn : () => {
@@ -86,14 +69,9 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
 
 
         }else{
-<<<<<<< HEAD
-            setNotification({
-                status : "error",
-=======
             setLogging(false)
             setNotification({
                 status : STATUS.ERROR,
->>>>>>> develop
                 render : true,
                 message : "Los datos estan incompletos.",
                 modalReturn : () => {
@@ -160,13 +138,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                 </div> */}
 
             </form>
-<<<<<<< HEAD
-            <Loader loading={logging} />
-        </div>
-    
-=======
         </div>    
->>>>>>> develop
     );
 }
 

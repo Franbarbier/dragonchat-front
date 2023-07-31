@@ -3,11 +3,7 @@ import styles from './QrWaitingRoom.module.css';
 
 
 export interface IQrWaitingRoom {
-<<<<<<< HEAD
-    queue : number;
-=======
     queue: number,
->>>>>>> develop
 }
 
 
@@ -39,11 +35,6 @@ const QrWaitingRoom: React.FC<IQrWaitingRoom> = ({ queue }) => {
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-        
-        
-=======
->>>>>>> develop
     
     );
 }

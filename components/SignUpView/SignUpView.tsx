@@ -27,11 +27,7 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
     const [userExists, setUserExists] = useState(false)
 
     const [notification, setNotification] = useState<INotification>({
-<<<<<<< HEAD
-        status : "success",
-=======
         status : STATUS.SUCCESS,
->>>>>>> develop
         render : false,
         message : "",
         modalReturn : ()=>{}
@@ -43,11 +39,7 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
                 await apiUserController.signUp(name, email, pass, confirmPass, setUserExists);
             }else{
                 setNotification({
-<<<<<<< HEAD
-                    status : "error",
-=======
                     status : STATUS.ERROR,
->>>>>>> develop
                     render : true,
                     message : "Asegurate de completar todos los campos!",
                     modalReturn : ()=>{setNotification({...notification, render : false })}
@@ -55,11 +47,7 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
             }
         }else{
             setNotification({
-<<<<<<< HEAD
-                status : "error",
-=======
                 status : STATUS.ERROR,
->>>>>>> develop
                 render : true,
                 message : "Las contraseñas no coinciden!",
                 modalReturn : ()=>{setNotification({...notification, render : false })}
