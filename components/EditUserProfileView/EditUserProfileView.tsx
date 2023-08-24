@@ -67,6 +67,22 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading,
   }
 
   async function editUserProfile() {
+
+    
+    // validar que los campos no tengan espacio en blanco y tenga mas de de 6 caracteres la pass
+    if ((pass != '' && pass.length < 6) || (confirmPass != '' && confirmPass.length < 6) || pass.trim().length == 0 || pass.includes(' ') ) {
+      setNotification({
+        status: STATUS.ERROR,
+        render: true,
+        message: "La contraseña no puede tener espacios y debe tener 6 o mas caracteres.",
+        modalReturn: () => {
+          setNotification({ ...notification, render: false })
+        }
+      })
+      return false;
+    }
+
+
     const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
     try {
       const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
@@ -76,6 +92,15 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading,
           status: STATUS.SUCCESS,
           render: true,
           message: "Perfil actualizado de forma exitosa!",
+          modalReturn: () => {
+            setNotification({ ...notification, render: false })
+          }
+        })
+      }else{
+        setNotification({
+          status: STATUS.ERROR,
+          render: true,
+          message: "Ups! algo salió mal.",
           modalReturn: () => {
             setNotification({ ...notification, render: false })
           }
@@ -95,7 +120,8 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading,
   }
 
   useEffect(() => {
-    if ((confirmPass != '' || pass != '') && confirmPass != pass) {
+
+    if ( (confirmPass != '' || pass != '') && confirmPass != pass ) {
       setEqualPass(false)
     } else {
       setEqualPass(true)
@@ -103,7 +129,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading,
 
   }, [confirmPass, pass])
 
-  const logout = true;
 
   return (
       <div>
