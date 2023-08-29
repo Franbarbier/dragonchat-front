@@ -3,7 +3,7 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
 import apiUserController from "../../api/apiUserController";
-import { LOGIN_COOKIE } from "../../constants/ index";
+import { LOGIN_COOKIE } from "../../constants/index";
 import { ROUTES, STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
@@ -31,18 +31,30 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading,
   
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
+  let plan = '';
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
 
 
+  useEffect(() => {
+    async function getUserData() {
+      const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
+      const response = await apiUserController.getData(authToken);
+      console.log(response.data.name, response.data.email)
+      setName(response.data.data.name)
+      setEmail(response.data.data.email)
+      return response;
+    }
+    getUserData()
+  
+  }, [])
   
 
   async function handleDesvWpp() {
     setLoading(true)
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiSenderWhatsappController.disconnect(authToken);
-
     if (response) {
       Router.push(ROUTES.QR);
     }
@@ -66,7 +78,9 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading,
     }
   }
 
+
   async function editUserProfile() {
+
 
     
     // validar que los campos no tengan espacio en blanco y tenga mas de de 6 caracteres la pass
