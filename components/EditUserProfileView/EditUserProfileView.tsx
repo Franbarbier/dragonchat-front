@@ -41,7 +41,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading,
     async function getUserData() {
       const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
       const response = await apiUserController.getData(authToken);
-      console.log(response.data.name, response.data.email)
       setName(response.data.data.name)
       setEmail(response.data.data.email)
       return response;
