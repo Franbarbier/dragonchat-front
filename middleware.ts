@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (authCookie) {
-    const accessToken = JSON.parse(authCookie.value).access_token;
+    const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
 
     if (req.nextUrl.pathname.includes(ROUTES.LOGIN)) {
       return NextResponse.next();
@@ -32,6 +32,8 @@ export async function middleware(req: NextRequest) {
         }
       }
     );
+
+    console.log("ERROR??????")
     const response = await apiResponse.json();
 
     if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
@@ -46,11 +48,11 @@ export async function middleware(req: NextRequest) {
       return NextResponse.error();
     }
 
-    if (response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) ) {
+    if (response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.DASH);
     }
 
-    if (!response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) ) {
+    if (!response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.QR);
     }
   }
