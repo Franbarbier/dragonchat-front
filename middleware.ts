@@ -33,7 +33,6 @@ export async function middleware(req: NextRequest) {
       }
     );
 
-    console.log("ERROR??????")
     const response = await apiResponse.json();
 
     if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
