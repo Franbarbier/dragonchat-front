@@ -5,6 +5,11 @@ const apiUrl = process.env.NEXT_PUBLIC_API_USER_URL;
 const authUrl = apiUrl + '/auth';
 const passwordUrl = apiUrl + '/password'
 
+const getHeaders = (authToken: string) => ({
+    "Accept": "application/json",
+    'Authorization': `Bearer ${authToken}`,
+});
+
 const apiUserController = {
     signUp: async (name, email, password, passwordConfirmation, setUserExists) => {
         try {
@@ -22,6 +27,15 @@ const apiUserController = {
             }
         }
         return;
+    },
+    getData: async (authToken: string) => {
+        try {
+            const response = await axios.get(`${authUrl}/me`, { headers: getHeaders(authToken) });
+
+            return response
+        } catch (error: any) {
+            return error
+        }
     },
     login: async (email, password) => {
         try {
