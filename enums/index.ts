@@ -5,6 +5,7 @@ export enum ROUTES {
   LOGIN = '/login',
   USER_EDIT = '/user/edit',
   NEW_PASS = '/new_password',
+  CANCEL = '/cancel'
 };
 
 export enum API_ROUTES {
