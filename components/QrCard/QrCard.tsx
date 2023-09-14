@@ -1,7 +1,7 @@
 import Cookie from 'js-cookie';
 import { useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
-import { LOGIN_COOKIE } from '../../constants/ index';
+import { LOGIN_COOKIE } from '../../constants/index';
 import { STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import Loader from '../Loader/Loader';

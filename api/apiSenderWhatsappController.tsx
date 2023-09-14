@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_SENDER_URL } from '../constants/ index';
+import { API_SENDER_URL } from '../constants/index';
 import { API_ROUTES } from '../enums';
 
 const getHeaders = (authToken: string) => ({
