@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import apiUserController from "./api/apiUserController";
 import { API_SENDER_URL, LOGIN_COOKIE } from "./constants/index";
-import { API_PARAMS, API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from "./enums";
+import { API_PARAMS, API_RESPONSES, API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from "./enums";
 
 const handleRedirect = (req: NextRequest, route: ROUTES) => {
   const newUrl = req.nextUrl.clone();
@@ -8,12 +9,25 @@ const handleRedirect = (req: NextRequest, route: ROUTES) => {
   return NextResponse.redirect(newUrl);
 };
 
-const getHeaders = (authToken: string) => ({
-  "Content-Type": "application/json",
-  'Authorization': `Bearer ${authToken}`,
-});
+export async function fetchStripeData(req) {
+
+  const authCookie = req.cookies?.dragonchat_login
+  const stripeCookie = req.cookies?.stripe_session
+  
+
+  if (stripeCookie && authCookie) {
+    const cookies_response = await apiUserController.updatePlan(authCookie, stripeCookie);
+
+    if (cookies_response === 200) {
+      return cookies_response;
+    }
+  }
+
+  return 0;
+}
 
 export async function middleware(req: NextRequest) {
+
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
 
   if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie) {
@@ -21,7 +35,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (authCookie) {
-    const accessToken = JSON.parse(authCookie.value).access_token;
+    const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
 
     if (req.nextUrl.pathname.includes(ROUTES.LOGIN)) {
       return NextResponse.next();
@@ -38,35 +52,25 @@ export async function middleware(req: NextRequest) {
       }
     );
 
+    const response = await apiResponse.json();
 
-    var apiResponseHandler = {
-      phoneConnected: false
-    };
-
-    try {
-        apiResponseHandler = await apiResponse.json();
-    } catch (error) {
-      // apiResponseHandler.phoneConnected = false;
+    if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
+      if (process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME) {
+        req.cookies.delete(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+      }
+      req.cookies.clear();
+      return handleRedirect(req, ROUTES.LOGIN);
     }
 
+    if (!response) {
+      return NextResponse.error();
+    }
 
-    // if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
-    //   if (process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME) {
-    //     req.cookies.delete(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-    //   }
-    //   req.cookies.clear();
-    //   return handleRedirect(req, ROUTES.LOGIN);
-    // }
-
-    // if (!response) {
-    //   return NextResponse.error();
-    // }
-
-    if (apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) ) {
+    if (response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.DASH);
     }
 
-    if (!apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) ) {
+    if (!response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.QR);
     }
   }
