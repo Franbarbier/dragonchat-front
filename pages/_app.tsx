@@ -46,5 +46,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
 export type GralProps = {
   sampleTextProp?: string,
-  linkedWhatsapp: boolean
+  linkedWhatsapp: boolean,
+  session_data?: string,
 }
