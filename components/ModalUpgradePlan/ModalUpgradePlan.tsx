@@ -24,7 +24,7 @@ const ModalUpgradePlan: React.FC<IModalUpgradePlan> = ({ setModalStripe }) => {
                     onClick={()=>{ setModalStripe(1) }}
                     disable={ false }
                 />
-                          </div>
+            </div>
         </div>
       );
 }

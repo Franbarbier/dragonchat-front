@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import Stripe from 'stripe';
-import { STRIPE_COOKIE } from '../constants/ index';
+import { STRIPE_COOKIE } from '../constants/index';
 
 
 export async function handleStripeSession(id) {
