@@ -1,19 +1,20 @@
 import { useState } from "react";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { STATUS } from "../enums";
-import { NextPageWithLayout } from "./page";
+import handleStripeSession from "../utils/checkout";
 import { GralProps } from "./_app";
+import { NextPageWithLayout } from "./page";
 
-const Login : NextPageWithLayout<GralProps> = (GralProps) => {
+const Login: NextPageWithLayout<GralProps> = (GralProps) => {
 
     const [notification, setNotification] = useState<INotification>({
-        status : STATUS.SUCCESS,
-        render : false,
-        message : "",
-        modalReturn : ()=>{}
+        status: STATUS.SUCCESS,
+        render: false,
+        message: "",
+        modalReturn: () => { }
     })
 
     return (
@@ -33,7 +34,15 @@ export default Login;
 Login.getLayout = (page) => {
     return (
         <PrimaryLayout>
-          {page}
+            {page}
         </PrimaryLayout>
-      );
-  };
+    );
+};
+
+export async function getServerSideProps({ query: { session_id } }) {
+    if (session_id) {
+        handleStripeSession(session_id)
+    }
+
+    return { props: {} };
+}

@@ -19,7 +19,7 @@ const apiUserController = {
                 setUserExists(false);
                 Router.push("/login");
             }
-        } catch(error: any) {
+        } catch (error: any) {
             if (error.response.status == 409) {
                 setUserExists(true);
             } else {
@@ -42,29 +42,29 @@ const apiUserController = {
             const payload = { email: email, password: password };
             const response = await axios.post(`${authUrl}/login`, payload);
             return response;
-        } catch(error) {
+        } catch (error) {
         }
     },
     logout: async (accessToken) => {
         const headers = new Headers({
             "Content-Type": "application/json",
-          });
+        });
         headers.append("Authorization", `Bearer ${accessToken}`);
-        const response = await axios.get(`${authUrl}/logout`, {headers: Object.fromEntries(headers)});
+        const response = await axios.get(`${authUrl}/logout`, { headers: Object.fromEntries(headers) });
         return response;
     },
     edit: async (accessToken, name, email, password, passwordConfirmation) => {
         const headers = new Headers({
             "Content-Type": "application/json",
-          });
+        });
         headers.append("Authorization", `Bearer ${accessToken}`);
 
         let payload;
         if (password != '') {
             payload = { password: password, password_confirmation: passwordConfirmation };
         }
-            
-        const response = await axios.put(`${authUrl}/update`, payload, {headers: Object.fromEntries(headers)});
+
+        const response = await axios.put(`${authUrl}/update`, payload, { headers: Object.fromEntries(headers) });
         return response;
     },
     passwordRecoverSendEmail: async (email, setExistingUser) => {
@@ -74,7 +74,7 @@ const apiUserController = {
             if (response.status == 201) {
                 Router.push("/new_password");
             }
-        } catch(error: any) {
+        } catch (error: any) {
             if (error.response.status == 422 || error.response.status == 404) { // should be a 404 and not 422
                 setExistingUser(false);
             } else {

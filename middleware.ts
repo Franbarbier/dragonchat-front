@@ -21,7 +21,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (authCookie) {
-    const accessToken = JSON.parse(authCookie.value).access_token;
+    const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
 
     if (req.nextUrl.pathname.includes(ROUTES.LOGIN)) {
       return NextResponse.next();
@@ -37,6 +37,7 @@ export async function middleware(req: NextRequest) {
         }
       }
     );
+
 
 
     var apiResponseHandler = {
@@ -62,11 +63,11 @@ export async function middleware(req: NextRequest) {
     //   return NextResponse.error();
     // }
 
-    if (apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) ) {
+    if (apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.DASH);
     }
 
-    if (!apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) ) {
+    if (!apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.QR);
     }
   }
