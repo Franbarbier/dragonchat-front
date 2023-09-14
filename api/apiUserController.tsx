@@ -5,11 +5,6 @@ const apiUrl = process.env.NEXT_PUBLIC_API_USER_URL;
 const authUrl = apiUrl + '/auth';
 const passwordUrl = apiUrl + '/password'
 
-const getHeaders = (authToken: string) => ({
-    "Accept": "application/json",
-    'Authorization': `Bearer ${authToken}`,
-});
-
 const apiUserController = {
     signUp: async (name, email, password, passwordConfirmation, setUserExists) => {
         try {
@@ -19,7 +14,7 @@ const apiUserController = {
                 setUserExists(false);
                 Router.push("/login");
             }
-        } catch(error: any) {
+        } catch (error: any) {
             if (error.response.status == 409) {
                 setUserExists(true);
             } else {
@@ -28,43 +23,34 @@ const apiUserController = {
         }
         return;
     },
-    getData: async (authToken: string) => {
-        try {
-            const response = await axios.get(`${authUrl}/me`, { headers: getHeaders(authToken) });
-
-            return response
-        } catch (error: any) {
-            return error
-        }
-    },
     login: async (email, password) => {
         try {
             const payload = { email: email, password: password };
             const response = await axios.post(`${authUrl}/login`, payload);
             return response;
-        } catch(error) {
+        } catch (error) {
         }
     },
     logout: async (accessToken) => {
         const headers = new Headers({
             "Content-Type": "application/json",
-          });
+        });
         headers.append("Authorization", `Bearer ${accessToken}`);
-        const response = await axios.get(`${authUrl}/logout`, {headers: Object.fromEntries(headers)});
+        const response = await axios.get(`${authUrl}/logout`, { headers: Object.fromEntries(headers) });
         return response;
     },
     edit: async (accessToken, name, email, password, passwordConfirmation) => {
         const headers = new Headers({
             "Content-Type": "application/json",
-          });
+        });
         headers.append("Authorization", `Bearer ${accessToken}`);
 
         let payload;
         if (password != '') {
             payload = { password: password, password_confirmation: passwordConfirmation };
         }
-            
-        const response = await axios.put(`${authUrl}/update`, payload, {headers: Object.fromEntries(headers)});
+
+        const response = await axios.put(`${authUrl}/update`, payload, { headers: Object.fromEntries(headers) });
         return response;
     },
     passwordRecoverSendEmail: async (email, setExistingUser) => {
@@ -74,7 +60,7 @@ const apiUserController = {
             if (response.status == 201) {
                 Router.push("/new_password");
             }
-        } catch(error: any) {
+        } catch (error: any) {
             if (error.response.status == 422 || error.response.status == 404) { // should be a 404 and not 422
                 setExistingUser(false);
             } else {
@@ -107,6 +93,24 @@ const apiUserController = {
             }
         } catch (error: any) {
             alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
+        }
+        return;
+    },
+    updatePlan: async (login_data, stripe_data) => {
+        try {
+
+            let stripe_session = JSON.parse(stripe_data).stripe_session
+            let user_id = JSON.parse(login_data).user_id
+
+            const payload = { stripe_session, user_id };
+            console.log("payyyloooooaaaddd",payload)
+            // const response = await axios.post(`$endpoint para updatear plan`, payload);
+            // if (response.status == 200) {
+                return 200
+            // }
+            // return "error"
+        } catch (error: any) {
+            console.log("error");
         }
         return;
     }
