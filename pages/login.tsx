@@ -25,9 +25,10 @@ const Login: NextPageWithLayout<GralProps> = (GralProps) => {
     useEffect(()=>{
 
         if ( GralProps.session_data != "") {
+            // aca @nico estaria bueno encodear la cookie
             Cookies.set(
                 STRIPE_COOKIE,
-                JSON.stringify(GralProps.session_data), // secure flag option must be added in the future
+                JSON.stringify(GralProps.session_data),
                 {
                     sameSite: 'strict'
                 }
