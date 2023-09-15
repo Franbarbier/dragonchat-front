@@ -18,6 +18,7 @@ export async function fetchStripeData(req) {
   if (stripeCookie && authCookie) {
     const cookies_response = await apiUserController.updatePlan(authCookie, stripeCookie);
 
+    // Si es 200 Y se ejecuta el await api.ChangePlan (que no esta hecho aun el endpoint)
     if (cookies_response === 200) {
       return cookies_response;
     }

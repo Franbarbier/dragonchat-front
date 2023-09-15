@@ -55,7 +55,7 @@
 .close_mod:hover{
     color: white;
 }
-.refAmis{
+.refAmis, .modal_plan{
     width: 30vw!important;
 }
 
