@@ -108,12 +108,14 @@ export async function getServerSideProps(context) {
   );
   const data = await apiResponse.json();
 
+  let dataTyped = data.data as IEditUserProfileView;
+
   // Esto estaria bueno hacerlo global, no en /dash pero el success del pago te lleva a /dash en principio asique por ahora esta bien
   const cookiesResponseData = await fetchStripeData(context.req);
 
   return {
       props: {
-        user: data.data as IEditUserProfileView,
+        user: dataTyped,
         stripe: cookiesResponseData
       }
    }

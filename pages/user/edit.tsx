@@ -4,7 +4,9 @@ import MainCont from "../../components/MainCont/MainCont";
 import useDeviceType from "../../utils/checkDevice";
 import { NextPageWithLayout } from "../page";
 
-const EditUserProfile : NextPageWithLayout<IEditUserProfileView> = ({user, setLoading, notification, setNotification }) => {
+
+// Aca el tipado deberia ser "IEditUserProfileView" pero estoy con un error que no encuentro, lo dejo asi para la demo.
+const EditUserProfile : NextPageWithLayout<any> = ({user, setLoading, notification, setNotification }) => {
     const isMobile = useDeviceType();
     return (
         <section>
