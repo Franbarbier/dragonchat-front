@@ -117,14 +117,13 @@ const apiUserController = {
             let user_id = JSON.parse(login_data).user_id
 
             const payload = { stripe_session, user_id };
-            console.log("payyyloooooaaaddd",payload)
             // const response = await axios.post(`$endpoint para updatear plan`, payload);
             // if (response.status == 200) {
                 return 200
             // }
             // return "error"
         } catch (error: any) {
-            console.log("error");
+            // console.log("error");
         }
         return;
     }
