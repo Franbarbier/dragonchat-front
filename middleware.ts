@@ -54,23 +54,55 @@ export async function middleware(req: NextRequest) {
 
     const response = await apiResponse.json();
 
+<<<<<<< HEAD
     if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
       if (process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME) {
         req.cookies.delete(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
       }
       req.cookies.clear();
       return handleRedirect(req, ROUTES.LOGIN);
+=======
+
+    var apiResponseHandler = {
+      phoneConnected: false
+    };
+
+    try {
+        apiResponseHandler = await apiResponse.json();
+    } catch (error) {
+      // apiResponseHandler.phoneConnected = false;
+>>>>>>> develop
     }
 
     if (!response) {
       return NextResponse.error();
     }
 
+<<<<<<< HEAD
     if (response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.DASH);
     }
 
     if (!response.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
+=======
+    // if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
+    //   if (process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME) {
+    //     req.cookies.delete(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+    //   }
+    //   req.cookies.clear();
+    //   return handleRedirect(req, ROUTES.LOGIN);
+    // }
+
+    // if (!response) {
+    //   return NextResponse.error();
+    // }
+
+    if (apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
+      return handleRedirect(req, ROUTES.DASH);
+    }
+
+    if (!apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
+>>>>>>> develop
       return handleRedirect(req, ROUTES.QR);
     }
   }

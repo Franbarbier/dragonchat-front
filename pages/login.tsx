@@ -1,18 +1,31 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
+=======
+import { useState } from "react";
+>>>>>>> develop
 import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { STATUS } from "../enums";
+<<<<<<< HEAD
 import { handleStripeSession } from "../utils/checkout";
 import { NextPageWithLayout } from "./page";
+=======
+import handleStripeSession from "../utils/checkout";
+>>>>>>> develop
 import { GralProps } from "./_app";
+import { NextPageWithLayout } from "./page";
 
+<<<<<<< HEAD
 import Cookies from 'js-cookie';
 import Router from "next/router";
 import { LOGIN_COOKIE, STRIPE_COOKIE } from "../constants/index";
 
 
+=======
+>>>>>>> develop
 const Login: NextPageWithLayout<GralProps> = (GralProps) => {
 
     const [notification, setNotification] = useState<INotification>({
@@ -63,6 +76,7 @@ Login.getLayout = (page) => {
 };
 
 export async function getServerSideProps({ query: { session_id } }) {
+<<<<<<< HEAD
 
     let session_data = "";
 
@@ -72,4 +86,11 @@ export async function getServerSideProps({ query: { session_id } }) {
     }
 
     return { props: { session_data } };
+=======
+    if (session_id) {
+        handleStripeSession(session_id)
+    }
+
+    return { props: {} };
+>>>>>>> develop
 }
