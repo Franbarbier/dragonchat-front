@@ -13,16 +13,20 @@ import { removeStripeCookie } from '../utils/checkout';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
+interface IDashProps {
+  user: IEditUserProfileView,
+  stripe: number,
+}
 
 
-// cambiar este any x IEditUserProfileView  + "stripe"
-const Home: NextPageWithLayout<any> = ({ user, stripe }) => {
+const Home: NextPageWithLayout<IDashProps> = ({ user, stripe }) => {
 
   const { locale } = useRouter();
   const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [modalStripe, setModalStripe] = useState<number>(stripe)
-  
 
+  const typedUser = user as IEditUserProfileView;
+  
   useEffect(() => {
     if (modalStripe == 1) {
         removeStripeCookie()
@@ -74,7 +78,7 @@ const Home: NextPageWithLayout<any> = ({ user, stripe }) => {
                 'marginTop': '5%'
               }}
             >
-              <EditUserProfile user={user}/>
+              <EditUserProfile user={typedUser} />
             </div>
           </motion.div>
         )}
@@ -109,7 +113,7 @@ export async function getServerSideProps(context) {
 
   return {
       props: {
-        user: data.data as IEditUserProfileView['user'],
+        user: data.data as IEditUserProfileView,
         stripe: cookiesResponseData
       }
    }
