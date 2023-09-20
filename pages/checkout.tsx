@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import Loader from "../components/Loader/Loader2";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { ROUTES } from '../enums';
 
 const Checkout = () => <Loader loading />;
@@ -39,4 +39,6 @@ export async function getServerSideProps({ _, res }) {
         res.writeHead(302, { Location: `${ROUTES.LOGIN}` });
         res.end();
     }
+
+    return;
 }

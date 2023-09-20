@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { STATUS } from "../enums";
 import { handleStripeSession } from "../utils/checkout";
-import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
+import { NextPageWithLayout } from "./page";
 
 import Cookies from 'js-cookie';
 import Router from "next/router";
 import { LOGIN_COOKIE, STRIPE_COOKIE } from "../constants/index";
+import { decrypt, encrypt } from "../utils/crypto";
 
 
 const Login: NextPageWithLayout<GralProps> = (GralProps) => {
@@ -22,13 +23,11 @@ const Login: NextPageWithLayout<GralProps> = (GralProps) => {
         modalReturn: () => { }
     })
 
-    useEffect(()=>{
-
-        if ( GralProps.session_data != "") {
-            // aca @nico estaria bueno encodear la cookie
+    useEffect(() => {
+        if (GralProps.session_data != "") {
             Cookies.set(
                 STRIPE_COOKIE,
-                JSON.stringify(GralProps.session_data),
+                JSON.stringify(encrypt(GralProps.session_data)),
                 {
                     sameSite: 'strict'
                 }
@@ -36,9 +35,9 @@ const Login: NextPageWithLayout<GralProps> = (GralProps) => {
         }
 
         // Si ya esta logeado se redirige al dash. Esto deberia estar en el middleware pero hay que setear la cookie con el parametro antes. Y el middleware todavia no hace eso :/
-        if ( Cookies.get(LOGIN_COOKIE) ) { Router.push("/dash") }
+        if (Cookies.get(LOGIN_COOKIE)) { Router.push("/dash") }
 
-    },[])
+    }, [])
 
 
     return (

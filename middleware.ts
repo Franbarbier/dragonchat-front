@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import apiUserController from "./api/apiUserController";
 import { API_SENDER_URL, LOGIN_COOKIE } from "./constants/index";
 import { API_PARAMS, API_RESPONSES, API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from "./enums";
 
@@ -8,24 +7,6 @@ const handleRedirect = (req: NextRequest, route: ROUTES) => {
   newUrl.pathname = route;
   return NextResponse.redirect(newUrl);
 };
-
-export async function fetchStripeData(req) {
-
-  const authCookie = req.cookies?.dragonchat_login
-  const stripeCookie = req.cookies?.stripe_session
-  
-
-  if (stripeCookie && authCookie) {
-    const cookies_response = await apiUserController.updatePlan(authCookie, stripeCookie);
-
-    // Si es 200 Y se ejecuta el await api.ChangePlan (que no esta hecho aun el endpoint)
-    if (cookies_response === 200) {
-      return cookies_response;
-    }
-  }
-
-  return 0;
-}
 
 export async function middleware(req: NextRequest) {
 
