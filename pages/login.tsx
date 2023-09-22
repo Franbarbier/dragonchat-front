@@ -4,13 +4,12 @@ import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
 import { STATUS } from "../enums";
-import { handleStripeSession } from "../utils/checkout";
 import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
 
 import Cookies from 'js-cookie';
 import Router from "next/router";
-import { LOGIN_COOKIE, STRIPE_COOKIE } from "../constants/index";
+import { LOGIN_COOKIE } from "../constants/index";
 
 
 const Login: NextPageWithLayout<GralProps> = (GralProps) => {
@@ -24,16 +23,16 @@ const Login: NextPageWithLayout<GralProps> = (GralProps) => {
 
     useEffect(()=>{
 
-        if ( GralProps.session_data != "") {
-            // aca @nico estaria bueno encodear la cookie
-            Cookies.set(
-                STRIPE_COOKIE,
-                JSON.stringify(GralProps.session_data),
-                {
-                    sameSite: 'strict'
-                }
-            );
-        }
+        // if ( GralProps.session_data != "") {
+        //     // aca @nico estaria bueno encodear la cookie
+        //     Cookies.set(
+        //         STRIPE_COOKIE,
+        //         JSON.stringify(GralProps.session_data),
+        //         {
+        //             sameSite: 'strict'
+        //         }
+        //     );
+        // }
 
         // Si ya esta logeado se redirige al dash. Esto deberia estar en el middleware pero hay que setear la cookie con el parametro antes. Y el middleware todavia no hace eso :/
         if ( Cookies.get(LOGIN_COOKIE) ) { Router.push("/dash") }
@@ -66,10 +65,12 @@ export async function getServerSideProps({ query: { session_id } }) {
 
     let session_data = "";
 
-    if (session_id) {
-        handleStripeSession(session_id)
-        session_data = await handleStripeSession(session_id) as string
-    }
+    // if (session_id) {
+    //     handleStripeSession(session_id)
+    //     session_data = await handleStripeSession(session_id) as string
+    // }
+
+
 
     return { props: { session_data } };
 }

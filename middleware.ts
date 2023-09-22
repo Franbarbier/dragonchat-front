@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import apiUserController from "./api/apiUserController";
-import { API_SENDER_URL, LOGIN_COOKIE } from "./constants/index";
+import { API_SENDER_URL, LOGIN_COOKIE, STRIPE_COOKIE } from "./constants/index";
 import { API_PARAMS, API_RESPONSES, API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from "./enums";
+import { handleStripeSession } from "./utils/checkout";
 
 const handleRedirect = (req: NextRequest, route: ROUTES) => {
   const newUrl = req.nextUrl.clone();
@@ -27,18 +28,46 @@ export async function fetchStripeData(req) {
   return 0;
 }
 
+
 export async function middleware(req: NextRequest) {
 
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
+  // const authCookie = {
+  //   value: `{"access_token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfaWQiOjEwLCJpYXQiOjE2MzIwNjY0NzMsImV4cCI6"}`
+  // }
 
   if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie) {
     return handleRedirect(req, ROUTES.LOGIN);
   }
+  
+  
+  // Si hay un parametro session_id (stripe) en la url
+  if (req.nextUrl.searchParams.get('session_id')) {
+    const stripe_session = req.nextUrl.searchParams.get('session_id')
+    const stripe_response = await handleStripeSession(stripe_session)
+
+    // if it is a string and is not empty
+    if (typeof stripe_response?.stripe_session == 'string' && stripe_response?.stripe_session.length > 0) {
+      req.cookies.set(STRIPE_COOKIE || "STRIPE_COOKIE", JSON.stringify(stripe_response))
+    }
+    
+  }
+  
 
   if (authCookie) {
     const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
 
+    
+    // Si esta logeado.. y tambien existe la cookie de stripe. Trigger update plan from api
+    if ( req.cookies.get(STRIPE_COOKIE || "STRIPE_COOKIE")) {
+      console.log('stripe session cookie exists')
+    }
+    console.log('stripe session cookie exists?????')
+
+    
     if (req.nextUrl.pathname.includes(ROUTES.LOGIN)) {
+      // Cuando caes al login pero existe el authToken, redirigir a dash
+      // return handleRedirect(req, ROUTES.DASH);
       return NextResponse.next();
     }
     const validateQR = false;
@@ -80,5 +109,6 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
+  // matcher: [""],
   matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit"],
 };

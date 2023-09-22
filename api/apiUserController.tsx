@@ -40,7 +40,7 @@ const apiUserController = {
     login: async (email, password) => {
         try {
             const payload = { email: email, password: password };
-            const response = await axios.post(`${authUrl}/login`, payload);
+            const response = await axios.post(`https://gateway-test.dragonchat.io/api/auth/login`, payload);
             return response;
         } catch (error) {
         }
@@ -116,6 +116,8 @@ const apiUserController = {
             let stripe_session = JSON.parse(stripe_data).stripe_session
             let user_id = JSON.parse(login_data).user_id
 
+
+            // pasarlo como header
             const payload = { stripe_session, user_id };
             // const response = await axios.post(`$endpoint para updatear plan`, payload);
             // if (response.status == 200) {

@@ -8,8 +8,6 @@ import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import ModalContainer from '../components/ModalContainer/ModalContainer';
 import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
-import { fetchStripeData } from '../middleware';
-import { removeStripeCookie } from '../utils/checkout';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
@@ -27,9 +25,11 @@ const Home: NextPageWithLayout<IDashProps> = ({ user, stripe }) => {
 
   const typedUser = user as IEditUserProfileView;
   
+  console.log(typedUser)
+
   useEffect(() => {
     if (modalStripe == 1) {
-        removeStripeCookie()
+        // removeStripeCookie()
     }
   }, [modalStripe])  
 
@@ -111,12 +111,12 @@ export async function getServerSideProps(context) {
   let dataTyped = data.data as IEditUserProfileView;
 
   // Esto estaria bueno hacerlo global, no en /dash pero el success del pago te lleva a /dash en principio asique por ahora esta bien
-  const cookiesResponseData = await fetchStripeData(context.req);
+  // const cookiesResponseData = await fetchStripeData(context.req);
 
   return {
       props: {
         user: dataTyped,
-        stripe: cookiesResponseData
+        stripe: "cookiesResponseData"
       }
    }
   }

@@ -15,14 +15,18 @@ export async function handleStripeSession(id) {
       if (session.id) {
         const stripe_session_storage = {
           stripe_session : session.id,
-          product_id : 0
+          product_id : 1
         }
+
+        // console.log(stripe_session_storage)
+
         return stripe_session_storage
       }
+      
     }
     
   } catch (error) {
-    return ""
+    return undefined
   }
 
 };

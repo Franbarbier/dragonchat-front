@@ -26,8 +26,9 @@ export async function getServerSideProps({ _, res }) {
                 ],
                 mode: 'subscription',
 
-                success_url: `${process.env.HOST}${ROUTES.LOGIN}?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `${process.env.HOST}${ROUTES.LOGIN}`,
+                // Los "http y :3000 nose porque me da error si los saco (tengo el .env como nico. Pero los dejo por las)"
+                success_url: `http://${process.env.HOST}:3000${ROUTES.LOGIN}?session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: `http://${process.env.HOST}${ROUTES.LOGIN}`,
             });
 
             if (session.url) {
@@ -36,7 +37,7 @@ export async function getServerSideProps({ _, res }) {
             }
         }
     } else {
-        res.writeHead(302, { Location: `${ROUTES.LOGIN}` });
+        res.writeHead(302, { Location: `http://${ROUTES.LOGIN}` });
         res.end();
     }
 }
