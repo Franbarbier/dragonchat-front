@@ -35,9 +35,9 @@ const Login: NextPageWithLayout<GralProps> = (GralProps) => {
         // }
 
         // Si ya esta logeado se redirige al dash. Esto deberia estar en el middleware pero hay que setear la cookie con el parametro antes. Y el middleware todavia no hace eso :/
-        if ( Cookies.get(LOGIN_COOKIE) ) { Router.push("/dash") }
+        if (Cookies.get(LOGIN_COOKIE)) { Router.push("/dash") }
 
-    },[])
+    }, [])
 
 
     return (

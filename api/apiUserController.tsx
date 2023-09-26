@@ -40,7 +40,7 @@ const apiUserController = {
     login: async (email, password) => {
         try {
             const payload = { email: email, password: password };
-            const response = await axios.post(`https://gateway-test.dragonchat.io/api/auth/login`, payload);
+            const response = await axios.post(`http://3.134.176.129:5304/api/auth/login`, payload);
             return response;
         } catch (error) {
         }
