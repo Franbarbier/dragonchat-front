@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
-import Loader from "../components/Loader/Loader2";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
+import Loader from "../components/Loader/Loader2";
 import { ROUTES } from '../enums';
 
 const Checkout = () => <Loader loading />;

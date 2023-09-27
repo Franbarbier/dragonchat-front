@@ -46,9 +46,11 @@ export async function middleware(req: NextRequest) {
     const stripe_session = req.nextUrl.searchParams.get('session_id')
     const stripe_response = await handleStripeSession(stripe_session)
 
-    // if it is a string and is not empty
+    
+    // if it is a string and is not empty -> Si la sesion esta ok y existe
     if (typeof stripe_response?.stripe_session == 'string' && stripe_response?.stripe_session.length > 0) {
-      req.cookies.set(STRIPE_COOKIE || "STRIPE_COOKIE", JSON.stringify(stripe_response))
+      // Habria q encodearla y guardarla en la cookie
+      req.cookies.set(STRIPE_COOKIE, JSON.stringify(stripe_response))
     }
     
   }
@@ -59,14 +61,15 @@ export async function middleware(req: NextRequest) {
 
     
     // Si esta logeado.. y tambien existe la cookie de stripe. Trigger update plan from api
-    if ( req.cookies.get(STRIPE_COOKIE || "STRIPE_COOKIE")) {
+    if ( req.cookies.get(STRIPE_COOKIE || "STRIPE_COOKIE") ) {
+      // traer, desencodearla, y decirle a la api que le pegue al gateway de update plan.
       console.log('stripe session cookie exists')
     }
-    console.log('stripe session cookie exists?????')
 
     
     if (req.nextUrl.pathname.includes(ROUTES.LOGIN)) {
-      // Cuando caes al login pero existe el authToken, redirigir a dash
+      
+      // Cuando caes al login pero existe el authToken, redirigir a dash (sacarle el parametro a la url de stripe)
       // return handleRedirect(req, ROUTES.DASH);
       return NextResponse.next();
     }
