@@ -9,18 +9,29 @@ const handleRedirect = (req: NextRequest, route: ROUTES) => {
 };
 
 export async function middleware(req: NextRequest) {
-
-  const authCookie = req.cookies.get(LOGIN_COOKIE || "");
+  const authCookie = req.cookies.get(LOGIN_COOKIE);
+  // const authCookie = {
+  //   value: `{"access_token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfaWQiOjEwLCJpYXQiOjE2MzIwNjY0NzMsImV4cCI6"}`
+  // }
 
   if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie) {
     return handleRedirect(req, ROUTES.LOGIN);
   }
 
+  // if (req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && req.nextUrl.searchParams.get(STRIPE_COOKIE)) {
+  //   const stripeResponse = await handleStripeSession(req.nextUrl.searchParams.get(STRIPE_COOKIE))
+
+  //   if (stripeResponse) {
+  //     req.cookies.set(STRIPE_COOKIE, JSON.stringify(encrypt(stripeResponse)))
+  //   }
+  // }
+
   if (authCookie) {
     const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
 
     if (req.nextUrl.pathname.includes(ROUTES.LOGIN)) {
-      return NextResponse.next();
+      // Cuando caes al login pero existe el authToken, redirigir a dash (sacarle el parametro a la url de stripe)
+      return handleRedirect(req, `${ROUTES.DASH}/` as ROUTES);
     }
     const validateQR = false;
 
@@ -61,5 +72,6 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
+  // matcher: [""],
   matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit"],
 };

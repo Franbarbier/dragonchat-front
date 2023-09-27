@@ -1,44 +1,22 @@
-import { useEffect, useState } from "react";
+import Cookies from 'cookies';
+import { useState } from "react";
 import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { STATUS } from "../enums";
 import { handleStripeSession } from "../utils/checkout";
-import { GralProps } from "./_app";
 import { NextPageWithLayout } from "./page";
+import { STRIPE_COOKIE } from '../constants/index';
+import { encrypt } from '../utils/crypto';
 
-import Cookies from 'js-cookie';
-import Router from "next/router";
-import { LOGIN_COOKIE, STRIPE_COOKIE } from "../constants/index";
-import { decrypt, encrypt } from "../utils/crypto";
-
-
-const Login: NextPageWithLayout<GralProps> = (GralProps) => {
-
+const Login: NextPageWithLayout<{}> = () => {
     const [notification, setNotification] = useState<INotification>({
         status: STATUS.SUCCESS,
         render: false,
         message: "",
         modalReturn: () => { }
     })
-
-    useEffect(() => {
-        if (GralProps.session_data != "") {
-            Cookies.set(
-                STRIPE_COOKIE,
-                JSON.stringify(encrypt(GralProps.session_data)),
-                {
-                    sameSite: 'strict'
-                }
-            );
-        }
-
-        // Si ya esta logeado se redirige al dash. Esto deberia estar en el middleware pero hay que setear la cookie con el parametro antes. Y el middleware todavia no hace eso :/
-        if (Cookies.get(LOGIN_COOKIE)) { Router.push("/dash") }
-
-    }, [])
-
 
     return (
         <section>
@@ -61,14 +39,13 @@ Login.getLayout = (page) => {
     );
 };
 
-export async function getServerSideProps({ query: { session_id } }) {
-
-    let session_data = "";
-
+export async function getServerSideProps({ req, res, query: { session_id } }) {
     if (session_id) {
-        handleStripeSession(session_id)
-        session_data = await handleStripeSession(session_id) as string
+        const sessionData = await handleStripeSession(session_id)
+        const cookies = new Cookies(req, res)
+
+        cookies.set(STRIPE_COOKIE, encrypt(sessionData))
     }
 
-    return { props: { session_data } };
+    return { props: {} };
 }
