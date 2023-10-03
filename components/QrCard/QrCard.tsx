@@ -19,30 +19,28 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [activeQr, setActiveQr] = useState<string | null>(null);
 
     const handleIsConnected = () => {
-        setTimeout(async () => {
-            const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
-            const { data: dataConnect } = await apiSenderWhatsappController.isConnected(accessToken)
+        // setTimeout(async () => {
+        //     const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
+        //     const { data: dataConnect } = await apiSenderWhatsappController.isConnected(accessToken)
 
-            console.log("dataConnect ", dataConnect);
-            console.log("connection ", dataConnect.qrCode);
+        //     setActiveQr(dataConnect?.qrCode);
 
-            setActiveQr(dataConnect?.qrCode);
-
-            if (dataConnect?.phoneConnected) {
-                setLoadingQr(true);
-                window.location.href= "/dash";
-            } else {
-                if (dataConnect?.qrCode !== activeQr) {
-                    setActiveQr(dataConnect?.qrCode)
-                } else {
-                    handleIsConnected();
-                }
-            }
-        }, 4000);
+        //     if (dataConnect?.phoneConnected) {
+        //         setLoadingQr(true);
+        //         window.location.href= "/dash";
+        //     } else {
+        //         if (dataConnect?.qrCode !== activeQr) {
+        //             setActiveQr(dataConnect?.qrCode)
+        //         } else {
+        //             handleIsConnected();
+        //         }
+        //     }
+        // }, 4000);
+        console.log("no handle is connected")
     };
 
     useEffect(() => {
-        console.log("activeQr ", activeQr);
+        console.log("activeQr cambio");
     }, [activeQr]);
 
     const dispatchError = () => {
@@ -63,6 +61,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         const { data: dataConnect } = await apiSenderWhatsappController.connect(accessToken)
         
 
+
         if (dataConnect) {
             const { data: dataQr } = await apiSenderWhatsappController.getQR(accessToken)
 
@@ -81,9 +80,9 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
 
     async function getQRasync (accessToken) {
-        console.log("My async function")
-        const { data: getQR } = await apiSenderWhatsappController.getQR(accessToken)
-        return getQR;
+        const getQrRes = await apiSenderWhatsappController.getQR(accessToken)
+        console.log("get QR", getQrRes);
+        return getQrRes;
     }
 
 
@@ -92,17 +91,27 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
         const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
 
+        console.log("connection a wpp", dataConnection);
+
         if (dataConnection) {
-            // const { data: dataQr } = await apiSenderWhatsappController.getQR(accessToken)
-            const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
-            console.log("is connected? ", dataConnect);
-            
+
             const intervalId = setInterval(async () => {
-                const respGetQR = await getQRasync(accessToken);
-                if ( respGetQR?.qr != "" ) {
-                    // setActiveQr(respGetQR.qr);
-                    clearInterval(intervalId);
+                
+                const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
+                console.log("check user connected ", dataConnect);
+
+                if (dataConnect?.data?.qrCode) {
+                    setActiveQr(dataConnect?.data?.qrCode);
                 }
+                
+                if (dataConnect?.data?.phoneConnected) {
+                    console.log("phone connected----------------------------", dataConnect.data.phoneConnected);
+                    clearInterval(intervalId);
+                    // set cookie and redirect to dash
+                }
+                
+
+
               }, 3000);
              
 
