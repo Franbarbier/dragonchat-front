@@ -41,7 +41,7 @@ export async function middleware(req: NextRequest) {
 
 
     var apiResponseHandler = {
-      phoneConnected: false
+      phoneConnected: true
     };
 
     try {

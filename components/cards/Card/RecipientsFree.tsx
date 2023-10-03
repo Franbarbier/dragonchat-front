@@ -3,7 +3,6 @@ import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import { ContactInfo } from '../CardsContFree';
-import CardTitle from '../CardTitle/CardTitle';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
 
@@ -307,7 +306,14 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
 
             <div className={styles.card_container} >
                 <div>
-                    <CardTitle text={`${finalList.length - 1} Destinatarios`} />
+                    <div className={styles.title_lines_cont}>
+                        <div className={`${styles.left_line} ${styles.title_lines}`}></div>
+                        <div>
+                            <h3>VERSION FREE</h3>
+                            <h6>entregabilidad = 60% <span>i</span></h6>
+                        </div>
+                        <div className={`${styles.right_line} ${styles.title_lines}`}></div>
+                    </div>
                 </div>
                 {/* <div className={styles.card_table_cont}> */}
                     
