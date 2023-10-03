@@ -139,7 +139,8 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     }
 
     useEffect(() => {
-        initCheck();
+        // initCheck();
+        // console.log(Cookies.remove("dragonchat_login"))
     }, []);
 
     return (
