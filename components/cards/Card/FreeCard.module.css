@@ -920,7 +920,7 @@ background: #555;
     text-align: center;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@1,900&display=swap');
 
 .title_lines_cont {
     display: flex;
@@ -936,7 +936,11 @@ background: #555;
     opacity: 0.7;
 }
 .title_lines_cont h3{
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Public Sans', sans-serif;
+    padding: 0 20px;
+    font-weight: bolder!important;
+    font-style: italic;
+    color: #0bb9f9;
 }
 
 .left_line {

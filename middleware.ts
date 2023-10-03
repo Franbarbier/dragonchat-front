@@ -16,9 +16,9 @@ const getHeaders = (authToken: string) => ({
 export async function middleware(req: NextRequest) {
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
 
-  if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie) {
-    return handleRedirect(req, ROUTES.LOGIN);
-  }
+  // if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie) {
+  //   return handleRedirect(req, ROUTES.LOGIN);
+  // }
 
   if (authCookie) {
     const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
