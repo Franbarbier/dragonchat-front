@@ -13,11 +13,23 @@ const getHeaders = (authToken: string) => ({
 const apiUserController = {
     signUp: async (name, email, password, passwordConfirmation, setUserExists) => {
         try {
-            const payload = { name: name, email: email, password: password, password_confirmation: passwordConfirmation };
-            const response = await axios.post(`${authUrl}/signup`, payload);
+            const payload = { name: name, mail: email, password: password, password_confirmation: passwordConfirmation
+                ,subscription: {
+                    session_id: "asdasdasd",
+                    product_id: "11111"
+                }
+            };
+
+            const response = await axios.post(`https://gateway-test.dragonchat.io/api/auth/signup`, payload, {headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              }});
+
+              console.log(payload, response)
+
             if (response.status == 201) {
                 setUserExists(false);
-                Router.push("/login");
+                return response;
             }
         } catch (error: any) {
             if (error.response.status == 409) {
@@ -30,8 +42,7 @@ const apiUserController = {
     },
     getData: async (authToken: string) => {
         try {
-            const response = await axios.get(`${authUrl}/me`, { headers: getHeaders(authToken) });
-
+            const response = await axios.get(`https://gateway-test.dragonchat.io/api/auth/me`, { headers: {"Authorization": `Bearer ${authToken}`} });
             return response
         } catch (error: any) {
             return error
@@ -39,18 +50,18 @@ const apiUserController = {
     },
     login: async (email, password) => {
         try {
-            const payload = { email: email, password: password };
-            const response = await axios.post(`http://3.134.176.129:5304/api/auth/login`, payload);
+            const payload = { mail: email, password: password };
+            const response = await axios.post(`https://gateway-test.dragonchat.io/api/auth/login`, payload);
             return response;
         } catch (error) {
         }
     },
-    logout: async (accessToken) => {
+    logout: async (authToken: string) => {
         const headers = new Headers({
             "Content-Type": "application/json",
         });
-        headers.append("Authorization", `Bearer ${accessToken}`);
-        const response = await axios.get(`${authUrl}/logout`, { headers: Object.fromEntries(headers) });
+        headers.append("Authorization", `Bearer ${authToken}`);
+        const response = await axios.get(`https://gateway-test.dragonchat.io/api/auth/logout`, { headers: {'Authorization' : `Bearer ${authToken}`} });
         return response;
     },
     edit: async (accessToken, name, email, password, passwordConfirmation) => {

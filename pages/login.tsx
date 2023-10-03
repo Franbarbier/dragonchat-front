@@ -18,7 +18,6 @@ const Login: NextPageWithLayout<GralProps> = (GralProps) => {
         modalReturn: () => { }
     })
 
-
     return (
         <section>
             <Notification {...notification} />
@@ -44,6 +43,12 @@ export async function getServerSideProps({ }) {
 
     let session_data = "";
 
+    // if (session_id) {
+    //     handleStripeSession(session_id)
+    //     session_data = await handleStripeSession(session_id) as string
+    // }
 
-    return {  };
+
+
+    return { props: { session_data } };
 }

@@ -33,9 +33,10 @@ const apiSenderWhatsappController = {
 
     },
     connect: async (authToken: string) => {
+       
         try {
-            const response = await axios.post(`${API_SENDER_URL}${API_ROUTES.CONNECT}`, {}, { headers: getHeaders(authToken) });
-
+            const response = await axios.post(`https://gateway-test.dragonchat.io/api/whatsapp/connect`, {}, { headers: 
+            {"Authorization": `Bearer ${authToken}`} });
             return response
         } catch (error: any) {
             return error
@@ -43,8 +44,10 @@ const apiSenderWhatsappController = {
     },
     getQR: async (authToken: string) => {
         try {
-            const response = await axios.get(`${API_SENDER_URL}${API_ROUTES.GET_QR}`, { headers: getHeaders(authToken) });
-
+            const response = await axios.get(`https://gateway-test.dragonchat.io/api/whatsapp/qr`,{ headers: 
+            {"Authorization": `Bearer ${authToken}`} });
+            
+            console.log(response, authToken)
             return response
         } catch (error: any) {
             return error
@@ -52,10 +55,14 @@ const apiSenderWhatsappController = {
     },
     isConnected: async (authToken: string) => {
         try {
-            const response = await axios.get(`${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}`, { headers: getHeaders(authToken) });
-
+            console.log(authToken)
+            const response = await axios.get(`https://gateway-test.dragonchat.io/api/whatsapp/check-user-conected?validateqr=false`, { headers: 
+            {"Authorization": `Bearer ${authToken}`} });
+            console.log(response)
             return response
         } catch (error: any) {
+            console.log(error)
+
             return error
         }
     },

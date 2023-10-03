@@ -18,8 +18,6 @@ export async function handleStripeSession(id) {
           product_id : 1
         }
 
-        // console.log(stripe_session_storage)
-
         return stripe_session_storage
       }
       

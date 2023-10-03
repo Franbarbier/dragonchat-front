@@ -33,10 +33,52 @@ const SignUpView: React.FC<ISignUpView> = ({  }) => {
         modalReturn : ()=>{}
     })
 
+
+    function handleLogin(loginMail,loginPass ) {
+       
+            // Estaria bueno que te haga un auto-login despues de registrarte - Estoy con un error y me parece que es por timing asique lo redirijo al login
+
+            // const login_status = await apiUserController.login(loginMail, loginPass);
+
+            // if ( login_status?.status == 200 || login_status?.status == 201 ) {
+            //     const login_storage = {
+            //         access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
+            //         user_id : login_status?.data.user_id
+            //     }
+
+            //     Cookies.set(
+            //         process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
+            //         JSON.stringify(login_storage), // secure flag option must be added in the future
+            //         {
+            //         sameSite: 'strict'
+            //         }
+            //     );
+            Router.push("/login")
+            // }
+}
+
+
+
     async function handleCrearCuenta() {
         if (equalPass) {
             if( name != "" && email != "" && pass != "" && confirmPass != "" ){
-                await apiUserController.signUp(name, email, pass, confirmPass, setUserExists);
+
+                
+                const onSuccess = () => {
+                    if (signUp_res?.status == 200 || signUp_res?.status == 201 ) {
+                        setNotification({
+                            status : STATUS.SUCCESS,
+                            render : true,
+                            message : "Usuario creado con exito!",
+                            modalReturn : ()=>{setNotification({...notification, render : false })}
+                        })
+
+                        handleLogin(email, pass)
+                                
+                        }
+                }
+                const signUp_res = await apiUserController.signUp(name, email, pass, confirmPass, setUserExists);
+                onSuccess()
             }else{
                 setNotification({
                     status : STATUS.ERROR,

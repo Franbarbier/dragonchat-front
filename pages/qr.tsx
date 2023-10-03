@@ -1,3 +1,4 @@
+
 import Cookies from "js-cookie";
 import Router from "next/router";
 import { useState } from "react";
@@ -56,7 +57,6 @@ const Qr: NextPageWithLayout<GralProps> = () => {
   })
 
   const isMobile = useDeviceType();
-
 
 
   return (

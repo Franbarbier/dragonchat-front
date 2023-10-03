@@ -16,6 +16,22 @@ const apiSubscriptionsController = {
 
     return response;
   },
+  changePlan: async (accessToken) => {
+    const response = await axios.put(
+      `https://gateway-test.dragonchat.io/api/user/change-plan`,
+      {
+        "session_id": "asdasdasd",
+        "product_id": "11111"
+      },
+      {
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+        }
+      }
+    );
+
+    return response;
+  }
 }
 
 export default apiSubscriptionsController;

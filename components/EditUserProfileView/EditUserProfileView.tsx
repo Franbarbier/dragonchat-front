@@ -12,26 +12,21 @@ import { INotification } from "../Notification/Notification";
 import styles from './EditUserProfileView.module.css';
 
 export interface IEditUserProfileView {
-  user: {
-    id: number;
-    name: string;
-    state: number,
-    email: string;
-    connected_whatsapp: number,
-    created_at: string,
-    updated_at: string,
-  }
-  setLoading : (value : boolean) => void,
+  setLoading: (value : boolean) => void,
   notification: INotification,
   setNotification: (value: INotification) => void
 }
 
 
-const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading, notification, setNotification }) => {
+const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notification, setNotification }) => {
   
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   let plan = '';
+
+  const [responseData, setResponseData] = useState(undefined)
+
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('');
   const [equalPass, setEqualPass] = useState(true);
@@ -41,15 +36,17 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ user, setLoading,
     async function getUserData() {
       const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
       const response = await apiUserController.getData(authToken);
-      setName(response.data.data.name)
-      setEmail(response.data.data.email)
+ 
       return response;
     }
-    getUserData()
+    getUserData().then((data) => {
+      setName(data?.data?.name || "");
+      setEmail(data?.data?.email || "");
+    });
+
   
   }, [])
   
-
   async function handleDesvWpp() {
     setLoading(true)
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;

@@ -3,33 +3,43 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
-import { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
 import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import ModalContainer from '../components/ModalContainer/ModalContainer';
 import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
+import { INotification } from '../components/Notification/Notification';
+import { STATUS } from '../enums';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
 interface IDashProps {
-  user: IEditUserProfileView,
   stripe: number,
 }
 
 
-const Home: NextPageWithLayout<IDashProps> = ({ user, stripe }) => {
+const Home: NextPageWithLayout<IDashProps> = ({ stripe }) => {
 
   const { locale } = useRouter();
   const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [modalStripe, setModalStripe] = useState<number>(stripe)
 
-  const typedUser = user as IEditUserProfileView;
+  const [loading, setLoading] = useState<boolean>(false)
+  const [notification, setNotification] = useState<INotification>({
+    status : STATUS.SUCCESS,
+    render : false,
+    message : "",
+    modalReturn : ()=>{}
+})
+
+
 
   useEffect(() => {
     if (modalStripe == 1) {
       // removeStripeCookie()
     }
   }, [modalStripe])
+
+
 
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
@@ -76,7 +86,7 @@ const Home: NextPageWithLayout<IDashProps> = ({ user, stripe }) => {
               'marginTop': '5%'
             }}
             >
-              <EditUserProfile user={typedUser} />
+              <EditUserProfile setLoading={setLoading} notification={notification} setNotification={setNotification}/>
             </div>
           </motion.div>
         )}
@@ -93,27 +103,9 @@ export default Home;
 
 
 export async function getServerSideProps(context) {
-  const cookies = context.req?.cookies;
-  const headers = new Headers({
-    "Content-Type": "application/json",
-  });
-  const cookieName = process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME
-  const accessToken = JSON.parse(cookies[`${cookieName}`]).access_token
-  headers.append("Authorization", `Bearer ${accessToken}`);
-  const apiResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_USER_URL}/auth/me`,
-    { headers }
-  );
-  const data = await apiResponse.json();
-
-  let dataTyped = data.data as IEditUserProfileView;
-
-  // Esto estaria bueno hacerlo global, no en /dash pero el success del pago te lleva a /dash en principio asique por ahora esta bien
-  // const cookiesResponseData = await fetchStripeData(context.req);
 
   return {
     props: {
-      user: dataTyped,
       stripe: "cookiesResponseData"
     }
   }

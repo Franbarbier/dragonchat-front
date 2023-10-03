@@ -1,5 +1,5 @@
-import Cookie from 'js-cookie';
-import { useState } from 'react';
+import { default as Cookie } from 'js-cookie';
+import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/index';
 import { STATUS } from '../../enums';
@@ -23,6 +23,11 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
             const { data: dataConnect } = await apiSenderWhatsappController.isConnected(accessToken)
 
+            console.log("dataConnect ", dataConnect);
+            console.log("connection ", dataConnect.qrCode);
+
+            setActiveQr(dataConnect?.qrCode);
+
             if (dataConnect?.phoneConnected) {
                 setLoadingQr(true);
                 window.location.href= "/dash";
@@ -35,6 +40,10 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             }
         }, 4000);
     };
+
+    useEffect(() => {
+        console.log("activeQr ", activeQr);
+    }, [activeQr]);
 
     const dispatchError = () => {
         setNotification({
@@ -52,6 +61,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
         const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
         const { data: dataConnect } = await apiSenderWhatsappController.connect(accessToken)
+        
 
         if (dataConnect) {
             const { data: dataQr } = await apiSenderWhatsappController.getQR(accessToken)
@@ -67,6 +77,50 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
         setLoadingQr(false);
     };
+
+
+
+    async function getQRasync (accessToken) {
+        console.log("My async function")
+        const { data: getQR } = await apiSenderWhatsappController.getQR(accessToken)
+        return getQR;
+    }
+
+
+    const handleTest = async () => {
+
+        const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
+        const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
+
+        if (dataConnection) {
+            // const { data: dataQr } = await apiSenderWhatsappController.getQR(accessToken)
+            const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
+            console.log("is connected? ", dataConnect);
+            
+            const intervalId = setInterval(async () => {
+                const respGetQR = await getQRasync(accessToken);
+                if ( respGetQR?.qr != "" ) {
+                    // setActiveQr(respGetQR.qr);
+                    clearInterval(intervalId);
+                }
+              }, 3000);
+             
+
+        }
+
+        // const getData = await apiUserController.getData(accessToken)
+
+        // console.log("get data ", getData);
+
+
+
+        // Changeplan
+        // const { data: dataChangePlan } = await apiSubscriptionsController.changePlan(accessToken)
+
+        // console.log("change plan ", dataChangePlan);
+
+    }
+
 
     return (
         <>
@@ -105,7 +159,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                 )}
                 {!activeQr && (
                     <div style={{ "opacity": loadingQr ? "0.3" : "1" }}>
-                        <OrangeBtn text="Generar QR" onClick={handleEmitID} />
+                        <OrangeBtn text="Generar QR" onClick={handleTest} />
                     </div>
                 )}
             </div>

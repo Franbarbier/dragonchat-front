@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import apiUserController from "./api/apiUserController";
-import { API_SENDER_URL, LOGIN_COOKIE, STRIPE_COOKIE } from "./constants/index";
-import { API_PARAMS, API_RESPONSES, API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from "./enums";
+import { LOGIN_COOKIE, STRIPE_COOKIE } from "./constants/index";
+import { API_RESPONSES, ROUTES } from "./enums";
 import { handleStripeSession } from "./utils/checkout";
+import { isConnected } from "./utils/isConnected";
 
 const handleRedirect = (req: NextRequest, route: ROUTES) => {
   const newUrl = req.nextUrl.clone();
@@ -75,17 +76,21 @@ export async function middleware(req: NextRequest) {
     }
     const validateQR = false;
 
-    const apiResponse = await fetch(
-      `${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}?${API_PARAMS.VALIDATE_QR}=${validateQR}`,
-      {
-        headers: {
-          [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON,
-          [HTTP_HEADERS_KEYS.AUTHORIZATION]: `${HTTP_HEADERS_VALUES.BEARER} ${accessToken}`,
-        }
-      }
-    );
+    // console.log("Se viene el apiRespIsConnected")
+    // const apiResponse = await axios.get(`https://gateway-test.dragonchat.io/api/whatsapp/check-user-conected`, { headers: 
+    // {"Authorization": `Bearer ${accessToken}`} });
+    // const responseMiddle = await apiResponse;
 
-    const response = await apiResponse.json();
+    console.log("---------RESPONSEMIDDLEWARE----------")
+
+    const responseMiddle = await isConnected(req)
+    console.log("---------RESPONSEMIDDLEWARE----------", responseMiddle)
+    
+    const response = {
+      error : "none",
+      phoneConnected: false
+    }
+
 
     if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
       if (process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME) {
