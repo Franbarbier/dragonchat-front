@@ -106,6 +106,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                 
                 if (dataConnect?.data?.phoneConnected) {
                     console.log("phone connected----------------------------", dataConnect.data.phoneConnected);
+                    alert("phone connected");
                     clearInterval(intervalId);
                     // set cookie and redirect to dash
                 }
@@ -130,6 +131,16 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
     }
 
+    async function initCheck() {
+        const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
+        const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
+   const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
+                console.log("check user connected ", dataConnect);
+    }
+
+    useEffect(() => {
+        initCheck();
+    }, []);
 
     return (
         <>

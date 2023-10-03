@@ -14,10 +14,10 @@ const apiUserController = {
     signUp: async (name, email, password, passwordConfirmation, setUserExists) => {
         try {
             const payload = { name: name, mail: email, password: password, password_confirmation: passwordConfirmation
-                ,subscription: {
-                    session_id: "asdasdasd",
-                    product_id: "11111"
-                }
+                // ,subscription: {
+                //     session_id: "asdasdasd",
+                //     product_id: "11111"
+                // }
             };
 
             const response = await axios.post(`https://gateway-test.dragonchat.io/api/auth/signup`, payload, {headers: {
