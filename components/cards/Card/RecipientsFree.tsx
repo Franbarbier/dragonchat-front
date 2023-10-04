@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
@@ -310,7 +311,15 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
                         <div className={`${styles.left_line} ${styles.title_lines}`}></div>
                         <div>
                             <h3>VERSION FREE</h3>
-                            <h6>entregabilidad = 60% <span>i</span></h6>
+                            <h6>ENTREGABILIDAD = 60% <span>i</span>
+                            <aside
+                                // oncclick redirect to /checkout
+                                onClick={()=>{Router.push('/checkout')}}
+                            >
+                                <div>
+                                    <p>Con nuestro plan actual, garantizamos una entregabilidad del 60%. Pero, si buscas lo mejor, nuestro plan Premium aumenta esa entregabilidad casi al 100%. <i>¡Mejora tus resultados con el plan Premium!</i></p>
+                                </div>
+                            </aside></h6>
                         </div>
                         <div className={`${styles.right_line} ${styles.title_lines}`}></div>
                     </div>
