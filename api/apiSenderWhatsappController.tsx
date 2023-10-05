@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { API_SENDER_URL } from '../constants/index';
-import { API_ROUTES } from '../enums';
 
 const getHeaders = (authToken: string) => ({
     "Content-Type": "application/json",
@@ -10,7 +8,7 @@ const getHeaders = (authToken: string) => ({
 const apiSenderWhatsappController = {
     disconnect: async (authToken: string) => {
         try {
-            const response = await axios.delete(`${API_SENDER_URL}${API_ROUTES.DISCONNECT}`, { headers: getHeaders(authToken) });
+            const response = await axios.delete(`https://gateway-test.dragonchat.io/api/whatsapp/disconnect`, { headers: getHeaders(authToken) });
             if (response.status == 200) {
                 alert("Whatsapp correctamente desvinculado.");
             } else {
@@ -25,7 +23,8 @@ const apiSenderWhatsappController = {
     sendMessage: async (user, name, message, phone, authToken: string) => {
         try {
             const payload = { user, name, message, phone };
-            const response = await axios.post(`${API_SENDER_URL}${API_ROUTES.SEND_MSG}`, payload, { headers: getHeaders(authToken) });
+            const response = await axios.post(`https://gateway-test.dragonchat.io/api/whatsapp/send-message`, payload, { headers: {"Authorization": `Bearer ${authToken}`} });
+            console.log("send message", response)
             return response
         } catch (error: any) {
             return error
@@ -55,7 +54,6 @@ const apiSenderWhatsappController = {
     },
     isConnected: async (authToken: string) => {
         try {
-            console.log(authToken)
             const response = await axios.get(`https://gateway-test.dragonchat.io/api/whatsapp/check-user-conected?validateqr=false`, { headers: 
             {"Authorization": `Bearer ${authToken}`} });
             console.log(response)

@@ -79,11 +79,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
 
 
-    async function getQRasync (accessToken) {
-        const getQrRes = await apiSenderWhatsappController.getQR(accessToken)
-        console.log("get QR", getQrRes);
-        return getQrRes;
-    }
+
 
 
     const handleTest = async () => {

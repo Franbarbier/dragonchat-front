@@ -291,6 +291,19 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
         }
       };
 
+    //   async function initCheck() {
+    //     const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE) || '')?.access_token;
+    //     // const dataConnection = await apiSenderWhatsappController.connect(accessToken)
+    //     // console.log("check user connection ", dataConnection);
+    //     const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
+    //             console.log("check user connected ", dataConnect);
+    // }
+
+    // useEffect(() => {
+    //     initCheck();
+    //     // console.log(Cookies.remove("dragonchat_login"))
+    // }, []);
+
 
 
     return (
