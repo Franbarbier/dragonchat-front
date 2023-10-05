@@ -1,16 +1,16 @@
+import Cookies from 'cookies';
 import { useState } from "react";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
+import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
+import { STRIPE_COOKIE } from '../constants/index';
 import { STATUS } from "../enums";
+import { handleStripeSession } from "../utils/checkout";
+import { encrypt } from '../utils/crypto';
 import { NextPageWithLayout } from "./page";
-import { GralProps } from "./_app";
 
-
-
-const Login: NextPageWithLayout<GralProps> = (GralProps) => {
-
+const Login: NextPageWithLayout<{}> = () => {
     const [notification, setNotification] = useState<INotification>({
         status: STATUS.SUCCESS,
         render: false,
@@ -39,16 +39,13 @@ Login.getLayout = (page) => {
     );
 };
 
-export async function getServerSideProps({ }) {
+export async function getServerSideProps({ req, res, query: { session_id } }) {
+    if (session_id) {
+        const sessionData = await handleStripeSession(session_id)
+        const cookies = new Cookies(req, res)
 
-    let session_data = "";
+        cookies.set(STRIPE_COOKIE, encrypt(sessionData))
+    }
 
-    // if (session_id) {
-    //     handleStripeSession(session_id)
-    //     session_data = await handleStripeSession(session_id) as string
-    // }
-
-
-
-    return { props: { session_data } };
+    return { props: {} };
 }

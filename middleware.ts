@@ -54,6 +54,14 @@ export async function middleware(req: NextRequest) {
   }
   
 
+  // if (req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && req.nextUrl.searchParams.get(STRIPE_COOKIE)) {
+  //   const stripeResponse = await handleStripeSession(req.nextUrl.searchParams.get(STRIPE_COOKIE))
+
+  //   if (stripeResponse) {
+  //     req.cookies.set(STRIPE_COOKIE, JSON.stringify(encrypt(stripeResponse)))
+  //   }
+  // }
+
   if (authCookie) {
     const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
 
@@ -66,10 +74,8 @@ export async function middleware(req: NextRequest) {
 
     
     if (req.nextUrl.pathname.includes(ROUTES.LOGIN)) {
-      
       // Cuando caes al login pero existe el authToken, redirigir a dash (sacarle el parametro a la url de stripe)
-      // return handleRedirect(req, ROUTES.DASH);
-      return NextResponse.next();
+      return handleRedirect(req, `${ROUTES.DASH}/` as ROUTES);
     }
     const validateQR = false;
 

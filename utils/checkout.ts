@@ -4,29 +4,21 @@ import { STRIPE_COOKIE } from '../constants/index';
 
 
 export async function handleStripeSession(id) {
-
-  
   try {
     if (process.env.STRIPE_KEY) {
       const stripe = new Stripe(process.env.STRIPE_KEY, { apiVersion: '2023-08-16' })
       const session = await stripe.checkout.sessions.retrieve(id);
 
-      // check if session has id
-      if (session.id) {
-        const stripe_session_storage = {
-          stripe_session : session.id,
-          product_id : 1
-        }
-
-        return stripe_session_storage
-      }
-      
+      return session.id ? {
+        stripe_session: session.id,
+        product_id: 0
+      } : null;
     }
-    
-  } catch (error) {
-    return undefined
-  }
 
+    return null;
+  } catch (error) {
+    return null
+  }
 };
 
 export async function removeStripeCookie() {
