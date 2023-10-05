@@ -74,7 +74,7 @@ export async function middleware(req: NextRequest) {
     const validateQR = false;
 
     
-
+    
     // Esto va si es necesario la conexion antes, pero creo que no.
     // const dataConnection = await fetch(`https://gateway-test.dragonchat.io/api/whatsapp/connect`, {
     //   method: 'POST',
