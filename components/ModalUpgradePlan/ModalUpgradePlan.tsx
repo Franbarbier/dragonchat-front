@@ -2,7 +2,7 @@ import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import styles from './ModalUpgradePlan.module.css';
 export interface IModalUpgradePlan {
-    setModalStripe: (value: number) => void
+    setModalStripe: (value: any) => void
 }
 
 const ModalUpgradePlan: React.FC<IModalUpgradePlan> = ({ setModalStripe }) => {
@@ -21,7 +21,7 @@ const ModalUpgradePlan: React.FC<IModalUpgradePlan> = ({ setModalStripe }) => {
                     backgroundColorInit="#c21c3b"
                     backgroundColorEnd="#f9bd4f"
                     borderColor="#e17846"
-                    onClick={()=>{ setModalStripe(1) }}
+                    onClick={()=>{ setModalStripe(null) }}
                     disable={ false }
                 />
             </div>

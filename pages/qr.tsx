@@ -1,5 +1,7 @@
 
-import Cookies from "js-cookie";
+import Cookies from "cookies";
+import Cookie from "js-cookie";
+
 import Router from "next/router";
 import { useState } from "react";
 import apiUserController from "../api/apiUserController";
@@ -9,12 +11,17 @@ import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from '../components/Notification/Notification';
 import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
+import { STRIPE_COOKIE } from "../constants/index";
 import { ROUTES, STATUS } from "../enums";
 import useDeviceType from "../utils/checkDevice";
 import { NextPageWithLayout } from "./page";
-import { GralProps } from "./_app";
 
-const Qr: NextPageWithLayout<GralProps> = () => {
+// set type for IQr
+interface IQr {
+  stripeCookie: boolean;
+}
+
+const Qr: NextPageWithLayout<IQr> = ({ stripeCookie }) => {
   const [queue, setQueue] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -29,13 +36,14 @@ const Qr: NextPageWithLayout<GralProps> = () => {
     'cursor': 'pointer',
     'letterSpacing': '1px',
   }
+  
 
   async function handleLogout() {
     
     setLoading(true)
 
     try {
-      const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+      const accessToken = JSON.parse(Cookie.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
       const response = await apiUserController.logout(accessToken);
       if (response.status == 200) {
         Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
@@ -44,10 +52,11 @@ const Qr: NextPageWithLayout<GralProps> = () => {
 
       }
     } catch (error: any) {
-        alert(error.response.data.error);
+        // alert(error.response.data.error);
         setLoading(false)
     }
   }
+
 
   const [notification, setNotification] = useState<INotification>({
     status : STATUS.SUCCESS,
@@ -58,6 +67,22 @@ const Qr: NextPageWithLayout<GralProps> = () => {
 
   const isMobile = useDeviceType();
 
+  
+  const alertUpdatePlan : React.CSSProperties = {
+    position: "absolute",
+    left: "50%",
+    transform: "translate(-50%)",
+    textAlign: "center",
+    letterSpacing: "0.8px",
+    fontSize: "11px",
+    bottom: "110%",
+    padding: "5px 8px",
+    background: "#000",
+    color: "var(--amarillo)",
+    border: "1px solid var(--amarillo)",
+    borderRadius: "9px",
+    width: "max-content"
+  }
 
   return (
     <section style={{"paddingTop": isMobile ? "15%" : '0%' }}>
@@ -73,7 +98,12 @@ const Qr: NextPageWithLayout<GralProps> = () => {
       {queue == 0 ? (
         <>
           <MainCont width={isMobile ? 90 : 40} style={ isMobile ? {'top' : "55%" } : {'top' : "50%" }  }>
-            <QrCard notification={notification} setNotification={setNotification}/>
+            <>
+              {stripeCookie && (
+                <span style={alertUpdatePlan} >Vincula tu dispositivo para activar tu nuevo plan!</span>
+              )}
+              <QrCard notification={notification} setNotification={setNotification}/>
+            </>
           </MainCont>
         </>
       ) :
@@ -92,3 +122,14 @@ Qr.getLayout = (page) => {
 };
 
 export default Qr;
+
+export async function getServerSideProps({ req, res }) {
+    
+  const cookies = new Cookies(req, res);
+  var stripeCookie = false;
+  if (cookies.get(STRIPE_COOKIE)) {
+    stripeCookie = true;
+  }
+
+  return { props: { stripeCookie } };
+}

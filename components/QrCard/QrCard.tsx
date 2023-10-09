@@ -1,5 +1,6 @@
 import { default as Cookie } from 'js-cookie';
-import { useEffect, useState } from 'react';
+import Router from 'next/router';
+import { useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/index';
 import { STATUS } from '../../enums';
@@ -18,30 +19,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
 
-    const handleIsConnected = () => {
-        // setTimeout(async () => {
-        //     const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
-        //     const { data: dataConnect } = await apiSenderWhatsappController.isConnected(accessToken)
-
-        //     setActiveQr(dataConnect?.qrCode);
-
-        //     if (dataConnect?.phoneConnected) {
-        //         setLoadingQr(true);
-        //         window.location.href= "/dash";
-        //     } else {
-        //         if (dataConnect?.qrCode !== activeQr) {
-        //             setActiveQr(dataConnect?.qrCode)
-        //         } else {
-        //             handleIsConnected();
-        //         }
-        //     }
-        // }, 4000);
-        console.log("no handle is connected")
-    };
-
-    useEffect(() => {
-        console.log("activeQr cambio");
-    }, [activeQr]);
 
     const dispatchError = () => {
         setNotification({
@@ -54,90 +31,29 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         })
     };
 
-    const handleEmitID = async () => {
-        setLoadingQr(true);
+    const handleIsConnected = async () => {
 
-        const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
-        const { data: dataConnect } = await apiSenderWhatsappController.connect(accessToken)
-        
-
-
-        if (dataConnect) {
-            const { data: dataQr } = await apiSenderWhatsappController.getQR(accessToken)
-
-            if (dataQr?.qr) {
-                setActiveQr(dataQr.qr);
-            } else {
-                dispatchError();
-            }
-        } else {
-            dispatchError();
-        }
-
-        setLoadingQr(false);
-    };
-
-
-
-
-
-
-    const handleTest = async () => {
+        setLoadingQr(true)
 
         const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
         const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
 
-        console.log("connection a wpp", dataConnection);
-
         if (dataConnection) {
-
+            
             const intervalId = setInterval(async () => {
-                
                 const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
-                console.log("check user connected ", dataConnect);
-
+                setLoadingQr(false);
                 if (dataConnect?.data?.qrCode) {
                     setActiveQr(dataConnect?.data?.qrCode);
                 }
-                
                 if (dataConnect?.data?.phoneConnected) {
-                    console.log("phone connected----------------------------", dataConnect.data.phoneConnected);
-                    alert("phone connected");
                     clearInterval(intervalId);
-                    // set cookie and redirect to dash
+                    Router.push("/dash")
                 }
-                
-
-
-              }, 3000);
-             
-
+              }, 3500);
         }
-
-        // const getData = await apiUserController.getData(accessToken)
-
-        // console.log("get data ", getData);
-
-
-
-        // Changeplan
-        // const { data: dataChangePlan } = await apiSubscriptionsController.changePlan(accessToken)
-
-        // console.log("change plan ", dataChangePlan);
-
     }
 
-    async function initCheck() {
-        const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
-        const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
-   const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
-                console.log("check user connected ", dataConnect);
-    }
-
-    useEffect(() => {
-        // initCheck();
-        // console.log(Cookies.remove("dragonchat_login"))
-    }, []);
 
     return (
         <>
@@ -169,17 +85,21 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
                         <div className={styles.qrImg_cont}>
                             <h4>{'Escanea el QR y aguarda un momento  : )'}</h4>
-                            <img src={activeQr} alt="qrWhatsappImage" onLoad={handleIsConnected} />
+                            <img src={activeQr} alt="qrWhatsappImage"  />
                         </div>
 
                     </div>
                 )}
                 {!activeQr && (
                     <div style={{ "opacity": loadingQr ? "0.3" : "1" }}>
-                        <OrangeBtn text="Generar QR" onClick={handleTest} />
+                        <OrangeBtn text={ !loadingQr ? "Generar QR" : "Generando QR"} onClick={handleIsConnected} />
                     </div>
                 )}
             </div>
+            <aside className={styles.alertaMsg}>
+                <p>Luego que el celular se conecte a Whatsapp aguarda unos segundos y te redirigiremos al dashboard</p>
+            </aside>
+         
         </>
     );
 }

@@ -79,10 +79,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
         }
     }
 
-    useEffect(() => {
-        // Prefetch the dashboard page
-        Router.prefetch('/dash');
-      }, [])
+    useEffect(() => { Router.prefetch('/dash'); }, [])
 
     
    
@@ -123,17 +120,16 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                     </button> */}
                 </div>
 
-                {/* Esto se esconde temporalmente hasta que se active el registre libre de usuarios */}
-                {/* <div className={styles.noAccount}>
+                <div className={styles.noAccount}>
                     <hr />
                     
                     <div>
                         <span>No tienes una cuenta?</span>
                         <button type='button'>
-                            <Link href='/signup'>Regístrate</Link>
+                            <span onClick={ ()=> Router.push('/signup') }>Regístrate</span>
                         </button>
                     </div>
-                </div> */}
+                </div>
 
             </form>
         </div>    

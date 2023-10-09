@@ -1,5 +1,7 @@
 import axios from 'axios';
 import Router from 'next/router';
+import { API_GATEWAY_URL } from '../constants/index';
+import { API_ROUTES } from '../enums';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_USER_URL;
 const authUrl = apiUrl + '/auth';
@@ -11,21 +13,19 @@ const getHeaders = (authToken: string) => ({
 });
 
 const apiUserController = {
-    signUp: async (name, email, password, passwordConfirmation, setUserExists) => {
+    signUp: async (name, mail, password, passwordConfirmation, setUserExists, stripe_data) => {
         try {
-            const payload = { name: name, mail: email, password: password, password_confirmation: passwordConfirmation
-                // ,subscription: {
-                //     session_id: "asdasdasd",
-                //     product_id: "11111"
-                // }
-            };
+            const payload = { name: name, mail: mail, password: password, password_confirmation: passwordConfirmation};
 
-            const response = await axios.post(`https://gateway-test.dragonchat.io/api/auth/signup`, payload, {headers: {
+            // Si existe stripe_data, lo agrego al payload para que se registre como premium
+            if (stripe_data.stripe_data) {
+                payload['suscription'] = JSON.parse(stripe_data.stripe_data)
+            }
+
+            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SIGN_UP}`, payload, {headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
               }});
-
-              console.log(payload, response)
 
             if (response.status == 201) {
                 setUserExists(false);
@@ -42,7 +42,7 @@ const apiUserController = {
     },
     getData: async (authToken: string) => {
         try {
-            const response = await axios.get(`https://gateway-test.dragonchat.io/api/auth/me`, { headers: {"Authorization": `Bearer ${authToken}`} });
+            const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, { headers: {"Authorization": `Bearer ${authToken}`} });
             return response
         } catch (error: any) {
             return error
@@ -51,7 +51,7 @@ const apiUserController = {
     login: async (email, password) => {
         try {
             const payload = { mail: email, password: password };
-            const response = await axios.post(`https://gateway-test.dragonchat.io/api/auth/login`, payload);
+            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.LOGIN}`, payload);
             return response;
         } catch (error) {
         }
@@ -61,7 +61,7 @@ const apiUserController = {
             "Content-Type": "application/json",
         });
         headers.append("Authorization", `Bearer ${authToken}`);
-        const response = await axios.get(`https://gateway-test.dragonchat.io/api/auth/logout`, { headers: {'Authorization' : `Bearer ${authToken}`} });
+        const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.LOGOUT}`, { headers: {'Authorization' : `Bearer ${authToken}`} });
         return response;
     },
     edit: async (accessToken, name, email, password, passwordConfirmation) => {
@@ -121,20 +121,22 @@ const apiUserController = {
         }
         return;
     },
-    updatePlan: async (login_data, stripe_data) => {
+    updatePlan: async (accessToken, stripe_data) => {
         try {
-
-            let stripe_session = JSON.parse(stripe_data).stripe_session
-            let user_id = JSON.parse(login_data).user_id
-
-
-            // pasarlo como header
-            const payload = { stripe_session, user_id };
-            // const response = await axios.post(`$endpoint para updatear plan`, payload);
-            // if (response.status == 200) {
-                return 200
-            // }
-            // return "error"
+            const response = await axios.put(
+                `${API_GATEWAY_URL}${API_ROUTES.UPDATE_PLAN}`,
+                {
+                  "session_id": stripe_data.session_id,
+                  "product_id":  stripe_data.product_id
+                },
+                {
+                  headers: {
+                    "Authorization": `Bearer ${accessToken}`,
+                  }
+                }
+              );
+          
+              return response;
         } catch (error: any) {
             // console.log("error");
         }

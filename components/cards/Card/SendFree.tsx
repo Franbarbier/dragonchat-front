@@ -106,6 +106,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }
 
 
+  useEffect(() => {
+    setMessagesLimitAchieved(true)
+  }, [messagesLimitAchieved])
+
 
   useEffect(() => {
 

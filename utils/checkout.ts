@@ -10,8 +10,8 @@ export async function handleStripeSession(id) {
       const session = await stripe.checkout.sessions.retrieve(id);
 
       return session.id ? {
-        stripe_session: session.id,
-        product_id: 0
+        session_id: session.id,
+        product_id: "0"
       } : null;
     }
 

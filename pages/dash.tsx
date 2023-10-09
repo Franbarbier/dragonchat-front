@@ -1,6 +1,7 @@
+import Cookies from 'cookies';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
 import Header from '../components/Header/Header';
@@ -8,12 +9,14 @@ import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import ModalContainer from '../components/ModalContainer/ModalContainer';
 import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
 import { INotification } from '../components/Notification/Notification';
-import { STATUS } from '../enums';
+import { API_GATEWAY_URL, LOGIN_COOKIE, STRIPE_COOKIE } from '../constants/index';
+import { API_ROUTES, STATUS } from '../enums';
+import { decrypt } from '../utils/crypto';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
 interface IDashProps {
-  stripe: number,
+  stripe: null | number
 }
 
 
@@ -21,7 +24,7 @@ const Home: NextPageWithLayout<IDashProps> = ({ stripe }) => {
 
   const { locale } = useRouter();
   const [openSettings, setOpenSettings] = useState<boolean>(false)
-  const [modalStripe, setModalStripe] = useState<number>(stripe)
+  const [modalStripe, setModalStripe] = useState<null | number>(stripe)
 
   const [loading, setLoading] = useState<boolean>(false)
   const [notification, setNotification] = useState<INotification>({
@@ -30,15 +33,6 @@ const Home: NextPageWithLayout<IDashProps> = ({ stripe }) => {
     message : "",
     modalReturn : ()=>{}
 })
-
-
-
-  useEffect(() => {
-    if (modalStripe == 1) {
-      // removeStripeCookie()
-    }
-  }, [modalStripe])
-
 
 
   return (
@@ -102,16 +96,40 @@ export default Home;
 
 
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({req, res}) {
 
-  return {
-    props: {
-      stripe: "cookiesResponseData"
-    }
+  
+  const cookies = new Cookies(req, res);
+  var stripeStatus:null | number = null
+  if (cookies.get(STRIPE_COOKIE)) {
+
+      const stripe_data = decrypt( JSON.parse( cookies.get(STRIPE_COOKIE) ))
+      const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE) );
+      const accessToken = JSON.parse(responseText).access_token
+      const changePlan = await fetch(`${API_GATEWAY_URL}${API_ROUTES.UPDATE_PLAN}`, {
+        method: 'PUT',
+        body : JSON.stringify({
+          session_id: JSON.parse(stripe_data).session_id,
+          product_id: JSON.parse(stripe_data).product_id
+        }),
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
+        }
+      });
+      
+      const handleChangePlan = await changePlan.json();
+
+      if (handleChangePlan.isPaid == true) {
+        // no encontre como eliminarla asique la seteo con un null y ya expirada
+        cookies.set(STRIPE_COOKIE, null, { expires: new Date(0) });
+        stripeStatus = 200
+      }
+
   }
+
+  return { props: { stripe : stripeStatus } };
 }
-
-
 
 Home.getLayout = (page) => {
   return (

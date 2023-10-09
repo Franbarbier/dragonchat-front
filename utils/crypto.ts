@@ -5,7 +5,6 @@ const KEY = "12312312312312369312312312312312";
 const IV = crypto.randomBytes(16);
 
 export const encrypt = (data: any) => {
-  console.log("Asdf", data);
   const cipher = crypto.createCipheriv(ALGORITHM, KEY, IV);
   const encryptedData = Buffer.concat([cipher.update(JSON.stringify(data)), cipher.final()]);
 

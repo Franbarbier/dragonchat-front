@@ -41,11 +41,21 @@ Login.getLayout = (page) => {
 
 export async function getServerSideProps({ req, res, query: { session_id } }) {
     if (session_id) {
-        const sessionData = await handleStripeSession(session_id)
         const cookies = new Cookies(req, res)
+        const sessionData = await handleStripeSession(session_id)
+        cookies.set(STRIPE_COOKIE, JSON.stringify(encrypt(sessionData)))
+        
+       // Remove the session_id query parameter from the URL
+       const currentUrl = req.url;
+       const updatedUrl = currentUrl.replace(/(\?|&)session_id=[^&]*/g, '');
+       res.setHeader('Location', updatedUrl);
+       res.statusCode = 302;
+       res.end();
 
-        cookies.set(STRIPE_COOKIE, encrypt(sessionData))
+
+        const cookieStr = cookies.get(STRIPE_COOKIE)
     }
-
+ 
+    
     return { props: {} };
 }
