@@ -5,6 +5,7 @@ import apiUserController from '../../api/apiUserController';
 import { STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
+import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import styles from './SignUpView.module.css';
@@ -24,6 +25,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
     const [equalPass, setEqualPass] = useState(true)
     const [userExists, setUserExists] = useState(false)
 
+    const [loading, setLoading] = useState(false)
 
     async function handleLogin(loginMail,loginPass ) {
             const login_status = await apiUserController.login(loginMail, loginPass);
@@ -39,16 +41,20 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                       sameSite: 'strict'
                     }
                   );
-                  setTimeout(() => {
-                      Router.push("/dash")
-                    }, 800);
+                    Router.push("/dash")
                 }
                 // Router.push("/login")
     }  
 
 
+console.log(loading)
+useEffect(() => {
+    setLoading(false)
+}, [userExists])
 
     async function handleCrearCuenta() {
+        setLoading(true)
+
         if (equalPass) {
             if( name != "" && mail != "" && pass != "" && confirmPass != "" ){
                 
@@ -59,6 +65,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                         message : "El mail ingresado no es valido.",
                         modalReturn : ()=>{setNotification({...notification, render : false })}
                     })
+                    setLoading(false)
                     return false;
                 }
                 if (pass.length < 8) {
@@ -68,6 +75,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                         message : "La contraseña debe tener al menos 8 caracteres.",
                         modalReturn : ()=>{setNotification({...notification, render : false })}
                     })
+                    setLoading(false)
                     return false;
                 }
                     
@@ -81,7 +89,8 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                             modalReturn : ()=>{setNotification({...notification, render : false })}
                         })
                         handleLogin(mail, pass)
-                    }            
+                    }
+                    console.log(signUp_res)
                 }
 
                 const signUp_res = await apiUserController.signUp(name, mail, pass, confirmPass, setUserExists, stripe_data);
@@ -101,6 +110,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                 message : "Las contraseñas no coinciden!",
                 modalReturn : ()=>{setNotification({...notification, render : false })}
             })
+
         }
     }
 
@@ -140,6 +150,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
 
     return (
         <>
+            <Loader loading={loading} />
        
         <div className={styles.signup_cont} >
             <div>
@@ -162,7 +173,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                         <p className={styles.alert}>Las contraseñas no coinciden :(</p>
                     }
                     {userExists &&
-                        <p className={styles.alert}>El usuario ya existe.</p>
+                        <p className={styles.alert}>Ya existe un usuario registrado con ese email.</p>
                     }
                 </div>
 

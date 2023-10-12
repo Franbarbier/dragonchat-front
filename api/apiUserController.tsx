@@ -19,7 +19,7 @@ const apiUserController = {
 
             // Si existe stripe_data, lo agrego al payload para que se registre como premium
             if (stripe_data.stripe_data) {
-                payload['suscription'] = JSON.parse(stripe_data.stripe_data)
+                payload['subscription'] = JSON.parse(stripe_data.stripe_data)
             }
 
             const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SIGN_UP}`, payload, {headers: {

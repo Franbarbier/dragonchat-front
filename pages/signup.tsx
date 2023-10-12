@@ -44,7 +44,7 @@ SignUp.getLayout = (page) => {
     const cookies = new Cookies(req, res);
     var cookieStr = undefined
     if (cookies.get(STRIPE_COOKIE)) {
-        cookieStr = cookies.get(STRIPE_COOKIE)   
+        cookieStr = cookies.get(STRIPE_COOKIE)
     }
 
     return { props: { stripe_data : cookieStr ? decrypt( JSON.parse(cookieStr) ) : null } };

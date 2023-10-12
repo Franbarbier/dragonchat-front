@@ -48,6 +48,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                         sameSite: 'strict'
                       }
                     );
+                    
                     Router.push("/dash")
                     
                 }else{

@@ -1,7 +1,8 @@
-import { default as Cookie } from 'js-cookie';
+import Cookies from 'js-cookie';
 import Router from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
+import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE } from '../../constants/index';
 import { STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
@@ -31,28 +32,77 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         })
     };
 
+
+    useEffect(() => {
+        console.log(activeQr)
+    }, [activeQr])
+
+    
+    let intervalId; 
+    function startInterval(accessToken) {
+        intervalId = setInterval(async () => {
+            const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
+
+            console.log(dataConnect)
+    
+            setLoadingQr(false);
+    
+            if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode != "") {
+                setActiveQr(dataConnect?.data?.qrCode);
+            }else{
+                setNotification({
+                    status: STATUS.ERROR,
+                    render: true,
+                    message: "Hubo un error en la conexión, intentalo de nuevo en un minuto.",
+                    modalReturn: () => {
+                        setNotification({ ...notification, render: false })
+                    }
+                })
+                // clearInterval(intervalId);
+            }
+    
+            if (dataConnect?.data?.phoneConnected) {
+                Router.push("/dash")
+                console.log(dataConnect?.data?.phoneConnected, "---------------------------------------PHONE CONECTED--------------------------------")
+                    clearInterval(intervalId);
+            }
+
+            
+        }, 3500); 
+    
+    }
+
+
     const handleIsConnected = async () => {
 
         setLoadingQr(true)
 
-        const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
+        // const test = Cookies.get(LOGIN_COOKIE)
+
+        const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE) || '')?.access_token;
+        
+        const getDAt = await apiUserController.getData(accessToken)
+        console.log(getDAt)
+
         const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
+
+        console.log(dataConnection)
 
         if (dataConnection) {
             
-            const intervalId = setInterval(async () => {
-                const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
-                setLoadingQr(false);
-                if (dataConnect?.data?.qrCode) {
-                    setActiveQr(dataConnect?.data?.qrCode);
-                }
-                if (dataConnect?.data?.phoneConnected) {
-                    clearInterval(intervalId);
-                    Router.push("/dash")
-                }
-              }, 3500);
+            startInterval(accessToken)
+            
         }
+
+
     }
+
+    // on component dismount clearInterval(intervalId);
+    useEffect(() => {
+        return () => {
+            clearInterval(intervalId);
+        }
+    });
 
 
     return (

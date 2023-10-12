@@ -5,6 +5,8 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
+import apiUserController from "../../../api/apiUserController";
+import { LOGIN_COOKIE } from "../../../constants/index";
 import { SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
@@ -106,9 +108,23 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }
 
 
-  useEffect(() => {
-    setMessagesLimitAchieved(true)
-  }, [messagesLimitAchieved])
+  const handleTest = async () => {
+
+    // setLoadingQr(true)
+
+    // const test = Cookies.get(LOGIN_COOKIE)
+    const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
+    
+    const getDAt = await apiUserController.getData(accessToken)
+    console.log(getDAt)
+
+
+}
+
+// on component dismount clearInterval(intervalId);
+useEffect(() => {
+  handleTest()
+});
 
 
   useEffect(() => {

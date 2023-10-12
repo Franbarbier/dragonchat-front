@@ -10,18 +10,26 @@ const handleRedirect = (req: NextRequest, route: ROUTES) => {
 
 
 
-export async function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest, res) {
 
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
 
-  if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie) {
+  console.log("ejecutoide--------------------------------------------------------------", authCookie)
+
+  if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie && !req.nextUrl.pathname.startsWith(ROUTES.SIGN_UP)) {
     return handleRedirect(req, ROUTES.LOGIN);
   }
   
   if (authCookie) {
     const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
+    
 
-    if (req.nextUrl.pathname.includes(ROUTES.LOGIN) || req.nextUrl.pathname.includes(ROUTES.SIGN_UP)) {
+    // console.log(req.nextUrl.pathname.includes(ROUTES.SIGN_UP), req.nextUrl.pathname)
+    if (req.nextUrl.pathname.includes(ROUTES.SIGN_UP) ) {
+      return handleRedirect(req, ROUTES.DASH);
+    }
+
+    if (req.nextUrl.pathname.includes(ROUTES.LOGIN) ) {
       // Cuando caes al login pero existe el authToken, redirigir a dash (sacarle el parametro a la url de stripe)
       return handleRedirect(req, `${ROUTES.DASH}/` as ROUTES);
     }
@@ -39,6 +47,7 @@ export async function middleware(req: NextRequest) {
     
     var resDataQr = { phoneConnected: false }
 
+
     if (responseBody.id) {
       //  Hay que sacarle el validate QR porque no neceesito la url (me lo sigue trayendo)
       const dataConnection = await fetch(`${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`, {
@@ -50,6 +59,7 @@ export async function middleware(req: NextRequest) {
 
       try {
         resDataQr = await dataConnection.json();
+        console.log("ejecutoide--------------------------------------------------------------", resDataQr)
       } catch (error) {}
     }
 
@@ -61,11 +71,14 @@ export async function middleware(req: NextRequest) {
     if (!resDataQr.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.QR);
     }
+
+
+    // if(req.nextUrl.pathname.includes(ROUTES.SIGN_UP)){ return handleRedirect(req, `${ROUTES.DASH}/` as ROUTES); }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit"],
+  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit", "/signup"],
 };

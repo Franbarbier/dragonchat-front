@@ -28,7 +28,9 @@ export async function getServerSideProps({ _, res }) {
 
                 // Los "http y :3000 nose porque me da error si los saco (tengo el .env como nico. Pero los dejo por las)"
                 success_url: `http://${process.env.HOST}:3000${ROUTES.LOGIN}?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `http://${process.env.HOST}${ROUTES.LOGIN}`,
+                // success_url: `http://${process.env.HOST}:3000/dash?session_id={CHECKOUT_SESSION_ID}`,
+                // cancel_url: `http://${process.env.HOST}${ROUTES.DASH}`,
+                cancel_url: `https://app.slack.com/client/T049NKM050B/D050R93A5A9`,
             });
 
             if (session.url) {
@@ -37,7 +39,7 @@ export async function getServerSideProps({ _, res }) {
             }
         }
     } else {
-        res.writeHead(302, { Location: `http://${ROUTES.LOGIN}` });
+        res.writeHead(302, { Location: `http://${ROUTES.DASH}` });
         res.end();
     }
 

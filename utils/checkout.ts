@@ -11,7 +11,7 @@ export async function handleStripeSession(id) {
 
       return session.id ? {
         session_id: session.id,
-        product_id: "0"
+        product_id: "venom"
       } : null;
     }
 
