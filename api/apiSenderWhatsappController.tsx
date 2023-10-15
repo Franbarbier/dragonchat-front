@@ -54,9 +54,9 @@ const apiSenderWhatsappController = {
             },
             isConnected: async (authToken: string) => {
                 try {
-            console.log(authToken)
-            const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`, { headers: 
-            {"Authorization": `Bearer ${authToken}`} });
+                console.log(authToken)
+                const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`, { headers: 
+                {"Authorization": `Bearer ${authToken}`} });
             return response
         } catch (error: any) {
             return error
