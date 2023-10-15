@@ -49,7 +49,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                 setActiveQr(null)
             }
     
-            if (dataConnect?.data?.phoneConnected) {
+            if (dataConnect?.data?.phoneConnected == true) {
                 setNotification({
                     status: STATUS.SUCCESS,
                     render: true,
@@ -59,9 +59,8 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                     }
                 })
                 // Router.push("/")
-                window.location.reload();
-                console.log(dataConnect?.data?.phoneConnected, "---------------------------------------PHONE CONECTED--------------------------------")
                 clearInterval(intervalId);
+                window.location.reload();
             }
 
             
@@ -73,24 +72,15 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const handleIsConnected = async () => {
 
         setLoadingQr(true)
-
-        // const test = Cookies.get(LOGIN_COOKIE)
-
         const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE) || '')?.access_token;
         
         const getDAt = await apiUserController.getData(accessToken)
         console.log(getDAt)
 
         const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
-
         console.log(dataConnection)
 
-        if (dataConnection) {
-            
-            startInterval(accessToken)
-            
-        }
-
+        if (dataConnection) { startInterval(accessToken) }
 
     }
 

@@ -11,8 +11,8 @@ Checkout.getLayout = (page) => <PrimaryLayout>{page}</PrimaryLayout>
 
 export async function getServerSideProps({ _, res }) {
 
-    if (process.env.STRIPE_KEY) {
-        const stripe = new Stripe(process.env.STRIPE_KEY, { apiVersion: '2023-08-16' })
+    if (process.env.NEXT_PUBLIC_STRIPE_KEY) {
+        const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_KEY, { apiVersion: '2023-08-16' })
         const prices = await stripe.prices.list();
 
         if (prices.data?.length && prices.data?.length > 0) {
@@ -29,8 +29,7 @@ export async function getServerSideProps({ _, res }) {
                 // Los "http y :3000 nose porque me da error si los saco (tengo el .env como nico. Pero los dejo por las)"
                 success_url: `http://${process.env.HOST}:3000${ROUTES.LOGIN}?session_id={CHECKOUT_SESSION_ID}`,
                 // success_url: `http://${process.env.HOST}:3000/dash?session_id={CHECKOUT_SESSION_ID}`,
-                // cancel_url: `http://${process.env.HOST}${ROUTES.DASH}`,
-                cancel_url: `https://app.slack.com/client/T049NKM050B/D050R93A5A9`,
+                cancel_url: `http://${process.env.HOST}${ROUTES.DASH}`,
             });
 
             if (session.url) {
@@ -39,7 +38,7 @@ export async function getServerSideProps({ _, res }) {
             }
         }
     } else {
-        res.writeHead(302, { Location: `http://${ROUTES.DASH}` });
+        res.writeHead(302, { Location: `http://${process.env.HOST}:3000${ROUTES.DASH}` });
         res.end();
     }
 
