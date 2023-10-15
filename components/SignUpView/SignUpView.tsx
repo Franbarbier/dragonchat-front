@@ -47,7 +47,6 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
     }  
 
 
-console.log(loading)
 useEffect(() => {
     setLoading(false)
 }, [userExists])

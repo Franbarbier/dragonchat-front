@@ -59,7 +59,7 @@ export async function middleware(req: NextRequest, res) {
 
       try {
         resDataQr = await dataConnection.json();
-        console.log("ejecutoide--------------------------------------------------------------", resDataQr)
+        console.log("ejecutoideWPP--------------------------------------------------------------", resDataQr)
       } catch (error) {}
     }
 
