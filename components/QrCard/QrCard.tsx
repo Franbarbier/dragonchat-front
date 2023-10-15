@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import apiUserController from '../../api/apiUserController';
@@ -19,18 +18,6 @@ export interface IQrCard {
 const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
-
-
-    const dispatchError = () => {
-        setNotification({
-            status: STATUS.ERROR,
-            render: true,
-            message: "Hubo un error en la conexión, intentalo de nuevo en un minuto.",
-            modalReturn: () => {
-                setNotification({ ...notification, render: false })
-            }
-        })
-    };
 
 
     useEffect(() => {
@@ -53,18 +40,28 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                 setNotification({
                     status: STATUS.ERROR,
                     render: true,
-                    message: "Hubo un error en la conexión, intentalo de nuevo en un minuto.",
+                    message: "Hubo un error en la conexión, por favor intentalo de nuevo en un minuto.",
                     modalReturn: () => {
                         setNotification({ ...notification, render: false })
                     }
                 })
-                // clearInterval(intervalId);
+                clearInterval(intervalId);
+                setActiveQr(null)
             }
     
             if (dataConnect?.data?.phoneConnected) {
-                Router.push("/dash")
+                setNotification({
+                    status: STATUS.SUCCESS,
+                    render: true,
+                    message: "El dispositivo termino de sincronizarse correctamente.",
+                    modalReturn: () => {
+                        setNotification({ ...notification, render: false })
+                    }
+                })
+                // Router.push("/")
+                window.location.reload();
                 console.log(dataConnect?.data?.phoneConnected, "---------------------------------------PHONE CONECTED--------------------------------")
-                    clearInterval(intervalId);
+                clearInterval(intervalId);
             }
 
             
