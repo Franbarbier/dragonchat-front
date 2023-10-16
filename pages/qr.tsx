@@ -47,13 +47,13 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie }) => {
     setLoading(true)
 
     try {
-      const accessToken = JSON.parse(Cookie.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+      const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE)).access_token;
     
       const response = await apiUserController.logout(accessToken);
 
       if (response.status == 200) {
 
-        Cookie.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+        Cookie.remove(LOGIN_COOKIE);
 
 
         Router.push(`${ROUTES.LOGIN}`);

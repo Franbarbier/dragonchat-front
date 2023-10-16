@@ -5,6 +5,7 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
+import { LOGIN_COOKIE } from "../../../constants/index";
 import { SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
@@ -92,7 +93,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     };
 
     const authToken = JSON.parse(
-      Cookie.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)
+      Cookie.get(LOGIN_COOKIE )
     ).access_token;
     
     const sentMessage = await apiSenderWhatsappController.sendMessage(

@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
+import { LOGIN_COOKIE } from '../../constants/index';
 import { STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import InputGral from '../InputGral/InputGral';
@@ -35,7 +36,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                     user_id : login_status?.data.user_id
                 }
                 Cookies.set(
-                    process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
+                    LOGIN_COOKIE,
                     JSON.stringify(login_storage), // secure flag option must be added in the future
                     {
                       sameSite: 'strict'

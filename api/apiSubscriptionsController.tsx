@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { LOGIN_COOKIE } from '../constants/index';
 
-const apiUrl = process.env.NEXT_PUBLIC_API_USER_URL; // change to sub api
+const apiUrl = LOGIN_COOKIE; // change to sub api
 
 const apiSubscriptionsController = {
   subscribe: async (email) => {
