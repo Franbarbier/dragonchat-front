@@ -122,10 +122,11 @@ export async function getServerSideProps({req, res}) {
       const handleChangePlan = await changePlan.json();
 
       if (handleChangePlan.isPaid == true) {
-        // no encontre como eliminarla asique la seteo con un null y ya expirada
         cookies.set(STRIPE_COOKIE, null, { expires: new Date(0) });
+        // no encontre como eliminarla asique la seteo con un null y ya expirada
         stripeStatus = 200
       }
+
 
   }
 

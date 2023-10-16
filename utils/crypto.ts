@@ -1,5 +1,7 @@
 import crypto from 'crypto';
 
+
+// to do: pasar al env
 const ALGORITHM = 'aes-256-cbc';
 const KEY = "12312312312312369312312312312312";
 const IV = crypto.randomBytes(16);

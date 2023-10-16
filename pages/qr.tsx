@@ -135,7 +135,6 @@ export default Qr;
 
 export async function getServerSideProps({req, res}) {
 
-  
   const cookies = new Cookies(req, res);
   var stripeStatus:null | number = null
   if (cookies.get(STRIPE_COOKIE)) {
