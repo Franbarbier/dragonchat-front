@@ -60,10 +60,10 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
   async function handleLogout() {
     setLoading(true)
     try {
-      const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+      const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
       const response = await apiUserController.logout(accessToken);
       if (response.status == 200) {
-        Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+        Cookies.remove(LOGIN_COOKIE);
         Router.push(ROUTES.LOGIN);
         setLoading(false)
 
@@ -93,7 +93,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     }
 
 
-    const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+    const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     try {
       const response = await apiUserController.edit(accessToken, name, email, pass, confirmPass);
 

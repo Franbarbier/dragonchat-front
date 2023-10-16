@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
+import { LOGIN_COOKIE } from '../../constants/index';
 import { STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
@@ -42,7 +43,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                     }
 
                     Cookies.set(
-                      process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
+                      LOGIN_COOKIE,
                       JSON.stringify(login_storage), // secure flag option must be added in the future
                       {
                         sameSite: 'strict'

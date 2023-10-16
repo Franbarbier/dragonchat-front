@@ -4,7 +4,7 @@ import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
-import { STRIPE_COOKIE } from '../constants/index';
+import { HOST_URL, STRIPE_COOKIE, STRIPE_KEY } from '../constants/index';
 import { STATUS } from "../enums";
 import { handleStripeSession } from "../utils/checkout";
 import { encrypt } from '../utils/crypto';
@@ -18,7 +18,7 @@ const Login: NextPageWithLayout<{reloadNeeded:boolean}> = ({ reloadNeeded }) => 
         modalReturn: () => { }
     })
 
-    console.log(process.env.HOST, process.env.STRIPE_KEY)
+    console.log(HOST_URL, STRIPE_KEY, STRIPE_COOKIE)
 
     useEffect(() => {
         if (reloadNeeded) {
