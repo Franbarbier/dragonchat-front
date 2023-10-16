@@ -75,7 +75,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     // Send currentString to the recipient    
     const onSuccess = () => {
-      if (sentMessage?.status == 200) {
+      if (sentMessage?.status == 200 || sentMessage?.status == 201) {
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.SUCCESS;
         setContactos(newContacts);
@@ -104,7 +104,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     );
     onSuccess();
   }
-
 
 
   useEffect(() => {

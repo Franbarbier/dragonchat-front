@@ -27,8 +27,6 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
-    
-
     const [logging, setLogging] = useState<boolean>(false)
 
     async function handleLogin() {
@@ -36,7 +34,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
         if (email != "" && pass != "") {
             
             const onSuccess = () => {
-                if (login_status?.status == 200 ) {
+                if (login_status?.status == 200 || login_status?.status == 201 ) {
 
                     const login_storage = {
                         access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
@@ -54,6 +52,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                     Router.push("/dash")
                     
                 }else{
+                    
                     setLogging(false)
                     setNotification({
                         status : STATUS.ERROR,
@@ -81,10 +80,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
         }
     }
 
-    useEffect(() => {
-        // Prefetch the dashboard page
-        Router.prefetch('/dash');
-      }, [])
+    useEffect(() => { Router.prefetch('/dash'); }, [])
 
     
    
@@ -125,17 +121,16 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                     </button> */}
                 </div>
 
-                {/* Esto se esconde temporalmente hasta que se active el registre libre de usuarios */}
-                {/* <div className={styles.noAccount}>
+                <div className={styles.noAccount}>
                     <hr />
                     
                     <div>
                         <span>No tienes una cuenta?</span>
                         <button type='button'>
-                            <Link href='/signup'>Regístrate</Link>
+                            <span onClick={ ()=> Router.push('/signup') }>Regístrate</span>
                         </button>
                     </div>
-                </div> */}
+                </div>
 
             </form>
         </div>    

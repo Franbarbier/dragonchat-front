@@ -62,6 +62,25 @@
     100%{ opacity: 1; }
 }
 
+
+.alertaMsg{
+    color: #a68cec;
+    font-size: 12px;
+    padding: 12px;
+    padding: 8px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 107%;
+    border: 1px solid var(--violeta1);
+    background-color: #422a9391;
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(90px); */
+    padding: 17px;
+    letter-spacing: 0.5px;
+}
+
 /* if mobile */
 @media (max-width: 768px) {
     .qrSteps{
@@ -81,5 +100,8 @@
     }
     .qrSteps>div:first-child{
         width: 100%;
+    }
+    .alertaMsg{
+        display: none;
     }
 }

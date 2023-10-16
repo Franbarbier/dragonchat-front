@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_SENDER_URL } from '../constants/ index';
+import { API_GATEWAY_URL } from '../constants/index';
 import { API_ROUTES } from '../enums';
 
 const getHeaders = (authToken: string) => ({
@@ -10,7 +10,7 @@ const getHeaders = (authToken: string) => ({
 const apiSenderWhatsappController = {
     disconnect: async (authToken: string) => {
         try {
-            const response = await axios.delete(`${API_SENDER_URL}${API_ROUTES.DISCONNECT}`, { headers: getHeaders(authToken) });
+            const response = await axios.delete(`${API_GATEWAY_URL}${API_ROUTES.DISCONNECT}`, { headers: getHeaders(authToken) });
             if (response.status == 200) {
                 alert("Whatsapp correctamente desvinculado.");
             } else {
@@ -25,7 +25,7 @@ const apiSenderWhatsappController = {
     sendMessage: async (user, name, message, phone, authToken: string) => {
         try {
             const payload = { user, name, message, phone };
-            const response = await axios.post(`${API_SENDER_URL}${API_ROUTES.SEND_MSG}`, payload, { headers: getHeaders(authToken) });
+            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`, payload, { headers: {"Authorization": `Bearer ${authToken}`} });
             return response
         } catch (error: any) {
             return error
@@ -34,26 +34,29 @@ const apiSenderWhatsappController = {
     },
     connect: async (authToken: string) => {
         try {
-            const response = await axios.post(`${API_SENDER_URL}${API_ROUTES.CONNECT}`, {}, { headers: getHeaders(authToken) });
-
-            return response
-        } catch (error: any) {
-            return error
-        }
-    },
-    getQR: async (authToken: string) => {
-        try {
-            const response = await axios.get(`${API_SENDER_URL}${API_ROUTES.GET_QR}`, { headers: getHeaders(authToken) });
-
-            return response
-        } catch (error: any) {
-            return error
-        }
-    },
-    isConnected: async (authToken: string) => {
-        try {
-            const response = await axios.get(`${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}`, { headers: getHeaders(authToken) });
-
+            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`, {}, { headers: 
+                {"Authorization": `Bearer ${authToken}`} });
+                console.log(response)
+                return response
+            } catch (error: any) {
+                return error
+            }
+        },
+        getQR: async (authToken: string) => {
+            try {
+                const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.GET_QR}`,{ headers: 
+                    {"Authorization": `Bearer ${authToken}`} });
+                    console.log(response)
+                    return response
+                } catch (error: any) {
+                    return error
+                }
+            },
+            isConnected: async (authToken: string) => {
+                try {
+                console.log(authToken)
+                const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`, { headers: 
+                {"Authorization": `Bearer ${authToken}`} });
             return response
         } catch (error: any) {
             return error

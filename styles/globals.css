@@ -19,7 +19,6 @@ input, select, button, textarea {
   color: #fff;
 
 }
-
 *{ margin: 0; padding: 0; box-sizing: border-box; transition: .2s cubic-bezier(0.13, 0.77, 0.33, 1);}
 a{ text-decoration: none; color: inherit;}
 li{ list-style: none; }
