@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { API_GATEWAY_URL, LOGIN_COOKIE } from "./constants/index";
-import { API_ROUTES, ROUTES } from "./enums";
+import { ROUTES } from "./enums";
 
 const handleRedirect = (req: NextRequest, route: ROUTES) => {
   const newUrl = req.nextUrl.clone();
@@ -13,6 +13,7 @@ const handleRedirect = (req: NextRequest, route: ROUTES) => {
 export async function middleware(req: NextRequest, res) {
 
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
+
 
   console.log("ejecutoide--------------------------------------------------------------", authCookie)
 
@@ -35,20 +36,18 @@ export async function middleware(req: NextRequest, res) {
     }
     const validateQR = false;
     
-    // Esto va si es necesario la conexion antes, pero creo que no.
-    const dataConnection = await fetch(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`,
-    {
-      cache: 'no-store',
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
+    // // Esto va si es necesario la conexion antes, pero creo que no.
+    // const dataConnection = await fetch(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`,
+    // {
+    //   cache: 'no-store',
+    //   method: 'POST',
+    //   headers: {
+    //     'Authorization': `Bearer ${accessToken}`,
+    //   },
       
-    });
-
-    
-    // Parse the response as JSON
-    const responseBody = await dataConnection.json();
+    // });
+    // // Parse the response as JSON
+    // const responseBody = await dataConnection.json();
     
 
     // const connection = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`, {}, { headers:{"Authorization": `Bearer ${accessToken}`} });
@@ -58,20 +57,23 @@ export async function middleware(req: NextRequest, res) {
     var resDataQr = { phoneConnected: false }
 
 
-    if (responseBody.id) {
       //  Hay que sacarle el validate QR porque no neceesito la url (me lo sigue trayendo)
-      const dataConnection = await fetch(`${API_GATEWAY_URL}/api/whatsapp/check-user-conected?validateqr=false`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
-
       try {
+        const dataConnection = await fetch(`${API_GATEWAY_URL}/api/whatsapp/check-user-conected?validateqr=false`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+      
+        console.log(dataConnection)
         resDataQr = await dataConnection.json();
+      
         console.log("ejecutoideWPP--------------------------------------------------------------", resDataQr)
-      } catch (error) {}
-    }
+      } catch (error) {
+        // Si es 412 conexion no establecida, cualquier otro: error
+        console.log(error)
+      }
 
 
     if (resDataQr.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {

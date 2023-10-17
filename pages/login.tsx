@@ -18,6 +18,8 @@ const Login: NextPageWithLayout<{reloadNeeded:boolean}> = ({ reloadNeeded }) => 
         modalReturn: () => { }
     })
 
+
+    console.log("---------CAmbios fran -----------------")
     console.log(HOST_URL, STRIPE_KEY, STRIPE_COOKIE)
 
     useEffect(() => {

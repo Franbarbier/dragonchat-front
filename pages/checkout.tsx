@@ -27,10 +27,9 @@ export async function getServerSideProps({ _, res }) {
                 ],
                 mode: 'subscription',
 
-                // Los "http y :3000 nose porque me da error si los saco (tengo el .env como nico. Pero los dejo por las)"
-                success_url: `http://${HOST_URL}:3000${ROUTES.DASH}?session_id={CHECKOUT_SESSION_ID}`,
-                // success_url: `http://${HOST_URL}:3000/dash?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `http://${HOST_URL}${ROUTES.DASH}`
+                success_url: `${HOST_URL}${ROUTES.LOGIN}?session_id={CHECKOUT_SESSION_ID}`,
+
+                cancel_url: `${HOST_URL}${ROUTES.DASH}`
             });
 
             if (session.url) {
