@@ -62,6 +62,10 @@ const apiSenderWhatsappController = {
             if (error.response.status == 412) {
                 return 412
             }
+            if (error.response.status == 428) {
+                return 428
+            }
+            
             return error
         }
     },

@@ -34,19 +34,26 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     
             setLoadingQr(false);
     
-            if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode != "") {
+            console.log("dataaaaa coneeeee",dataConnect)
+            
+            if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
             }else{
-                setNotification({
-                    status: STATUS.ERROR,
-                    render: true,
-                    message: "Hubo un error en la conexión, por favor intentalo de nuevo en un minuto.",
-                    modalReturn: () => {
-                        setNotification({ ...notification, render: false })
-                    }
-                })
-                // clearInterval(intervalId);
-                setActiveQr(null)
+                if (dataConnect == 428 || dataConnect == 412) {
+                    setLoadingQr(true);
+                }else{
+                    setNotification({
+                        status: STATUS.ERROR,
+                        render: true,
+                        message: "Hubo un error en la conexión, por favor intentalo de nuevo en un minuto.",
+                        modalReturn: () => {
+                            setNotification({ ...notification, render: false })
+                        }
+                    })
+                    clearInterval(intervalId);
+                    setActiveQr(null)
+                }
+                
             }
     
             if (dataConnect?.data?.phoneConnected == true) {
