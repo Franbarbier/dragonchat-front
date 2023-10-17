@@ -27,7 +27,7 @@ export async function getServerSideProps({ _, res }) {
                 ],
                 mode: 'subscription',
 
-                success_url: `${HOST_URL}${ROUTES.DASH}?session_id={CHECKOUT_SESSION_ID}`,
+                success_url: `${HOST_URL}${ROUTES.LOGIN}?session_id={CHECKOUT_SESSION_ID}`,
 
                 cancel_url: `${HOST_URL}${ROUTES.DASH}`
             });
