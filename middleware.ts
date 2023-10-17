@@ -15,13 +15,6 @@ export async function middleware(req: NextRequest, res) {
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
 
 
-  const cookieName = 'STRIPE_COOKIE';
-
-  // Remove the cookie by setting its value to an empty string and adjusting its expiration date
-  if (req.cookies[cookieName]) {
-    res.setHeader('Set-Cookie', `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`);
-  }
-
   console.log("ejecutoide--------------------------------------------------------------", authCookie)
 
   if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie && !req.nextUrl.pathname.startsWith(ROUTES.SIGN_UP)) {
@@ -64,26 +57,23 @@ export async function middleware(req: NextRequest, res) {
     var resDataQr = { phoneConnected: false }
 
 
-    // if (responseBody.id) {
       //  Hay que sacarle el validate QR porque no neceesito la url (me lo sigue trayendo)
-      const dataConnection = await fetch(`${API_GATEWAY_URL}/api/whatsapp/check-user-conected?validateqr=false`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
-
-      console.log(dataConnection)
       try {
+        const dataConnection = await fetch(`${API_GATEWAY_URL}/api/whatsapp/check-user-conected?validateqr=false`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+      
+        console.log(dataConnection)
         resDataQr = await dataConnection.json();
       
         console.log("ejecutoideWPP--------------------------------------------------------------", resDataQr)
       } catch (error) {
-        
+        // Si es 412 conexion no establecida, cualquier otro: error
         console.log(error)
-      
       }
-    // }
 
 
     if (resDataQr.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
@@ -102,5 +92,5 @@ export async function middleware(req: NextRequest, res) {
 }
 
 export const config = {
-  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit", "/signup"],
+  matcher: ["/dash1", "/qr", "/premium", "/login", "/user/edit", "/signup"],
 };
