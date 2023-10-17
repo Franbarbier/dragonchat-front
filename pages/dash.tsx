@@ -102,8 +102,6 @@ export async function getServerSideProps({req, res}) {
   const cookies = new Cookies(req, res);
   var stripeStatus:null | number = null
   
-  cookies.set(STRIPE_COOKIE, null, { expires: new Date(0) });
-  cookies.set(LOGIN_COOKIE, null, { expires: new Date(0) });
 
   if (cookies.get(STRIPE_COOKIE)) {
 
@@ -129,9 +127,8 @@ export async function getServerSideProps({req, res}) {
         // no encontre como eliminarla asique la seteo con un null y ya expirada
         stripeStatus = 200
       }
-
-
   }
+
 
   return { props: { stripe : stripeStatus } };
 }
