@@ -36,7 +36,7 @@ const apiSenderWhatsappController = {
         try {
             const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`, {}, { headers: 
                 {"Authorization": `Bearer ${authToken}`} });
-                console.log(response)
+                console.log("conexion a wpp" , response, authToken)
                 return response
             } catch (error: any) {
                 return error
@@ -54,11 +54,14 @@ const apiSenderWhatsappController = {
             },
             isConnected: async (authToken: string) => {
                 try {
-                console.log(authToken)
-                const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`, { headers: 
-                {"Authorization": `Bearer ${authToken}`} });
+                    const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`, { headers: 
+                        {"Authorization": `Bearer ${authToken}`} });
+                        console.log("Check user connected", response)
             return response
         } catch (error: any) {
+            if (error.response.status == 412) {
+                return 412
+            }
             return error
         }
     },

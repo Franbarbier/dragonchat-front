@@ -45,7 +45,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                         setNotification({ ...notification, render: false })
                     }
                 })
-                clearInterval(intervalId);
+                // clearInterval(intervalId);
                 setActiveQr(null)
             }
     
@@ -78,7 +78,8 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         console.log(getDAt)
 
         const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
-        console.log(dataConnection)
+        
+        console.log("CONEXION A WPP", dataConnection.statusCode)
 
         if (dataConnection) { startInterval(accessToken) }
 
