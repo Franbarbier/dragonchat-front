@@ -7,22 +7,24 @@
     background: var(--violeta2t);
     border: 1px solid var(--amarillo);
     box-shadow: 0px 0px 15px 4px #414141b0;
-
+    width: fit-content;
     animation-name: dialogGravity;
-    animation-duration: 5s;
+    animation-duration: 6s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
     animation-direction: alternate;
+
+    width: 30vh;
 }
 
 
 @keyframes dialogGravity {
-0% {transform: translateY(-2%) }
-20% {transform: translateY(-6%) }
-40% {transform: translateY(-2%) }
-60% {transform: translateY(-6%) }
-80% {transform: translateY(-2%) }
-100% {transform: translateY(-6%) }
+0% {transform: translateY(-0.5%) }
+20% {transform: translateY(-2%) }
+40% {transform: translateY(-0.5%) }
+60% {transform: translateY(-2%) }
+80% {transform: translateY(-0.5%) }
+100% {transform: translateY(-2%) }
 }
 
 .box_dialog::before,
@@ -35,7 +37,7 @@
 
 .box_dialog::after {
   left: -8.5px;
-  top: 35%;
+  top: 17%;
   border-top: 0.9em solid transparent;
   border-right: 0.9em solid var(--amarillo);
   border-bottom: 0.9em solid transparent;
@@ -45,13 +47,12 @@
     padding: 2%;
     color: #000000;
     letter-spacing: 1px;
-
+    font-size: 1.3em;
     /* Nueva propuesta de CSS x fran */
     color: var(--amarillo);
 
 }
 .box_dialog_content>button{
-  margin-top: 15%;
-  font-size: 1.2em;
+  margin-top: 8%;
 
 }

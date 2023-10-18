@@ -79,7 +79,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
 
 
-    const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
+    const wppLimitMessage = <span>Llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Para serguir enviando de forma ilimitada pasate al plan premium.</span>;
     
 
 
@@ -210,6 +210,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         sendingState={sendingState}
                         setSendingState={setSendingState}
                         messages={messages}
+                        setNotification={setNotification}
+                        notification={notification}
                     />
 
                     <FreeCard1 

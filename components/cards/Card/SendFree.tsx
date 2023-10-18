@@ -5,9 +5,10 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
-import { LOGIN_COOKIE } from "../../../constants/index";
-import { SENDING_STATE, STATUS } from "../../../enums";
+import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
+import { ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
+import { INotification } from "../../Notification/Notification";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
@@ -33,6 +34,9 @@ export interface IFreeCard3 {
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
   messages: string[];
+  notification : INotification;
+  setNotification : (notification: INotification) => void;
+
 }
 
 const FreeCard3: React.FC<IFreeCard3> = ({
@@ -48,7 +52,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   shieldOptions,
   sendingState,
   setSendingState,
-  messages
+  messages,
+  notification,
+  setNotification
 }) => {
   let idCard = 3;
   let router = useRouter();
@@ -63,6 +69,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const [bloques, setBloques] = useState<number>(0);
   const [pausa, setPausa] = useState<number>(0);
 
+
   async function sendMove(userInfo, count) {
 
     const destinatario = contactos[count];
@@ -76,6 +83,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     // Send currentString to the recipient    
     const onSuccess = () => {
+
+      console.log(sentMessage)
+      
+
+
       if (sentMessage?.status == 200 || sentMessage?.status == 201) {
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.SUCCESS;
@@ -84,10 +96,24 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.ERROR;
         setContactos(newContacts);
-        if (sentMessage.response?.data?.error?.type == "EXCEEDED_LIMIT") {
+
+        console.log(sentMessage)
+
+        if (sentMessage?.response.status == 401) {
+
+          setNotification({
+            status: STATUS.ERROR,
+            render: true,
+            message: 'Alcanzaste el limite maximo de mensajes diarios para la version gratuita.',
+            modalReturn: () => {
+              setNotification({...notification, render : false})
+            }
+          });
+
           setMessagesLimitAchieved(true);
           setSending(false);
           setDejarDeEnviar(true);
+
         }
       }
     };
@@ -317,6 +343,19 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               </div>
             ) : (
               <>
+                <div className={styles.limitMsjCTA}
+                  onClick={() => {
+                    // redirect to /checkout with window.location.href
+                    window.location.href = `${HOST_URL}${ROUTES.CHECKOUT}`;
+                    // router.push("/checkout");
+
+                  }}
+                >
+                  <span>
+                    Para seguir enviando mensajes pasate al <u><b>plan premium</b></u>
+                  </span>
+                </div>
+
                 <button className={styles.limitedButton}>
                   <video autoPlay controls={false} loop>
                     <source src="/fire-bkgr.mp4" type="video/mp4" />
