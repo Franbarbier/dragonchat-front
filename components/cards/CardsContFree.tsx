@@ -3,6 +3,7 @@ import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
+import ModalNoEnviados from '../ModalNoEnviados/ModalNoEnviados';
 import NavBottom from '../NavBottom/NavBottom';
 import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
@@ -310,7 +311,10 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             }
             
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
-
+           
+            <ModalContainer closeModal={ ()=> {return false} } addedClass={"no_enviados"}>
+                <ModalNoEnviados />
+            </ModalContainer>
 
         </div>
     

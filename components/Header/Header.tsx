@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { STATUS } from '../../enums';
 import ModalContainer from '../ModalContainer/ModalContainer';
-import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
+import ModalPasatePro from '../ModalPasatePro/ModalPasatePro';
 import ModalTimer from '../ModalTimer/ModalTimer';
 import Notification, { INotification } from '../Notification/Notification';
 import styles from './Header.module.css';
@@ -73,8 +73,8 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
                 <div className={styles.menu_cont}>
                     <div className={styles.referir_cont}>
                         <button onClick={()=>{setModalRef(true)}}>
-                            <img src="icon_gift.svg" />
-                            <span>REFERIR AMIGOS</span>
+                            <img src="corona.png" />
+                            <span>PASATE A PRO</span>
                         </button>
                     </div>
                     <div className={`${styles.settings_cont} ${rotateAnim && styles.rotate}`} onClick={ ()=>{ setOpenSettings(!openSettings) } }>
@@ -85,8 +85,9 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
             {modalRef &&
                 <div>
                     <div>
-                        <ModalContainer closeModal={ ()=> {setModalRef(false)} } addedClass="refAmis">
-                            <ModalReferiAmigos notification={notification} setNotification={setNotification} />
+                        <ModalContainer closeModal={ ()=> {setModalRef(false)} } addedClass="pro">
+                            {/* <ModalReferiAmigos notification={notification} setNotification={setNotification} /> */}
+                            <ModalPasatePro />
                         </ModalContainer>
                     </div>
                 </div>
