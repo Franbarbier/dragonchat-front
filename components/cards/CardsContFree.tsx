@@ -79,6 +79,9 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
 
 
+    const [modalNoEnviados, setModalNoEnviados] = useState<boolean>(false);
+    const [blackList, setBlackList] = useState<ContactInfo[]>([]);
+
     const wppLimitMessage = <span>Llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Para serguir enviando de forma ilimitada pasate al plan premium.</span>;
     
 
@@ -212,6 +215,9 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         messages={messages}
                         setNotification={setNotification}
                         notification={notification}
+                        blackList={blackList}
+                        setBlackList={setBlackList}
+                        setModalNoEnviados={setModalNoEnviados}
                     />
 
                     <FreeCard1 
