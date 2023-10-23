@@ -17,6 +17,7 @@ import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
+    isPaid : boolean,
 }
 
 type IdCard = {
@@ -32,7 +33,7 @@ export interface ContactInfo {
 
 
 
-const CardsCont: React.FC<ICardsCont> = ({ }) => {
+const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     const [activeCard, setActiveCard] = useState<number>(1)
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
@@ -194,7 +195,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
 
     const isMobile = useDeviceType();
-    
+
+
 
     return (
         <div>
@@ -233,6 +235,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setDroppedCsv={setDroppedCsv}
                         notification={notification}
                         setNotification={setNotification}
+                        isPaid={isPaid}
                     />
                     <FreeCard2
                         setActiveCard={(val:number)=>setActiveCard(val)}

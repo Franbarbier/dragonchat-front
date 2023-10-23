@@ -9,13 +9,14 @@ import styles from './Header.module.css';
 export interface IHeader {
     openSettings : boolean;
     setOpenSettings : (settings: boolean) => void,
+    isPaid : boolean,
 }
 
 
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
+const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings}) => {
     
 
     const [iconUrl, setIconUrl] = useState<string>('icon_config.svg')
@@ -70,13 +71,16 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
                         </div>
                     </div>
                 </div> */}
+
                 <div className={styles.menu_cont}>
+                {!isPaid &&
                     <div className={styles.referir_cont}>
                         <button onClick={()=>{setModalRef(true)}}>
                             <img src="corona.png" />
                             <span>PASATE A PRO</span>
                         </button>
                     </div>
+                }
                     <div className={`${styles.settings_cont} ${rotateAnim && styles.rotate}`} onClick={ ()=>{ setOpenSettings(!openSettings) } }>
                         <img src={iconUrl} />
                     </div>

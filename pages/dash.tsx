@@ -16,11 +16,12 @@ import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
 interface IDashProps {
-  stripe: null | number
+  stripe: null | number,
+  isPaid: boolean
 }
 
 
-const Home: NextPageWithLayout<IDashProps> = ({ stripe }) => {
+const Home: NextPageWithLayout<IDashProps> = ({ stripe, isPaid }) => {
 
   const { locale } = useRouter();
   const [openSettings, setOpenSettings] = useState<boolean>(false)
@@ -37,7 +38,7 @@ const Home: NextPageWithLayout<IDashProps> = ({ stripe }) => {
 
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
-      <Header openSettings={openSettings} setOpenSettings={setOpenSettings} />
+      <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
 
       <AnimatePresence>
         {!openSettings && (
@@ -55,7 +56,7 @@ const Home: NextPageWithLayout<IDashProps> = ({ stripe }) => {
                 'position': 'relative'
               }}
               >
-                <CardsCont {...mockCardsContProps.base} />
+                <CardsCont {...mockCardsContProps.base} isPaid={isPaid}/>
 
               </div>
             </motion.div>
@@ -102,12 +103,12 @@ export async function getServerSideProps({req, res}) {
   const cookies = new Cookies(req, res);
   var stripeStatus:null | number = null
   
+  const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE) );
+  const accessToken = JSON.parse(responseText).access_token
 
   if (cookies.get(STRIPE_COOKIE)) {
 
       const stripe_data = decrypt( JSON.parse( cookies.get(STRIPE_COOKIE) ))
-      const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE) );
-      const accessToken = JSON.parse(responseText).access_token
       const changePlan = await fetch(`${API_GATEWAY_URL}${API_ROUTES.UPDATE_PLAN}`, {
         method: 'PUT',
         body : JSON.stringify({
@@ -129,10 +130,20 @@ export async function getServerSideProps({req, res}) {
       }
   }
 
-  
+  const getData = await fetch(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${accessToken}`,
+      "Content-Type": "application/json"
+    }
+  });
 
 
-  return { props: { stripe : stripeStatus } };
+  const data = await getData.json();
+
+  var plan = true;
+
+  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid } };
 }
 
 Home.getLayout = (page) => {
