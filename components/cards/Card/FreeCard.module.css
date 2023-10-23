@@ -1000,6 +1000,22 @@ background: #555;
 .right_line {
     background: linear-gradient(to left, #9f5bc300, var(--newViolet));
 }
+.limitMsjCTA{
+    position: absolute;
+    bottom: 19%;
+    width: max-content;
+    font-size: 0.7em;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--newPink);
+    padding: 4px 10px;
+    border: var(--newViolet) 1px solid;
+    border-radius: 8px;
+    color: #000;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+}
 
 
 

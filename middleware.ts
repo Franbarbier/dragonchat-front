@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { API_SENDER_URL, LOGIN_COOKIE } from "./constants/index";
-import { API_PARAMS, API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from "./enums";
+import { API_GATEWAY_URL, LOGIN_COOKIE } from "./constants/index";
+import { ROUTES } from "./enums";
 
 const handleRedirect = (req: NextRequest, route: ROUTES) => {
   const newUrl = req.nextUrl.clone();
@@ -8,73 +8,89 @@ const handleRedirect = (req: NextRequest, route: ROUTES) => {
   return NextResponse.redirect(newUrl);
 };
 
-const getHeaders = (authToken: string) => ({
-  "Content-Type": "application/json",
-  'Authorization': `Bearer ${authToken}`,
-});
 
-export async function middleware(req: NextRequest) {
+
+export async function middleware(req: NextRequest, res) {
+
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
 
-  // if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie) {
-  //   return handleRedirect(req, ROUTES.LOGIN);
-  // }
 
+  console.log("ejecutoide--------------------------------------------------------------", authCookie)
+
+  if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie && !req.nextUrl.pathname.startsWith(ROUTES.SIGN_UP)) {
+    return handleRedirect(req, ROUTES.LOGIN);
+  }
+  
   if (authCookie) {
     const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
+    
 
-    if (req.nextUrl.pathname.includes(ROUTES.LOGIN)) {
-      return NextResponse.next();
-    }
-    const validateQR = false;
-
-    const apiResponse = await fetch(
-      `${API_SENDER_URL}${API_ROUTES.IS_CONNECTED}?${API_PARAMS.VALIDATE_QR}=${validateQR}`,
-      {
-        headers: {
-          [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON,
-          [HTTP_HEADERS_KEYS.AUTHORIZATION]: `${HTTP_HEADERS_VALUES.BEARER} ${accessToken}`,
-        }
-      }
-    );
-
-
-
-    var apiResponseHandler = {
-      phoneConnected: true
-    };
-
-    try {
-        apiResponseHandler = await apiResponse.json();
-    } catch (error) {
-      // apiResponseHandler.phoneConnected = false;
-    }
-
-
-    // if (response.error && response.error.toLowerCase() === API_RESPONSES.UNAUTHORIZED) {
-    //   if (process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME) {
-    //     req.cookies.delete(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
-    //   }
-    //   req.cookies.clear();
-    //   return handleRedirect(req, ROUTES.LOGIN);
-    // }
-
-    // if (!response) {
-    //   return NextResponse.error();
-    // }
-
-    if (apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
+    // console.log(req.nextUrl.pathname.includes(ROUTES.SIGN_UP), req.nextUrl.pathname)
+    if (req.nextUrl.pathname.includes(ROUTES.SIGN_UP) ) {
       return handleRedirect(req, ROUTES.DASH);
     }
 
-    if (!apiResponseHandler.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
+    if (req.nextUrl.pathname.includes(ROUTES.LOGIN) ) {
+      // Cuando caes al login pero existe el authToken, redirigir a dash (sacarle el parametro a la url de stripe)
+      return handleRedirect(req, `${ROUTES.DASH}/` as ROUTES);
+    }
+    const validateQR = false;
+    
+    // // Esto va si es necesario la conexion antes, pero creo que no.
+    // const dataConnection = await fetch(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`,
+    // {
+    //   cache: 'no-store',
+    //   method: 'POST',
+    //   headers: {
+    //     'Authorization': `Bearer ${accessToken}`,
+    //   },
+      
+    // });
+    // // Parse the response as JSON
+    // const responseBody = await dataConnection.json();
+    
+
+    // const connection = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`, {}, { headers:{"Authorization": `Bearer ${accessToken}`} });
+    
+
+    
+    var resDataQr = { phoneConnected: false }
+
+
+      //  Hay que sacarle el validate QR porque no neceesito la url (me lo sigue trayendo)
+      try {
+        const dataConnection = await fetch(`${API_GATEWAY_URL}/api/whatsapp/check-user-conected?validateqr=false`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+      
+        console.log(dataConnection)
+        resDataQr = await dataConnection.json();
+      
+        console.log("ejecutoideWPP--------------------------------------------------------------", resDataQr)
+      } catch (error) {
+        // Si es 412 conexion no establecida, cualquier otro: error
+        console.log(error)
+      }
+
+
+    if (resDataQr.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
+      return handleRedirect(req, ROUTES.DASH);
+    }
+
+    if (!resDataQr.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.DASH) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.QR);
     }
+
+
+    // if(req.nextUrl.pathname.includes(ROUTES.SIGN_UP)){ return handleRedirect(req, `${ROUTES.DASH}/` as ROUTES); }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/", "/qr", "/premium", "/login", "/user/edit"],
+  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit", "/signup"],
 };
