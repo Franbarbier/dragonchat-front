@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContPrem';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 // import Search from '../components/utility/search/Search';
@@ -12,7 +11,7 @@ const Home: NextPageWithLayout<GralProps> = (GralProps) => {
   
   return (
     <section>
-      <CardsCont {...mockCardsContProps.base} />
+      <CardsCont/>
     </section>
   );
 };
