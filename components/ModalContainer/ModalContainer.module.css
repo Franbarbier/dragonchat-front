@@ -55,10 +55,10 @@
 .close_mod:hover{
     color: white;
 }
-.refAmis, .modal_plan{
+.refAmis, .modal_plan, .pro{
     width: 30vw!important;
 }
-
+.no_enviados{ width: 40vw; }
 .modal_shield_option{ width: 35vw; }
 .timerModal { width: 35vw; }
 
@@ -68,8 +68,6 @@
         width: 80vw;
         max-width: 80vw;
         padding: 30px 20px;
-
-
     }
     .refAmis{
         width: 80vw!important;

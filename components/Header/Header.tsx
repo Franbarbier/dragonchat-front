@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { STATUS } from '../../enums';
 import ModalContainer from '../ModalContainer/ModalContainer';
-import ModalReferiAmigos from '../ModalReferiAmigos/ModalReferiAmigos';
+import ModalPasatePro from '../ModalPasatePro/ModalPasatePro';
 import ModalTimer from '../ModalTimer/ModalTimer';
 import Notification, { INotification } from '../Notification/Notification';
 import styles from './Header.module.css';
@@ -9,13 +9,14 @@ import styles from './Header.module.css';
 export interface IHeader {
     openSettings : boolean;
     setOpenSettings : (settings: boolean) => void,
+    isPaid : boolean,
 }
 
 
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
+const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings}) => {
     
 
     const [iconUrl, setIconUrl] = useState<string>('icon_config.svg')
@@ -70,13 +71,16 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
                         </div>
                     </div>
                 </div> */}
+
                 <div className={styles.menu_cont}>
+                {!isPaid &&
                     <div className={styles.referir_cont}>
                         <button onClick={()=>{setModalRef(true)}}>
-                            <img src="icon_gift.svg" />
-                            <span>REFERIR AMIGOS</span>
+                            <img src="corona.png" />
+                            <span>PASATE A PRO</span>
                         </button>
                     </div>
+                }
                     <div className={`${styles.settings_cont} ${rotateAnim && styles.rotate}`} onClick={ ()=>{ setOpenSettings(!openSettings) } }>
                         <img src={iconUrl} />
                     </div>
@@ -85,8 +89,9 @@ const Header: React.FC<IHeader> = ({ openSettings, setOpenSettings}) => {
             {modalRef &&
                 <div>
                     <div>
-                        <ModalContainer closeModal={ ()=> {setModalRef(false)} } addedClass="refAmis">
-                            <ModalReferiAmigos notification={notification} setNotification={setNotification} />
+                        <ModalContainer closeModal={ ()=> {setModalRef(false)} } addedClass="pro">
+                            {/* <ModalReferiAmigos notification={notification} setNotification={setNotification} /> */}
+                            <ModalPasatePro />
                         </ModalContainer>
                     </div>
                 </div>

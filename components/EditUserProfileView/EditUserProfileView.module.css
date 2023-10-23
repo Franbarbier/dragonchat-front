@@ -1,8 +1,6 @@
 .input_label {
     font-size: 0.7em;
-    background: linear-gradient(to top right, #eee, var(--rosita2) 30%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--rosita2);
 }
 
 .buttons {

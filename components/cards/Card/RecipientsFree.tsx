@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
@@ -24,6 +25,7 @@ export interface IFreeCard1 {
     setDroppedCsv : (droppedCsv: File) => void;
     notification : INotification
     setNotification : (notification: INotification) => void;
+    isPaid : boolean;
 }
 
 
@@ -78,7 +80,7 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     )
 }
 
-const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification}) => {
+const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification}) => {
 
 
     let idCard = 1;
@@ -305,9 +307,28 @@ const FreeCard1: React.FC<IFreeCard1> = ({ setActiveCard, activeCard, setContact
             <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
 
             <div className={styles.card_container} >
+                {!isPaid ?
                 <div>
-                    <CardTitle text={`${finalList.length - 1} Destinatarios`} />
+                    <div className={styles.title_lines_cont}>
+                        <div className={`${styles.left_line} ${styles.title_lines}`}></div>
+                        <div>
+                            <h3>VERSION FREE</h3>
+                            <h6>ENTREGABILIDAD = 60% <span>i</span>
+                            <aside
+                                // oncclick redirect to /checkout
+                                onClick={()=>{Router.push('/checkout')}}
+                                >
+                                <div>
+                                    <p>Con nuestro plan actual, garantizamos una entregabilidad del 60%. Pero, si buscas lo mejor, nuestro plan Premium aumenta esa entregabilidad casi al 100%. <i>¡Mejora tus resultados con el plan Premium!</i></p>
+                                </div>
+                            </aside></h6>
+                        </div>
+                        <div className={`${styles.right_line} ${styles.title_lines}`}></div>
+                    </div>
                 </div>
+                :
+                <CardTitle text={`${finalList.length - 1} Destinatarios`} />
+                }
                 {/* <div className={styles.card_table_cont}> */}
                     
                     <div style={{'margin': 'auto', 'width': '88%'}}>

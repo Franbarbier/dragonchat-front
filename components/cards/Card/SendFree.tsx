@@ -37,6 +37,10 @@ export interface IFreeCard3 {
   notification : INotification;
   setNotification : (notification: INotification) => void;
 
+  blackList: ContactInfo[];
+  setBlackList: (contactos: ContactInfo[]) => void;
+  setModalNoEnviados: (mod: boolean) => void;
+
 }
 
 const FreeCard3: React.FC<IFreeCard3> = ({
@@ -54,7 +58,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   setSendingState,
   messages,
   notification,
-  setNotification
+  setNotification,
+  blackList,
+  setBlackList,
+  setModalNoEnviados,
 }) => {
   let idCard = 3;
   let router = useRouter();
@@ -70,9 +77,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const [pausa, setPausa] = useState<number>(0);
 
 
+
   async function sendMove(userInfo, count) {
 
-    const destinatario = contactos[count];
+    const destinatario:ContactInfo = contactos[count];
     let newContacts = [...contactos];
     newContacts[count].estado = STATUS.PENDING;
     setContactos(newContacts);
@@ -96,10 +104,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.ERROR;
         setContactos(newContacts);
+        
+        // let prevBlackList = [...blackList];
+        // prevBlackList.push(destinatario);
+        // setBlackList(prevBlackList);
+        //@ts-ignore
+        // setBlackList((prevBlackList: ContactInfo[]) => [...prevBlackList, destinatario]);
 
-        console.log(sentMessage)
-
-        if (sentMessage?.response.status == 401) {
+        
+        if (sentMessage?.response?.status == 401) {
 
           setNotification({
             status: STATUS.ERROR,
@@ -225,9 +238,19 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
   }, [dejarDeEnviar]);
 
+  useEffect(() => {
+    if (sendingState == SENDING_STATE.FINISH ) {
+      if (blackList.length > 0) {
+        setModalNoEnviados(true)
+      }
+    }
+    console.log(sendingState, blackList)
+  }, [sendingState])
+
+  // useEffect(() => {
+  // }, [blackList])
 
   return (
-
     
     <div
     className={`${styles.card} ${styles["numberCard" + activeCard]} ${
