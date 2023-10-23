@@ -1,7 +1,6 @@
 import Cookies from 'cookies';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
 import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
@@ -54,7 +53,7 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid }) => {
                 'position': 'relative'
               }}
               >
-                <CardsCont {...mockCardsContProps.base} isPaid={isPaid}/>
+                <CardsCont isPaid={isPaid}/>
 
               </div>
             </motion.div>
