@@ -108,8 +108,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         // let prevBlackList = [...blackList];
         // prevBlackList.push(destinatario);
         // setBlackList(prevBlackList);
-
-        setBlackList((prevBlackList: ContactInfo[]) => [...prevBlackList, destinatario]);
+        //@ts-ignore
+        // setBlackList((prevBlackList: ContactInfo[]) => [...prevBlackList, destinatario]);
 
         
         if (sentMessage?.response?.status == 401) {
