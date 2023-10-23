@@ -1,8 +1,9 @@
-.input_cont{
+.input_cont {
     margin: 3% 0;
     position: relative;
 }
-.input_cont input{
+
+.input_cont input {
     width: 100%;
     background-color: var(--rosita1);
     border-radius: 10px;
@@ -10,10 +11,12 @@
     padding: 8px 20px;
     color: white;
 }
-.input_cont input::placeholder{
+
+.input_cont input::placeholder {
     color: rgb(235, 235, 235);
 }
-.ojito{
+
+.ojito {
     position: absolute;
     top: 50%;
     right: 3%;
@@ -21,7 +24,8 @@
     cursor: pointer;
 
 }
-.slash{
+
+.slash {
     position: absolute;
     top: 50%;
     right: 4%;
