@@ -27,7 +27,7 @@ return (
                 <div>
                     <CustomColorBtn
                         type="submit"
-                        text="Copiar enlance"
+                        text="PASAR A PRO"
                         backgroundColorInit="#c21c3b"
                         backgroundColorEnd="#f9bd4f"
                         borderColor="#e17846"
