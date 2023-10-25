@@ -1,3 +1,4 @@
+import { ROUTES } from "../../enums";
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import styles from './ModalPasatePro.module.css';
@@ -31,7 +32,7 @@ return (
                         backgroundColorInit="#c21c3b"
                         backgroundColorEnd="#f9bd4f"
                         borderColor="#e17846"
-                        onClick={()=>{ window.location.href = "/checkout" }}
+                        onClick={()=>{ window.location.href = ROUTES.CHECKOUT }}
                     />
                 </div>
             </div>

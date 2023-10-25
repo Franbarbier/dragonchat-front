@@ -3,7 +3,7 @@ import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
-import ModalNoEnviados from '../ModalNoEnviados/ModalNoEnviados';
+import ModalFinish from '../ModalFinish/ModalFinish';
 import NavBottom from '../NavBottom/NavBottom';
 import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
@@ -80,6 +80,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
     const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
 
+    const [modalFinish, setModalFinish] = useState<boolean>(false)
 
     const [modalNoEnviados, setModalNoEnviados] = useState<boolean>(false);
     const [blackList, setBlackList] = useState<ContactInfo[]>([]);
@@ -220,7 +221,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         notification={notification}
                         blackList={blackList}
                         setBlackList={setBlackList}
-                        setModalNoEnviados={setModalNoEnviados}
+                        // setModalNoEnviados={setModalNoEnviados}
+                        setModalFinish={setModalFinish}
                     />
 
                     <FreeCard1 
@@ -322,9 +324,10 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             }
             
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
-           {modalNoEnviados &&
-            <ModalContainer closeModal={ ()=> {setModalNoEnviados(false)} } addedClass={"no_enviados"}>
-                <ModalNoEnviados blackList={blackList} />
+           
+            {modalFinish &&
+            <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"}>
+                <ModalFinish blackList={blackList} />
             </ModalContainer>
             }
 

@@ -25,6 +25,8 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid }) => {
   const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [modalStripe, setModalStripe] = useState<null | number>(stripe)
 
+  const [contactsLength , setContactsLength] = useState<false>(false)
+
   const [loading, setLoading] = useState<boolean>(false)
   const [notification, setNotification] = useState<INotification>({
     status: STATUS.SUCCESS,
@@ -32,6 +34,7 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid }) => {
     message: "",
     modalReturn: () => { }
   })
+  
 
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>

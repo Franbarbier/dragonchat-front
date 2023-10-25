@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { STATUS } from '../../../enums';
+import { ROUTES, STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import { ContactInfo } from '../CardsContFree';
@@ -315,7 +315,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
                             <h6>ENTREGABILIDAD = 60% <span>i</span>
                             <aside
                                 // oncclick redirect to /checkout
-                                onClick={()=>{window.location.href = "/checkout"}}
+                                onClick={()=>{window.location.href = ROUTES.CHECKOUT}}
                                 >
                                 <div>
                                     <p>Con nuestro plan actual, garantizamos una entregabilidad del 60%. Pero, si buscas lo mejor, nuestro plan Premium aumenta esa entregabilidad casi al 100%. <i>¡Mejora tus resultados con el plan Premium!</i></p>

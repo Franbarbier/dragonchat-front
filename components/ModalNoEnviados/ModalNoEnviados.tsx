@@ -1,3 +1,4 @@
+import { ROUTES } from "../../enums";
 import { ContactInfo } from "../cards/CardsContFree";
 import CardTitle from "../cards/CardTitle/CardTitle";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
@@ -28,7 +29,7 @@ return (
                         backgroundColorInit="#c21c3b"
                         backgroundColorEnd="#f9bd4f"
                         borderColor="#e17846"
-                        onClick={()=>{ window.location.href = "/" }}
+                        onClick={()=>{ window.location.href = ROUTES.DASH }}
                     />
                 </div>
             </div>

@@ -25,7 +25,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     }, [activeQr])
 
     
-    let intervalId; 
+    let intervalId;
     function startInterval(accessToken) {
         intervalId = setInterval(async () => {
             const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
@@ -85,9 +85,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         console.log(getDAt)
 
         const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
-        
-        console.log("CONEXION A WPP", dataConnection.statusCode)
-
+        console.log(dataConnection)
         if (dataConnection) { startInterval(accessToken) }
 
     }
