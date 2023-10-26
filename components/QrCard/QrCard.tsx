@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE } from '../../constants/index';
-import { STATUS } from '../../enums';
+import { ROUTES, STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
@@ -18,13 +18,8 @@ export interface IQrCard {
 const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
+    const [ connectionSuccess, setConnectionSuccess ] = useState<boolean>(false);
 
-
-    useEffect(() => {
-        console.log(activeQr)
-    }, [activeQr])
-
-    
     let intervalId;
     function startInterval(accessToken) {
         intervalId = setInterval(async () => {
@@ -57,6 +52,8 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             }
     
             if (dataConnect?.data?.phoneConnected == true) {
+                setActiveQr("null")
+                setConnectionSuccess(true);
                 setNotification({
                     status: STATUS.SUCCESS,
                     render: true,
@@ -65,9 +62,10 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                         setNotification({ ...notification, render: false })
                     }
                 })
+                setLoadingQr(true);
                 // Router.push("/")
                 clearInterval(intervalId);
-                window.location.reload();
+                window.location.href = ROUTES.DASH
             }
 
             
@@ -105,7 +103,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             <div className={styles.qrCard_cont}>
                 <CardTitle text="Vincular dispositivo" />
 
-                {activeQr && (
+                {activeQr  && (
                     <div className={styles.qrSteps}>
                         
                         <div className={styles.instruciones_cont}>
@@ -128,7 +126,17 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
                         <div className={styles.qrImg_cont}>
                             <h4>{'Escanea el QR y aguarda un momento  : )'}</h4>
-                            <img src={activeQr} alt="qrWhatsappImage"  />
+                            
+                            <div className={styles.flipContainer}>
+                                <div className={styles.flip} style={{"transform": `${connectionSuccess && 'rotateY(180deg)' }`}}>
+                                    <div className={styles.flipFront}>
+                                        <img src={activeQr} alt="qrWhatsappImage"  />  
+                                    </div>
+                                    <div className={styles.flipBack}>
+                                        <p>✅</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

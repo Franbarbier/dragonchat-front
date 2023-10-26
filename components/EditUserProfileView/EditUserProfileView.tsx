@@ -50,6 +50,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiSenderWhatsappController.disconnect(authToken);
 
+    console.log(response)
     if (response) {
       Router.push(ROUTES.QR);
     }
