@@ -30,7 +30,10 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
 
     const [logging, setLogging] = useState<boolean>(false)
 
+
     async function handleLogin() {
+
+
         setLogging(true)
         if (email != "" && pass != "") {
             

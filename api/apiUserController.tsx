@@ -66,12 +66,19 @@ const apiUserController = {
         });
         headers.append("Authorization", `Bearer ${accessToken}`);
 
-        let payload;
-        if (password != '') {
-            payload = { password: password, password_confirmation: passwordConfirmation };
-        }
+        let payload = {name, mail: email };
+        let passs = { password: password, password_confirmation: passwordConfirmation  }
 
-        const response = await axios.put(``, payload, { headers: Object.fromEntries(headers) });
+        if (password != "") {
+            payload = { ...payload, ...passs };
+        }
+        
+        console.log(payload)
+
+        const response = await axios.put(`https://gateway-test.dragonchat.io/api/user/edit`, payload, { headers: Object.fromEntries(headers) });
+
+        console.log(response)
+        
         return response;
     },
     passwordRecoverSendEmail: async (email, setExistingUser) => {

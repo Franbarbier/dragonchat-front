@@ -13,7 +13,11 @@
   font-size: 0.8em;
   text-align: center;
 }
-
+.passLabel{
+  font-size: 0.6em;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
 .logout_btn hr{
   margin: 10% auto;
   width: 50%;
