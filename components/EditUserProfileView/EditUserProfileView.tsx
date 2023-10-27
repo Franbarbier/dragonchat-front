@@ -99,7 +99,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
       setNotification({
         status: STATUS.ERROR,
         render: true,
-        message: "La contraseña debe tener .",
+        message: "La contraseña debe tener mas de 6 caracteres.",
         modalReturn: () => {
           setNotification({ ...notification, render: false })
         }
