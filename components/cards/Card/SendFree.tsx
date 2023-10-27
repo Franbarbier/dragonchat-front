@@ -39,7 +39,7 @@ export interface IFreeCard3 {
 
   blackList: ContactInfo[];
   setBlackList: (contactos: ContactInfo[]) => void;
-  setModalNoEnviados: (mod: boolean) => void;
+  setModalFinish: (mod: boolean) => void;
 
 }
 
@@ -61,7 +61,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   setNotification,
   blackList,
   setBlackList,
-  setModalNoEnviados,
+  setModalFinish,
 }) => {
   let idCard = 3;
   let router = useRouter();
@@ -92,9 +92,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     // Send currentString to the recipient    
     const onSuccess = () => {
 
-      console.log(sentMessage)
-      
-
+      console.log("Sent MEssage: " , sentMessage)
 
       if (sentMessage?.status == 200 || sentMessage?.status == 201) {
         let newContacts = [...contactos];
@@ -105,14 +103,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         newContacts[count].estado = STATUS.ERROR;
         setContactos(newContacts);
         
-        // let prevBlackList = [...blackList];
-        // prevBlackList.push(destinatario);
-        // setBlackList(prevBlackList);
-        //@ts-ignore
-        // setBlackList((prevBlackList: ContactInfo[]) => [...prevBlackList, destinatario]);
+        // @ts-ignore
+        setBlackList((prevBlackList: ContactInfo[]) => [...prevBlackList, destinatario]);
 
         
-        if (sentMessage?.response?.status == 401) {
+        if (sentMessage?.response?.status == 429) {
 
           setNotification({
             status: STATUS.ERROR,
@@ -122,13 +117,25 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               setNotification({...notification, render : false})
             }
           });
-
           setMessagesLimitAchieved(true);
           setSending(false);
           setDejarDeEnviar(true);
-
+        }else if (sentMessage?.response?.status == 410) {
+          setSending(false);
+          setDejarDeEnviar(true);
+          setNotification({
+            status: STATUS.ERROR,
+            render: true,
+            message: 'Tu dispositivo no está vincualdo.',
+            modalReturn: () => {
+              setNotification({...notification, render : false})
+            }
+          });
+          setTimeout(() => { window.location.href = ROUTES.QR; }, 500);
         }
       }
+
+
     };
 
     const authToken = JSON.parse(
@@ -240,15 +247,21 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   useEffect(() => {
     if (sendingState == SENDING_STATE.FINISH ) {
-      if (blackList.length > 0) {
-        setModalNoEnviados(true)
-      }
+      setModalFinish(true);
     }
-    console.log(sendingState, blackList)
   }, [sendingState])
 
-  // useEffect(() => {
-  // }, [blackList])
+  useEffect(() => {
+
+    const finishResSend = contactos.every((contact) => {
+      return typeof contact.estado && contact.estado != STATUS.PENDING;
+    });
+
+    if (sendingState == SENDING_STATE.FINISH && finishResSend) {
+      setModalFinish(true);
+    }
+
+  }, [contactos])
 
   return (
     
@@ -339,6 +352,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                   <aside
                     onClick={(e) => {
                       e.preventDefault();
+                      if ( sendingState == SENDING_STATE.FINISH ) {
+                        return false;
+                        
+                      }
                       setModalShieldOptions(true);
                     }}
                   >
@@ -368,10 +385,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               <>
                 <div className={styles.limitMsjCTA}
                   onClick={() => {
-                    // redirect to /checkout with window.location.href
                     window.location.href = `${HOST_URL}${ROUTES.CHECKOUT}`;
-                    // router.push("/checkout");
-
                   }}
                 >
                   <span>

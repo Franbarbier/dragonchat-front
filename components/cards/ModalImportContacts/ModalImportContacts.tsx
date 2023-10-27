@@ -45,6 +45,9 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   };
 
   const onDropFn = useCallback((file: File) => {
+
+    console.log(file)
+
     if (file.type === FILE_TYPE.CSV) {
       parseFile(file);
     } else {
@@ -78,6 +81,8 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
   }, []);
 
   const campos = ["Nombre", "Número"]
+
+  console.log(parsedCsvData, inheritFile)
 
   return (
     <div>

@@ -31,6 +31,7 @@
     top: -20%;
     left: -30%;
     opacity: 0.4;
+    user-select: none;
     width: 310px;
 }
 .trama2{
@@ -40,6 +41,7 @@
     bottom: -10%;
     right: -30%;
     opacity: 0.4;
+    user-select: none;
     width: 310px;
 }
 .close_mod{

@@ -5,7 +5,7 @@ import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE } from '../../constants/index';
-import { STATUS } from '../../enums';
+import { ROUTES, STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
@@ -30,7 +30,10 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
 
     const [logging, setLogging] = useState<boolean>(false)
 
+
     async function handleLogin() {
+
+
         setLogging(true)
         if (email != "" && pass != "") {
             
@@ -53,8 +56,10 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                       }
                     );
                     
-                    
-                    Router.push("/dash")
+                    // Router.push("/dash")
+                    // window.location.("/dash")
+                    // redirect with window.location to /dash
+                    window.location.href = ROUTES.DASH
                     
                 }else{
                     

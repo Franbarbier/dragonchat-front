@@ -50,6 +50,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiSenderWhatsappController.disconnect(authToken);
 
+    console.log(response)
     if (response) {
       Router.push(ROUTES.QR);
     }
@@ -76,22 +77,44 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
   }
 
   async function editUserProfile() {
-    if (!equalPassword || userData.password.length < 6) {
+    
+
+    // if password is larger than 0, check that is larger than 6, if is 0, is because the user doesn't want to change the password
+
+    console.log(equalPassword,"//",  userData.password.length < 6 && userData.password.length > 0)
+
+    if (!equalPassword) {
       setNotification({
         status: STATUS.ERROR,
         render: true,
-        message: "La contraseña no puede tener espacios y debe tener 6 o mas caracteres.",
+        message: "La contraseña no coinciden.",
+        modalReturn: () => {
+          setNotification({ ...notification, render: false })
+        }
+      })
+      return false
+    }
+
+    if ( (userData.password.length < 6 && userData.password.length > 0 ) ) {
+      setNotification({
+        status: STATUS.ERROR,
+        render: true,
+        message: "La contraseña debe tener .",
         modalReturn: () => {
           setNotification({ ...notification, render: false })
         }
       })
     } else {
+
       const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
 
       setLoading(true);
 
-      try {
+      // try {
         const response = await apiUserController.edit(accessToken, userData.name, userData.email, userData.password, userData.confirmPassword);
+
+
+        console.log(response)
 
         if (response.status == 200) {
           setNotification({
@@ -112,16 +135,16 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
             }
           })
         }
-      } catch (error: any) {
-        setNotification({
-          status: STATUS.ERROR,
-          render: true,
-          message: "Ups! algo salió mal.",
-          modalReturn: () => {
-            setNotification({ ...notification, render: false })
-          }
-        })
-      }
+      // } catch (error: any) {
+      //   setNotification({
+      //     status: STATUS.ERROR,
+      //     render: true,
+      //     message: "Ups! algo salió mal.",
+      //     modalReturn: () => {
+      //       setNotification({ ...notification, render: false })
+      //     }
+      //   })
+      // }
 
       setLoading(false);
     }
@@ -149,11 +172,13 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
           labelClassName={styles.input_label}
         />
 
+        <br />
+        <p className={styles.passLabel}>Si NO quieres editar la contraseña deja los campos vacíos.</p>
         <InputGral
           type="password"
           value={userData.password}
           onChange={(value) => setUserData(prev => ({ ...prev, password: value.trim() }))}
-          labelText="CONTRASEÑA"
+          labelText="NUEVA CONTRASEÑA"
           labelClassName={styles.input_label}
         />
 
@@ -161,7 +186,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
           type="password"
           value={userData.confirmPassword}
           onChange={(value) => setUserData(prev => ({ ...prev, confirmPassword: value.trim() }))}
-          labelText="CONFIRMAR CONTRASEÑA"
+          labelText="NUEVA CONFIRMAR CONTRASEÑA"
           labelClassName={styles.input_label}
         />
 
@@ -178,7 +203,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
             borderColor="#f94f4f"
             onClick={handleDesvWpp}
           />
-          {equalPassword && (
             <CustomColorBtn
               type="submit"
               text="GUARDAR CAMBIOS"
@@ -187,7 +211,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
               borderColor="#e17846"
               onClick={editUserProfile}
             />
-          )}
 
           <div className={styles.logout_btn}>
             <hr />

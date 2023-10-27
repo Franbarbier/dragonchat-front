@@ -100,7 +100,16 @@
 .timerCont h4{
     font-size: 1em;
 }
-
+.proLogo{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 10px;
+    font-size: 0.6em;
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 3px 5px;
+}
 
 @media (max-width: 750px) {
 
