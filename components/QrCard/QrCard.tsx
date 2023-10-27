@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
-import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE } from '../../constants/index';
 import { ROUTES, STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
@@ -22,14 +21,13 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
     let intervalId;
     function startInterval(accessToken) {
+        
         intervalId = setInterval(async () => {
+            
             const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
-
-            console.log(dataConnect)
+            console.log("dataaaaa coneeeee",dataConnect)
     
             setLoadingQr(false);
-    
-            console.log("dataaaaa coneeeee",dataConnect)
             
             if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
@@ -65,6 +63,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                 setLoadingQr(true);
                 // Router.push("/")
                 clearInterval(intervalId);
+                
                 window.location.href = ROUTES.DASH
             }
 
@@ -77,13 +76,15 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const handleIsConnected = async () => {
 
         setLoadingQr(true)
+
         const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE) || '')?.access_token;
         
-        const getDAt = await apiUserController.getData(accessToken)
-        console.log(getDAt)
+        // const getDAt = await apiUserController.getData(accessToken)
+        // console.log(getDAt)
 
         const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
         console.log(dataConnection)
+        
         if (dataConnection) { startInterval(accessToken) }
 
     }
