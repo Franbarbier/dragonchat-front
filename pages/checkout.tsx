@@ -25,7 +25,7 @@ export async function getServerSideProps({ _, res }) {
                     billing_address_collection: 'auto',
                     line_items: [
                         {
-                            price: prices.data[0].id,
+                            price: prices.data[1].id,
                             quantity: 1,
                         },
                     ],
