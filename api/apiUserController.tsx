@@ -11,17 +11,19 @@ const getHeaders = (authToken: string) => ({
 const apiUserController = {
     signUp: async (name, mail, password, passwordConfirmation, setUserExists, stripe_data) => {
         try {
-            const payload = { name: name, mail: mail, password: password, password_confirmation: passwordConfirmation};
+            const payload = { name: name, mail: mail, password: password, password_confirmation: passwordConfirmation };
 
             // Si existe stripe_data, lo agrego al payload para que se registre como premium
             if (stripe_data.stripe_data) {
                 payload['subscription'] = JSON.parse(stripe_data.stripe_data)
             }
 
-            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SIGN_UP}`, payload, {headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-              }});
+            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SIGN_UP}`, payload, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            });
 
             if (response.status == 201) {
                 setUserExists(false);
@@ -66,80 +68,89 @@ const apiUserController = {
         });
         headers.append("Authorization", `Bearer ${accessToken}`);
 
-        let payload = {name, mail: email };
-        let passs = { password: password, password_confirmation: passwordConfirmation  }
+        let payload = { name, mail: email };
+        let passs = { password: password, password_confirmation: passwordConfirmation }
 
         if (password != "") {
             payload = { ...payload, ...passs };
         }
-        
+
         console.log(payload)
 
         const response = await axios.put(`https://gateway-test.dragonchat.io/api/user/edit`, payload, { headers: Object.fromEntries(headers) });
 
         console.log(response)
-        
+
         return response;
     },
-    passwordRecoverSendEmail: async (email, setExistingUser) => {
+    passwordRecoverSendEmail: async (mail: string, setExistingUser: (value: boolean) => void) => {
         try {
-            const payload = { email: email };
-            const response = await axios.post(``, payload);
-            if (response.status == 201) {
+            const response = await axios.post(
+                'https://gateway-test.dragonchat.io/api/password/send-mail',
+                { mail },
+                { headers: { "Content-Type": "application/json", } },
+            );
+
+            if (response.status >= 200 || response.status <= 299) {
                 Router.push("/new_password");
             }
         } catch (error: any) {
-            if (error.response.status == 422 || error.response.status == 404) { // should be a 404 and not 422
+            if (error.response.status == 404) {
                 setExistingUser(false);
             } else {
                 alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.")
             }
         }
     },
-    passwordRecoverCheckOtp: async (otpCode, setValidOtp) => {
+    passwordRecoverCheckOtp: async (code, setValidOtp: (value: boolean | null) => void) => {
         try {
-            const payload = { code: otpCode };
-            const response = await axios.post(``, payload);
-            if (response.status == 200) {
+            const response = await axios.post<{ message: string, success: boolean }>(
+                'https://gateway-test.dragonchat.io/api/password/check-code',
+                { code },
+                { headers: { "Content-Type": "application/json", } },
+            );
+
+            if (response.data?.success) {
                 setValidOtp(true);
             }
         } catch (error: any) {
-            if (error.response.status == 422 || error.response.status == 404) { // should be a 404 and not 422
+            if (error.response.status >= 400) {
+                alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
                 setValidOtp(false);
-            } else {
-                alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.")
             }
         }
-        return;
     },
-    passwordRecoverChangePassword: async (otpCode, newPassword, newPasswordConfirmation) => {
+    passwordRecoverChangePassword: async (code, password, password_confirmation) => {
         try {
-            const payload = { code: otpCode, password: newPassword, password_confirmation: newPasswordConfirmation };
-            const response = await axios.post(``, payload);
-            if (response.status == 200) {
+            const response = await axios.post(
+                'https://gateway-test.dragonchat.io/api/password/change-pass',
+                { code, password, password_confirmation },
+                { headers: { "Content-Type": "application/json", } },
+            );
+
+            if (response.data?.success) {
                 Router.push("/login");
             }
         } catch (error: any) {
             alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
         }
-        return;
     },
     updatePlan: async (accessToken, stripe_data) => {
         try {
             const response = await axios.put(
                 `${API_GATEWAY_URL}${API_ROUTES.UPDATE_PLAN}`,
                 {
-                  "session_id": stripe_data.session_id,
-                  "product_id":  stripe_data.product_id
+                    "session_id": stripe_data.session_id,
+                    "product_id": stripe_data.product_id
                 },
                 {
-                  headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                  }
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
+                    }
                 }
-              );
-          
-              return response;
+            );
+
+            return response;
         } catch (error: any) {
             // console.log("error");
         }
