@@ -20,12 +20,11 @@ export async function getServerSideProps({ _, res }) {
             const prices = await stripe.prices.list();
             
             if (prices.data?.length && prices.data?.length > 0) {
-                console.log('planes striepe', prices);
                 const session = await stripe.checkout.sessions.create({
                     billing_address_collection: 'auto',
                     line_items: [
                         {
-                            price: prices.data[1].id,
+                            price: prices.data[0].id,
                             quantity: 1,
                         },
                     ],
