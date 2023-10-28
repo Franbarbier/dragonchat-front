@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import Loader from "../components/Loader/Loader2";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { HOST_URL, STRIPE_KEY } from '../constants/index';
 import { ROUTES } from '../enums';
 
@@ -20,6 +20,7 @@ export async function getServerSideProps({ _, res }) {
             const prices = await stripe.prices.list();
             
             if (prices.data?.length && prices.data?.length > 0) {
+                console.log('planes striepe', prices);
                 const session = await stripe.checkout.sessions.create({
                     billing_address_collection: 'auto',
                     line_items: [
