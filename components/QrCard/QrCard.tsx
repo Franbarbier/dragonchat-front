@@ -1,8 +1,8 @@
-import Cookie from 'js-cookie';
-import { useState } from 'react';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/index';
-import { STATUS } from '../../enums';
+import { ROUTES, STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
@@ -17,56 +17,80 @@ export interface IQrCard {
 const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
+    const [ connectionSuccess, setConnectionSuccess ] = useState<boolean>(false);
 
-    const handleIsConnected = () => {
-        setTimeout(async () => {
-            const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
-            const { data: dataConnect } = await apiSenderWhatsappController.isConnected(accessToken)
-
-            if (dataConnect?.phoneConnected) {
-                setLoadingQr(true);
-                window.location.href= "/dash";
-            } else {
-                if (dataConnect?.qrCode !== activeQr) {
-                    setActiveQr(dataConnect?.qrCode)
-                } else {
-                    handleIsConnected();
+    let intervalId;
+    function startInterval(accessToken) {
+        
+        intervalId = setInterval(async () => {
+            
+            const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
+    
+            setLoadingQr(false);
+            
+            if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
+                setActiveQr(dataConnect?.data?.qrCode);
+            }else{
+                if (dataConnect == 428 || dataConnect == 412) {
+                    setLoadingQr(true);
+                }else{
+                    setNotification({
+                        status: STATUS.ERROR,
+                        render: true,
+                        message: "Hubo un error en la conexión, por favor intentalo de nuevo en un minuto.",
+                        modalReturn: () => {
+                            setNotification({ ...notification, render: false })
+                        }
+                    })
+                    clearInterval(intervalId);
+                    setActiveQr(null)
                 }
+                
             }
-        }, 4000);
-    };
-
-    const dispatchError = () => {
-        setNotification({
-            status: STATUS.ERROR,
-            render: true,
-            message: "Hubo un error en la conexión, intentalo de nuevo en un minuto.",
-            modalReturn: () => {
-                setNotification({ ...notification, render: false })
+    
+            if (dataConnect?.data?.phoneConnected == true) {
+                setActiveQr("null")
+                setConnectionSuccess(true);
+                setNotification({
+                    status: STATUS.SUCCESS,
+                    render: true,
+                    message: "El dispositivo termino de sincronizarse correctamente.",
+                    modalReturn: () => {
+                        setNotification({ ...notification, render: false })
+                    }
+                })
+                setLoadingQr(true);
+                // Router.push("/")
+                clearInterval(intervalId);
+                
+                window.location.href = ROUTES.DASH
             }
-        })
-    };
 
-    const handleEmitID = async () => {
-        setLoadingQr(true);
+            
+        }, 3500); 
+    
+    }
 
-        const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE) || '')?.access_token;
-        const { data: dataConnect } = await apiSenderWhatsappController.connect(accessToken)
 
-        if (dataConnect) {
-            const { data: dataQr } = await apiSenderWhatsappController.getQR(accessToken)
+    const handleIsConnected = async () => {
 
-            if (dataQr?.qr) {
-                setActiveQr(dataQr.qr);
-            } else {
-                dispatchError();
-            }
-        } else {
-            dispatchError();
+        setLoadingQr(true)
+
+        const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE) || '')?.access_token;
+
+        const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
+        
+        if (dataConnection) { startInterval(accessToken) }
+
+    }
+
+    // on component dismount clearInterval(intervalId);
+    useEffect(() => {
+        return () => {
+            clearInterval(intervalId);
         }
+    });
 
-        setLoadingQr(false);
-    };
 
     return (
         <>
@@ -75,7 +99,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             <div className={styles.qrCard_cont}>
                 <CardTitle text="Vincular dispositivo" />
 
-                {activeQr && (
+                {activeQr  && (
                     <div className={styles.qrSteps}>
                         
                         <div className={styles.instruciones_cont}>
@@ -98,17 +122,31 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
                         <div className={styles.qrImg_cont}>
                             <h4>{'Escanea el QR y aguarda un momento  : )'}</h4>
-                            <img src={activeQr} alt="qrWhatsappImage" onLoad={handleIsConnected} />
+                            
+                            <div className={styles.flipContainer}>
+                                <div className={styles.flip} style={{"transform": `${connectionSuccess && 'rotateY(180deg)' }`}}>
+                                    <div className={styles.flipFront}>
+                                        <img src={activeQr} alt="qrWhatsappImage"  />  
+                                    </div>
+                                    <div className={styles.flipBack}>
+                                        <p>✅</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                 )}
                 {!activeQr && (
                     <div style={{ "opacity": loadingQr ? "0.3" : "1" }}>
-                        <OrangeBtn text="Generar QR" onClick={handleEmitID} />
+                        <OrangeBtn text={ !loadingQr ? "Generar QR" : "Generando QR"} onClick={handleIsConnected} />
                     </div>
                 )}
             </div>
+            <aside className={styles.alertaMsg}>
+                <p>Luego que el celular se conecte a Whatsapp aguarda unos segundos y te redirigiremos al dashboard</p>
+            </aside>
+         
         </>
     );
 }

@@ -1,21 +1,33 @@
-import { useState } from "react";
+import Cookies from 'cookies';
+import { useEffect, useState } from "react";
+import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
+import { STRIPE_COOKIE } from '../constants/index';
 import { STATUS } from "../enums";
-import handleStripeSession from "../utils/checkout";
-import { GralProps } from "./_app";
+import { handleStripeSession } from "../utils/checkout";
+import { encrypt } from '../utils/crypto';
 import { NextPageWithLayout } from "./page";
 
-const Login: NextPageWithLayout<GralProps> = (GralProps) => {
-
+const Login: NextPageWithLayout<{reloadNeeded:boolean}> = ({ reloadNeeded }) => {
     const [notification, setNotification] = useState<INotification>({
         status: STATUS.SUCCESS,
         render: false,
         message: "",
         modalReturn: () => { }
     })
+
+    useEffect(() => {
+        if (reloadNeeded) {
+          // Trigger a page reload
+            const currentUrl = window.location.href;
+            const updatedUrl = currentUrl.replace(/(\?|&)session_id=[^&]*/g, '');
+
+            window.location.href = updatedUrl;
+        }
+      }, [reloadNeeded]);
+
 
     return (
         <section>
@@ -28,7 +40,6 @@ const Login: NextPageWithLayout<GralProps> = (GralProps) => {
     );
 };
 
-
 export default Login;
 
 Login.getLayout = (page) => {
@@ -39,10 +50,31 @@ Login.getLayout = (page) => {
     );
 };
 
-export async function getServerSideProps({ query: { session_id } }) {
-    if (session_id) {
-        handleStripeSession(session_id)
-    }
+export async function getServerSideProps({ req, res, query: { session_id } }) {
+    
+    var reload = false
 
-    return { props: {} };
+    if (session_id) {
+        const cookies = new Cookies(req, res)
+        const sessionData = await handleStripeSession(session_id)
+        cookies.set(STRIPE_COOKIE, JSON.stringify(encrypt(sessionData)))
+
+        // Remove the session_id query parameter from the URL
+        //    const currentUrl = req.url;
+        //    const updatedUrl = currentUrl.replace(/(\?|&)session_id=[^&]*/g, '');
+        //    res.setHeader('Location', updatedUrl);
+        //    res.statusCode = 302;
+        //    res.end();
+       
+
+        // const router = useRouter();
+        // router.push(updatedUrl);
+
+        // No se esta disparando el middleware con la redireccion de stripe, entonces la hago desde el front por el momento
+        reload = true
+
+    }
+    
+    
+    return { props: { reloadNeeded : reload } };
 }

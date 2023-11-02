@@ -4,7 +4,8 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
-import { STATUS } from '../../enums';
+import { LOGIN_COOKIE } from '../../constants/index';
+import { ROUTES, STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
@@ -27,16 +28,18 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
-    
-
     const [logging, setLogging] = useState<boolean>(false)
 
+
     async function handleLogin() {
+
+
         setLogging(true)
         if (email != "" && pass != "") {
             
             const onSuccess = () => {
-                if (login_status?.status == 200 ) {
+
+                if (login_status?.status == 200 || login_status?.status == 201 ) {
 
                     const login_storage = {
                         access_token : login_status?.data.access_token, // TODO think about ecnrypting this acces_token or the hole cookie
@@ -44,15 +47,20 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                     }
 
                     Cookies.set(
-                      process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME,
+                      LOGIN_COOKIE,
                       JSON.stringify(login_storage), // secure flag option must be added in the future
                       {
                         sameSite: 'strict'
                       }
                     );
-                    Router.push("/dash")
+                    
+                    // Router.push("/dash")
+                    // window.location.("/dash")
+                    // redirect with window.location to /dash
+                    window.location.href = ROUTES.DASH
                     
                 }else{
+                    
                     setLogging(false)
                     setNotification({
                         status : STATUS.ERROR,
@@ -80,10 +88,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
         }
     }
 
-    useEffect(() => {
-        // Prefetch the dashboard page
-        Router.prefetch('/dash');
-      }, [])
+    useEffect(() => { Router.prefetch('/dash'); }, [])
 
     
    
@@ -124,17 +129,16 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                     </button> */}
                 </div>
 
-                {/* Esto se esconde temporalmente hasta que se active el registre libre de usuarios */}
-                {/* <div className={styles.noAccount}>
+                <div className={styles.noAccount}>
                     <hr />
                     
                     <div>
                         <span>No tienes una cuenta?</span>
                         <button type='button'>
-                            <Link href='/signup'>Regístrate</Link>
+                            <span onClick={ ()=> Router.push('/signup') }>Regístrate</span>
                         </button>
                     </div>
-                </div> */}
+                </div>
 
             </form>
         </div>    

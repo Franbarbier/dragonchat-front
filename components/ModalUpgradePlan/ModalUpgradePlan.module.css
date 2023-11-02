@@ -1,0 +1,22 @@
+.modal_upgrade{
+    text-align: center;
+    letter-spacing: 1px;
+}
+.modal_upgrade>div>img{
+    width: 30%;
+    display: block;
+    margin: 3% auto;
+}
+
+.modal_upgrade>div>h3{
+    margin: 5% 0;
+    font-size: 1.3em;
+}
+.modal_upgrade>div>h4{
+    font-weight: 300;
+}
+.modal_upgrade>div>h6{
+    font-weight: 300;
+    color: #c1c1c1;
+    margin: 5% 0 20px
+}

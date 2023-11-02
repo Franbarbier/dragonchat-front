@@ -1,23 +1,33 @@
-import cookie from 'cookie';
+import Cookies from 'cookies';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { mockCardsContProps } from '../components/cards/CardsCont.mocks';
 import CardsCont from '../components/cards/CardsContFree';
-import { IEditUserProfileView } from '../components/EditUserProfileView/EditUserProfileView';
 import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
-import Loader from '../components/Loader/Loader';
+import Loader from "../components/Loader/Loader2";
+import ModalContainer from '../components/ModalContainer/ModalContainer';
+import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
 import Notification, { INotification } from '../components/Notification/Notification';
-import { API_USER_URL, LOGIN_COOKIE } from '../constants/index';
+import { API_GATEWAY_URL, LOGIN_COOKIE, STRIPE_COOKIE } from '../constants/index';
 import { API_ROUTES, STATUS } from '../enums';
+import { decrypt } from '../utils/crypto';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
+interface IDashProps {
+  stripe: null | number,
+  isPaid: boolean
+}
 
-const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
+
+const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid }) => {
+
   const [openSettings, setOpenSettings] = useState<boolean>(false)
+  const [modalStripe, setModalStripe] = useState<null | number>(stripe)
+
+  const [contactsLength , setContactsLength] = useState<false>(false)
+
   const [loading, setLoading] = useState<boolean>(false)
-  
   const [notification, setNotification] = useState<INotification>({
     status: STATUS.SUCCESS,
     render: false,
@@ -28,28 +38,33 @@ const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
 
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
-      <Loader loading={loading} />
-      <Header openSettings={openSettings} setOpenSettings={setOpenSettings} />
+      <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
 
       <AnimatePresence>
         {!openSettings && (
-          <motion.div
-            key="dash-cont"
-            initial={{ opacity: 0, translateY: 15 }}
-            animate={{ opacity: 1, translateY: 0, transition: { delay: 0.7 } }}
-            exit={{ opacity: 0, translateY: 15 }}
-            style={{ position: 'absolute' }}
-          >
-            <div style={{
-              'width': '100vw',
-              'height': '100vh',
-              'position': 'relative'
-            }}
+          <>
+            <motion.div
+              key="dash-cont"
+              initial={{ opacity: 0, translateY: 15 }}
+              animate={{ opacity: 1, translateY: 0, transition: { delay: 0.7 } }}
+              exit={{ opacity: 0, translateY: 15 }}
+              style={{ position: 'absolute' }}
             >
-              <CardsCont {...mockCardsContProps.base} />
+              <div style={{
+                'width': '100vw',
+                'height': '100vh',
+                'position': 'relative'
+              }}
+              >
+                <CardsCont isPaid={isPaid}/>
 
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
+            {modalStripe == 200 &&
+              <ModalContainer addedClass='modal_plan' closeModal={() => { setModalStripe(1) }}>
+                <ModalUpgradePlan setModalStripe={setModalStripe} />
+              </ModalContainer>}
+          </>
         )}
         {openSettings && (
           <motion.div
@@ -66,44 +81,73 @@ const Home: NextPageWithLayout<IEditUserProfileView> = ({ user }) => {
               'marginTop': '5%'
             }}
             >
-              <Notification {...notification} />
-              <EditUserProfile user={user} setLoading={setLoading} notification={notification} setNotification={setNotification} />
+              <EditUserProfile 
+                setLoading={setLoading} 
+                notification={notification} 
+                setNotification={setNotification}
+              />
             </div>
           </motion.div>
         )}
-
       </AnimatePresence>
 
-
+      <Loader loading={loading} />
+      <Notification {...notification} />
     </section>
   );
 };
 
-export default Home;
+export default Dash;
 
-Home.getInitialProps = async (context) => {
-  if (context.req?.headers.cookie) {
-    const cookies = cookie.parse(context.req.headers.cookie);
-    const { access_token: accessToken } = JSON.parse(cookies[LOGIN_COOKIE || '']);
 
-    const apiResponse = await fetch(
-      `${API_USER_URL}${API_ROUTES.AUTH_ME}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`
-        }
+
+export async function getServerSideProps({ req, res }) {
+
+
+  const cookies = new Cookies(req, res);
+  var stripeStatus: null | number = null
+
+  const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
+  const accessToken = JSON.parse(responseText).access_token
+
+  if (cookies.get(STRIPE_COOKIE)) {
+
+    const stripe_data = decrypt(JSON.parse(cookies.get(STRIPE_COOKIE)))
+    const changePlan = await fetch(`${API_GATEWAY_URL}${API_ROUTES.UPDATE_PLAN}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        session_id: JSON.parse(stripe_data).session_id,
+        product_id: JSON.parse(stripe_data).product_id
+      }),
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
       }
-    );
-    const { data } = await apiResponse.json();
+    });
 
-    return { user: data } as IEditUserProfileView
+    const handleChangePlan = await changePlan.json();
+
+    if (handleChangePlan.isPaid == true) {
+      cookies.set(STRIPE_COOKIE, null, { expires: new Date(0) });
+      // no encontre como eliminarla asique la seteo con un null y ya expirada
+      stripeStatus = 200
+    }
   }
 
-  return { user: {} } as IEditUserProfileView
+  const getData = await fetch(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${accessToken}`,
+      "Content-Type": "application/json"
+    }
+  });
+
+  const data = await getData.json();
+
+  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid } };
 }
 
-Home.getLayout = (page) => {
+Dash.getLayout = (page) => {
   return (
     <PrimaryLayout>
       {page}

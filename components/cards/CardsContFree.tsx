@@ -3,6 +3,7 @@ import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
+import ModalFinish from '../ModalFinish/ModalFinish';
 import NavBottom from '../NavBottom/NavBottom';
 import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
@@ -16,6 +17,7 @@ import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
+    isPaid : boolean,
 }
 
 type IdCard = {
@@ -31,7 +33,7 @@ export interface ContactInfo {
 
 
 
-const CardsCont: React.FC<ICardsCont> = ({ }) => {
+const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     const [activeCard, setActiveCard] = useState<number>(1)
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
@@ -78,8 +80,12 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
     const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
 
+    const [modalFinish, setModalFinish] = useState<boolean>(false)
 
-    const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
+    const [modalNoEnviados, setModalNoEnviados] = useState<boolean>(false);
+    const [blackList, setBlackList] = useState<ContactInfo[]>([]);
+
+    const wppLimitMessage = <span>Llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Para serguir enviando de forma ilimitada pasate al plan premium.</span>;
     
 
 
@@ -190,7 +196,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
 
     const isMobile = useDeviceType();
-    
+
+
 
     return (
         <div>
@@ -210,6 +217,12 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         sendingState={sendingState}
                         setSendingState={setSendingState}
                         messages={messages}
+                        setNotification={setNotification}
+                        notification={notification}
+                        blackList={blackList}
+                        setBlackList={setBlackList}
+                        // setModalNoEnviados={setModalNoEnviados}
+                        setModalFinish={setModalFinish}
                     />
 
                     <FreeCard1 
@@ -224,6 +237,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setDroppedCsv={setDroppedCsv}
                         notification={notification}
                         setNotification={setNotification}
+                        isPaid={isPaid}
                     />
                     <FreeCard2
                         setActiveCard={(val:number)=>setActiveCard(val)}
@@ -310,7 +324,12 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             }
             
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
-
+           
+            {modalFinish &&
+            <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"}>
+                <ModalFinish blackList={blackList} />
+            </ModalContainer>
+            }
 
         </div>
     

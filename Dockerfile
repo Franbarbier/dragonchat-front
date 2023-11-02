@@ -4,7 +4,7 @@ RUN npm cache clean --force
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install -g npm@latest
+RUN npm install -g npm@8.19.4
 RUN npm install --legacy-peer-deps
 COPY . .
 
@@ -22,7 +22,7 @@ ENV NODE_ENV production
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
-RUN npm install -g npm@latest
+RUN npm install -g npm@8.19.4
 RUN npm install next
 
 CMD ["npm","run","start"]

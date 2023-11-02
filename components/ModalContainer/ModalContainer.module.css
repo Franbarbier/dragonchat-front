@@ -31,6 +31,7 @@
     top: -20%;
     left: -30%;
     opacity: 0.4;
+    user-select: none;
     width: 310px;
 }
 .trama2{
@@ -40,6 +41,7 @@
     bottom: -10%;
     right: -30%;
     opacity: 0.4;
+    user-select: none;
     width: 310px;
 }
 .close_mod{
@@ -55,10 +57,10 @@
 .close_mod:hover{
     color: white;
 }
-.refAmis{
+.refAmis, .modal_plan, .pro{
     width: 30vw!important;
 }
-
+.no_enviados{ width: 40vw; }
 .modal_shield_option{ width: 35vw; }
 .timerModal { width: 35vw; }
 
@@ -68,8 +70,6 @@
         width: 80vw;
         max-width: 80vw;
         padding: 30px 20px;
-
-
     }
     .refAmis{
         width: 80vw!important;

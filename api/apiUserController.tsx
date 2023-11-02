@@ -1,26 +1,37 @@
 import axios from 'axios';
 import Router from 'next/router';
+import { API_GATEWAY_URL } from '../constants/index';
+import { API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from '../enums';
 
-const apiUrl = process.env.NEXT_PUBLIC_API_USER_URL;
-const authUrl = apiUrl + '/auth';
-const passwordUrl = apiUrl + '/password'
 
 const getHeaders = (authToken: string) => ({
-    "Accept": "application/json",
-    'Authorization': `Bearer ${authToken}`,
+    [HTTP_HEADERS_KEYS.AUTHORIZATION]: `${HTTP_HEADERS_VALUES.BEARER} ${authToken}`,
 });
 
 const apiUserController = {
-    signUp: async (name, email, password, passwordConfirmation, setUserExists) => {
+    signUp: async (name, mail, password, passwordConfirmation, setUserExists, stripe_data) => {
         try {
-            const payload = { name: name, email: email, password: password, password_confirmation: passwordConfirmation };
-            const response = await axios.post(`${authUrl}/signup`, payload);
+            const payload = { name: name, mail: mail, password: password, password_confirmation: passwordConfirmation };
+
+            // Si existe stripe_data, lo agrego al payload para que se registre como premium
+            if (stripe_data.stripe_data) {
+                payload['subscription'] = JSON.parse(stripe_data.stripe_data)
+            }
+
+            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SIGN_UP}`, payload, {
+                headers: {
+                    [HTTP_HEADERS_KEYS.ACCEPT]: HTTP_HEADERS_VALUES.APLICATION_JSON,
+                    [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON,
+                }
+            });
+
             if (response.status == 201) {
                 setUserExists(false);
-                Router.push("/login");
+                return response;
             }
         } catch (error: any) {
-            if (error.response.status == 409) {
+            
+            if (error?.response?.status == 409) {
                 setUserExists(true);
             } else {
                 alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
@@ -30,8 +41,7 @@ const apiUserController = {
     },
     getData: async (authToken: string) => {
         try {
-            const response = await axios.get(`${authUrl}/me`, { headers: getHeaders(authToken) });
-
+            const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, { headers: getHeaders(authToken) });
             return response
         } catch (error: any) {
             return error
@@ -39,18 +49,18 @@ const apiUserController = {
     },
     login: async (email, password) => {
         try {
-            const payload = { email: email, password: password };
-            const response = await axios.post(`${authUrl}/login`, payload);
+            const payload = { mail: email, password: password };
+            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.LOGIN}`, payload);
             return response;
         } catch (error) {
         }
     },
-    logout: async (accessToken) => {
+    logout: async (authToken: string) => {
         const headers = new Headers({
             "Content-Type": "application/json",
         });
-        headers.append("Authorization", `Bearer ${accessToken}`);
-        const response = await axios.get(`${authUrl}/logout`, { headers: Object.fromEntries(headers) });
+        headers.append("Authorization", `Bearer ${authToken}`);
+        const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.LOGOUT}`, { headers: getHeaders(authToken) });
         return response;
     },
     edit: async (accessToken, name, email, password, passwordConfirmation) => {
@@ -59,54 +69,88 @@ const apiUserController = {
         });
         headers.append("Authorization", `Bearer ${accessToken}`);
 
-        let payload;
-        if (password != '') {
-            payload = { password: password, password_confirmation: passwordConfirmation };
+        let payload = { name, mail: email };
+        let passs = { password: password, password_confirmation: passwordConfirmation }
+
+        if (password != "") {
+            payload = { ...payload, ...passs };
         }
 
-        const response = await axios.put(`${authUrl}/update`, payload, { headers: Object.fromEntries(headers) });
+
+        const response = await axios.put(`${API_GATEWAY_URL}${API_ROUTES.EDIT}`, payload, { headers: Object.fromEntries(headers) });
+
         return response;
     },
-    passwordRecoverSendEmail: async (email, setExistingUser) => {
+    passwordRecoverSendEmail: async (mail: string, setExistingUser: (value: boolean) => void) => {
         try {
-            const payload = { email: email };
-            const response = await axios.post(`${passwordUrl}/email`, payload);
-            if (response.status == 201) {
-                Router.push("/new_password");
+            const response = await axios.post(
+                `${API_GATEWAY_URL}${API_ROUTES.SEND_MAIL}`,
+                { mail },
+                { headers: { [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON, } },
+            );
+
+            if (response.status >= 200 || response.status <= 299) {
+                Router.push(ROUTES.NEW_PASS);
             }
         } catch (error: any) {
-            if (error.response.status == 422 || error.response.status == 404) { // should be a 404 and not 422
+
+            if (error.response.status == 404) {
                 setExistingUser(false);
             } else {
                 alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.")
             }
         }
     },
-    passwordRecoverCheckOtp: async (otpCode, setValidOtp) => {
+    passwordRecoverCheckOtp: async (code, setValidOtp: (value: boolean | null) => void) => {
         try {
-            const payload = { code: otpCode };
-            const response = await axios.post(`${passwordUrl}/code/check`, payload);
-            if (response.status == 200) {
+            const response = await axios.post<{ message: string, success: boolean }>(
+                `${API_GATEWAY_URL}${API_ROUTES.CHECK_CODE}`,
+                { code },
+                { headers: { [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON, } },
+            );
+
+            if (response.data?.success) {
                 setValidOtp(true);
             }
         } catch (error: any) {
-            if (error.response.status == 422 || error.response.status == 404) { // should be a 404 and not 422
+            if (error.response.status >= 400) {
+                alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
                 setValidOtp(false);
-            } else {
-                alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.")
             }
         }
-        return;
     },
-    passwordRecoverChangePassword: async (otpCode, newPassword, newPasswordConfirmation) => {
+    passwordRecoverChangePassword: async (code, password, password_confirmation) => {
         try {
-            const payload = { code: otpCode, password: newPassword, password_confirmation: newPasswordConfirmation };
-            const response = await axios.post(`${passwordUrl}/reset`, payload);
-            if (response.status == 200) {
-                Router.push("/login");
+            const response = await axios.post(
+                `${API_GATEWAY_URL}${API_ROUTES.CHANGE_PASS}`,
+                { code, password, password_confirmation },
+                { headers: { [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON, } },
+            );
+
+            if (response.data?.success) {
+                Router.push(ROUTES.LOGIN);
             }
         } catch (error: any) {
             alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
+        }
+    },
+    updatePlan: async (accessToken, stripe_data) => {
+        try {
+            const response = await axios.put(
+                `${API_GATEWAY_URL}${API_ROUTES.UPDATE_PLAN}`,
+                {
+                    "session_id": stripe_data.session_id,
+                    "product_id": stripe_data.product_id
+                },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
+                    }
+                }
+            );
+
+            return response;
+        } catch (error: any) {
         }
         return;
     }

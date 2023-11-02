@@ -1,50 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import eyeImg from "../../public/ver.png";
 import styles from './InputGral.module.css';
 
 export interface IInputGral {
-    type? : string;
-    placeholder? : string;
-    name? : string;
-    value? : string | number;
-    classes? : string[];
+    type?: string;
+    placeholder?: string;
+    name?: string;
+    value?: string | number;
+    classes?: string[];
     onChange?: (e: string) => void;
     isDisabled?: boolean;
-
+    labelText?: string;
+    labelClassName?: string;
 }
 
-
-
-// interface contactosArr extends Array<ContactInfo>{}
-
-const InputGral: React.FC<IInputGral> = ({ type='text', placeholder="", name="", value="" , onChange = ()=>{return ""}, classes=[], isDisabled = false}) => {
-    
-    const [isPass, setIsPass] = useState(false)
+const InputGral: React.FC<IInputGral> = ({ 
+    type = 'text', 
+    placeholder = "", 
+    name, 
+    value = "", 
+    onChange = () => { return "" }, 
+    classes = [], 
+    isDisabled = false,
+    labelText,
+    labelClassName,
+}) => {
     const [showHide, setShowHide] = useState(false)
-    
-    useEffect(()=>{
-        if (type == 'password') {
-            setIsPass(true)
-        }
-    }, [])
-
-    function showHidePass(){
-        setShowHide(!showHide)
-    }
 
     return (
+        <>
+        {labelText && <label className={labelClassName} htmlFor="">{labelText}</label>}
+
         <div className={styles.input_cont} >
-            <input className={ classes.join(' ') } placeholder={placeholder} type={!showHide ? type : 'text'} name={name} value={value} onChange={ (e)=>{ onChange(e.target.value) } } disabled={isDisabled} />
-            {isPass &&
-                <div onClick={showHidePass} className={styles.ojito} >
-                <img src={eyeImg.src} alt="eye-img"/>
-                {showHide &&
-                    <span className={styles.slash}>/</span>
-                }
+            <input className={classes.join(' ')} placeholder={placeholder} type={!showHide ? type : 'text'} name={name} value={value} onChange={(e) => { onChange(e.target.value) }} disabled={isDisabled} />
+            {type == 'password' && (
+                <div onClick={() => setShowHide(!showHide)} className={styles.ojito} >
+                    <img src={eyeImg.src} alt="eye-img" />
+                    {showHide && <span className={styles.slash}>/</span>}
                 </div>
-            }
+            )}
         </div>
-    
+        </>
     );
 }
 

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useState } from 'react';
 import apiUserController from '../../api/apiUserController';
+import { LOGIN_COOKIE } from '../../constants/index';
 import styles from './Config.module.css';
 
 export interface IConfig {
@@ -19,10 +20,10 @@ const Config: React.FC<IConfig> = () => {
 
     async function handleLogout(){
         try {
-            const accessToken = JSON.parse(Cookies.get(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME)).access_token;
+            const accessToken = JSON.parse( Cookies.get(LOGIN_COOKIE) ).access_token;
             const response = await apiUserController.logout(accessToken);
             if (response.status == 200) {
-                Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_COOKIE_NAME);
+                Cookies.remove(LOGIN_COOKIE);
                 Router.push("/login");
             }
         } catch (error: any) {
