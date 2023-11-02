@@ -22,7 +22,11 @@ export enum API_ROUTES {
   GET_DATA = '/api/auth/me',
   LOGIN = '/api/auth/login',
   LOGOUT = '/api/auth/logout',
-  UPDATE_PLAN = "/api/user/change-plan"
+  UPDATE_PLAN = "/api/user/change-plan",
+  SEND_MAIL = "/api/password/send-mail",
+  EDIT = "/api/user/edit",
+  CHECK_CODE = "/api/password/check-code",
+  CHANGE_PASS = "/api/password/change-pass",
 };
 
 export enum API_PARAMS {

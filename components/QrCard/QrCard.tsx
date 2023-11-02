@@ -25,7 +25,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         intervalId = setInterval(async () => {
             
             const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
-            console.log("dataaaaa coneeeee",dataConnect)
     
             setLoadingQr(false);
             
@@ -78,12 +77,8 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         setLoadingQr(true)
 
         const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE) || '')?.access_token;
-        
-        // const getDAt = await apiUserController.getData(accessToken)
-        // console.log(getDAt)
 
         const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
-        console.log(dataConnection)
         
         if (dataConnection) { startInterval(accessToken) }
 

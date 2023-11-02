@@ -15,8 +15,6 @@ export async function middleware(req: NextRequest, res) {
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
 
 
-  console.log("ejecutoide--------------------------------------------------------------", authCookie)
-
   if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie && !req.nextUrl.pathname.startsWith(ROUTES.SIGN_UP)) {
     return handleRedirect(req, ROUTES.LOGIN);
   }
@@ -24,8 +22,6 @@ export async function middleware(req: NextRequest, res) {
   if (authCookie) {
     const accessToken = JSON.parse(authCookie.value || '{}').access_token || '';
     
-
-    // console.log(req.nextUrl.pathname.includes(ROUTES.SIGN_UP), req.nextUrl.pathname)
     if (req.nextUrl.pathname.includes(ROUTES.SIGN_UP) ) {
       return handleRedirect(req, ROUTES.DASH);
     }
@@ -36,23 +32,6 @@ export async function middleware(req: NextRequest, res) {
     }
     const validateQR = false;
     
-    // // Esto va si es necesario la conexion antes, pero creo que no.
-    // const dataConnection = await fetch(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`,
-    // {
-    //   cache: 'no-store',
-    //   method: 'POST',
-    //   headers: {
-    //     'Authorization': `Bearer ${accessToken}`,
-    //   },
-      
-    // });
-    // // Parse the response as JSON
-    // const responseBody = await dataConnection.json();
-    
-
-    // const connection = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`, {}, { headers:{"Authorization": `Bearer ${accessToken}`} });
-    
-
     
     var resDataQr = { phoneConnected: false }
 
@@ -66,11 +45,8 @@ export async function middleware(req: NextRequest, res) {
           },
         });
       
-        console.log(dataConnection)
         resDataQr = await dataConnection.json();
-      
-        console.log("ejecutoideWPP--------------------------------------------------------------", resDataQr)
-      } catch (error) {
+        } catch (error) {
         // Si es 412 conexion no establecida, cualquier otro: error
         console.log(error)
       }

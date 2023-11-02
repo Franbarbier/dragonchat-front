@@ -90,7 +90,6 @@ useEffect(() => {
                         })
                         handleLogin(mail, pass)
                     }
-                    console.log(signUp_res)
                 }
 
                 const signUp_res = await apiUserController.signUp(name, mail, pass, confirmPass, setUserExists, stripe_data);

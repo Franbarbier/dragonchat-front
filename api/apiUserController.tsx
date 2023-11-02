@@ -30,7 +30,8 @@ const apiUserController = {
                 return response;
             }
         } catch (error: any) {
-            if (error.response.status == 409) {
+            
+            if (error?.response?.status == 409) {
                 setUserExists(true);
             } else {
                 alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
@@ -75,18 +76,15 @@ const apiUserController = {
             payload = { ...payload, ...passs };
         }
 
-        console.log(payload)
 
-        const response = await axios.put(`https://gateway-test.dragonchat.io/api/user/edit`, payload, { headers: Object.fromEntries(headers) });
-
-        console.log(response)
+        const response = await axios.put(`${API_GATEWAY_URL}${API_ROUTES.EDIT}`, payload, { headers: Object.fromEntries(headers) });
 
         return response;
     },
     passwordRecoverSendEmail: async (mail: string, setExistingUser: (value: boolean) => void) => {
         try {
             const response = await axios.post(
-                'https://gateway-test.dragonchat.io/api/password/send-mail',
+                `${API_GATEWAY_URL}${API_ROUTES.SEND_MAIL}`,
                 { mail },
                 { headers: { [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON, } },
             );
@@ -95,6 +93,7 @@ const apiUserController = {
                 Router.push(ROUTES.NEW_PASS);
             }
         } catch (error: any) {
+
             if (error.response.status == 404) {
                 setExistingUser(false);
             } else {
@@ -105,7 +104,7 @@ const apiUserController = {
     passwordRecoverCheckOtp: async (code, setValidOtp: (value: boolean | null) => void) => {
         try {
             const response = await axios.post<{ message: string, success: boolean }>(
-                'https://gateway-test.dragonchat.io/api/password/check-code',
+                `${API_GATEWAY_URL}${API_ROUTES.CHECK_CODE}`,
                 { code },
                 { headers: { [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON, } },
             );
@@ -123,7 +122,7 @@ const apiUserController = {
     passwordRecoverChangePassword: async (code, password, password_confirmation) => {
         try {
             const response = await axios.post(
-                'https://gateway-test.dragonchat.io/api/password/change-pass',
+                `${API_GATEWAY_URL}${API_ROUTES.CHANGE_PASS}`,
                 { code, password, password_confirmation },
                 { headers: { [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON, } },
             );
@@ -152,7 +151,6 @@ const apiUserController = {
 
             return response;
         } catch (error: any) {
-            // console.log("error");
         }
         return;
     }

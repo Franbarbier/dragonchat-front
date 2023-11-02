@@ -39,8 +39,6 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
             
             const onSuccess = () => {
 
-                console.log(login_status)
-
                 if (login_status?.status == 200 || login_status?.status == 201 ) {
 
                     const login_storage = {
