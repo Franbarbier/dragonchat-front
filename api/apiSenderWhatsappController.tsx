@@ -36,7 +36,8 @@ const apiSenderWhatsappController = {
         try {
             const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`, {}, { headers: 
                 {"Authorization": `Bearer ${authToken}`} });
-                return response
+                console.log(response)
+
             } catch (error: any) {
                 return error
             }
