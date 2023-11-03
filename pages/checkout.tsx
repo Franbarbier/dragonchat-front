@@ -15,13 +15,14 @@ export async function getServerSideProps({ _, res }) {
         if (STRIPE_KEY && STRIPE_PRODUCT) {
             const stripe = new Stripe(STRIPE_KEY, { apiVersion: '2023-08-16' })
             const prices = await stripe.prices.list();
+            const product = prices.data.find(p => p.product === STRIPE_PRODUCT);
 
-            if (prices.data?.length && prices.data?.length > 0 && prices.data.find(p => p.product === STRIPE_PRODUCT)) {
+            if (product) {
                 const session = await stripe.checkout.sessions.create({
                     billing_address_collection: 'auto',
                     line_items: [
                         {
-                            price: prices.data[0].id,
+                            price: product.id,
                             quantity: 1,
                         },
                     ],
