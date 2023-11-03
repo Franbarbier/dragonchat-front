@@ -20,12 +20,7 @@ export async function getServerSideProps({ _, res }) {
             if (product) {
                 const session = await stripe.checkout.sessions.create({
                     billing_address_collection: 'auto',
-                    line_items: [
-                        {
-                            price: product.id,
-                            quantity: 1,
-                        },
-                    ],
+                    line_items: [{ price: product.id, quantity: 1 }],
                     mode: 'subscription',
                     success_url: `${HOST_URL}${ROUTES.LOGIN}?session_id={CHECKOUT_SESSION_ID}`,
                     cancel_url: `${HOST_URL}${ROUTES.DASH}`
