@@ -6,4 +6,4 @@ export const API_GATEWAY_URL = process.env.NEXT_PUBLIC_API_GATEWAY_URL ;
 
 export const HOST_URL = process.env.NEXT_PUBLIC_HOST;
 export const STRIPE_KEY = process.env.NEXT_PUBLIC_STRIPE_KEY;
-
+export const STRIPE_PRODUCT = process.env.NEXT_PUBLIC_STRIPE_PRODUCT;
