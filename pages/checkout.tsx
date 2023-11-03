@@ -39,7 +39,6 @@ export async function getServerSideProps({ _, res }) {
             res.writeHead(302, { Location: `${HOST_URL}${ROUTES.DASH}` });
             res.end();
         }
-
     } catch (error) {
         console.error("Error in getServerSideProps:", error);
         res.writeHead(302, { Location: `${HOST_URL}${ROUTES.DASH}` });
