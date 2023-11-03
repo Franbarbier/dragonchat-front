@@ -114,7 +114,8 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie }) => {
           {modalStripe == 200 &&
               <ModalContainer addedClass='modal_plan' closeModal={() => { setModalStripe(1) }}>
                 <ModalUpgradePlan setModalStripe={setModalStripe} />
-              </ModalContainer>}
+              </ModalContainer>
+          }
         </>
       ) :
         <QrWaitingRoom queue={queue} />
