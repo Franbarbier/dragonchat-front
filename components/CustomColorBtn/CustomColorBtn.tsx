@@ -11,6 +11,8 @@ export interface ICustomColorBtn {
 }
 
 const CustomColorBtn: React.FC<ICustomColorBtn> = ({ text, type="button", backgroundColorInit, backgroundColorEnd, borderColor, onClick, disable=false }) => {
+
+
     return <button type={type} className={`${styles.customColorBtn} ${disable && styles.disabled}`} onClick={ (e)=> { if(!disable){ onClick(e) }}} style={{background: `linear-gradient(0, ${backgroundColorInit}, ${backgroundColorEnd})`, border: `1px solid ${borderColor}`}}>{text}</button>;
 }
 

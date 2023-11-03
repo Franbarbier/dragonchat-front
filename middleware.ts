@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { API_GATEWAY_URL, LOGIN_COOKIE } from "./constants/index";
+import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE } from "./constants/index";
 import { ROUTES } from "./enums";
 
 const handleRedirect = (req: NextRequest, route: ROUTES) => {
@@ -15,7 +15,13 @@ export async function middleware(req: NextRequest, res) {
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
 
 
-  if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie && !req.nextUrl.pathname.startsWith(ROUTES.SIGN_UP)) {
+  // Si esta en mantenimiento y no es la pagina de login, redirigir a login
+  if ( MAINTENANCE == "true" && !req.nextUrl.pathname.startsWith(ROUTES.LOGIN) ) {
+    return handleRedirect(req, ROUTES.LOGIN);
+  }
+
+  // Las paginas que podes acceder sin estar logeado: login, signup, recover pass, new pass y checkout (esta no está dentro del middleware)
+  if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie && !req.nextUrl.pathname.startsWith(ROUTES.SIGN_UP) && !req.nextUrl.pathname.startsWith(ROUTES.RECOVER) && !req.nextUrl.pathname.startsWith(ROUTES.NEW_PASS) ) {
     return handleRedirect(req, ROUTES.LOGIN);
   }
   
@@ -68,5 +74,5 @@ export async function middleware(req: NextRequest, res) {
 }
 
 export const config = {
-  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit", "/signup"],
+  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit", "/signup",  "/recover_password",  "/new_password"],
 };

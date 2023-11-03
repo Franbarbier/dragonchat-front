@@ -4,12 +4,13 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
-import { LOGIN_COOKIE } from '../../constants/index';
+import { LOGIN_COOKIE, MAINTENANCE } from '../../constants/index';
 import { ROUTES, STATUS } from '../../enums';
 import CardTitle from '../cards/CardTitle/CardTitle';
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
 import Loader from '../Loader/Loader';
+import Maintenance from '../Maintenance/Maintenance';
 import { INotification } from '../Notification/Notification';
 import styles from './LoginView.module.css';
 
@@ -89,10 +90,12 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
     }
 
     useEffect(() => { Router.prefetch('/dash'); }, [])
-
-    
    
     return (
+        <>
+        {MAINTENANCE == "true" && 
+            <Maintenance />
+        }
         <div className={styles.login_cont} >
             <Loader loading={logging} />
             <form>
@@ -121,8 +124,8 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                             e.preventDefault()
                             handleLogin()
                         } }
-                    />
-
+                        disable={ MAINTENANCE == "true" && true} 
+                        />
                     {/* <button className={styles.googleInit} type='button'>
                         <img src="/buscar.png" width="18px" alt="find-image"/>
                         <span>Iniciar sesión con Google</span>
@@ -135,13 +138,18 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                     <div>
                         <span>No tienes una cuenta?</span>
                         <button type='button'>
-                            <span onClick={ ()=> Router.push('/signup') }>Regístrate</span>
+                            <span onClick={ ()=> {
+                                if (MAINTENANCE != "true") {
+                                    Router.push('/signup')
+                                }
+                            } }>Regístrate</span>
                         </button>
                     </div>
                 </div>
 
             </form>
         </div>    
+        </>
     );
 }
 
