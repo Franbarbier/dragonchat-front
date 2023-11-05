@@ -4,7 +4,7 @@ import { countries } from './data.json';
 
 interface CountryCodeFlagSelectorProps {
     phone: { code: string, number: string },
-    setPhone: Dispatch<SetStateAction<{ code: string, number: string }>>,
+    setPhone: (prev: any) => void,
 };
 
 const CountryCodeFlagSelector: React.FC<CountryCodeFlagSelectorProps> = (props) => {
