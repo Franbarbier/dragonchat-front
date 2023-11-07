@@ -125,58 +125,55 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
         <>
             <Loader loading={loading} />
 
-            {/* <div className={styles.signup_cont} > */}
-                <form className={styles.signup_cont} autoComplete='off'>
-                    <CardTitle text="Registrarse" />
+            <form className={styles.signup_cont} autoComplete='off'>
+                <CardTitle text="Registrarse" />
 
-                    <InputGral
-                        placeholder='Nombre'
-                        type="text"
-                        value={formData.name}
-                        onChange={(value) => handleFormChange('name', value)}
-                        classes={['error']}
-                    />
-                    <InputGral
-                        placeholder='E-mail'
-                        type="email"
-                        value={formData.mail}
-                        onChange={(value) => handleFormChange('mail', value)}
-                    />
-                    <h6>{"Deja el mejor número para darte soporte si tienes dudas"}</h6>
-                    <CountryCodeFlagSelector
-                        phone={{ code: formData.code, number: formData.number }}
-                        setPhone={setFormData}
-                    />
-                    <InputGral
-                        placeholder='Contraseña'
-                        type="password"
-                        value={formData.pass}
-                        onChange={(value) => handleFormChange('pass', value)}
-                    />
-                    <InputGral
-                        placeholder='Repetir contraseña'
-                        type="password"
-                        value={formData.confirmPass}
-                        onChange={(value) => handleFormChange('confirmPass', value)}
-                    />
+                <InputGral
+                    placeholder='Nombre'
+                    type="text"
+                    value={formData.name}
+                    onChange={(value) => handleFormChange('name', value)}
+                    classes={['error']}
+                />
+                <InputGral
+                    placeholder='E-mail'
+                    type="email"
+                    value={formData.mail}
+                    onChange={(value) => handleFormChange('mail', value)}
+                />
+                <CountryCodeFlagSelector
+                    phone={{ code: formData.code, number: formData.number }}
+                    setPhone={setFormData}
+                />
+                <InputGral
+                    placeholder='Contraseña'
+                    type="password"
+                    value={formData.pass}
+                    onChange={(value) => handleFormChange('pass', value)}
+                />
+                <InputGral
+                    placeholder='Repetir contraseña'
+                    type="password"
+                    value={formData.confirmPass}
+                    onChange={(value) => handleFormChange('confirmPass', value)}
+                />
 
-                    {!equalPass && <p className={styles.alert}>{"Las contraseñas no coinciden :("}</p>}
-                    {userExists && <p className={styles.alert}>{"Ya existe un usuario registrado con ese email."}</p>}
+                {!equalPass && <p className={styles.alert}>{"Las contraseñas no coinciden :("}</p>}
+                {userExists && <p className={styles.alert}>{"Ya existe un usuario registrado con ese email."}</p>}
 
-                    <OrangeBtn text="Crear cuenta" onClick={handleCrearCuenta} />
+                <OrangeBtn text="Crear cuenta" onClick={handleCrearCuenta} />
 
-                    <div className={styles.hasAccount}>
-                        <hr />
+                <div className={styles.hasAccount}>
+                    <hr />
 
-                        <div>
-                            <span>Ya tienes una cuenta?</span>
-                            <button>
-                                <span onClick={() => Router.push('/login')}>Iniciar sesión</span>
-                            </button>
-                        </div>
+                    <div>
+                        <span>Ya tienes una cuenta?</span>
+                        <button>
+                            <span onClick={() => Router.push('/login')}>Iniciar sesión</span>
+                        </button>
                     </div>
-                </form>
-            {/* </div> */}
+                </div>
+            </form>
         </>
     );
 }

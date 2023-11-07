@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import styles from './CountryCodeFlagSelector.module.css';
-import { countries } from './data.json';
+import data from './data.json';
 
 interface CountryCodeFlagSelectorProps {
     phone: { code: string, number: string },
@@ -10,6 +10,10 @@ interface CountryCodeFlagSelectorProps {
 const CountryCodeFlagSelector: React.FC<CountryCodeFlagSelectorProps> = (props) => {
     const { phone, setPhone } = props;
 
+    useEffect(() => {
+        setPhone(prev => ({ ...prev, code: data.countries[0].dial_code }));
+    }, [])
+
     const handlePhone = useCallback((value: string) => {
         if ((/^\d+$/.test(value) || value === '') && value.length !== 15) {
             setPhone(prev => ({ ...prev, number: value }));
@@ -17,29 +21,33 @@ const CountryCodeFlagSelector: React.FC<CountryCodeFlagSelectorProps> = (props) 
     }, [setPhone])
 
     return (
-        <div className={styles.container}>
-            <select
-                className={styles.select}
-                onChange={({ target: { value } }) => setPhone(prev => ({ ...prev, code: value }))}
-            >
-                {countries.map(c => (
-                    <option 
-                        key={c.code_2} 
-                        value={c.dial_code}
-                    >
-                        {`${c.emoji} ${c.code_3} ${c.dial_code}`}
-                    </option>
-                ))}
-            </select>
-            <input
-                className={styles.phone}
-                placeholder="89898989"
-                type="text"
-                value={phone.number}
-                onChange={({ target: { value } }) => handlePhone(value)}
-                autoComplete="off"
-            />
-        </div>
+        <>
+            <h6>{"Deja el mejor número para darte soporte si tienes dudas"}</h6>
+
+            <div className={styles.container}>
+                <select
+                    className={styles.select}
+                    onChange={({ target: { value } }) => setPhone(prev => ({ ...prev, code: value }))}
+                >
+                    {data.countries.map(c => (
+                        <option
+                            key={c.code_2}
+                            value={c.dial_code}
+                        >
+                            {`${c.emoji} ${c.code_3} +${c.dial_code}`}
+                        </option>
+                    ))}
+                </select>
+                <input
+                    className={styles.phone}
+                    placeholder="912345678"
+                    type="text"
+                    value={phone.number}
+                    onChange={({ target: { value } }) => handlePhone(value)}
+                    autoComplete="off"
+                />
+            </div>
+        </>
     );
 }
 
