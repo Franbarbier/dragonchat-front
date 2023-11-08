@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from 'react';
+import InputGral from '../InputGral/InputGral';
 import styles from './CountryCodeFlagSelector.module.css';
 import data from './data.json';
 
@@ -21,33 +22,28 @@ const CountryCodeFlagSelector: React.FC<CountryCodeFlagSelectorProps> = (props) 
     }, [setPhone])
 
     return (
-        <>
-            <h6>{"Deja el mejor número para darte soporte si tienes dudas"}</h6>
-
-            <div className={styles.container}>
-                <select
-                    className={styles.select}
-                    onChange={({ target: { value } }) => setPhone(prev => ({ ...prev, code: value }))}
-                >
-                    {data.countries.map(c => (
-                        <option
-                            key={c.code_2}
-                            value={c.dial_code}
-                        >
-                            {`${c.emoji} ${c.code_3} +${c.dial_code}`}
-                        </option>
-                    ))}
-                </select>
-                <input
-                    className={styles.phone}
-                    placeholder="912345678"
-                    type="text"
-                    value={phone.number}
-                    onChange={({ target: { value } }) => handlePhone(value)}
-                    autoComplete="off"
-                />
-            </div>
-        </>
+        <div className={styles.container}>
+            <select
+                className={styles.select}
+                onChange={({ target: { value } }) => setPhone(prev => ({ ...prev, code: value }))}
+            >
+                {data.countries.map(c => (
+                    <option
+                        key={c.code_2}
+                        value={c.dial_code}
+                    >
+                        {`${c.emoji} ${c.code_3} +${c.dial_code}`}
+                    </option>
+                ))}
+            </select>
+            <InputGral
+                placeholder="912345678"
+                type="text"
+                value={phone.number}
+                onChange={(value) => handlePhone(value)}
+                autoComplete="off"
+            />
+        </div>
     );
 }
 

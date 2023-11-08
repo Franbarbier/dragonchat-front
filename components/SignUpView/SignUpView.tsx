@@ -33,7 +33,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
     ), [formData]);
 
     const equalPass = useMemo(() => (
-        formData.pass != '' && formData.confirmPass != '' && formData.confirmPass === formData.pass
+        formData.pass !== '' && formData.confirmPass !== '' ? formData.confirmPass === formData.pass : true
     ), [formData.pass, formData.confirmPass]);
 
     useEffect(() => {

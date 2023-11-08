@@ -12,34 +12,45 @@ export interface IInputGral {
     isDisabled?: boolean;
     labelText?: string;
     labelClassName?: string;
+    autoComplete?: string;
 }
 
-const InputGral: React.FC<IInputGral> = ({ 
-    type = 'text', 
-    placeholder = "", 
-    name, 
-    value = "", 
-    onChange = () => { return "" }, 
-    classes = [], 
+const InputGral: React.FC<IInputGral> = ({
+    type = 'text',
+    placeholder = "",
+    name,
+    value = "",
+    onChange = () => { return "" },
+    classes = [],
     isDisabled = false,
     labelText,
     labelClassName,
+    autoComplete,
 }) => {
     const [showHide, setShowHide] = useState(false)
 
     return (
         <>
-        {labelText && <label className={labelClassName} htmlFor="">{labelText}</label>}
+            {labelText && <label className={labelClassName} htmlFor="">{labelText}</label>}
 
-        <div className={styles.input_cont} >
-            <input className={classes.join(' ')} placeholder={placeholder} type={!showHide ? type : 'text'} name={name} value={value} onChange={(e) => { onChange(e.target.value) }} disabled={isDisabled} />
-            {type == 'password' && (
-                <div onClick={() => setShowHide(!showHide)} className={styles.ojito} >
-                    <img src={eyeImg.src} alt="eye-img" />
-                    {showHide && <span className={styles.slash}>/</span>}
-                </div>
-            )}
-        </div>
+            <div className={styles.input_cont} >
+                <input
+                    className={classes.join(' ')}
+                    placeholder={placeholder}
+                    type={!showHide ? type : 'text'}
+                    name={name} value={value}
+                    onChange={(e) => { onChange(e.target.value) }}
+                    disabled={isDisabled}
+                    autoComplete={autoComplete}
+                />
+
+                {type == 'password' && (
+                    <div onClick={() => setShowHide(!showHide)} className={styles.ojito} >
+                        <img src={eyeImg.src} alt="eye-img" />
+                        {showHide && <span className={styles.slash}>/</span>}
+                    </div>
+                )}
+            </div>
         </>
     );
 }

@@ -10,12 +10,3 @@
     border-radius: 10px;
     height: 34.5px;
 }
-
-.phone {
-    width: 100%;
-    background-color: var(--rosita1);
-    border: 1px solid var(--violeta1);
-    border-radius: 10px;
-    padding: 8px 20px;
-    color: white;
-}
