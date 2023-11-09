@@ -3,7 +3,7 @@ import styles from './Maintenance.module.css';
 
 const Maintenance: React.FC = ({ }) => (
     <div className={styles.maintCont}>
-        <img src={FILE.MAINTENCE} />
+        <img src={FILE.MAINTENANCE} />
         <div>
             <p>{"¡Hey, estamos en mantenimiento!"}</p>
             <p>{"Pero dentro de muy poco estamos de nuevo funcionando"}</p>
