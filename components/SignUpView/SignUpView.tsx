@@ -162,18 +162,18 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                 {userExists && <p className={styles.alert}>{"Ya existe un usuario registrado con ese email."}</p>}
 
                 <OrangeBtn text="Crear cuenta" onClick={handleCrearCuenta} />
-
-                <div className={styles.hasAccount}>
-                    <hr />
-
-                    <div>
-                        <span>Ya tienes una cuenta?</span>
-                        <button>
-                            <span onClick={() => Router.push('/login')}>Iniciar sesión</span>
-                        </button>
-                    </div>
-                </div>
             </form>
+
+            <div className={styles.hasAccount}>
+                <hr />
+
+                <div>
+                    <span>Ya tienes una cuenta?</span>
+                    <button>
+                        <span onClick={() => Router.push('/login')}>Iniciar sesión</span>
+                    </button>
+                </div>
+            </div>
         </>
     );
 }
