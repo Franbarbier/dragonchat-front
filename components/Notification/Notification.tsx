@@ -4,7 +4,7 @@ import { STATUS } from '../../enums';
 import styles from './Notification.module.css';
 
 export interface INotification {
-    status : STATUS.SUCCESS | STATUS.ERROR | STATUS.ALERT;
+    status : STATUS;
     render : boolean;
     message : string;
     modalReturn : (value:boolean) => void;
