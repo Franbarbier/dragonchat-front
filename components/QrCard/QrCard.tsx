@@ -75,15 +75,12 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const handleIsConnected = async () => {
 
         setLoadingQr(true)
-
         const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE) || '')?.access_token;
-
         const dataConnection = await apiSenderWhatsappController.connect(accessToken)
         
-        if (dataConnection?.response?.status == 200 || dataConnection?.response?.status == 201 ) {
+        if (dataConnection?.status == 200 || dataConnection?.status == 201 ) {
             startInterval(accessToken)
         }else{
-            
             setLoadingQr(false)
             setNotification({
                 status: STATUS.ERROR,
