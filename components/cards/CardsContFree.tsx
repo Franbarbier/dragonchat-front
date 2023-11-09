@@ -84,8 +84,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     const [modalNoEnviados, setModalNoEnviados] = useState<boolean>(false);
     const [blackList, setBlackList] = useState<ContactInfo[]>([]);
-
-    const wppLimitMessage = <span>Llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Para serguir enviando de forma ilimitada pasate al plan premium.</span>;
     
 
 
@@ -281,7 +279,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                             <>
                             { renderDialog &&
                                 <div className={styles.wpp_limit_alert}>
-                                    <BoxDialog message={wppLimitMessage} setRenderDialog={setRenderDialog}/>
+                                    <BoxDialog setRenderDialog={setRenderDialog}/>
                                 </div>
                             }
                             </>

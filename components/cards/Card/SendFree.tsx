@@ -387,6 +387,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                   }}
                 >
                   <span>
+                    Llegaste a tu límite diario de 50 mensajes!
+                  </span>
+                  <br/>
+                  <span>
                     Para seguir enviando mensajes pasate al <u><b>plan premium</b></u>
                   </span>
                 </div>

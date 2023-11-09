@@ -897,6 +897,7 @@ background: #555;
 }
 .limitedButton svg{
     z-index: 3;
+    max-width: 16px;
 }
 .limitedButton video{
     position: absolute;

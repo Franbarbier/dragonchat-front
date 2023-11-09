@@ -1,7 +1,7 @@
 .box_dialog {
     background: linear-gradient(to bottom, #FFFFCC, #dcdc41);
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
 
     /* Nueva propuesta de CSS x fran */
     background: var(--violeta2t);
@@ -14,7 +14,7 @@
     animation-iteration-count: infinite;
     animation-direction: alternate;
 
-    width: 30vh;
+    width: 50vh;
 }
 
 
@@ -53,6 +53,6 @@
 
 }
 .box_dialog_content>button{
-  margin-top: 8%;
+  margin-top: 5%;
 
 }
