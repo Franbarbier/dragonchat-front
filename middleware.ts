@@ -12,10 +12,6 @@ export async function middleware(req: NextRequest, _) {
   const authCookie = req.cookies.get(LOGIN_COOKIE || "");
 
   // Si esta en mantenimiento y no es la pagina de login, redirigir a login
-  if (MAINTENANCE && !req.nextUrl.pathname.startsWith(ROUTES.LOGIN)) {
-    return handleRedirect(req, ROUTES.LOGIN);
-  }
-
   if (MAINTENANCE) {
     return req.nextUrl.pathname.startsWith(ROUTES.LOGIN) ? NextResponse.next() : handleRedirect(req, ROUTES.LOGIN);
   }
