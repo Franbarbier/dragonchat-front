@@ -74,5 +74,6 @@ export enum FILE_TYPE {
 
 export enum FILE {
   CONTACTS_CSV = '/ImportContactsEg.csv',
+  MAINTENCE = 'dragonchat_dragon_tecnico.webp',
 };
 
