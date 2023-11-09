@@ -7,4 +7,4 @@ export const MAINTENANCE = process.env.NEXT_PUBLIC_MAINTENANCE || false;
 
 export const HOST_URL = process.env.NEXT_PUBLIC_HOST;
 export const STRIPE_KEY = process.env.NEXT_PUBLIC_STRIPE_KEY;
-
+export const STRIPE_PRODUCT = process.env.NEXT_PUBLIC_STRIPE_PRODUCT;
