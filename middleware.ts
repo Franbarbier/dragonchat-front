@@ -37,7 +37,6 @@ export async function middleware(req: NextRequest, _) {
 
     var resDataQr = { phoneConnected: false }
 
-
     //  Hay que sacarle el validate QR porque no neceesito la url (me lo sigue trayendo)
     try {
       const dataConnection = await fetch(`${API_GATEWAY_URL}/api/whatsapp/check-user-conected?validateqr=false`, {
@@ -52,7 +51,6 @@ export async function middleware(req: NextRequest, _) {
       // Si es 412 conexion no establecida, cualquier otro: error
       console.log(error)
     }
-
 
     if (resDataQr.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.DASH);
