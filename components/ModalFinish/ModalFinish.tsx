@@ -22,7 +22,6 @@ function downloadCSV(data, filename) {
 
   // Convert array of objects to a CSV string
   const csv = modifiedData.map((row) => Object.values(row).join(',')).join('\n');
-  console.log(csv)
 
   // Combine the header row and the CSV data
   const csvWheader = `${headerRow}\n${csv}`;

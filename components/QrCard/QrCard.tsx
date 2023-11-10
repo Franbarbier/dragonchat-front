@@ -25,7 +25,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         intervalId = setInterval(async () => {
             
             const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
-            console.log("dataaaaa coneeeee",dataConnect)
     
             setLoadingQr(false);
             
@@ -76,16 +75,23 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const handleIsConnected = async () => {
 
         setLoadingQr(true)
-
         const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE) || '')?.access_token;
+        const dataConnection = await apiSenderWhatsappController.connect(accessToken)
         
-        // const getDAt = await apiUserController.getData(accessToken)
-        // console.log(getDAt)
+        if (dataConnection?.status == 200 || dataConnection?.status == 201 ) {
+            startInterval(accessToken)
+        }else{
+            setLoadingQr(false)
+            setNotification({
+                status: STATUS.ERROR,
+                render: true,
+                message: "No se pudo establecer la conexion a WhatsApp.",
+                modalReturn: () => {
+                    setNotification({ ...notification, render: false })
+                }
+            })
+        }
 
-        const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
-        console.log(dataConnection)
-        
-        if (dataConnection) { startInterval(accessToken) }
 
     }
 

@@ -92,8 +92,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     // Send currentString to the recipient    
     const onSuccess = () => {
 
-      console.log("Sent MEssage: " , sentMessage)
-
       if (sentMessage?.status == 200 || sentMessage?.status == 201) {
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.SUCCESS;

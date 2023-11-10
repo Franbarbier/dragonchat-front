@@ -8,6 +8,7 @@ export enum ROUTES {
   NEW_PASS = '/new_password',
   CANCEL = '/cancel',
   CHECKOUT = '/checkout',
+  RECOVER = '/recover_password',
 };
 
 export enum API_ROUTES {
@@ -22,7 +23,11 @@ export enum API_ROUTES {
   GET_DATA = '/api/auth/me',
   LOGIN = '/api/auth/login',
   LOGOUT = '/api/auth/logout',
-  UPDATE_PLAN = "/api/user/change-plan"
+  UPDATE_PLAN = "/api/user/change-plan",
+  SEND_MAIL = "/api/password/send-mail",
+  EDIT = "/api/user/edit",
+  CHECK_CODE = "/api/password/check-code",
+  CHANGE_PASS = "/api/password/change-pass",
 };
 
 export enum API_PARAMS {
@@ -69,5 +74,6 @@ export enum FILE_TYPE {
 
 export enum FILE {
   CONTACTS_CSV = '/ImportContactsEg.csv',
+  MAINTENANCE = 'dragonchat_dragon_tecnico.webp',
 };
 

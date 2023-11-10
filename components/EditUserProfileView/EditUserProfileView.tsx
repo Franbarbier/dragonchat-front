@@ -50,7 +50,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiSenderWhatsappController.disconnect(authToken);
 
-    console.log(response)
     if (response) {
       Router.push(ROUTES.QR);
     }
@@ -81,8 +80,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
 
     // if password is larger than 0, check that is larger than 6, if is 0, is because the user doesn't want to change the password
 
-    console.log(equalPassword,"//",  userData.password.length < 6 && userData.password.length > 0)
-
     if (!equalPassword) {
       setNotification({
         status: STATUS.ERROR,
@@ -112,9 +109,6 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
 
       // try {
         const response = await apiUserController.edit(accessToken, userData.name, userData.email, userData.password, userData.confirmPassword);
-
-
-        console.log(response)
 
         if (response.status == 200) {
           setNotification({

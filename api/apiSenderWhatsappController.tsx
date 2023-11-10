@@ -36,10 +36,8 @@ const apiSenderWhatsappController = {
         try {
             const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.CONNECT}`, {}, { headers: 
                 {"Authorization": `Bearer ${authToken}`} });
-                console.log("conexion a wpp" , response, authToken)
                 return response
             } catch (error: any) {
-                console.log("ERROR CONEXION A WPP:", JSON.stringify(error))
                 return error
             }
         },
@@ -47,7 +45,6 @@ const apiSenderWhatsappController = {
             try {
                 const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.GET_QR}`,{ headers: 
                     {"Authorization": `Bearer ${authToken}`} });
-                    console.log(response)
                     return response
                 } catch (error: any) {
                     return error
@@ -57,15 +54,10 @@ const apiSenderWhatsappController = {
             try {
                 const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`, { headers: 
                     {"Authorization": `Bearer ${authToken}`} });
-                    console.log("Check user connected", response)
                 return response
             } catch (error: any) {
-                console.log("ERROR CHECK USER CONNECTED ORIGINAL:", JSON.stringify(error) )
                 if (error.response.status == 412) { return 412 }
                 if (error.response.status == 428) {  return 428 }
-                
-                console.log("ERROR CHECK USER CONNECTED POST IF:", JSON.stringify(error) )
-
                 return error
             }
         },

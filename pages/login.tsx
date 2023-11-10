@@ -59,8 +59,6 @@ export async function getServerSideProps({ req, res, query: { session_id } }) {
         const sessionData = await handleStripeSession(session_id)
         cookies.set(STRIPE_COOKIE, JSON.stringify(encrypt(sessionData)))
 
-
-        console.log(sessionData)
         // Remove the session_id query parameter from the URL
         //    const currentUrl = req.url;
         //    const updatedUrl = currentUrl.replace(/(\?|&)session_id=[^&]*/g, '');
