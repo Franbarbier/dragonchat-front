@@ -1,0 +1,36 @@
+.maintCont{
+    position: absolute;
+    bottom: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    width: 100%;
+    left: 0;
+}
+.maintCont>img{
+    width: 30%;
+    height: auto;
+}
+.maintCont>div{
+    width: 69%;
+    background: #000;
+    border: 1px solid var(--amarillo);
+    border-radius: 10px;
+    font-size: 0.7em;
+    padding: 14px;
+    letter-spacing: 0.4px;
+    margin-bottom: 2%;
+    box-shadow: 0px 5px 10px 3px hsl(260deg 11% 95% / 27%);
+    text-align: center;
+}
+.maintCont>div:before{
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: var(--amarillo);
+    left: 29%;
+    transform: rotate(45deg);
+    z-index: -1;
+    bottom: 34%;
+}
