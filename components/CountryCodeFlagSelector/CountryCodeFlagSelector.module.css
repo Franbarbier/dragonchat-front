@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    align-items: center;
+    height: 34.5px;
+}
+
+.select {
+    background-color: var(--rosita1);
+    border: 1px solid var(--violeta1);
+    border-radius: 10px;
+    height: 34.5px;
+}

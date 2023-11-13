@@ -9,9 +9,9 @@ const getHeaders = (authToken: string) => ({
 });
 
 const apiUserController = {
-    signUp: async (name, mail, password, passwordConfirmation, setUserExists, stripe_data) => {
+    signUp: async ({name, mail, pass, confirmPass, number, code }, setUserExists, stripe_data) => {
         try {
-            const payload = { name: name, mail: mail, password: password, password_confirmation: passwordConfirmation };
+            const payload = { name, mail, password: pass, password_confirmation: confirmPass, phone: number, code_area: code };
 
             // Si existe stripe_data, lo agrego al payload para que se registre como premium
             if (stripe_data.stripe_data) {
