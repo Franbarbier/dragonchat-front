@@ -80,6 +80,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   async function sendMove(userInfo, count) {
 
+    try{
+
     const destinatario:ContactInfo = contactos[count];
     let newContacts = [...contactos];
     newContacts[count].estado = STATUS.PENDING;
@@ -103,7 +105,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         
         // @ts-ignore
         setBlackList((prevBlackList: ContactInfo[]) => [...prevBlackList, destinatario]);
-
         
         if (sentMessage?.response?.status == 429) {
 
@@ -136,10 +137,17 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     };
 
-    const authToken = JSON.parse(
-      Cookie.get(LOGIN_COOKIE )
-    ).access_token;
-    
+    let authToken = ""
+
+    try {
+      authToken = JSON.parse(
+        Cookie.get( LOGIN_COOKIE )
+        ).access_token;   
+    } catch (error) {
+      authToken = ""
+    }
+
+        
     const sentMessage = await apiSenderWhatsappController.sendMessage(
       userInfo.user_id,
       destinatario.nombre,
@@ -148,14 +156,17 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       authToken
     );
     onSuccess();
+  }catch(error){
+    alert("Ocurrio un error inesperado en la plataforma. Por favor intenta mas tarde.")
+  }
+
+
   }
 
 
   useEffect(() => {
 
     // Numero aleatoria para desrobotizar los envios
-    
-
     if (sendingState === SENDING_STATE.SENDING) {
       const arrayOfBlocks: Array<Array<ContactInfo>> = contactos.reduce(
         (accumulator, actualValue) => {
@@ -188,7 +199,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       const contacts = contactos.filter(
         (c) => c.numero.trim() !== '' && c.nombre.trim() !== ''
       );
-      const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
+
+
+      const userInfo = JSON.parse(Cookie.get("dragonchat_login1") || "{}");
 
       let localTimers: Array<NodeJS.Timeout> = [];
       let messagesCount = 0;
@@ -205,6 +218,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               );
 
             sendMove(userInfo, index);
+            
             if (index === contacts.length -1 ) {
               setSendingState(SENDING_STATE.FINISH);
             }
