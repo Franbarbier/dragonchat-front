@@ -1015,14 +1015,24 @@ background: #555;
 .right_line {
     background: linear-gradient(to left, #9f5bc300, var(--newViolet));
 }
+
 .limitMsjCTA{
+    /* background: red; */
+    width: 88%;
+    height: 11vh;
+    bottom: 8%;
+    left: 6%;
     position: absolute;
-    bottom: 19%;
+}
+.limitMsjCTA>div{
+    position: absolute;
+    top: 0%;
     width: max-content;
     font-size: 0.7em;
     text-align: center;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
     background: var(--newPink);
     padding: 4px 10px;
     border: var(--newViolet) 1px solid;
@@ -1032,7 +1042,11 @@ background: #555;
     cursor: pointer;
 }
 
+.limitMsjCTA:hover div, .limitedButton:hover ~ div>div{
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
 
+}
 
 @media (min-width: 769px) {
     
