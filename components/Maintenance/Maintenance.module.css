@@ -1,26 +1,32 @@
 .maintCont{
     position: absolute;
-    bottom: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
     width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7);
+    top: 0%;
     left: 0;
+    z-index: 100;
 }
-.maintCont>img{
+.maintCont>div{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #000;
+    border: 1px solid var(--amarillo);
+    box-shadow: 0px 0px 10px 3px hsl(260deg 11% 95% / 27%);
+    border-radius: 10px;
+    padding: 14px;
+}
+.maintCont>div>img{
     width: 30%;
     height: auto;
 }
-.maintCont>div{
+.maintCont>div>div{
     width: 69%;
-    background: #000;
-    border: 1px solid var(--amarillo);
-    border-radius: 10px;
+    
     font-size: 0.7em;
-    padding: 14px;
     letter-spacing: 0.4px;
-    margin-bottom: 2%;
-    box-shadow: 0px 5px 10px 3px hsl(260deg 11% 95% / 27%);
     text-align: center;
 }
 .maintCont>div:before{
