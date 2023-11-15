@@ -40,7 +40,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
           ...prev,
           name: data.name,
           email: data.email,
-          code: data.code_area ? data.code_area : '',
+          code: data.code_area ? data.code_area : '56',
           number: data.phone ? data.phone : '',
         }))
       }
@@ -111,7 +111,15 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
       setLoading(true);
 
       // try {
-      const response = await apiUserController.edit(accessToken, userData.name, userData.email, userData.password, userData.confirmPassword);
+      const response = await apiUserController.edit(
+        accessToken,
+        userData.name,
+        userData.email,
+        userData.password,
+        userData.confirmPassword,
+        userData.number,
+        userData.code,
+      );
 
       if (response.status == 200) {
         setNotification({

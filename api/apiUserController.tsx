@@ -9,7 +9,7 @@ const getHeaders = (authToken: string) => ({
 });
 
 const apiUserController = {
-    signUp: async ({name, mail, pass, confirmPass, number, code }, setUserExists, stripe_data) => {
+    signUp: async ({ name, mail, pass, confirmPass, number, code }, setUserExists, stripe_data) => {
         try {
             const payload = { name, mail, password: pass, password_confirmation: confirmPass, phone: number, code_area: code };
 
@@ -30,7 +30,7 @@ const apiUserController = {
                 return response;
             }
         } catch (error: any) {
-            
+
             if (error?.response?.status == 409) {
                 setUserExists(true);
             } else {
@@ -63,21 +63,23 @@ const apiUserController = {
         const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.LOGOUT}`, { headers: getHeaders(authToken) });
         return response;
     },
-    edit: async (accessToken, name, email, password, passwordConfirmation) => {
-        const headers = new Headers({
-            "Content-Type": "application/json",
-        });
-        headers.append("Authorization", `Bearer ${accessToken}`);
-
-        let payload = { name, mail: email };
-        let passs = { password: password, password_confirmation: passwordConfirmation }
-
-        if (password != "") {
-            payload = { ...payload, ...passs };
-        }
-
-
-        const response = await axios.put(`${API_GATEWAY_URL}${API_ROUTES.EDIT}`, payload, { headers: Object.fromEntries(headers) });
+    edit: async (accessToken, name, email, password, passwordConfirmation, number, code) => {
+        const response = await axios.put(
+            `${API_GATEWAY_URL}${API_ROUTES.EDIT}`,
+            {
+                name,
+                mail: email,
+                password: password,
+                password_confirmation: passwordConfirmation,
+                phone: number,
+                code_area: code
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`,
+                }
+            });
 
         return response;
     },
