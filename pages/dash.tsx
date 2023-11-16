@@ -42,7 +42,7 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
 
-      {maintenance && <Maintenance />}
+      {maintenance && <Maintenance setLoading={setLoading} />}
 
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
 
