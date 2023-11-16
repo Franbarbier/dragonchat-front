@@ -6,14 +6,16 @@ const Maintenance: React.FC = ({ }) => (
         <div>
 
             <img src={FILE.MAINTENANCE} />
-            <div>
-                <p>{"¡Hey, estamos en mantenimiento!"}</p>
-                <p>{"Pero dentro de muy poco estamos de nuevo funcionando"}</p>
-                <br />
-                <p>{"Regresa dentro de un rato para continuar contactando y dominando tu mercado."}</p>
-            </div>
 
-            <button>LOG OUT</button>
+            <aside>
+                <div>
+                    <p>{"¡Hey, estamos en mantenimiento!"}</p>
+                    <p>{"Pero dentro de muy poco estamos de nuevo funcionando"}</p>
+                    <br />
+                    <p>{"Regresa dentro de un rato para continuar contactando y dominando tu mercado."}</p>
+                </div>
+                <button>LOG OUT</button>
+            </aside>
         </div>
     </div>
 )
