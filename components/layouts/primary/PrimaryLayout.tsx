@@ -13,7 +13,7 @@ const PrimaryLayout: React.FC<IPrimaryLayout> = ({
   return (
     <>
       <Head>
-        <title>Dragonchat Free</title>
+        <title>Dragonchat</title>
       </Head>
       <div {...divProps} className={styles.galaxy_cont}>
         <main className="px-5">

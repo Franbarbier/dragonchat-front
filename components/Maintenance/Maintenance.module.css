@@ -13,15 +13,18 @@
 }
 .maintCont>div{
     width: 69%;
-    background: #000;
-    border: 1px solid var(--amarillo);
     border-radius: 10px;
     font-size: 0.7em;
     padding: 14px;
     letter-spacing: 0.4px;
     margin-bottom: 2%;
-    box-shadow: 0px 5px 10px 3px hsl(260deg 11% 95% / 27%);
     text-align: center;
+
+    background: linear-gradient(to bottom, #FFFFCC, #dcdc41);
+    border: 1px solid var(--amarillo);
+    box-shadow: 0px 0px 15px 2px #414141b0;
+    color: black;
+
 }
 .maintCont>div:before{
     content: "";
