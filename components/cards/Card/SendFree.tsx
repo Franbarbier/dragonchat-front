@@ -40,6 +40,7 @@ export interface IFreeCard3 {
   blackList: ContactInfo[];
   setBlackList: (contactos: ContactInfo[]) => void;
   setModalFinish: (mod: boolean) => void;
+  setRenderDialog : (render: boolean) => void;
 
 }
 
@@ -62,6 +63,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   blackList,
   setBlackList,
   setModalFinish,
+  setRenderDialog
 }) => {
   let idCard = 3;
   let router = useRouter();
@@ -116,6 +118,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             }
           });
           setMessagesLimitAchieved(true);
+          setRenderDialog(true)
           setSending(false);
           setDejarDeEnviar(true);
         }else if (sentMessage?.response?.status == 410) {
@@ -381,15 +384,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               </div>
             ) : (
               <>
-                <div className={styles.limitMsjCTA}
-                  onClick={() => {
-                    window.location.href = `${HOST_URL}${ROUTES.CHECKOUT}`;
-                  }}
-                >
-                  <span>
-                    Para seguir enviando mensajes pasate al <u><b>plan premium</b></u>
-                  </span>
-                </div>
 
                 <button className={styles.limitedButton}>
                   <video autoPlay controls={false} loop>
@@ -399,6 +393,21 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                   <p>ENVIAR</p>
                   <FontAwesomeIcon icon={faLock} />
                 </button>
+                <div className={styles.limitMsjCTA}
+                  onClick={() => {
+                    window.location.href = `${HOST_URL}${ROUTES.CHECKOUT}`;
+                  }}
+                >
+                  <div>
+                    <span>
+                      Llegaste a tu límite diario de 50 mensajes!
+                    </span>
+                    <br/>
+                    <span>
+                      Para seguir enviando mensajes pasate al <u><b>plan premium</b></u>
+                    </span>
+                  </div>
+                </div>
               </>
             )}
           </div>
