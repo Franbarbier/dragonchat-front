@@ -25,6 +25,7 @@ const CountryCodeFlagSelector: React.FC<CountryCodeFlagSelectorProps> = (props) 
         <div className={styles.container}>
             <select
                 className={styles.select}
+                value={phone.code}
                 onChange={({ target: { value } }) => setPhone(prev => ({ ...prev, code: value }))}
             >
                 {data.countries.map(c => (

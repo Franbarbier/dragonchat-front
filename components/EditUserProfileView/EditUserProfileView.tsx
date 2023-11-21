@@ -5,10 +5,11 @@ import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
 import apiUserController from "../../api/apiUserController";
 import { LOGIN_COOKIE } from "../../constants/index";
 import { ROUTES, STATUS } from '../../enums';
-import CardTitle from "../cards/CardTitle/CardTitle";
+import CountryCodeFlagSelector from "../CountryCodeFlagSelector/CountryCodeFlagSelector";
 import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
 import InputGral from "../InputGral/InputGral";
 import { INotification } from "../Notification/Notification";
+import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from './EditUserProfileView.module.css';
 
 export interface IEditUserProfileView {
@@ -18,7 +19,7 @@ export interface IEditUserProfileView {
 };
 
 const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notification, setNotification }) => {
-  const [userData, setUserData] = useState({ name: '', email: '', password: '', confirmPassword: '' })
+  const [userData, setUserData] = useState({ name: '', email: '', password: '', confirmPassword: '', code: '', number: '' })
   const equalPassword = useMemo(() => (
     userData.password && (userData.password === userData.confirmPassword)
   ), [userData.password, userData.confirmPassword])
@@ -39,6 +40,8 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
           ...prev,
           name: data.name,
           email: data.email,
+          code: data.code_area ? data.code_area : '56',
+          number: data.phone ? data.phone : '',
         }))
       }
     });
@@ -76,7 +79,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
   }
 
   async function editUserProfile() {
-    
+
 
     // if password is larger than 0, check that is larger than 6, if is 0, is because the user doesn't want to change the password
 
@@ -92,7 +95,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
       return false
     }
 
-    if ( (userData.password.length < 6 && userData.password.length > 0 ) ) {
+    if ((userData.password.length < 6 && userData.password.length > 0)) {
       setNotification({
         status: STATUS.ERROR,
         render: true,
@@ -108,27 +111,35 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
       setLoading(true);
 
       // try {
-        const response = await apiUserController.edit(accessToken, userData.name, userData.email, userData.password, userData.confirmPassword);
+      const response = await apiUserController.edit(
+        accessToken,
+        userData.name,
+        userData.email,
+        userData.password,
+        userData.confirmPassword,
+        userData.number,
+        userData.code,
+      );
 
-        if (response.status == 200) {
-          setNotification({
-            status: STATUS.SUCCESS,
-            render: true,
-            message: "Perfil actualizado de forma exitosa!",
-            modalReturn: () => {
-              setNotification({ ...notification, render: false })
-            }
-          })
-        } else {
-          setNotification({
-            status: STATUS.ERROR,
-            render: true,
-            message: "Ups! algo salió mal.",
-            modalReturn: () => {
-              setNotification({ ...notification, render: false })
-            }
-          })
-        }
+      if (response.status == 200) {
+        setNotification({
+          status: STATUS.SUCCESS,
+          render: true,
+          message: "Perfil actualizado de forma exitosa!",
+          modalReturn: () => {
+            setNotification({ ...notification, render: false })
+          }
+        })
+      } else {
+        setNotification({
+          status: STATUS.ERROR,
+          render: true,
+          message: "Ups! algo salió mal.",
+          modalReturn: () => {
+            setNotification({ ...notification, render: false })
+          }
+        })
+      }
       // } catch (error: any) {
       //   setNotification({
       //     status: STATUS.ERROR,
@@ -166,6 +177,11 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
           labelClassName={styles.input_label}
         />
 
+        <CountryCodeFlagSelector
+          phone={{ code: userData.code, number: userData.number }}
+          setPhone={setUserData}
+        />
+
         <br />
         <p className={styles.passLabel}>Si NO quieres editar la contraseña deja los campos vacíos.</p>
         <InputGral
@@ -197,14 +213,14 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
             borderColor="#f94f4f"
             onClick={handleDesvWpp}
           />
-            <CustomColorBtn
-              type="submit"
-              text="GUARDAR CAMBIOS"
-              backgroundColorInit="#c21c3b"
-              backgroundColorEnd="#f9bd4f"
-              borderColor="#e17846"
-              onClick={editUserProfile}
-            />
+          <CustomColorBtn
+            type="submit"
+            text="GUARDAR CAMBIOS"
+            backgroundColorInit="#c21c3b"
+            backgroundColorEnd="#f9bd4f"
+            borderColor="#e17846"
+            onClick={editUserProfile}
+          />
 
           <div className={styles.logout_btn}>
             <hr />
