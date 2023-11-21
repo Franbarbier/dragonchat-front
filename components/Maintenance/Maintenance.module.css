@@ -1,39 +1,78 @@
 .maintCont{
     position: absolute;
-    bottom: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
     width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7);
+    top: 0%;
     left: 0;
-}
-.maintCont>img{
-    width: 30%;
-    height: auto;
+    z-index: 100;
 }
 .maintCont>div{
-    width: 69%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: var(--violeta2);
+    border: 1px solid var(--borders);
+    box-shadow: 0px 0px 10px 3px hsl(260deg 11% 95% / 27%);
     border-radius: 10px;
-    font-size: 0.7em;
-    padding: 14px;
-    letter-spacing: 0.4px;
-    margin-bottom: 2%;
-    text-align: center;
+    /* padding: 14px; */
 
-    background: linear-gradient(to bottom, #FFFFCC, #dcdc41);
-    border: 1px solid var(--amarillo);
-    box-shadow: 0px 0px 15px 2px #414141b0;
-    color: black;
+    padding-top: 40px;
+    padding-right: 40px;
+
+    display: flex;
+    justify-content: space-between;
+    /* width: 45vw;
+    height: 25vh; */
 
 }
-.maintCont>div:before{
+.maintCont img{
+    width: 20vw;
+    height: auto;
+    align-self: end;
+    bottom: 0%;
+    left: 1%;
+}
+.maintCont>div>aside>div{
+    font-size: 0.9em;
+    letter-spacing: 0.4px;
+    text-align: center;
+    background: linear-gradient(to bottom, #FFFFCC, #dcdc41);
+    /* border: 1px solid var(--amarillo); */
+    /* box-shadow: 0px 0px 15px 4px #414141b0; */
+    color: #000;
+    border-radius: 5px;
+    position: relative;
+    padding: 10px;
+
+}
+.maintCont>div>aside>div:before{
     content: "";
     position: absolute;
     width: 14px;
     height: 14px;
-    background-color: var(--amarillo);
-    left: 29%;
+    background-color: #e2e25f;
+    right: calc(100% - 7px);
     transform: rotate(45deg);
     z-index: -1;
-    bottom: 34%;
+    bottom: 15%;
 }
+.maintCont>div>aside button{
+    margin: 10% 0 8% auto;
+    display: block;
+    padding: 8px 21px;
+    border-radius: 5px;
+    background-color: #7561ca57;
+    border: 1px solid var(--rosita2);
+    color: var(--rosita2);
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.maintCont>div>aside button:hover{
+    background-color: transparent;
+    border-color: var(--rosita1);
+    color: var(--rosita1);
+  
+  }

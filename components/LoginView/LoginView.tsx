@@ -6,12 +6,11 @@ import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE, MAINTENANCE } from '../../constants/index';
 import { ROUTES, STATUS } from '../../enums';
+import CardTitle from '../cards/CardTitle/CardTitle';
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
 import Loader from '../Loader/Loader';
-import Maintenance from '../Maintenance/Maintenance';
 import { INotification } from '../Notification/Notification';
-import CardTitle from '../cards/CardTitle/CardTitle';
 import styles from './LoginView.module.css';
 
 
@@ -95,8 +94,6 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
 
     return (
         <>
-            {MAINTENANCE && <Maintenance />}
-
             <div className={styles.login_cont} >
                 <Loader loading={logging} />
                 <form>
@@ -125,7 +122,6 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                                 e.preventDefault()
                                 handleLogin()
                             }}
-                            disable={Boolean(MAINTENANCE)}
                         />
                     </div>
 

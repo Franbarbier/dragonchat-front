@@ -5,10 +5,11 @@ import CardsCont from '../components/cards/CardsContFree';
 import Header from '../components/Header/Header';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import Loader from "../components/Loader/Loader2";
+import Maintenance from '../components/Maintenance/Maintenance';
 import ModalContainer from '../components/ModalContainer/ModalContainer';
 import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
 import Notification, { INotification } from '../components/Notification/Notification';
-import { API_GATEWAY_URL, LOGIN_COOKIE, STRIPE_COOKIE } from '../constants/index';
+import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from '../constants/index';
 import { API_ROUTES, STATUS } from '../enums';
 import { decrypt } from '../utils/crypto';
 import { NextPageWithLayout } from './page';
@@ -16,11 +17,12 @@ import EditUserProfile from './user/edit';
 
 interface IDashProps {
   stripe: null | number,
-  isPaid: boolean
+  isPaid: boolean,
+  maintenance: boolean
 }
 
 
-const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid }) => {
+const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) => {
 
   const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [modalStripe, setModalStripe] = useState<null | number>(stripe)
@@ -34,10 +36,14 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid }) => {
     message: "",
     modalReturn: () => { }
   })
-  
+
+  console.log(maintenance)
 
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
+
+      {maintenance && <Maintenance setLoading={setLoading} />}
+
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
 
       <AnimatePresence>
@@ -144,7 +150,17 @@ export async function getServerSideProps({ req, res }) {
 
   const data = await getData.json();
 
-  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid } };
+  let maint = false
+
+  if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) {
+      maint = true
+  }
+  if ( data?.subscription?.isPaid == true && MAINTENANCE_PREMIUM ) {
+      maint = true
+  }
+
+
+  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
 }
 
 Dash.getLayout = (page) => {
