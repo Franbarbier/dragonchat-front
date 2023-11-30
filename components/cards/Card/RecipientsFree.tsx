@@ -214,23 +214,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
         setContactos(selectedList)
     }
 
-    
-    useEffect(()=>{
-
-        let values = new Set();
-        for (let index = 0; index < finalList.length - 1; index++) {
-            const element = finalList[index];            
-            if (values.has(element.numero) && element.numero != "") {
-                setNotification({
-                    status : STATUS.ERROR,
-                    render : true,
-                    message : "No puede haber numeros repetidos en la lista.",
-                    modalReturn : () => {setNotification({...notification, render : false})}
-                })
-            }
-            values.add(element.numero)            
-        }
-    },[finalList])
 
     // menu right clic
     const [position, setPosition] = useState({ x: 0, y: 0 , index: 0, type : ''});
@@ -342,10 +325,12 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
                         
                     <div className={`${styles.grilla_oficial} ${isDragging && styles.draggedIcon }`} >
                         {finalList.map((elementInArray, index) => ( 
-                                <div className={styles.row_table} key={`recipient${index}`} >
+                                
+                                <div className={`${styles.row_table} ${elementInArray.repeated !== undefined ? (elementInArray.repeated === 1 ? styles.firstRepeated : styles.repeated) : ''}`} key={`recipient${index}`} >
+
                                     <div>
                                     { finalList.length - 1 !=  index ?
-                                        <aside onClick={ ()=>{ setSelection(index) } } className={ `${elementInArray.selected && styles.rowSelected}`  }>
+                                        <aside onClick={ ()=>{ setSelection(index) } } className={ `${elementInArray.selected && styles.rowSelected} `  }>
                                             <div>
                                                 <></>
                                             </div>

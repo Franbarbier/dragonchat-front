@@ -28,7 +28,8 @@ export interface ContactInfo {
     nombre : string,
     numero : string,
     estado? : STATUS.SUCCESS | STATUS.ERROR | STATUS.PENDING,
-    selected? : boolean
+    selected? : boolean,
+    repeated? : 1 | 2 | 3
 }
 
 
@@ -165,19 +166,89 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     
     useEffect(()=>{
         var filtered = [...contactos]
-    
+
         filtered.map((item)=>{
             item.numero = item.numero?.replace(/[^0-9]/g, '');
         })
-        const lastObject = contactos[contactos.length - 1];
+        const lastObject = filtered[filtered.length - 1];
 
-            if (lastObject.hasOwnProperty("nombre") && lastObject.nombre != "" || lastObject.hasOwnProperty("numero") && lastObject.numero != "" ) {
-                filtered = [...filtered, {'nombre':'', 'numero':''}]
-            }
+        if ((lastObject.hasOwnProperty("nombre") && lastObject.nombre != "") && (lastObject.hasOwnProperty("numero") && lastObject.numero != "") ) {
 
-        setFinalList(filtered)
+            console.log("LAST EMPTYY")
+            filtered = [...filtered, {'nombre':'', 'numero':''}]
+        }
+
+        const finalDupls = checkDuplicated2(filtered)
+        
+        setFinalList(finalDupls)
         
     },[contactos])
+
+
+
+    function checkDuplicated2(filtered) {
+        
+        // const data:ContactInfo[] = [...finalList]
+        const data = [...filtered];
+        
+        // Create a map to store counts of each numero value
+        const countMap = new Map();
+        data.forEach((item) => {
+        const count = countMap.get(item.numero) || 0;
+        countMap.set(item.numero, count + 1);
+        });
+
+
+        const repeatedCounterMap = new Map();
+
+        // Filter the array to get objects with repeated numero values
+        const objectsWithRepeats = data.filter((item) => countMap.get(item.numero) > 1);
+        
+        // add as "repeated" property to each object the value of the count in case it is repeated
+        let newObjectsWithRepeats = objectsWithRepeats.map((item) => {
+            // console.log(item)
+            // console.log(repeatedCounterMap)
+            if (item.numero != "" && countMap.get(item.numero) > 1) {
+                
+                setNotification({
+                    status : STATUS.ERROR,
+                    render : true,
+                    message : "No puede haber numeros repetidos en la lista.",
+                    modalReturn : () => {setNotification({...notification, render : false})}
+                })
+                const repeatedNumber = repeatedCounterMap.get(item.numero) || 1;
+                repeatedCounterMap.set(item.numero, repeatedNumber + 1);
+                // console.log(repeatedNumber, "---", repeatedCounterMap)
+                
+                return {
+                    ...item,
+                    repeated: repeatedNumber,
+                    selected: repeatedNumber > 1
+                }
+            }else{
+                return {
+                    ...item,
+                    repeated: undefined,
+                }
+            }
+        });
+   
+        
+        //   get all items that are not repeated
+        let objectsWithoutRepeats = data.filter((item) => countMap.get(item.numero) == 1);
+        objectsWithoutRepeats = objectsWithoutRepeats.map((item) => ({
+            ...item,
+            repeated: countMap.get(item.numero) == 1 && undefined,
+            selected: countMap.get(item.numero) > 1
+        }));
+
+        // console.log("Dosss treinta 9999",objectsWithoutRepeats)
+
+        return [...newObjectsWithRepeats, ...objectsWithoutRepeats];
+          
+    }
+
+
 
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
@@ -219,7 +290,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         notification={notification}
                         blackList={blackList}
                         setBlackList={setBlackList}
-                        // setModalNoEnviados={setModalNoEnviados}
                         setModalFinish={setModalFinish}
                         setRenderDialog={setRenderDialog}
                     />
