@@ -20,30 +20,30 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [ connectionSuccess, setConnectionSuccess ] = useState<boolean>(false);
 
     let intervalId;
+
+
+    let count417 = 0;
+
     function startInterval(accessToken) {
         
         intervalId = setInterval(async () => {
             
             const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
-    
+            
             setLoadingQr(false);
             
             if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
             }else{
-                if (dataConnect == 428 || dataConnect == 412) {
+                if (dataConnect == 428 || dataConnect == 412 || dataConnect == 417) {
+                    count417++;
+                    if(count417 == 40){
+                        stopIteration()
+                    }
                     setLoadingQr(true);
-                }else{
-                    setNotification({
-                        status: STATUS.ERROR,
-                        render: true,
-                        message: "Hubo un error en la conexión, por favor intentalo de nuevo en un minuto.",
-                        modalReturn: () => {
-                            setNotification({ ...notification, render: false })
-                        }
-                    })
-                    clearInterval(intervalId);
-                    setActiveQr(null)
+                }
+                else{
+                    stopIteration()
                 }
                 
             }
@@ -62,15 +62,27 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                 setLoadingQr(true);
                 // Router.push("/")
                 clearInterval(intervalId);
-                
                 window.location.href = ROUTES.DASH
             }
 
-            
         }, 3500); 
     
     }
 
+
+        
+    function stopIteration(){
+        setNotification({
+            status: STATUS.ERROR,
+            render: true,
+            message: "Hubo un error en la conexión, por favor intentalo de nuevo en un minuto.",
+            modalReturn: () => {
+                setNotification({ ...notification, render: false })
+            }
+        })
+        clearInterval(intervalId);
+        setActiveQr(null)
+    }
 
     const handleIsConnected = async () => {
 
