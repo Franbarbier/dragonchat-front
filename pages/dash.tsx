@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import Cookies from 'js-cookie';
 import { useState } from 'react';
 import CardsCont from '../components/cards/CardsContFree';
 import Header from '../components/Header/Header';
@@ -8,7 +9,9 @@ import Maintenance from '../components/Maintenance/Maintenance';
 import ModalContainer from '../components/ModalContainer/ModalContainer';
 import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
 import Notification, { INotification } from '../components/Notification/Notification';
-import { STATUS } from '../enums';
+import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from '../constants/index';
+import { API_ROUTES, STATUS } from '../enums';
+import { decrypt } from '../utils/crypto';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
@@ -106,59 +109,58 @@ export default Dash;
 export async function getServerSideProps({ req, res }) {
 
 
-  // const cookies = new Cookies(req, res);
-  // var stripeStatus: null | number = null
+  const cookies = new Cookies(req, res);
+  var stripeStatus: null | number = null
 
-  // const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
-  // const accessToken = JSON.parse(responseText).access_token
+  const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
+  const accessToken = JSON.parse(responseText).access_token
 
-  // if (cookies.get(STRIPE_COOKIE)) {
+  if (cookies.get(STRIPE_COOKIE)) {
 
-  //   const stripe_data = decrypt(JSON.parse(cookies.get(STRIPE_COOKIE)))
-  //   const changePlan = await fetch(`${API_GATEWAY_URL}${API_ROUTES.UPDATE_PLAN}`, {
-  //     method: 'PUT',
-  //     body: JSON.stringify({
-  //       session_id: JSON.parse(stripe_data).session_id,
-  //       product_id: JSON.parse(stripe_data).product_id
-  //     }),
-  //     headers: {
-  //       "Authorization": `Bearer ${accessToken}`,
-  //       "Content-Type": "application/json"
-  //     }
-  //   });
+    const stripe_data = decrypt(JSON.parse(cookies.get(STRIPE_COOKIE)))
+    const changePlan = await fetch(`${API_GATEWAY_URL}${API_ROUTES.UPDATE_PLAN}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        session_id: JSON.parse(stripe_data).session_id,
+        product_id: JSON.parse(stripe_data).product_id
+      }),
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+      }
+    });
 
-  //   const handleChangePlan = await changePlan.json();
+    const handleChangePlan = await changePlan.json();
 
-  //   if (handleChangePlan.isPaid == true) {
-  //     cookies.set(STRIPE_COOKIE, null, { expires: new Date(0) });
-  //     // no encontre como eliminarla asique la seteo con un null y ya expirada
-  //     stripeStatus = 200
-  //   }
-  // }
+    if (handleChangePlan.isPaid == true) {
+      cookies.set(STRIPE_COOKIE, null, { expires: new Date(0) });
+      // no encontre como eliminarla asique la seteo con un null y ya expirada
+      stripeStatus = 200
+    }
+  }
 
-  // const getData = await fetch(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, {
-  //   method: 'GET',
-  //   headers: {
-  //     "Authorization": `Bearer ${accessToken}`,
-  //     "Content-Type": "application/json"
-  //   }
-  // });
+  const getData = await fetch(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${accessToken}`,
+      "Content-Type": "application/json"
+    }
+  });
 
-  // const data = await getData.json();
+  const data = await getData.json();
 
-  // let maint = false
+  let maint = false
 
-  // if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) {
-  //     console.log('free')
-  //     maint = true
-  // }
-  // if ( data?.subscription?.isPaid == true && MAINTENANCE_PREMIUM ) {
-  //     console.log('premium')
-  //     maint = true
-  // }
+  if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) {
+      console.log('free')
+      maint = true
+  }
+  if ( data?.subscription?.isPaid == true && MAINTENANCE_PREMIUM ) {
+      console.log('premium')
+      maint = true
+  }
 
-  // return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
-  return { props: { stripe : 0, isPaid : false, maintenance : false } };
+  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
 
 }
 

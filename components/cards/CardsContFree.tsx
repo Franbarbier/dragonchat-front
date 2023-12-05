@@ -173,8 +173,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         const lastObject = filtered[filtered.length - 1];
 
         if ((lastObject.hasOwnProperty("nombre") && lastObject.nombre != "") && (lastObject.hasOwnProperty("numero") && lastObject.numero != "") ) {
-
-            console.log("LAST EMPTYY")
             filtered = [...filtered, {'nombre':'', 'numero':''}]
         }
 
@@ -188,16 +186,13 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     function checkDuplicated2(filtered) {
         
-        // const data:ContactInfo[] = [...finalList]
-        const data = [...filtered];
-        
+        const data = [...filtered];        
         // Create a map to store counts of each numero value
         const countMap = new Map();
         data.forEach((item) => {
-        const count = countMap.get(item.numero) || 0;
-        countMap.set(item.numero, count + 1);
+            const count = countMap.get(item.numero) || 0;
+            countMap.set(item.numero, count + 1);
         });
-
 
         const repeatedCounterMap = new Map();
 
@@ -206,8 +201,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         
         // add as "repeated" property to each object the value of the count in case it is repeated
         let newObjectsWithRepeats = objectsWithRepeats.map((item) => {
-            // console.log(item)
-            // console.log(repeatedCounterMap)
+        
             if (item.numero != "" && countMap.get(item.numero) > 1) {
                 
                 setNotification({
@@ -218,7 +212,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                 })
                 const repeatedNumber = repeatedCounterMap.get(item.numero) || 1;
                 repeatedCounterMap.set(item.numero, repeatedNumber + 1);
-                // console.log(repeatedNumber, "---", repeatedCounterMap)
                 
                 return {
                     ...item,
@@ -241,8 +234,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             repeated: countMap.get(item.numero) == 1 && undefined,
             selected: countMap.get(item.numero) > 1
         }));
-
-        // console.log("Dosss treinta 9999",objectsWithoutRepeats)
 
         return [...newObjectsWithRepeats, ...objectsWithoutRepeats];
           
