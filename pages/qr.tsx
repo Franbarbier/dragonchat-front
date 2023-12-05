@@ -203,12 +203,15 @@ export async function getServerSideProps({req, res}) {
     });
     const responseData = await getData.json();
 
+    console.log(responseData)
+
     if (responseData.subscription && responseData.subscription.isPaid === undefined) {
       data.subscription.isPaid = false;
+    }else{
+      data = responseData
     }
     
   } catch (error) {
-    console.log(error)   
   }
 
   if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) {

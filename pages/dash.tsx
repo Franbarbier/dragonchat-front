@@ -156,10 +156,11 @@ export async function getServerSideProps({ req, res }) {
 
     if (responseData.subscription && responseData.subscription.isPaid === undefined) {
       data.subscription.isPaid = false;
+    }else{
+      data = responseData
     }
     
   } catch (error) {
-    console.log(error)   
   }
 
   if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) {
