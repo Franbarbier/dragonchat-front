@@ -152,11 +152,9 @@ export async function getServerSideProps({ req, res }) {
   let maint = false
 
   if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) {
-      console.log('free')
       maint = true
   }
   if ( data?.subscription?.isPaid == true && MAINTENANCE_PREMIUM ) {
-      console.log('premium')
       maint = true
   }
 
