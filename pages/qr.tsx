@@ -100,17 +100,7 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
       <Loader loading={loading} />
       <Notification {...notification} />
 
-      {/* <div style={pro_btn}>
-        <ProBtn onClick={()=>{setModalPro(true)}}  />
-      </div> */}
       <Header openSettings={false} setOpenSettings={()=> {return false;} } isPaid={isPaid} qr={true}/>
-
-      {/* <div style={{ 'position': 'absolute', 'top': '5%', 'right': ' 5%' }}>
-        <button
-          onClick={handleLogout}
-          style={logoutBtnStyle}
-        >LOG OUT</button>
-      </div> */}
       <WppBtn />
       {queue == 0 ? (
         <>
