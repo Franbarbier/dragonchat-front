@@ -37,8 +37,6 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
     modalReturn: () => { }
   })
 
-  console.log(maintenance)
-
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
 

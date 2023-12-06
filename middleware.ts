@@ -40,11 +40,12 @@ export async function middleware(req: NextRequest, _) {
       });
 
       resDataQr = await dataConnection.json();
+
     } catch (error) {
       // Si es 412 conexion no establecida, cualquier otro: error
       console.log(error)
     }
-
+    
     if (resDataQr.phoneConnected && (req.nextUrl.pathname.startsWith(ROUTES.QR) || req.nextUrl.pathname.startsWith(ROUTES.LOGIN))) {
       return handleRedirect(req, ROUTES.DASH);
     }
