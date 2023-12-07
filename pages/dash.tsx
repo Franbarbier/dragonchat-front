@@ -1,5 +1,5 @@
+import Cookies from 'cookies';
 import { AnimatePresence, motion } from 'framer-motion';
-import Cookies from 'js-cookie';
 import { useState } from 'react';
 import CardsCont from '../components/cards/CardsContFree';
 import Header from '../components/Header/Header';
@@ -59,8 +59,8 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
                 'width': '100vw',
                 'height': '100vh',
                 'position': 'relative'
-              }}
-              >
+              }} >
+
                 <CardsCont isPaid={isPaid}/>
 
               </div>
