@@ -8,6 +8,7 @@ export const MAINTENANCE_FREE = process.env.NEXT_PUBLIC_MAINTENANCE_FREE || fals
 export const MAINTENANCE_PREMIUM = process.env.NEXT_PUBLIC_MAINTENANCE_PREMIUM || false;
 
 export const MAINTENANCE = process.env.NEXT_PUBLIC_MAINTENANCE || false;
+export const NO_SIGNUP = process.env.NEXT_PUBLIC_NO_SIGNUP || false;
 
 export const HOST_URL = process.env.NEXT_PUBLIC_HOST;
 export const STRIPE_KEY = process.env.NEXT_PUBLIC_STRIPE_KEY;

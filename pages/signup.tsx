@@ -1,14 +1,15 @@
 import Cookies from "cookies";
 import { useState } from "react";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
+import ModalContainer from "../components/ModalContainer/ModalContainer";
 import Notification, { INotification } from "../components/Notification/Notification";
 import SignUpView from "../components/SignUpView/SignUpView";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { STRIPE_COOKIE } from "../constants/index";
 import { STATUS } from "../enums";
 import { decrypt } from "../utils/crypto";
-import { GralProps } from "./_app";
 import { NextPageWithLayout } from "./page";
+import { GralProps } from "./_app";
 
 // TODO: Solo recibe stripe_data, no debería ser GralProps sino SignUpProps
 const SignUp: NextPageWithLayout<GralProps> = (GralProps) => {
@@ -18,14 +19,28 @@ const SignUp: NextPageWithLayout<GralProps> = (GralProps) => {
         message: "",
         modalReturn: () => { }
     })
+    const [ cantSignUpModal, setCantSignUpModal ] = useState(false)
+
 
     return (
         <section>
             <Notification status={notification.status} render={notification.render} message={notification.message} modalReturn={notification.modalReturn} />
 
             <MainCont width={90} maxWidth={400}>
-                <SignUpView stripe_data={GralProps} setNotification={setNotification} notification={notification} />
+                <SignUpView setCantSignUpModal={setCantSignUpModal} stripe_data={GralProps} setNotification={setNotification} notification={notification} />
             </MainCont>
+            
+            {cantSignUpModal &&
+                <ModalContainer closeModal={()=>{setCantSignUpModal(false)}} >
+                    <>
+                        <h3>Por el momento llegamos a la capacidad maxina de usuarios!</h3>
+                        <h6>No estamos aceptando registros nuevos por el momento</h6>
+                        <p>Si queres dejanos tu email para enterarte cuando abramos nuevamente mas vacantes para usar el Dragon Chat!</p>
+                        <input type="text" placeholder="Email" />
+                        <button>Enviar</button>
+                    </>
+                </ModalContainer>
+            }
         </section>
     );
 };
