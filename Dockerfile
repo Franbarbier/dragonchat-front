@@ -3,8 +3,8 @@ RUN apk add --no-cache libc6-compat
 RUN yarn cache clean
 WORKDIR /app
 
-COPY package*.json .
-COPY yarn.lock .
+COPY package*.json ./
+COPY yarn.lock ./
 RUN yarn set version 3.6.1
 RUN yarn install
 COPY . .
