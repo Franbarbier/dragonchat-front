@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock .
 RUN yarn set version 3.6.1
-RUN yarn install --frozen-lockfile
+RUN yarn install
 COPY . .
 
 
