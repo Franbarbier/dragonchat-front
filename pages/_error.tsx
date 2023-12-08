@@ -1,7 +1,7 @@
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { NextPageWithLayout } from "./page";
 
-const Err404: NextPageWithLayout<{}> = () => {
+const Err404: NextPageWithLayout<{ statusCode, err }> = ({ statusCode, err }) => {
     
 
     const style404 = {
@@ -24,6 +24,7 @@ const Err404: NextPageWithLayout<{}> = () => {
         textTransform: 'uppercase',
         textAlign: 'center',
     }
+    console.error(`Error with status code: ${statusCode}`, err);
 
     return (
         <section style={{"display":"flex","justifyContent":"center","alignContent" : "center", "flexDirection":"column", "height": "100vh", "textAlign":"center", "width":"50vw", "margin":"auto"}}>
@@ -41,6 +42,12 @@ const Err404: NextPageWithLayout<{}> = () => {
 };
 
 export default Err404;
+
+
+Err404.getInitialProps = ({ res, err }) => {
+    const statusCode = res ? res.statusCode : err ? err : 404;
+    return { statusCode, err };
+};
 
 Err404.getLayout = (page) => {
     return (
