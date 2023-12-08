@@ -3,7 +3,7 @@ RUN apk add --no-cache libc6-compat
 RUN yarn cache clean
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json .
 COPY yarn.lock .
 RUN yarn set version 3.6.1
 RUN yarn install
@@ -13,6 +13,7 @@ COPY . .
 FROM node:16-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app ./
+RUN yarn install
 RUN yarn build
 
 
