@@ -17,13 +17,14 @@ export interface ISignUpView {
     stripe_data: Object | null,
     setNotification: (notification: INotification) => void,
     notification: INotification
-    setCantSignUpModal : (value: boolean) => void
+    setCantSignUpModal: (value: boolean) => void
 }
 
 const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notification, setCantSignUpModal }) => {
     const [formData, setFormData] = useState({ name: '', mail: '', pass: '', confirmPass: '', code: '', number: '' });
     const [userExists, setUserExists] = useState(false);
     const [loading, setLoading] = useState(false);
+
 
     const formIsValid = useMemo(() => (
         formData.name != "" &&
@@ -85,7 +86,6 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
 
     const handleCrearCuenta = async () => {
 
-        console.log(NO_SIGNUP)
         if (NO_SIGNUP) {
             setCantSignUpModal(true)
             return false;
@@ -132,7 +132,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
 
 
     return (
-        <>
+        <div className={styles.signUpViewCont}>
             <Loader loading={loading} />
 
             <form className={styles.signup_cont} autoComplete='off'>
@@ -184,7 +184,9 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                     </button>
                 </div>
             </div>
-        </>
+    
+        
+        </div>
     );
 }
 
