@@ -277,11 +277,21 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
         event.preventDefault();
         setIsDragging(false);
 
-        if (event.dataTransfer.files[0]) {
+        if ( event.dataTransfer.files[0] != undefined) {
+
             const file = event.dataTransfer.files[0];
-            handleRenderModal(true)
-            setDroppedCsv(file)
-            
+
+            if (file.type === "text/csv") {
+                handleRenderModal(true)
+                setDroppedCsv(file)
+            }else{
+                setNotification({
+                    status : STATUS.ERROR,
+                    render : true,
+                    message : "El archivo debe ser un csv",
+                    modalReturn : () => {setNotification({...notification, render : false})}
+                })
+            }
         }else{
             setNotification({
                 status : STATUS.ERROR,
@@ -289,9 +299,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
                 message : "El archivo debe ser un csv",
                 modalReturn : () => {setNotification({...notification, render : false})}
             })
-
         }
-
       };
 
       
