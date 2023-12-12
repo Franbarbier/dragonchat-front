@@ -172,10 +172,11 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         })
         const lastObject = filtered[filtered.length - 1];
 
+            
         if ((lastObject.hasOwnProperty("nombre") && lastObject.nombre != "") && (lastObject.hasOwnProperty("numero") && lastObject.numero != "") ) {
             filtered = [...filtered, {'nombre':'', 'numero':''}]
         }
-
+        
         const finalDupls = checkDuplicated2(filtered)
         
         setFinalList(finalDupls)
@@ -186,7 +187,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     function checkDuplicated2(filtered) {
         
-        const data = [...filtered];        
+        const data = [...filtered];
+        console.log("sa:",data)
         // Create a map to store counts of each numero value
         const countMap = new Map();
         data.forEach((item) => {
@@ -229,11 +231,23 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         
         //   get all items that are not repeated
         let objectsWithoutRepeats = data.filter((item) => countMap.get(item.numero) == 1);
-        objectsWithoutRepeats = objectsWithoutRepeats.map((item) => ({
-            ...item,
-            repeated: countMap.get(item.numero) == 1 && undefined,
-            selected: countMap.get(item.numero) > 1
-        }));
+        
+        objectsWithoutRepeats = objectsWithoutRepeats.map((item) => {
+           
+           console.log(item)
+            return{
+                    ...item,
+                    repeated: countMap.get(item.numero) == 1 && undefined,
+                    // selected: item.repeated ? item.repeated : countMap.get(item.numero) > 1
+                    // set selected property in base the old item.selected value. check if it was true or false
+                    selected: item.selected ? item.selected : countMap.get(item.numero) > 1
+                }
+        })
+        // ({
+        //     ...item,
+        //     repeated: countMap.get(item.numero) == 1 && undefined,
+        //     selected: countMap.get(item.numero) > 1
+        // }));
 
         return [...newObjectsWithRepeats, ...objectsWithoutRepeats];
           

@@ -276,6 +276,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       setModalFinish(true);
     }
 
+
   }, [contactos])
 
   return (

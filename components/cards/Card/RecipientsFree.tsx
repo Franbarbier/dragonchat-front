@@ -85,15 +85,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
     let idCard = 1;
 
     const grillaFondo = useRef(null);
-    const [height, setHeight] = useState(0);
-
-    const [newContact, setNewContact] = useState<ContactInfo>({
-        nombre: '',
-        numero : ''
-    })
-  
-    const regex = new RegExp(/[^\d]/g);
-    
+      
 
     function executeFormat(inputText:string, type: string, index:number) {
 
@@ -108,7 +100,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
             updateContact[index][type] = inputText
             
 
-            if (updateContact[index].nombre === "" && updateContact[index].numero === ""  ) {
+            if (updateContact[index].nombre === "" && updateContact[index].numero === ""  && updateContact.length > 1) {
                 updateContact.splice(index, 1)
             }
 
@@ -225,10 +217,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
         setContextVisible(true); // show custom menu
     };
 
-    const handleMenuClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        // handle menu click
-        setContextVisible(false); // hide menu
-    };
     
     useEffect(() => {
         // hide menu when clicked outside
@@ -343,10 +331,11 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
                                             rows={1}
                                             onInput={ (e)=>{formatList(e, 'nombre', index)} }
                                             value={elementInArray.nombre}
+                                            key={`nombre${index}`}
                                         />
                                     </div>
                                     <div className={styles.celda_table} onContextMenu={(e)=>handleContextMenu(e, 'numero', index)}>
-                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={elementInArray.numero} />
+                                        <textarea rows={1} onInput={ (e)=>{formatList(e, 'numero', index)} } value={elementInArray.numero} key={`number${index}`}  />
                                     </div>
                                     {/* { finalList.length - 1 !=  index ? <img src="/delete.svg" onClick={ ()=>{ setContactos( finalList.filter( ele => ele != elementInArray ) ) } } /> : <div></div>} */}
                                     { finalList.length - 1 !=  index ?
