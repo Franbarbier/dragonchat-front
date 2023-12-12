@@ -188,7 +188,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     function checkDuplicated2(filtered) {
         
         const data = [...filtered];
-        console.log("sa:",data)
         // Create a map to store counts of each numero value
         const countMap = new Map();
         data.forEach((item) => {
@@ -234,7 +233,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         
         objectsWithoutRepeats = objectsWithoutRepeats.map((item) => {
            
-           console.log(item)
             return{
                     ...item,
                     repeated: countMap.get(item.numero) == 1 && undefined,
