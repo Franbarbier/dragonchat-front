@@ -138,20 +138,31 @@ export async function getServerSideProps({ req, res }) {
     }
   }
 
-  const getData = await fetch(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, {
-    method: 'GET',
-    headers: {
-      "Authorization": `Bearer ${accessToken}`,
-      "Content-Type": "application/json"
-    }
-  });
-
-  const data = await getData.json();
 
   let maint = false
+  let data:any = {subscription:{isPaid: false}}
+  
+  try {
+    const getData = await fetch(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, {
+      method: 'GET',
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+      }
+    });
+    const responseData = await getData.json();
+
+    if (responseData.subscription && responseData.subscription.isPaid === undefined) {
+      data.subscription.isPaid = false;
+    }else{
+      data = responseData
+    }
+    
+  } catch (error) {
+  }
 
   if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) {
-      maint = true
+    maint = true
   }
   if ( data?.subscription?.isPaid == true && MAINTENANCE_PREMIUM ) {
       maint = true
