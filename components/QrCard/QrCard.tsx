@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
@@ -19,6 +20,8 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [activeQr, setActiveQr] = useState<string | null>(null);
     const [ connectionSuccess, setConnectionSuccess ] = useState<boolean>(false);
 
+    const [errorQRModal, setErrorQRModal] = useState<boolean>(false);
+
     let intervalId;
 
 
@@ -37,10 +40,10 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             }else{
                 if (dataConnect == 428 || dataConnect == 412 || dataConnect == 417) {
                     count417++;
+                    setLoadingQr(true);
                     if(count417 == 40){
                         stopIteration()
                     }
-                    setLoadingQr(true);
                 }
                 else{
                     stopIteration()
@@ -82,6 +85,13 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         })
         clearInterval(intervalId);
         setActiveQr(null)
+        // si es un usuario free
+        if (true) {
+            setErrorQRModal(true)
+            setTimeout(() => {
+                setErrorQRModal(false)
+            }, 25000);
+        }
     }
 
     const handleIsConnected = async () => {
@@ -166,6 +176,27 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                     </div>
                 )}
             </div>
+
+            <AnimatePresence>
+            {errorQRModal && (
+
+                <motion.div className={styles.errorQRModal}
+                    initial={{ opacity: 0 , y: 30}}
+                    animate={{ opacity: 1 , y: 0}}
+                    exit={{ opacity: 0 , y: 30}}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    
+                >
+                    <img src="/dragon_anim2.gif" alt="dragon-chat"/>
+
+                    <div>
+                        <h3>No se pudo establecer la conexion a WhatsApp. No te preocupes! Simplemente vuelve a intentarlo.</h3>
+                        <p>En caso de ser un usuario Free <strong>intentalo hasta 3 veces</strong> por favor para asegurarse que se genere el código QR correctamente.</p>
+                        <span>1/3</span>
+                    </div>
+                </motion.div>
+            )}
+            </AnimatePresence>
             <aside className={styles.alertaMsg}>
                 <p>Luego que el celular se conecte a Whatsapp aguarda unos segundos y te redirigiremos al dashboard</p>
             </aside>
