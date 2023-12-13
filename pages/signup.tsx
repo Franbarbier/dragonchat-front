@@ -23,7 +23,7 @@ const SignUp: NextPageWithLayout<GralProps> = (GralProps) => {
         modalReturn: () => { }
     })
 
-    const [ cantSignUpModal, setCantSignUpModal ] = useState(true)
+    const [ cantSignUpModal, setCantSignUpModal ] = useState(false)
 
 
     return (
