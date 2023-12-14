@@ -22,6 +22,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
     const [ connectionSuccess, setConnectionSuccess ] = useState<boolean>(false);
 
     const [errorQRModal, setErrorQRModal] = useState<boolean>(false);
+    const [errorCounter, setErrorCounter] = useState<number>(0);
 
     let intervalId;
 
@@ -89,8 +90,9 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
 
         if (!isPaid) {
             setErrorQRModal(true)
+            setErrorCounter(errorCounter + 1)
             setTimeout(() => {
-                // setErrorQRModal(false)
+                setErrorQRModal(false)
             }, 25000);
         }
     }
@@ -193,7 +195,9 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
                         <div>
                             <h3>No se pudo establecer la conexion a WhatsApp. No te preocupes! Simplemente vuelve a intentarlo.</h3>
                             <p>En caso de ser un usuario Free <strong>intentalo hasta 3 veces</strong> por favor para asegurarse que se genere el código QR correctamente.</p>
-                            <span>1/3</span>
+                            <span style={{ "color": errorCounter > 3 ? "red" : "" }}>{errorCounter <= 3 ? errorCounter : 3 }/3</span>
+                            {errorCounter > 3 && (<p style={{"fontWeight": "600"}}>Contactate con soporte para resolver el problema</p>)}
+                            
                         </div>
                     </motion.div>      
                 )}
