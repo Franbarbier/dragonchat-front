@@ -1,18 +1,18 @@
 import Cookies from "cookies";
 import { useState } from "react";
-import CardTitle from "../components/cards/CardTitle/CardTitle";
 import CustomColorBtn from "../components/CustomColorBtn/CustomColorBtn";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import MainCont from "../components/MainCont/MainCont";
 import ModalContainer from "../components/ModalContainer/ModalContainer";
 import Notification, { INotification } from "../components/Notification/Notification";
 import SignUpView from "../components/SignUpView/SignUpView";
 import styles from '../components/SignUpView/SignUpView.module.css';
+import CardTitle from "../components/cards/CardTitle/CardTitle";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { STRIPE_COOKIE } from "../constants/index";
 import { STATUS } from "../enums";
 import { decrypt } from "../utils/crypto";
-import { NextPageWithLayout } from "./page";
 import { GralProps } from "./_app";
+import { NextPageWithLayout } from "./page";
 
 // TODO: Solo recibe stripe_data, no debería ser GralProps sino SignUpProps
 const SignUp: NextPageWithLayout<GralProps> = (GralProps) => {
@@ -51,7 +51,7 @@ const SignUp: NextPageWithLayout<GralProps> = (GralProps) => {
                             backgroundColorEnd="#f9bd4f"
                             borderColor="#e17846"
                             onClick={ ()=>{ 
-                                window.location.href = "https://api.whatsapp.com/send/?phone=573104658199&text=Hola%21+Me+contacto+desde+dragonchat+por+&type=phone_number&app_absent=0"
+                                window.location.href = "https://api.whatsapp.com/send/?phone=573104719365&text=Hola%21+Me+contacto+desde+dragonchat+por+&type=phone_number&app_absent=0"
                             } }
                         />
                         
