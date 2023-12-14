@@ -63,7 +63,7 @@
 .no_enviados{ width: 40vw; }
 .modal_shield_option{ width: 35vw; }
 .timerModal { width: 35vw; }
-
+.width35{ width: 35vw; }
 /* if mobile modal cont more width */
 @media screen and (max-width: 768px){
     .modal_cont{
