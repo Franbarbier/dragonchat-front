@@ -13,9 +13,10 @@ import styles from './QrCard.module.css';
 export interface IQrCard {
     notification: INotification,
     setNotification: (notification: INotification) => void,
+    isPaid: boolean
 }
 
-const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
+const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
     const [ connectionSuccess, setConnectionSuccess ] = useState<boolean>(false);
@@ -85,11 +86,11 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
         })
         clearInterval(intervalId);
         setActiveQr(null)
-        // si es un usuario free
-        if (true) {
+
+        if (!isPaid) {
             setErrorQRModal(true)
             setTimeout(() => {
-                setErrorQRModal(false)
+                // setErrorQRModal(false)
             }, 25000);
         }
     }
@@ -178,24 +179,24 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             </div>
 
             <AnimatePresence>
-            {errorQRModal && (
+                {errorQRModal && (
+                    <motion.div
+                        className={styles.errorQRModal}
+                        initial={{ opacity: 0 , y: 30}}
+                        animate={{ opacity: 1 , y: 0}}
+                        exit={{ opacity: 0 , y: 30}}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        
+                    >
+                        <img src="/dragon_anim2.gif" alt="dragon-chat"/>
 
-                <motion.div className={styles.errorQRModal}
-                    initial={{ opacity: 0 , y: 30}}
-                    animate={{ opacity: 1 , y: 0}}
-                    exit={{ opacity: 0 , y: 30}}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    
-                >
-                    <img src="/dragon_anim2.gif" alt="dragon-chat"/>
-
-                    <div>
-                        <h3>No se pudo establecer la conexion a WhatsApp. No te preocupes! Simplemente vuelve a intentarlo.</h3>
-                        <p>En caso de ser un usuario Free <strong>intentalo hasta 3 veces</strong> por favor para asegurarse que se genere el código QR correctamente.</p>
-                        <span>1/3</span>
-                    </div>
-                </motion.div>
-            )}
+                        <div>
+                            <h3>No se pudo establecer la conexion a WhatsApp. No te preocupes! Simplemente vuelve a intentarlo.</h3>
+                            <p>En caso de ser un usuario Free <strong>intentalo hasta 3 veces</strong> por favor para asegurarse que se genere el código QR correctamente.</p>
+                            <span>1/3</span>
+                        </div>
+                    </motion.div>      
+                )}
             </AnimatePresence>
             <aside className={styles.alertaMsg}>
                 <p>Luego que el celular se conecte a Whatsapp aguarda unos segundos y te redirigiremos al dashboard</p>

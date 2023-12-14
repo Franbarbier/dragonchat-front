@@ -156,7 +156,6 @@
     height: max-content;
     margin-bottom: 7%;
 }
-
 .errorQRModal>div:before{
     content: "";
     position: absolute;
