@@ -79,7 +79,6 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
     }
   }
 
-
   const [notification, setNotification] = useState<INotification>({
     status : STATUS.SUCCESS,
     render : false,
