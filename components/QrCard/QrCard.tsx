@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+// import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
@@ -180,7 +180,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
                 )}
             </div>
 
-            <AnimatePresence>
+            {/* <AnimatePresence>
                 {errorQRModal && (
                     <motion.div
                         className={styles.errorQRModal}
@@ -201,7 +201,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
                         </div>
                     </motion.div>      
                 )}
-            </AnimatePresence>
+            </AnimatePresence> */}
             <aside className={styles.alertaMsg}>
                 <p>Luego que el celular se conecte a Whatsapp aguarda unos segundos y te redirigiremos al dashboard</p>
             </aside>
