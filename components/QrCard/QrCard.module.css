@@ -186,7 +186,6 @@
     top: 107%;
     left: 50%;
     transform: translateX(-50%);
-    animation: name duration timing-function delay iteration-count direction fill-mode;
     animation: vibrate 1s 1s 3;
 }
 @keyframes vibrate {
