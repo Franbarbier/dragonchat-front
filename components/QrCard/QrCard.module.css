@@ -191,13 +191,13 @@
 }
 @keyframes vibrate {
     0%     {transform: translateX(-47%) ;}
-   12.5%  {transform: translateX(-53%) ;}
-   25.0%  {transform: translateX(-47%) ;}
-   37.5%  {transform: translateX(-53%) ;}
-   47.0%  {transform: translateX(-47%) ;}
-   62.5%  {transform: translateX(-53%) ;}
-   75.0%  {transform: translateX(-47%) ;}
-   87.5%  {transform: translateX(-53%) ;}
+   12%  {transform: translateX(-53%) ;}
+   25%  {transform: translateX(-47%) ;}
+   37%  {transform: translateX(-53%) ;}
+   47%  {transform: translateX(-47%) ;}
+   62%  {transform: translateX(-53%) ;}
+   75%  {transform: translateX(-47%) ;}
+   87%  {transform: translateX(-53%) ;}
    100%   {transform: translateX(-47%) ;}
  }
 /* if mobile */
