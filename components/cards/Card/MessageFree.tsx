@@ -4,6 +4,7 @@ import { INotification } from '../../Notification/Notification';
 import BasicMessages from '../BasicMessages/BasicMessages';
 import CardTitle from '../CardTitle/CardTitle';
 import ConversationPremium, { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
+import MultiMessages from '../MultiMessages/MultiMessages';
 import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {
@@ -24,9 +25,10 @@ export interface IFreeCard2 {
 
     messages : string[];
     setMessages : (mensajes: string[]) => void;
+    isPaid: boolean;
 }
 
-const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence, messages, setMessages }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence, messages, setMessages, isPaid }) => {
 
     let idCard = 2;
 
@@ -63,10 +65,12 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                     </div>
                     {tipoEnvio == MESSAGE_TYPE.DIFUSION ?
                         <div className={styles.options_cont}>
-                            {/* <div className={styles.message}>
-                                <textarea placeholder='Utilizando la variable `[name]` en tu mensaje, la misma será reemplazada por el nombre de cada uno de los destinatarios definidos en la sección anterior. Ejemplo: `Hola [name], tengo algo para enviarte que te va a encantar`' value={mensaje} onChange={ (e)=>{ setMensaje(e.target.value) } } />
-                            </div> */}
-                            <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
+                            {/* Si es gratis, deberia mostrar BasicMessages */}
+                            {isPaid ? 
+                                <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
+                            :
+                                <MultiMessages />
+                            }
                             
                         </div>
                         :

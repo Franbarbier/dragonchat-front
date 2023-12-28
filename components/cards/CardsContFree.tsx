@@ -254,6 +254,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         setActiveSecuence={setActiveSecuence}
                         messages={messages}
                         setMessages={setMessages}
+                        isPaid={isPaid}
                     />
 
                     
