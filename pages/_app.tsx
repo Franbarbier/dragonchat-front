@@ -21,9 +21,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     if (window.location.href.includes("vercel")) {
       window.location.href = "https://dragonchat.io/"
     }
-    
   }, [])
-
+  
+  console.log("NHOHHLHLHLHL-----------------------------------------", window.location.href.includes("vercel"))
 
 
   return (
