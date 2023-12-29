@@ -18,11 +18,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   
   useEffect(() => {
     // if domain contains "vercel" refdirect to main domain
-    if (window.location.hostname != 'dragonchat.io') {
+    if (window.location.href.includes("vercel")) {
       window.location.href = "https://dragonchat.io/"
     }
+    
   }, [])
-
 
 
 
