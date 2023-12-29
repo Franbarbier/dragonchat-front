@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     }
   }, [])
   
-  console.log("NHOHHLHLHLHL-----------------------------------------", window.location.href.includes("vercel"))
+  console.log("NHOHHLHLHLHL-----------------------------------------")
 
 
   return (
