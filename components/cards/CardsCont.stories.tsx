@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { mockCardsContProps } from './CardsCont.mocks';
+// import { mockCardsContProps } from './CardsCont.mocks';
 import CardsCont, { ICardsCont } from './CardsContFree';
 
 export default {
@@ -18,5 +18,5 @@ export const Base = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 
 Base.args = {
-  ...mockCardsContProps.base,
+  // ...mockCardsContProps.base,
 } as ICardsCont;

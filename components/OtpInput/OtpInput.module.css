@@ -14,4 +14,6 @@
     font-size: 32px;
     font-weight: bold;
     line-height: 1;
+    background: #9f5bc35e;
+    border-color: var(--newPink2);
   }

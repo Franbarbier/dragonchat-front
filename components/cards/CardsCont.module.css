@@ -85,7 +85,9 @@
     width: 17%;
     max-width: 200px;
 }
-
+.dragon1>img, .dragon2>img{
+    z-index: 101;
+}
 .dragon1>img {
     display: block;
     width: 100%;
@@ -99,7 +101,7 @@
     position: absolute;
     width: 180px;
     top: -0.5%;
-    left: 88%;
+    left: 100%;
 }
 
 .dragon2{

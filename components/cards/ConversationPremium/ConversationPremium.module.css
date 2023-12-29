@@ -808,6 +808,7 @@ scrollbar-width: none;  /* Firefox */
 .tramas{
     position: absolute;
     z-index: -1;
+    user-select: none;
     opacity: 0.2;
 }
 .tramaBottom{

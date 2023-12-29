@@ -4,7 +4,7 @@ import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import LoginView from "../components/LoginView/LoginView";
 import MainCont from "../components/MainCont/MainCont";
 import Notification, { INotification } from "../components/Notification/Notification";
-import { HOST_URL, STRIPE_COOKIE, STRIPE_KEY } from '../constants/index';
+import { STRIPE_COOKIE } from '../constants/index';
 import { STATUS } from "../enums";
 import { handleStripeSession } from "../utils/checkout";
 import { encrypt } from '../utils/crypto';
@@ -17,8 +17,6 @@ const Login: NextPageWithLayout<{reloadNeeded:boolean}> = ({ reloadNeeded }) => 
         message: "",
         modalReturn: () => { }
     })
-
-    console.log(HOST_URL, STRIPE_KEY, STRIPE_COOKIE)
 
     useEffect(() => {
         if (reloadNeeded) {
@@ -61,8 +59,6 @@ export async function getServerSideProps({ req, res, query: { session_id } }) {
         const sessionData = await handleStripeSession(session_id)
         cookies.set(STRIPE_COOKIE, JSON.stringify(encrypt(sessionData)))
 
-
-        console.log(sessionData)
         // Remove the session_id query parameter from the URL
         //    const currentUrl = req.url;
         //    const updatedUrl = currentUrl.replace(/(\?|&)session_id=[^&]*/g, '');

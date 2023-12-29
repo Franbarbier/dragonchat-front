@@ -3,6 +3,7 @@ import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import ModalContainer from '../ModalContainer/ModalContainer';
+import ModalFinish from '../ModalFinish/ModalFinish';
 import NavBottom from '../NavBottom/NavBottom';
 import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
@@ -16,6 +17,7 @@ import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
+    isPaid : boolean,
 }
 
 type IdCard = {
@@ -31,7 +33,7 @@ export interface ContactInfo {
 
 
 
-const CardsCont: React.FC<ICardsCont> = ({ }) => {
+const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     const [activeCard, setActiveCard] = useState<number>(1)
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
@@ -61,7 +63,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
 
     const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
-    const [renderDialog, setRenderDialog] = useState<boolean>(true)
+    const [renderDialog, setRenderDialog] = useState<boolean>(false)
 
     const [tamanoBloque, setTamanoBloque] = useState<number>(0);
     const [pausaBloque, setPausaBloque] = useState<number>(0);
@@ -78,14 +80,10 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
     const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
     const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
 
+    const [modalFinish, setModalFinish] = useState<boolean>(false)
 
-
-
-    function handleReturnModal(value:boolean) {
-        setNotification({...notification, render : false})
-    }
-
-    const wppLimitMessage = <span>Oh! Parece que llegaste a tu <strong>límite diario de 40 mensajes!</strong><br /><br />Invita a un amigo para ampliar tu límite diario gratuitamente</span>;
+    const [modalNoEnviados, setModalNoEnviados] = useState<boolean>(false);
+    const [blackList, setBlackList] = useState<ContactInfo[]>([]);
     
 
 
@@ -196,7 +194,8 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
 
 
     const isMobile = useDeviceType();
-    
+
+
 
     return (
         <div>
@@ -216,6 +215,13 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         sendingState={sendingState}
                         setSendingState={setSendingState}
                         messages={messages}
+                        setNotification={setNotification}
+                        notification={notification}
+                        blackList={blackList}
+                        setBlackList={setBlackList}
+                        // setModalNoEnviados={setModalNoEnviados}
+                        setModalFinish={setModalFinish}
+                        setRenderDialog={setRenderDialog}
                     />
 
                     <FreeCard1 
@@ -230,6 +236,7 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                         setDroppedCsv={setDroppedCsv}
                         notification={notification}
                         setNotification={setNotification}
+                        isPaid={isPaid}
                     />
                     <FreeCard2
                         setActiveCard={(val:number)=>setActiveCard(val)}
@@ -261,22 +268,31 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
                 <button><img src="/arrow-card.png" /></button>
             </div>
 
-            
-
             {
                 !isMobile &&
                 <div>
                     <div className={styles.dragon1}>
-                        <img src="/dragon_anim.gif" alt="dragon-chat"/>
-                        {
-                            messagesLimitAchieved &&
+
+                        { renderDialog && messagesLimitAchieved ?
                             <>
-                            { renderDialog &&
+                                <div style={{
+                                    position: "fixed",
+                                    top: "0",
+                                    left: "0",
+                                    width: "100vw",
+                                    height: "100vh",
+                                    backgroundColor: "rgba(0,0,0,0.5)",
+                                    zIndex: 100
+                                }}></div>
+
+                                <img src="/dragon_anim2.gif" alt="dragon-chat"/>
+
                                 <div className={styles.wpp_limit_alert}>
-                                    <BoxDialog message={wppLimitMessage} setRenderDialog={setRenderDialog}/>
+                                    <BoxDialog setRenderDialog={setRenderDialog}/>
                                 </div>
-                            }
                             </>
+                        :
+                            <img src="/dragon_anim.gif" alt="dragon-chat"/>
                         }
                     </div>
                     <img className={`${styles.dragon2} ${messagesLimitAchieved && styles.limitedAnim}`} src="/dragon_anim.gif" alt="dragon-chat"/>
@@ -316,7 +332,12 @@ const CardsCont: React.FC<ICardsCont> = ({ }) => {
             }
             
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
-
+           
+            {modalFinish && !messagesLimitAchieved && (
+            <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"}>
+                <ModalFinish blackList={blackList} />
+            </ModalContainer>
+            )}
 
         </div>
     

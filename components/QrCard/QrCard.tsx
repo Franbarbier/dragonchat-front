@@ -1,9 +1,8 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
-import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE } from '../../constants/index';
-import { STATUS } from '../../enums';
+import { ROUTES, STATUS } from '../../enums';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
@@ -18,38 +17,40 @@ export interface IQrCard {
 const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
+    const [ connectionSuccess, setConnectionSuccess ] = useState<boolean>(false);
+
+    let intervalId;
 
 
-    useEffect(() => {
-        console.log(activeQr)
-    }, [activeQr])
+    let count417 = 0;
 
-    
-    let intervalId; 
     function startInterval(accessToken) {
+        
         intervalId = setInterval(async () => {
+            
             const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
-
-            console.log(dataConnect)
-    
+            
             setLoadingQr(false);
-    
-            if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode != "") {
+            
+            if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
             }else{
-                setNotification({
-                    status: STATUS.ERROR,
-                    render: true,
-                    message: "Hubo un error en la conexión, por favor intentalo de nuevo en un minuto.",
-                    modalReturn: () => {
-                        setNotification({ ...notification, render: false })
+                if (dataConnect == 428 || dataConnect == 412 || dataConnect == 417) {
+                    count417++;
+                    if(count417 == 40){
+                        stopIteration()
                     }
-                })
-                clearInterval(intervalId);
-                setActiveQr(null)
+                    setLoadingQr(true);
+                }
+                else{
+                    stopIteration()
+                }
+                
             }
     
             if (dataConnect?.data?.phoneConnected == true) {
+                setActiveQr("null")
+                setConnectionSuccess(true);
                 setNotification({
                     status: STATUS.SUCCESS,
                     render: true,
@@ -58,29 +59,51 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                         setNotification({ ...notification, render: false })
                     }
                 })
+                setLoadingQr(true);
                 // Router.push("/")
                 clearInterval(intervalId);
-                window.location.reload();
+                window.location.href = ROUTES.DASH
             }
 
-            
         }, 3500); 
     
     }
 
 
+        
+    function stopIteration(){
+        setNotification({
+            status: STATUS.ERROR,
+            render: true,
+            message: "Hubo un error en la conexión, por favor intentalo de nuevo en un minuto.",
+            modalReturn: () => {
+                setNotification({ ...notification, render: false })
+            }
+        })
+        clearInterval(intervalId);
+        setActiveQr(null)
+    }
+
     const handleIsConnected = async () => {
 
         setLoadingQr(true)
         const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE) || '')?.access_token;
+        const dataConnection = await apiSenderWhatsappController.connect(accessToken)
         
-        const getDAt = await apiUserController.getData(accessToken)
-        console.log(getDAt)
+        if (dataConnection?.status == 200 || dataConnection?.status == 201 ) {
+            startInterval(accessToken)
+        }else{
+            setLoadingQr(false)
+            setNotification({
+                status: STATUS.ERROR,
+                render: true,
+                message: "No se pudo establecer la conexion a WhatsApp.",
+                modalReturn: () => {
+                    setNotification({ ...notification, render: false })
+                }
+            })
+        }
 
-        const { data: dataConnection } = await apiSenderWhatsappController.connect(accessToken)
-        console.log(dataConnection)
-
-        if (dataConnection) { startInterval(accessToken) }
 
     }
 
@@ -99,7 +122,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             <div className={styles.qrCard_cont}>
                 <CardTitle text="Vincular dispositivo" />
 
-                {activeQr && (
+                {activeQr  && (
                     <div className={styles.qrSteps}>
                         
                         <div className={styles.instruciones_cont}>
@@ -122,7 +145,17 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
 
                         <div className={styles.qrImg_cont}>
                             <h4>{'Escanea el QR y aguarda un momento  : )'}</h4>
-                            <img src={activeQr} alt="qrWhatsappImage"  />
+                            
+                            <div className={styles.flipContainer}>
+                                <div className={styles.flip} style={{"transform": `${connectionSuccess && 'rotateY(180deg)' }`}}>
+                                    <div className={styles.flipFront}>
+                                        <img src={activeQr} alt="qrWhatsappImage"  />  
+                                    </div>
+                                    <div className={styles.flipBack}>
+                                        <p>✅</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

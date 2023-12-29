@@ -19,6 +19,7 @@
 .googleInit>img{
     margin-right: 10px;
 }
+.signup_cont{text-align: center;}
 
 .hasAccount hr{
     margin-top: 10%;
@@ -52,4 +53,12 @@
     color: var(--amarillo);
     font-size: 0.8em;
     text-align: center;
+}
+
+.signUpViewCont{
+}
+
+.cantSignUpModal{
+    text-align: center;
+    letter-spacing: 0.3px;
 }

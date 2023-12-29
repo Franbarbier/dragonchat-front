@@ -5,9 +5,10 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
-import { LOGIN_COOKIE } from "../../../constants/index";
-import { SENDING_STATE, STATUS } from "../../../enums";
+import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
+import { ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
+import { INotification } from "../../Notification/Notification";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
@@ -33,6 +34,14 @@ export interface IFreeCard3 {
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
   messages: string[];
+  notification : INotification;
+  setNotification : (notification: INotification) => void;
+
+  blackList: ContactInfo[];
+  setBlackList: (contactos: ContactInfo[]) => void;
+  setModalFinish: (mod: boolean) => void;
+  setRenderDialog : (render: boolean) => void;
+
 }
 
 const FreeCard3: React.FC<IFreeCard3> = ({
@@ -48,7 +57,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   shieldOptions,
   sendingState,
   setSendingState,
-  messages
+  messages,
+  notification,
+  setNotification,
+  blackList,
+  setBlackList,
+  setModalFinish,
+  setRenderDialog
 }) => {
   let idCard = 3;
   let router = useRouter();
@@ -63,9 +78,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const [bloques, setBloques] = useState<number>(0);
   const [pausa, setPausa] = useState<number>(0);
 
+
+
   async function sendMove(userInfo, count) {
 
-    const destinatario = contactos[count];
+    try{
+
+    const destinatario:ContactInfo = contactos[count];
     let newContacts = [...contactos];
     newContacts[count].estado = STATUS.PENDING;
     setContactos(newContacts);
@@ -76,6 +95,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     // Send currentString to the recipient    
     const onSuccess = () => {
+
       if (sentMessage?.status == 200 || sentMessage?.status == 201) {
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.SUCCESS;
@@ -84,18 +104,53 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.ERROR;
         setContactos(newContacts);
-        if (sentMessage.response?.data?.error?.type == "EXCEEDED_LIMIT") {
+        
+        // @ts-ignore
+        setBlackList((prevBlackList: ContactInfo[]) => [...prevBlackList, destinatario]);
+        
+        if (sentMessage?.response?.status == 429) {
+
+          setNotification({
+            status: STATUS.ERROR,
+            render: true,
+            message: 'Alcanzaste el limite maximo de mensajes diarios para la version gratuita.',
+            modalReturn: () => {
+              setNotification({...notification, render : false})
+            }
+          });
           setMessagesLimitAchieved(true);
+          setRenderDialog(true)
           setSending(false);
           setDejarDeEnviar(true);
+        }else if (sentMessage?.response?.status == 410) {
+          setSending(false);
+          setDejarDeEnviar(true);
+          setNotification({
+            status: STATUS.ERROR,
+            render: true,
+            message: 'Tu dispositivo no está vincualdo.',
+            modalReturn: () => {
+              setNotification({...notification, render : false})
+            }
+          });
+          setTimeout(() => { window.location.href = ROUTES.QR; }, 500);
         }
       }
+
+
     };
 
-    const authToken = JSON.parse(
-      Cookie.get(LOGIN_COOKIE )
-    ).access_token;
-    
+    let authToken = ""
+
+    try {
+      authToken = JSON.parse(
+        Cookie.get( LOGIN_COOKIE )
+        ).access_token;   
+    } catch (error) {
+      authToken = ""
+    }
+
+        
     const sentMessage = await apiSenderWhatsappController.sendMessage(
       userInfo.user_id,
       destinatario.nombre,
@@ -104,14 +159,17 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       authToken
     );
     onSuccess();
+  }catch(error){
+    alert("Ocurrio un error inesperado en la plataforma. Por favor intenta mas tarde.")
+  }
+
+
   }
 
 
   useEffect(() => {
 
     // Numero aleatoria para desrobotizar los envios
-    
-
     if (sendingState === SENDING_STATE.SENDING) {
       const arrayOfBlocks: Array<Array<ContactInfo>> = contactos.reduce(
         (accumulator, actualValue) => {
@@ -144,7 +202,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       const contacts = contactos.filter(
         (c) => c.numero.trim() !== '' && c.nombre.trim() !== ''
       );
-      const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
+
+
+      const userInfo = JSON.parse(Cookie.get("dragonchat_login1") || "{}");
 
       let localTimers: Array<NodeJS.Timeout> = [];
       let messagesCount = 0;
@@ -161,6 +221,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               );
 
             sendMove(userInfo, index);
+            
             if (index === contacts.length -1 ) {
               setSendingState(SENDING_STATE.FINISH);
             }
@@ -199,9 +260,25 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
   }, [dejarDeEnviar]);
 
+  useEffect(() => {
+    if (sendingState == SENDING_STATE.FINISH ) {
+      setModalFinish(true);
+    }
+  }, [sendingState])
+
+  useEffect(() => {
+
+    const finishResSend = contactos.every((contact) => {
+      return typeof contact.estado && contact.estado != STATUS.PENDING;
+    });
+
+    if (sendingState == SENDING_STATE.FINISH && finishResSend) {
+      setModalFinish(true);
+    }
+
+  }, [contactos])
 
   return (
-
     
     <div
     className={`${styles.card} ${styles["numberCard" + activeCard]} ${
@@ -290,6 +367,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                   <aside
                     onClick={(e) => {
                       e.preventDefault();
+                      if ( sendingState == SENDING_STATE.FINISH ) {
+                        return false;
+                        
+                      }
                       setModalShieldOptions(true);
                     }}
                   >
@@ -317,6 +398,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               </div>
             ) : (
               <>
+
                 <button className={styles.limitedButton}>
                   <video autoPlay controls={false} loop>
                     <source src="/fire-bkgr.mp4" type="video/mp4" />
@@ -325,6 +407,21 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                   <p>ENVIAR</p>
                   <FontAwesomeIcon icon={faLock} />
                 </button>
+                <div className={styles.limitMsjCTA}
+                  onClick={() => {
+                    window.location.href = `${HOST_URL}${ROUTES.CHECKOUT}`;
+                  }}
+                >
+                  <div>
+                    <span>
+                      Llegaste a tu límite diario de 50 mensajes!
+                    </span>
+                    <br/>
+                    <span>
+                      Para seguir enviando mensajes pasate al <u><b>plan premium</b></u>
+                    </span>
+                  </div>
+                </div>
               </>
             )}
           </div>

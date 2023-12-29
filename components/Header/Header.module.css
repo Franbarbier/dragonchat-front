@@ -47,6 +47,7 @@
     align-items: center;
     justify-content: flex-end;
 }
+
 .referir_cont button{
     display: flex;
     align-items: center;
@@ -58,14 +59,27 @@
     border: 1px solid var(--amarillo);
     background: rgb(255 251 17 / 10%);
     cursor: pointer;
+    animation: bounce 7s infinite;
+}
+
+@keyframes bounce {
+  0%, 5%, 15%, 25%, 100% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20px);
+  }
+  20% {
+    transform: translateY(-5px);
+  }
 }
 .referir_cont button:hover{
     background: rgb(255 251 17 / 30%);
 }
 .referir_cont>button>img{
     display: block;
-    margin-right: 10px;
-    width: 15px;
+    margin-right: 6px;
+    width: 18px;
 }
 .referir_cont>button>span{
     display: block;
@@ -87,7 +101,16 @@
 .timerCont h4{
     font-size: 1em;
 }
-
+.proLogo{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 10px;
+    font-size: 0.6em;
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 3px 5px;
+}
 
 @media (max-width: 750px) {
 
