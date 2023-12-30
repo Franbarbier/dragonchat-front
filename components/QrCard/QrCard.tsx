@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/index';
 import { ROUTES, STATUS } from '../../enums';
-import CardTitle from "../cards/CardTitle/CardTitle";
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
+import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from './QrCard.module.css';
 
 export interface IQrCard {
@@ -195,7 +195,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
 
                         <div>
                             <h3>No se pudo establecer la conexion a WhatsApp. No te preocupes! Simplemente vuelve a intentarlo.</h3>
-                            <p>En caso de ser un usuario Free <strong>intentalo hasta {maxErrorCounter} veces</strong> por favor para asegurarse que se genere el código QR correctamente.</p>
+                            <p>Podrias <strong>intentalo hasta {maxErrorCounter} veces</strong> por favor para asegurarse que se genere el código QR correctamente.</p>
                             <span style={{ "color": errorCounter > maxErrorCounter ? "red" : "" }}>{errorCounter <= maxErrorCounter ? errorCounter : maxErrorCounter }/ {maxErrorCounter}</span>
                             {errorCounter > maxErrorCounter && (<p style={{"fontWeight": "600"}}>Contactate con soporte para resolver el problema</p>)}
                             
