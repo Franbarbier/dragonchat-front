@@ -63,9 +63,11 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                     </div>
                     {tipoEnvio == MESSAGE_TYPE.DIFUSION ?
                         <div className={styles.options_cont}>
-                            
+                            {/* <div className={styles.message}>
+                                <textarea placeholder='Utilizando la variable `[name]` en tu mensaje, la misma será reemplazada por el nombre de cada uno de los destinatarios definidos en la sección anterior. Ejemplo: `Hola [name], tengo algo para enviarte que te va a encantar`' value={mensaje} onChange={ (e)=>{ setMensaje(e.target.value) } } />
+                            </div> */}
                             <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
-
+                            
                         </div>
                         :
                         <div>

@@ -105,7 +105,7 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
         <>
           <MainCont width={isMobile ? 90 : 40} style={ isMobile ? {'top' : "55%" } : {'top' : "50%" }  }>
             
-              <QrCard notification={notification} setNotification={setNotification} isPaid={isPaid}/>
+              <QrCard notification={notification} setNotification={setNotification}/>
            
           </MainCont>
           {modalStripe == 200 &&
