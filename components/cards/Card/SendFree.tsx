@@ -88,27 +88,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     let newContacts = [...contactos];
     newContacts[count].estado = STATUS.PENDING;
     setContactos(newContacts);
-    
-    // Check which message to send
-    // const stringIndex = count % messages.length;
-    // const currentMessage = messages[stringIndex];
 
-    for(let i = 0; i < messages.length; i++){
-
-      const stringIndex = count % messages[count].length;
-      console.log(messages[i][stringIndex])
-    }
-    // const stringIndex = count % messages[count].length
-    // const currentMessage = messages[count][stringIndex]
 
     let currentMessage:string[] = []
 
     for(let i = 0; i < messages.length; i++){
-
-      const stringIndex = count % messages[i].length;
-      
+      const stringIndex = count % messages[i].length;   
       currentMessage.push(messages[i][stringIndex])
-      
     }
 
 

@@ -103,6 +103,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
             })
         }
 
+
     }
 
     // on component dismount clearInterval(intervalId);
