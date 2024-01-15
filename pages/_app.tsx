@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import '../styles/globals.css';
 import { NextPageWithLayout } from './page';
@@ -15,6 +15,17 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page)
 
   const [multiTab, setMultiTab] = useState<boolean>(false)
+<<<<<<< HEAD
+=======
+  
+  useEffect(() => {
+    // if domain contains "vercel" refdirect to main domain
+    if (window.location.href.includes("vercel")) {
+      window.location.href = "https://dragonchat.io/"
+    }
+    
+  }, [])
+>>>>>>> develop
 
 
 
