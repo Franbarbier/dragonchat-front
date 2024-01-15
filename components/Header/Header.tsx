@@ -99,6 +99,7 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
         }
       }
 
+
     return (
         <div className={styles.header_cont}>
             <Loader loading={loading} />

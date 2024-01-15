@@ -1,12 +1,8 @@
 
 import Cookies from "cookies";
-import Cookie from "js-cookie";
-import Router from "next/router";
 
 import { useState } from "react";
-import apiUserController from "../api/apiUserController";
 import Header from "../components/Header/Header";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import Loader from "../components/Loader/Loader";
 import MainCont from "../components/MainCont/MainCont";
 import Maintenance from "../components/Maintenance/Maintenance";
@@ -17,8 +13,9 @@ import Notification, { INotification } from '../components/Notification/Notifica
 import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
 import WppBtn from "../components/WppBtn/WppBtn";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from "../constants/index";
-import { API_ROUTES, ROUTES, STATUS } from "../enums";
+import { API_ROUTES, STATUS } from "../enums";
 import useDeviceType from "../utils/checkDevice";
 import { decrypt } from "../utils/crypto";
 import { NextPageWithLayout } from "./page";
@@ -38,46 +35,6 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
 
   const [modalStripe, setModalStripe] = useState<null | number>(stripeCookie)
 
-  const logoutBtnStyle = {
-    'width': '100%',
-    'padding': '8px 16px',
-    'borderRadius': '5px',
-    'backgroundColor': '#000',
-    'border': '1px solid var(--amarillo)',
-    'color': 'var(--amarillo)',
-    'cursor': 'pointer',
-    'letterSpacing': '1px',
-  }
-  const pro_btn : React.CSSProperties = {
-    position: "absolute",
-    left: "50%",
-    transform: "translate(-50%)",
-    top: "5%",
-  }
-
-  async function handleLogout() {
-    
-    setLoading(true)
-
-    try {
-      const accessToken = JSON.parse(Cookie.get(LOGIN_COOKIE)).access_token;
-    
-      const response = await apiUserController.logout(accessToken);
-
-      if (response.status == 200) {
-
-        Cookie.remove(LOGIN_COOKIE);
-
-
-        Router.push(`${ROUTES.LOGIN}`);
-        setLoading(false)
-
-      }
-    } catch (error: any) {
-        // alert(error.response.data.error);
-        setLoading(false)
-    }
-  }
 
   const [notification, setNotification] = useState<INotification>({
     status : STATUS.SUCCESS,
@@ -146,7 +103,7 @@ export async function getServerSideProps({req, res}) {
   const cookies = new Cookies(req, res);
   const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE) );
   const accessToken = JSON.parse(responseText).access_token
-  
+
   var stripeStatus:null | number = null
   if (cookies.get(STRIPE_COOKIE)) {
     
@@ -174,11 +131,8 @@ export async function getServerSideProps({req, res}) {
         cookies.set(STRIPE_COOKIE, null, { expires: new Date(0) });
         stripeStatus = 200
       }
-
-    
-
   }
-
+  
   let maint = false
   let data:any = {subscription:{isPaid: false}}
   
@@ -190,11 +144,11 @@ export async function getServerSideProps({req, res}) {
         "Content-Type": "application/json"
       }
     });
+
+
     const responseData = await getData.json();
 
-    console.log(responseData)
-
-    if (responseData.subscription && responseData.subscription.isPaid === undefined) {
+    if (responseData?.subscription && responseData?.subscription?.isPaid == undefined ) {
       data.subscription.isPaid = false;
     }else{
       data = responseData
@@ -211,7 +165,7 @@ export async function getServerSideProps({req, res}) {
   }
 
 
-  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
+  return  { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid ? data?.subscription?.isPaid : false, maintenance : maint } }
   
   
   }

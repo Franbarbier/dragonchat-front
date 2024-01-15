@@ -22,10 +22,19 @@ const apiSenderWhatsappController = {
             return error
         }
     },
-    sendMessage: async (user, name, message, phone, authToken: string) => {
+    sendMessage: async (user, name, messages, phone, authToken: string) => {
         try {
-            const payload = { user, name, message, phone };
-            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`, payload, { headers: {"Authorization": `Bearer ${authToken}`} });
+            const payload = { user, name, messages, phone };
+
+            console.log("payload: " , payload)
+            const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`, payload,  { headers: {
+                                                                                                            "x-api-version": 1,
+                                                                                                            "Authorization": `Bearer ${authToken}`,
+                                                                                                            "Content-Type": "application/json",
+                                                                                                        }
+                                                                                                    } );
+
+            console.log(response)
             return response
         } catch (error: any) {
             console.log(error)

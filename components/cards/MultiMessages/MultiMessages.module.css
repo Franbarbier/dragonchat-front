@@ -1,0 +1,95 @@
+.MultiMessages{
+    display: flex;
+    flex-direction: column;
+
+}
+.MultiMessages>div:first-child{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    max-height: 33vh;
+    padding: 11px;
+    overflow: hidden;
+
+}
+.MultiMessages_cont li{ 
+    list-style: circle;
+    font-size: 0.8em;
+    padding: 0 5px;
+    margin-bottom: 10px;
+    width: 95%;
+    margin-left: 5%;
+    letter-spacing: 1px;
+}
+/* set the scroll bar css */
+
+.messages_cont{
+    background: #015c4b;
+    border-radius: 7px;
+    width: fit-content;
+    padding: 11px;
+    position: relative;
+    width: 67%;
+    margin-bottom: 5px;
+}
+.messages_cont:first-child::after{
+    content: '';
+    position: absolute;
+    top: -4px;
+    right: -3%;
+    border-left: 16px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 21px solid #015c4b;
+    border-radius: 11px;
+    transform: rotate(305deg);
+}
+.messages_cont>span{
+    font-size: 7PX;
+    color: #ddd;
+    position: absolute;
+    top: 3px;
+    left: 7px;
+}
+.newVaracion{
+    width: 90%;
+    margin: auto;
+    display: block;
+    border: 1px solid var(--violeta1);
+    cursor: pointer;
+    color: var(--violeta1);;
+    background-color: var(--inputBckgr);
+    margin-top: 6px;
+    border-radius: 4px;
+}
+.messages_cont>div>div{
+    position: relative;
+    margin: 9px 0;
+}
+.messages_cont .deleteVariacion{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    left: -5px;
+    border: 1px solid #fff;
+    padding: 1px;
+    border-radius: 10px;
+}
+.messages_cont textarea{
+    resize: none;
+    text-align: right;
+    width: 90%;
+    margin: auto;
+    display: block;
+    background-color: #034c3e;
+    border: 1px solid #074e41;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+}
+
+.agregarMultiMensaje button{
+    width: 100%;
+
+}

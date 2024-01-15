@@ -10,8 +10,8 @@ import { ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../../Notification/Notification";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
-import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
+import { ContactInfo } from "../CardsContFree";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from "./FreeCard.module.css";
 
@@ -80,7 +80,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
 
-  async function sendMove(userInfo, count) {
+  async function sendMove(userInfo, count ) {
 
     try{
 
@@ -90,8 +90,27 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     setContactos(newContacts);
     
     // Check which message to send
-    const stringIndex = count % messages.length;
-    const currentMessage = messages[stringIndex];
+    // const stringIndex = count % messages.length;
+    // const currentMessage = messages[stringIndex];
+
+    for(let i = 0; i < messages.length; i++){
+
+      const stringIndex = count % messages[count].length;
+      console.log(messages[i][stringIndex])
+    }
+    // const stringIndex = count % messages[count].length
+    // const currentMessage = messages[count][stringIndex]
+
+    let currentMessage:string[] = []
+
+    for(let i = 0; i < messages.length; i++){
+
+      const stringIndex = count % messages[i].length;
+      
+      currentMessage.push(messages[i][stringIndex])
+      
+    }
+
 
     // Send currentString to the recipient    
     const onSuccess = () => {
@@ -154,7 +173,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     const sentMessage = await apiSenderWhatsappController.sendMessage(
       userInfo.user_id,
       destinatario.nombre,
-      mensaje = currentMessage,
+      currentMessage,
       destinatario.numero,
       authToken
     );
@@ -204,7 +223,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       );
 
 
-      const userInfo = JSON.parse(Cookie.get("dragonchat_login1") || "{}");
+      const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
 
       let localTimers: Array<NodeJS.Timeout> = [];
       let messagesCount = 0;
@@ -220,7 +239,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               (c) => c.numero === contact.numero
               );
 
-            sendMove(userInfo, index);
+              sendMove(userInfo, index);
             
             if (index === contacts.length -1 ) {
               setSendingState(SENDING_STATE.FINISH);

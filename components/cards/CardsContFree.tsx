@@ -40,7 +40,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
     const [mensaje, setMensaje] = useState<string>('')
-    const [messages, setMessages] = useState<string[]>([''])
+    const [messages, setMessages] = useState<any>([['hola','chau']])
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
@@ -120,11 +120,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
 
     function definedMessage() {
-
-        function hasEmptyString() { return messages.some((str) => str === ''); }
+        function hasEmptyString() { return !messages.every(subArray => subArray.every(item => item.trim() !== "")  ) }
 
         return !(tipoEnvio == MESSAGE_TYPE.DIFUSION && !hasEmptyString() || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2)
-
     }
 
     function checkNextCard() {
@@ -135,7 +133,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                 // falta agregar que no se repitan los numeros
             case 2:
                 if ( !definedMessage() ) return true; 
-                break;
+                // return false
+               
             case 3:
                  return false
         
@@ -144,6 +143,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         }
     }
     
+ 
     function checkPrevCard() {
         switch (activeCard) {
             case 1:

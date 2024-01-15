@@ -23,8 +23,8 @@ export interface IFreeCard2 {
     activeSecuence : number | null;
     setActiveSecuence : (id: number | null) => void;
 
-    messages : string[];
-    setMessages : (mensajes: string[]) => void;
+    messages : any;
+    setMessages : (mensajes: any) => void;
     isPaid: boolean;
 }
 
@@ -67,9 +67,9 @@ const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, s
                         <div className={styles.options_cont}>
                             {/* Si es gratis, deberia mostrar BasicMessages */}
                             {isPaid ? 
-                                <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
+                                <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
                             :
-                                <MultiMessages />
+                                <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
                             }
                             
                         </div>
