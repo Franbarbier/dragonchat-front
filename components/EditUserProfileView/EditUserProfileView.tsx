@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import apiSenderWhatsappController from "../../api/apiSenderWhatsappController";
 import apiUserController from "../../api/apiUserController";
 import { LOGIN_COOKIE } from "../../constants/index";
@@ -20,31 +20,36 @@ export interface IEditUserProfileView {
 
 const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notification, setNotification }) => {
   const [userData, setUserData] = useState({ name: '', email: '', password: '', confirmPassword: '', code: '', number: '' })
+  const userDataBeenCalled = useRef(false);
   const equalPassword = useMemo(() => (
     userData.password && (userData.password === userData.confirmPassword)
   ), [userData.password, userData.confirmPassword])
 
+  const getUserData = async () => {
+    setLoading(true);
+    const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
+    const response = await apiUserController.getData(authToken);
+    setLoading(false);
+
+    return response;
+  }
+
   useEffect(() => {
-    async function getUserData() {
-      setLoading(true);
-      const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
-      const response = await apiUserController.getData(authToken);
-      setLoading(false);
+    if (!userDataBeenCalled.current) {
+      userDataBeenCalled.current = true
 
-      return response;
+      getUserData().then(({ data }) => {
+        if (data) {
+          setUserData(prev => ({
+            ...prev,
+            name: data.name,
+            email: data.email,
+            code: data.code_area ? data.code_area : '56',
+            number: data.phone ? data.phone : '',
+          }))
+        }
+      });
     }
-
-    getUserData().then(({ data }) => {
-      if (data) {
-        setUserData(prev => ({
-          ...prev,
-          name: data.name,
-          email: data.email,
-          code: data.code_area ? data.code_area : '56',
-          number: data.phone ? data.phone : '',
-        }))
-      }
-    });
   }, [])
 
   async function handleDesvWpp() {

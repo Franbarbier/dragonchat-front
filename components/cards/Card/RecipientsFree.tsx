@@ -247,12 +247,22 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, se
       const handleDrop = async (event: React.DragEvent<HTMLTableElement>) => {
         event.preventDefault();
         setIsDragging(false);
-        const file = event.dataTransfer.files[0];
 
-        
-        if (file.type === "text/csv") {
-            handleRenderModal(true)
-            setDroppedCsv(file)
+        if ( event.dataTransfer.files[0] != undefined) {
+
+            const file = event.dataTransfer.files[0];
+
+            if (file.type === "text/csv") {
+                handleRenderModal(true)
+                setDroppedCsv(file)
+            }else{
+                setNotification({
+                    status : STATUS.ERROR,
+                    render : true,
+                    message : "El archivo debe ser un csv",
+                    modalReturn : () => {setNotification({...notification, render : false})}
+                })
+            }
         }else{
             setNotification({
                 status : STATUS.ERROR,

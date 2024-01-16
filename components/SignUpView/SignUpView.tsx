@@ -2,27 +2,29 @@ import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
-import { LOGIN_COOKIE } from '../../constants/index';
+import { LOGIN_COOKIE, NO_SIGNUP } from '../../constants/index';
 import { STATUS } from '../../enums';
 import { mailIsValid } from '../../utils/validators';
+import CardTitle from '../cards/CardTitle/CardTitle';
 import CountryCodeFlagSelector from '../CountryCodeFlagSelector/CountryCodeFlagSelector';
 import InputGral from '../InputGral/InputGral';
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
-import CardTitle from '../cards/CardTitle/CardTitle';
 import styles from './SignUpView.module.css';
 
 export interface ISignUpView {
     stripe_data: Object | null,
     setNotification: (notification: INotification) => void,
     notification: INotification
+    setCantSignUpModal: (value: boolean) => void
 }
 
-const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notification }) => {
+const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notification, setCantSignUpModal }) => {
     const [formData, setFormData] = useState({ name: '', mail: '', pass: '', confirmPass: '', code: '', number: '' });
     const [userExists, setUserExists] = useState(false);
     const [loading, setLoading] = useState(false);
+
 
     const formIsValid = useMemo(() => (
         formData.name != "" &&
@@ -83,6 +85,12 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
     }, [setNotification]);
 
     const handleCrearCuenta = async () => {
+
+        if (NO_SIGNUP) {
+            setCantSignUpModal(true)
+            return false;
+        }
+
         setLoading(true)
 
         if (!equalPass) {
@@ -121,8 +129,10 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
         setFormData(prev => ({ ...prev, [field]: value }))
     }, [setFormData]);
 
+
+
     return (
-        <>
+        <div className={styles.signUpViewCont}>
             <Loader loading={loading} />
 
             <form className={styles.signup_cont} autoComplete='off'>
@@ -174,7 +184,9 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                     </button>
                 </div>
             </div>
-        </>
+    
+        
+        </div>
     );
 }
 
