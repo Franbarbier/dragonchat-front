@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
@@ -79,7 +80,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     const [sendingState, setSendingState] = useState<SENDING_STATE>(SENDING_STATE.INIT);
     const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
-    const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
+    const [repeated, setRepeated] = useState<number[]>([])
 
     const [modalFinish, setModalFinish] = useState<boolean>(false)
 
@@ -167,90 +168,48 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     useEffect(()=>{
         var filtered = [...contactos]
 
-        filtered.map((item)=>{
-            item.numero = item.numero?.replace(/[^0-9]/g, '');
-        })
-        const lastObject = filtered[filtered.length - 1];
-
-            
-        if ((lastObject.hasOwnProperty("nombre") && lastObject.nombre != "") && (lastObject.hasOwnProperty("numero") && lastObject.numero != "") ) {
-            filtered = [...filtered, {'nombre':'', 'numero':''}]
-        }
-        
-        const finalDupls = checkDuplicated2(filtered)
-        
-        setFinalList(finalDupls)
+        filtered = removeColors(filtered)
+        setFinalList(filtered)
         
     },[contactos])
 
-
-
-    function checkDuplicated2(filtered) {
+    function removeColors(array) {
         
-        const data = [...filtered];
+        let removedColors = [...array]
         // Create a map to store counts of each numero value
         const countMap = new Map();
-        data.forEach((item) => {
+        removedColors.forEach((item) => {
             const count = countMap.get(item.numero) || 0;
             countMap.set(item.numero, count + 1);
         });
 
-        const repeatedCounterMap = new Map();
-
-        // Filter the array to get objects with repeated numero values
-        const objectsWithRepeats = data.filter((item) => countMap.get(item.numero) > 1);
-        
-        // add as "repeated" property to each object the value of the count in case it is repeated
-        let newObjectsWithRepeats = objectsWithRepeats.map((item) => {
-        
+        let aEliminar:any = []
+        let newObjectsWithRepeats = removedColors.map((item, index) => {
             if (item.numero != "" && countMap.get(item.numero) > 1) {
-                
-                setNotification({
-                    status : STATUS.ERROR,
-                    render : true,
-                    message : "No puede haber numeros repetidos en la lista.",
-                    modalReturn : () => {setNotification({...notification, render : false})}
-                })
-                const repeatedNumber = repeatedCounterMap.get(item.numero) || 1;
-                repeatedCounterMap.set(item.numero, repeatedNumber + 1);
-                
-                return {
-                    ...item,
-                    repeated: repeatedNumber,
-                    selected: repeatedNumber > 1
+                if (item.repeated >= 2) {
+                    aEliminar.push(index)
                 }
+                return {...item}
             }else{
                 return {
                     ...item,
-                    repeated: undefined,
+                    repeated : undefined
                 }
             }
         });
-   
-        
-        //   get all items that are not repeated
-        let objectsWithoutRepeats = data.filter((item) => countMap.get(item.numero) == 1);
-        
-        objectsWithoutRepeats = objectsWithoutRepeats.map((item) => {
-           
-            return{
-                    ...item,
-                    repeated: countMap.get(item.numero) == 1 && undefined,
-                    // selected: item.repeated ? item.repeated : countMap.get(item.numero) > 1
-                    // set selected property in base the old item.selected value. check if it was true or false
-                    selected: item.selected ? item.selected : countMap.get(item.numero) > 1
-                }
-        })
-        // ({
-        //     ...item,
-        //     repeated: countMap.get(item.numero) == 1 && undefined,
-        //     selected: countMap.get(item.numero) > 1
-        // }));
 
-        return [...newObjectsWithRepeats, ...objectsWithoutRepeats];
-          
+        setRepeated(aEliminar)
+        return newObjectsWithRepeats
     }
 
+    function deleteRepeat(ans) {
+        if (ans) {
+            let withoutRepeat = finalList.filter((_, index) => !repeated.includes(index));
+            setContactos(withoutRepeat)
+        }else{
+            setRepeated([])
+        }
+    }
 
 
     useEffect(() => {
@@ -268,6 +227,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
 
     const isMobile = useDeviceType();
+
+    
 
 
 
@@ -310,6 +271,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         notification={notification}
                         setNotification={setNotification}
                         isPaid={isPaid}
+
                     />
                     <FreeCard2
                         setActiveCard={(val:number)=>setActiveCard(val)}
@@ -405,6 +367,26 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             }
             
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
+           
+           <AnimatePresence>
+           {repeated.length > 0 && (
+               <motion.div className={styles.notifDeleteRepeat}
+                    initial={{ opacity: 0, x : 50 }}
+                    exit={{ opacity: 0, x : 50 }}
+                    animate={{ opacity: 1, x : 0 }}
+                    key="notificationRepeat"
+                >
+                    <div>
+                        <h4>Desea eliminar los numeros repetidos? <span> (Contactos resaltados en rojo)</span></h4>
+                        <div className={styles.notifBtns}>
+                            <button className={styles.btnOk} onClick={()=> deleteRepeat(true)}>Si</button>
+                            <button className={styles.btnNo} onClick={()=> deleteRepeat(false)}>No</button>
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+            </AnimatePresence>
+           
            
             {modalFinish && !messagesLimitAchieved && (
             <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"}>
