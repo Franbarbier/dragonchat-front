@@ -25,7 +25,6 @@ export interface IFreeCard3 {
   setModalShieldOptions: (limit: boolean) => void;
 
   setActiveCard: (id: number) => void;
-  mensaje: string;
   shieldOptions: {
     timer: number;
     pausa: number;

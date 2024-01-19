@@ -20,9 +20,6 @@ export interface ICardsCont {
     isPaid : boolean,
 }
 
-type IdCard = {
-    id: number
-}
 
 export interface ContactInfo {
     nombre : string,
@@ -40,7 +37,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
-    const [mensaje, setMensaje] = useState<string>('')
     const [messages, setMessages] = useState<string[]>([''])
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
@@ -89,18 +85,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [prevCard, setPrevCard] = useState<boolean>(false)
 
 
-    function handleNewContact(newContact:ContactInfo) {
-        setContactos([...contactos, newContact])
-    }
-
-    function handleDeleteContact(contact:ContactInfo) {
-        setContactos( contactos.filter(con => con !== contact) )
-    }
-
     function handleRenderModal(render:boolean){
         setModalImport(render)
     }
-
     
     useEffect(()=>{
         var filtered = [...contactos]
@@ -241,7 +228,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         activeCard={activeCard}
                         contactos={finalList}
                         setContactos={setContactos}
-                        mensaje={mensaje}
                         messagesLimitAchieved={messagesLimitAchieved}
                         setMessagesLimitAchieved={setMessagesLimitAchieved}
                         modalShieldOptions={modalShieldOptions}
