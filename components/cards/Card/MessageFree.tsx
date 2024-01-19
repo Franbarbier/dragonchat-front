@@ -7,26 +7,22 @@ import ConversationPremium, { IChat, ISecuence } from '../ConversationPremium/Co
 import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {
-    setActiveCard: (id: number) => void,
     activeCard : number;
-    mensaje : string;
-    setMensaje: (msj: string) => void;
     setSelectedSecuence:  (secuence: ISecuence | null) => void;
     selectedSecuence : ISecuence | null;
-   
     setBreadcrumb : (breadcrumb: IChat[]) => void;
-    notification : INotification;
     setNotification : (notification: INotification) => void;
+    notification : INotification;
     tipoEnvio : string;
     setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
     activeSecuence : number | null;
     setActiveSecuence : (id: number | null) => void;
-
     messages : string[];
     setMessages : (mensajes: string[]) => void;
 }
 
-const FreeCard2: React.FC<IFreeCard2> = ({ setActiveCard, activeCard, mensaje, setMensaje, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence, messages, setMessages }) => {
+
+const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence, messages, setMessages }) => {
 
     let idCard = 2;
 

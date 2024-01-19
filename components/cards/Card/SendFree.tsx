@@ -10,49 +10,47 @@ import { ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../../Notification/Notification";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
-import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
+import { ContactInfo } from "../CardsContFree";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from "./FreeCard.module.css";
 
 export interface IFreeCard3 {
-  setActiveCard: (id: number) => void;
   activeCard: number;
   contactos: ContactInfo[];
-  messagesLimitAchieved: boolean;
-  setMessagesLimitAchieved: (limit: boolean) => void;
-  mensaje: string;
   setContactos: (contactos: ContactInfo[]) => void;
+  setMessagesLimitAchieved: (limit: boolean) => void;
+  messagesLimitAchieved: boolean;
   modalShieldOptions: boolean;
   setModalShieldOptions: (limit: boolean) => void;
+
+  setActiveCard: (id: number) => void;
+  mensaje: string;
   shieldOptions: {
     timer: number;
     pausa: number;
     bloques: number;
   };
-
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
   messages: string[];
+  setBlackList: (contactos: ContactInfo[]) => void;
+
   notification : INotification;
   setNotification : (notification: INotification) => void;
 
-  blackList: ContactInfo[];
-  setBlackList: (contactos: ContactInfo[]) => void;
   setModalFinish: (mod: boolean) => void;
   setRenderDialog : (render: boolean) => void;
 
 }
 
+
 const FreeCard3: React.FC<IFreeCard3> = ({
-  setActiveCard,
   activeCard,
   contactos = [],
   setContactos,
-  mensaje,
   setMessagesLimitAchieved,
   messagesLimitAchieved,
-  modalShieldOptions,
   setModalShieldOptions,
   shieldOptions,
   sendingState,
@@ -60,7 +58,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   messages,
   notification,
   setNotification,
-  blackList,
   setBlackList,
   setModalFinish,
   setRenderDialog
@@ -154,7 +151,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     const sentMessage = await apiSenderWhatsappController.sendMessage(
       userInfo.user_id,
       destinatario.nombre,
-      mensaje = currentMessage,
+      currentMessage,
       destinatario.numero,
       authToken
     );
