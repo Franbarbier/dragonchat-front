@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY yarn.lock ./
-RUN yarn set version 3.6.1
+#RUN yarn set version 3.8.1
 RUN yarn install
 COPY . .
 
@@ -26,6 +26,5 @@ COPY --from=builder /app/yarn.lock ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 RUN yarn install --production
-#RUN npm install next
 
 CMD ["yarn", "start"]

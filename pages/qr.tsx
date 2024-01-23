@@ -6,7 +6,6 @@ import Router from "next/router";
 import { useState } from "react";
 import apiUserController from "../api/apiUserController";
 import Header from "../components/Header/Header";
-import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import Loader from "../components/Loader/Loader";
 import MainCont from "../components/MainCont/MainCont";
 import Maintenance from "../components/Maintenance/Maintenance";
@@ -17,6 +16,7 @@ import Notification, { INotification } from '../components/Notification/Notifica
 import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
 import WppBtn from "../components/WppBtn/WppBtn";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from "../constants/index";
 import { API_ROUTES, ROUTES, STATUS } from "../enums";
 import useDeviceType from "../utils/checkDevice";
@@ -105,7 +105,7 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
         <>
           <MainCont width={isMobile ? 90 : 40} style={ isMobile ? {'top' : "55%" } : {'top' : "50%" }  }>
             
-              <QrCard notification={notification} setNotification={setNotification}/>
+              <QrCard notification={notification} setNotification={setNotification} isPaid={isPaid}/>
            
           </MainCont>
           {modalStripe == 200 &&
@@ -192,7 +192,6 @@ export async function getServerSideProps({req, res}) {
     });
     const responseData = await getData.json();
 
-    console.log(responseData)
 
     if (responseData.subscription && responseData.subscription.isPaid === undefined) {
       data.subscription.isPaid = false;

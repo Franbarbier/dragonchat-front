@@ -19,7 +19,7 @@ return (
             <CardTitle text={`${blackList?.length} MENSAJES NO SE ENVIARON`} />
             <div>
                 <p>Hubo {blackList?.length} mensajes que no se pudieron enviar. Puede ser porque la linea ingresada no existe o debido al % de Entregabilidad de tu plan actual.</p>
-                <p>Podes pasarte a <u>DragonChat PRO</u> con servidores de mejor performance para aumentar la entregabilidad al 100%</p>
+                <p>Podes pasarte a <u>DragonChat 2.0</u> con servidores de mejor performance para aumentar la entregabilidad al 100%</p>
 
                 <h5>Descarga la lista de contactos a los que no les llego su mensaje!</h5>
                 <div>

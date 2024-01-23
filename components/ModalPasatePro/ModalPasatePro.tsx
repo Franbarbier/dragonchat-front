@@ -15,9 +15,9 @@ return (
         <div className={styles.modal_pro}>
 
           <div>
-            <CardTitle text="PASATE A PRO" />
+            <CardTitle text="PASATE A DRAGONCHAT 2.0" />
             <div>
-                <p>Pasate a DragonChat PRO para tener:</p>
+                <p>Pasate a DragonChat 2.O para tener:</p>
                 <ul>
                     <li><img src="cierto.png"/>Mensajes ilimitados.</li>
                     <li><img src="cierto.png"/>Entregabilidad del 100%.</li>
@@ -28,7 +28,7 @@ return (
                 <div>
                     <CustomColorBtn
                         type="submit"
-                        text="PASAR A PRO"
+                        text="PASAR A DRAGONCHAT 2.0"
                         backgroundColorInit="#c21c3b"
                         backgroundColorEnd="#f9bd4f"
                         borderColor="#e17846"
