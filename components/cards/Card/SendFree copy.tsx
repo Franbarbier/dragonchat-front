@@ -10,8 +10,8 @@ import { ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../../Notification/Notification";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
-import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
+import CardTitle from "../CardTitle/CardTitle";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from "./FreeCard.module.css";
 
@@ -233,14 +233,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
 
   }, [sendingState])
-
-
-  
-
-
-
-
-  
 
   const handleButtonClick = async () => {
 
