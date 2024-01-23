@@ -32,9 +32,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <link rel="shortcut icon" href="/dragonchat_logo.svg" />
     </Head>
 
-    {/* {!multiTab &&
+    {!multiTab &&
       getLayout(<Component {...pageProps} />)
-    } */}
+    }
 
     {multiTab &&
         <div className="multi_tab">
