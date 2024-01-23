@@ -1,5 +1,5 @@
 FROM node:16-alpine AS deps
-#RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat
 RUN yarn cache clean
 WORKDIR /app
 
