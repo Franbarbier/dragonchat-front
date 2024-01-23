@@ -11,7 +11,6 @@
 .qrImg_cont h4{
     font-size: 0.9em;
     margin: 0 auto 7%;
-    /* text-align: center; */
     font-weight: 300;
     letter-spacing: 1px;
     color: #afaac3;
@@ -117,7 +116,6 @@
 
 .flipFront{
     color: #fff;
-    /* background: #2196f3; */
 }
 
 .flipBack{
@@ -125,7 +123,6 @@
     top: 0;
     left: 0;
     transform: rotateY(180deg);
-    /* color: #2196f3; */
     background: #fff;
 }
 .flipBack p{
