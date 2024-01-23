@@ -57,13 +57,13 @@
 .close_mod:hover{
     color: white;
 }
-.refAmis, .modal_plan, .pro{
-    width: 30vw!important;
-}
 .no_enviados{ width: 40vw; }
 .modal_shield_option{ width: 35vw; }
 .timerModal { width: 35vw; }
 .width35{ width: 35vw; }
+.refAmis, .modal_plan, .pro{
+    width: 30vw;
+}
 /* if mobile modal cont more width */
 @media screen and (max-width: 768px){
     .modal_cont{
@@ -77,4 +77,10 @@
     .modal_shield_option{ width: 80vw; }
     .timerModal { width: 80vw; }
     .modal_shield_option>div{ margin: 8% 0; }
+}
+
+@media screen and (max-width: 999px){
+    .pro{
+        width: 60vw;
+    }
 }
