@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/index';
 import { ROUTES, STATUS } from '../../enums';
-import CardTitle from "../cards/CardTitle/CardTitle";
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
+import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from './QrCard.module.css';
 
 export interface IQrCard {
@@ -39,6 +39,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification }) => {
                     count417++;
                     if(count417 == 40){
                         stopIteration()
+                        return false
                     }
                     setLoadingQr(true);
                 }

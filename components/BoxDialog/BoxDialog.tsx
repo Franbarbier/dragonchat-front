@@ -25,7 +25,7 @@ const BoxDialog: React.FC<Props> = ({ setRenderDialog }) => {
                 </span>
                 <CustomColorBtn
                     type="submit"
-                    text="PASARME A PRO"
+                    text="PASARME A DRAGONCHAT 2.0"
                     backgroundColorInit="#c21c3b"
                     backgroundColorEnd="#f9bd4f"
                     borderColor="#e17846"
