@@ -21,10 +21,10 @@ return (
             <CardTitle text="TE QUEDAN" />
             <div>
                 <h3>10:00</h3>
-                <p>Para poder utilizar DragonChat por tiempo ilimitado, pasate a PRO.</p>
+                <p>Para poder utilizar DragonChat por tiempo ilimitado, pasate a la version 2.0.</p>
                 <CustomColorBtn
                     type="submit"
-                    text="Pasarse a PRO"
+                    text="Pasarse a 2.0"
                     backgroundColorInit="#c21c3b"
                     backgroundColorEnd="#f9bd4f"
                     borderColor="#e17846"

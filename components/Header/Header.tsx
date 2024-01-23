@@ -107,7 +107,7 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
                 <div>
                     <img width={'130px'} src={'dragonchat_logo_full.svg'} />
                     {isPaid &&
-                        <span className={styles.proLogo}>PRO</span>
+                        <span className={styles.proLogo}>2.0</span>
                     }
                 </div>
                 
@@ -115,10 +115,6 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
                 <div className={styles.menu_cont}>
                 {!isPaid &&
                     <div className={styles.referir_cont}>
-                        {/* <button onClick={()=>{setModalPro(true)}}>
-                            <img src="corona.png" />
-                            <span>PASATE A PRO</span>
-                        </button> */}
                         <ProBtn onClick={()=>{setModalPro(true)}}/>
                     </div>
                 }

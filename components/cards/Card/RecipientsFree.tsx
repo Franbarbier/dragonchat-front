@@ -189,7 +189,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                     <div className={styles.title_lines_cont}>
                         <div className={`${styles.left_line} ${styles.title_lines}`}></div>
                         <div>
-                            <h3>VERSION FREE</h3>
+                            <h3>VERSION 1.0</h3>
                             <h6>ENTREGABILIDAD = 60% <span>i</span>
                             <aside
                             

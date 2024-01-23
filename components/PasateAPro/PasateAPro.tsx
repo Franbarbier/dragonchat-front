@@ -16,7 +16,7 @@ const ProBtn: React.FC<IProBtn> = ({ onClick }) => {
                 onClick(true)
             }}>
                 <img src="corona.png" />
-                <span>PASATE A PRO</span>
+                <span>PASATE A DRAGONCHAT 2.0</span>
             </button>
         </div>
     );

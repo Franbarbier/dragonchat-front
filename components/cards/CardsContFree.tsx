@@ -252,6 +252,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         notification={notification}
                         setNotification={setNotification}
                         isPaid={isPaid}
+
                     />
                     <FreeCard2
                         activeCard={activeCard}
