@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY yarn.lock ./
-RUN yarn set version 1.22.19
+RUN yarn set version 3.8.1
 RUN yarn install
 COPY . .
 
