@@ -351,7 +351,7 @@ background: #555;
     border-color: #d23227;
 }
 .row_card.error{
-    background:linear-gradient( rgba(31, 4, 4, 0.8), rgba(31, 4, 4, 0.8)), url('/textura.jpeg');
+    background:linear-gradient( rgba(31, 4, 4, 0.8), rgba(31, 4, 4, 0.8)), url('../../../public/textura.jpeg');
     background-position: 50%;
     background-size: cover;
     border-color: #744440!important;
