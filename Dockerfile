@@ -1,11 +1,11 @@
 FROM node:16-alpine AS deps
-RUN apk add --no-cache libc6-compat
+#RUN apk add --no-cache libc6-compat
 RUN yarn cache clean
 WORKDIR /app
 
 COPY package*.json ./
 COPY yarn.lock ./
-RUN yarn set version 3.6.1
+RUN yarn set version 1.22.0
 RUN yarn install
 COPY . .
 
