@@ -14,20 +14,15 @@ interface IModalImport {
 }
 
 export interface IFreeCard1 {
-    setActiveCard: (id: number) => void;
-    setContactos : (contactos: ContactInfo[]) => void;
+    isPaid : boolean;
     activeCard : number;
-    contactos : ContactInfo[];
-    handleNewContact: (newContact: ContactInfo) => void;
-    handleDeleteContact : (contact: ContactInfo) => void;
+    setContactos : (contactos: ContactInfo[]) => void;
     handleRenderModal : (render: boolean) => void;
     finalList : ContactInfo[];
     setDroppedCsv : (droppedCsv: File) => void;
     notification : INotification
     setNotification : (notification: INotification) => void;
-    isPaid : boolean;
 }
-
 
 interface ICustomContextMenu {
     position: { x: number; y: number; index: number, type: string };
@@ -79,7 +74,7 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     )
 }
 
-const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, setActiveCard, activeCard, setContactos, contactos, handleNewContact, handleDeleteContact, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
+const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
 
 
     let idCard = 1;
