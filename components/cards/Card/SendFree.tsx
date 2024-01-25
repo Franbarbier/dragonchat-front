@@ -230,6 +230,14 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   }, [sendingState])
 
+
+  
+
+
+
+
+  
+
   const handleButtonClick = async () => {
 
     if (sendingState === SENDING_STATE.INIT || sendingState === SENDING_STATE.PAUSED) {
