@@ -1,7 +1,11 @@
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
 import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
+import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
+import CopyPasteTuto from '../CopyPasteTuto/CopyPasteTuto';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalFinish from '../ModalFinish/ModalFinish';
 import NavBottom from '../NavBottom/NavBottom';
@@ -85,6 +89,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [modalNoEnviados, setModalNoEnviados] = useState<boolean>(false);
     const [blackList, setBlackList] = useState<ContactInfo[]>([]);
     
+    const [copyPasteTutorial, setCopyPasteTutorial] = useState<string | null>(null);
+    const [antiBlockerTuto, setAntiBlockerTuto] = useState<string | null>(null);
 
 
 
@@ -194,8 +200,39 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
 
     const isMobile = useDeviceType();
+    
+    useEffect(() => {
+        if (copyPasteTutorial == "nunca") {
+            Cookies.set(COPYPASTE_TUTO, "nunca", { expires: 200 })
+        }
+        if (copyPasteTutorial == "desp" || copyPasteTutorial == "nunca") {
+            setCopyPasteTutorial(null)
+        }
+    }, [copyPasteTutorial])
+    
+    useEffect(() => {
+        if (Cookies.get(COPYPASTE_TUTO) != "nunca") setCopyPasteTutorial("")
+    }, [])
 
+    useEffect(() => {
+        if (antiBlockerTuto == "nunca") {
+            Cookies.set(ANTIBLOCKER_TUTO, "nunca", { expires: 200 })
+        }
+        if (antiBlockerTuto == "desp" || antiBlockerTuto == "nunca") {
+            setAntiBlockerTuto(null)
+        }
+    }, [antiBlockerTuto])
 
+    useEffect(() => {
+        if (activeCard == 3) {
+            if (Cookies.get(ANTIBLOCKER_TUTO) != "nunca") setAntiBlockerTuto("")
+        }
+    }, [activeCard])
+
+    console.log("Cookie antiblocker", Cookies.get(ANTIBLOCKER_TUTO))
+    console.log("Cookie copy n paste", Cookies.get(COPYPASTE_TUTO))
+    console.log("anti blocker state:",antiBlockerTuto)
+    console.log("copy paste state:",copyPasteTutorial)
 
     return (
         <div>
@@ -330,6 +367,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                     </div>
                 </div>
             }
+
+            {copyPasteTutorial != null && <CopyPasteTuto setTuto={setCopyPasteTutorial} /> }
+            {antiBlockerTuto != null && <AntiBlockerTuto setTuto={setAntiBlockerTuto } /> }
             
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
            
