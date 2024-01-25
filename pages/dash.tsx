@@ -58,8 +58,8 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
                 'width': '100vw',
                 'height': '100vh',
                 'position': 'relative'
-              }}
-              >
+              }} >
+
                 <CardsCont isPaid={isPaid}/>
 
               </div>
@@ -168,8 +168,8 @@ export async function getServerSideProps({ req, res }) {
       maint = true
   }
 
-
   return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
+
 }
 
 Dash.getLayout = (page) => {
