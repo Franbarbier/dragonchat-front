@@ -201,6 +201,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     const isMobile = useDeviceType();
     
+
+
+    // Sistema de de cookies para saber si mostras o no los tutoriales
     useEffect(() => {
         if (copyPasteTutorial == "nunca") {
             Cookies.set(COPYPASTE_TUTO, "nunca", { expires: 200 })
@@ -229,10 +232,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         }
     }, [activeCard])
 
-    console.log("Cookie antiblocker", Cookies.get(ANTIBLOCKER_TUTO))
-    console.log("Cookie copy n paste", Cookies.get(COPYPASTE_TUTO))
-    console.log("anti blocker state:",antiBlockerTuto)
-    console.log("copy paste state:",copyPasteTutorial)
+
 
     return (
         <div>
