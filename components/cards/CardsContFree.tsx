@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
@@ -14,21 +15,18 @@ import styles from './CardsCont.module.css';
 import { IChat, ISecuence } from './ConversationPremium/ConversationPremium';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
-const dragon2 = require("../../public/dragonchat_dragon.svg") as string;
 
 export interface ICardsCont {
     isPaid : boolean,
 }
 
-type IdCard = {
-    id: number
-}
 
 export interface ContactInfo {
     nombre : string,
     numero : string,
     estado? : STATUS.SUCCESS | STATUS.ERROR | STATUS.PENDING,
-    selected? : boolean
+    selected? : boolean,
+    repeated? : 1 | 2 | 3
 }
 
 
@@ -39,7 +37,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
-    const [mensaje, setMensaje] = useState<string>('')
     const [messages, setMessages] = useState<string[]>([''])
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
@@ -78,112 +75,135 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     const [sendingState, setSendingState] = useState<SENDING_STATE>(SENDING_STATE.INIT);
     const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
-    const [isNumberRepeated, setIsNumberRepeated] = useState<boolean>(false)
+    const [repeated, setRepeated] = useState<number[]>([])
 
     const [modalFinish, setModalFinish] = useState<boolean>(false)
 
-    const [modalNoEnviados, setModalNoEnviados] = useState<boolean>(false);
     const [blackList, setBlackList] = useState<ContactInfo[]>([]);
     
+    const [nextCard, setNextCard] = useState<boolean>(false)
+    const [prevCard, setPrevCard] = useState<boolean>(false)
 
-
-
-    function handleNewContact(newContact:ContactInfo) {
-        setContactos([...contactos, newContact])
-    }
-
-    function handleDeleteContact(contact:ContactInfo) {
-        setContactos( contactos.filter(con => con !== contact) )
-    }
 
     function handleRenderModal(render:boolean){
         setModalImport(render)
     }
-
-
-    function checkAllListFields() {
-        var values = new Set();
-        for (let index = 0; index < finalList.length - 1; index++) {
-            const element = finalList[index];
-            if (element.nombre == "" || element.numero == "") {
-                return false
-            }
-            
-            
-            if (values.has(element.numero)) {
-                return false
-            }
-            values.add(element.numero)            
-        }
-        return true
-    }
-
-
-    function definedMessage() {
-
-        function hasEmptyString() { return messages.some((str) => str === ''); }
-
-        return !(tipoEnvio == MESSAGE_TYPE.DIFUSION && !hasEmptyString() || tipoEnvio == MESSAGE_TYPE.CONVERSACION && activeSecuence != null && activeCard == 2)
-
-    }
-
-    function checkNextCard() {
-    
-        switch (activeCard) {
-            case 1:
-                if (finalList.length > 1 && checkAllListFields()) return true;
-                // falta agregar que no se repitan los numeros
-            case 2:
-                if ( !definedMessage() ) return true; 
-                break;
-            case 3:
-                 return false
-        
-            default:
-                break;
-        }
-    }
-    
-    function checkPrevCard() {
-        switch (activeCard) {
-            case 1:
-                return false
-            case 2:
-                if (sendingState != SENDING_STATE.INIT) {
-                    return false
-                }
-            case 3:
-                if (sendingState == SENDING_STATE.FINISH || sendingState == SENDING_STATE.SENDING) {   
-                    return false
-                }
-                return true
-        
-            default:
-                break;
-        }
-    }
     
     useEffect(()=>{
         var filtered = [...contactos]
-    
-        filtered.map((item)=>{
-            item.numero = item.numero?.replace(/[^0-9]/g, '');
-        })
-        const lastObject = contactos[contactos.length - 1];
 
-            if (lastObject.hasOwnProperty("nombre") && lastObject.nombre != "" || lastObject.hasOwnProperty("numero") && lastObject.numero != "" ) {
-                filtered = [...filtered, {'nombre':'', 'numero':''}]
-            }
-
+        filtered = removeColors(filtered)
         setFinalList(filtered)
         
     },[contactos])
+
+    function removeColors(array) {
+        
+        let removedColors = [...array]
+        // Create a map to store counts of each numero value
+        const countMap = new Map();
+        removedColors.forEach((item) => {
+            const count = countMap.get(item.numero) || 0;
+            countMap.set(item.numero, count + 1);
+        });
+
+        let aEliminar:any = []
+        let newObjectsWithRepeats = removedColors.map((item, index) => {
+            if (item.numero != "" && countMap.get(item.numero) > 1) {
+                if (item.repeated >= 2) {
+                    aEliminar.push(index)
+                }
+                return {...item}
+            }else{
+                return {
+                    ...item,
+                    repeated : undefined
+                }
+            }
+        });
+
+        setRepeated(aEliminar)
+        return newObjectsWithRepeats
+    }
+
+    function deleteRepeat(ans) {
+        if (ans) {
+            let withoutRepeat = finalList.filter((_, index) => !repeated.includes(index));
+            setContactos(withoutRepeat)
+        }else{
+            setRepeated([])
+        }
+    }
+
+    useEffect(()=>{
+
+        switch (activeCard) {
+            case 1:
+                const isValidArray = (arr) => {
+                      if (arr.length < 2) {
+                        // Array must have at least one element
+                        return false;
+                      }
+                    
+                      const nonEmptyNumeros = arr
+                        .filter(item => item.numero.trim() !== '')
+                        .map(item => item.numero.trim());
+                    
+                      if (nonEmptyNumeros.length !== new Set(nonEmptyNumeros).size) {
+                        // Check for repeated values in "numero"
+                        return false;
+                      }
+                    
+                      // Check that none of the props are empty or blank spaces, excluding the last item
+                      for (let i = 0; i < arr.length - 1; i++) {
+                        const item = arr[i];
+                        if (item.nombre.trim() === '' || item.numero.trim() === '') {
+                          return false;
+                        }
+                      }
+                      return true;
+                }
+
+
+                //   if there is NO repeated numbers. (o poner un setNextCard en el checkRepeated)
+                if ( isValidArray(finalList) ) {
+                    setNextCard(true)
+                }else{
+                    setNextCard(false)
+                };
+
+                setPrevCard(false)
+                
+                break;
+            case 2:
+
+                const emptyMess = messages.some((str) => str.trim() === '');
+
+                if ( (tipoEnvio == MESSAGE_TYPE.DIFUSION && !emptyMess ) ) {
+                    setNextCard(true)
+                }else{ setNextCard(false) }
+                setPrevCard(true)
+                break;
+            case 3:
+                setNextCard(false)
+                if (sendingState == SENDING_STATE.FINISH || sendingState == SENDING_STATE.SENDING) {
+                    setPrevCard(false)                    
+                }else{
+                    setPrevCard(true)
+                }
+
+                break;
+            default:
+                break;
+        }
+
+    },[finalList, activeCard, messages])
 
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
             if (event.key == "Enter" && activeCard == 1) {
                 event.preventDefault()
-                if ( checkNextCard() ) setActiveCard(activeCard+1)
+                if ( nextCard ) setActiveCard(activeCard+1)
             }
         }
         document.addEventListener("keydown", handleKeyPress);
@@ -194,6 +214,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
 
     const isMobile = useDeviceType();
+
+    
 
 
 
@@ -206,7 +228,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         activeCard={activeCard}
                         contactos={finalList}
                         setContactos={setContactos}
-                        mensaje={mensaje}
                         messagesLimitAchieved={messagesLimitAchieved}
                         setMessagesLimitAchieved={setMessagesLimitAchieved}
                         modalShieldOptions={modalShieldOptions}
@@ -217,32 +238,24 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         messages={messages}
                         setNotification={setNotification}
                         notification={notification}
-                        blackList={blackList}
                         setBlackList={setBlackList}
-                        // setModalNoEnviados={setModalNoEnviados}
                         setModalFinish={setModalFinish}
                         setRenderDialog={setRenderDialog}
                     />
 
                     <FreeCard1 
-                        setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
-                        contactos={contactos}
                         setContactos={setContactos}
-                        handleNewContact={handleNewContact}
-                        handleDeleteContact={handleDeleteContact}
                         handleRenderModal={handleRenderModal}
                         finalList={finalList}
                         setDroppedCsv={setDroppedCsv}
                         notification={notification}
                         setNotification={setNotification}
                         isPaid={isPaid}
+
                     />
                     <FreeCard2
-                        setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
-                        mensaje={mensaje}
-                        setMensaje={setMensaje}
                         selectedSecuence={selectedSecuence}
                         setSelectedSecuence={setSelectedSecuence}
                         setBreadcrumb={setBreadcrumb}
@@ -260,11 +273,11 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
             </div>
 
-            <div className={`${styles.nextCard} ${ !checkNextCard() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( checkNextCard() ) setActiveCard(activeCard+1) } }>
+            <div className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
             
-            <div className={`${styles.prevCard} ${ !checkPrevCard() ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( checkPrevCard() ) setActiveCard(activeCard-1) } }>
+            <div className={`${styles.prevCard} ${ ! prevCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( prevCard ) setActiveCard(activeCard-1) } }>
                 <button><img src="/arrow-card.png" /></button>
             </div>
 
@@ -301,8 +314,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             <NavBottom
                 activeCard={activeCard}
                 setActiveCard={setActiveCard}
-                checkPrevCard={checkPrevCard}
-                checkNextCard={checkNextCard}
+                prevCard={prevCard}
+                nextCard={nextCard}
             />
             <WppBtn />
             
@@ -332,6 +345,26 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             }
             
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
+           
+           <AnimatePresence>
+           {repeated.length > 0 && (
+               <motion.div className={styles.notifDeleteRepeat}
+                    initial={{ opacity: 0, x : 50 }}
+                    exit={{ opacity: 0, x : 50 }}
+                    animate={{ opacity: 1, x : 0 }}
+                    key="notificationRepeat"
+                >
+                    <div>
+                        <h4>Desea eliminar los numeros repetidos? <span> (Contactos resaltados en rojo)</span></h4>
+                        <div className={styles.notifBtns}>
+                            <button className={styles.btnOk} onClick={()=> deleteRepeat(true)}>Si</button>
+                            <button className={styles.btnNo} onClick={()=> deleteRepeat(false)}>No</button>
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+            </AnimatePresence>
+           
            
             {modalFinish && !messagesLimitAchieved && (
             <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"}>
