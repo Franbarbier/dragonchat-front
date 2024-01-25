@@ -130,6 +130,8 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
     });
 
 
+    
+
     return (
         <>
             <Loader loading={loadingQr} />
