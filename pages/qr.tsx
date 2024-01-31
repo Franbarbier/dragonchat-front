@@ -190,10 +190,10 @@ export async function getServerSideProps({req, res}) {
         "Content-Type": "application/json"
       }
     });
+
     const responseData = await getData.json();
 
-
-    if (responseData.subscription && responseData.subscription.isPaid === undefined) {
+    if (responseData?.suscription ) {
       data.subscription.isPaid = false;
     }else{
       data = responseData
@@ -210,7 +210,7 @@ export async function getServerSideProps({req, res}) {
   }
 
 
-  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
+  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid || false, maintenance : maint } };
   
   
   }
