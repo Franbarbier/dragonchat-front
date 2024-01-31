@@ -152,8 +152,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                       }
                     
                       const nonEmptyNumeros = arr
-                        .filter(item => item.numero.trim() !== '')
-                        .map(item => item.numero.trim());
+                        .filter(item => item?.numero?.trim() !== '')
+                        .map(item => item?.numero?.trim());
                     
                       if (nonEmptyNumeros.length !== new Set(nonEmptyNumeros).size) {
                         // Check for repeated values in "numero"
@@ -163,7 +163,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                       // Check that none of the props are empty or blank spaces, excluding the last item
                       for (let i = 0; i < arr.length - 1; i++) {
                         const item = arr[i];
-                        if (item.nombre.trim() === '' || item.numero.trim() === '') {
+                        if (item?.nombre?.trim() === '' || item?.numero?.trim() === '') {
                           return false;
                         }
                       }
