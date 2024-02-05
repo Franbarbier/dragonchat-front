@@ -81,7 +81,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   async function sendMove(cnt, callback) {
 
-
     let count = cnt;
 
     try{
@@ -90,10 +89,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     let newContacts = [...contactos];
     newContacts[count].estado = STATUS.PENDING;
     setContactos(newContacts);
-    
-    // Check which message to send
-    const stringIndex = count % messages.length;
-    const currentMessage = messages[stringIndex];
+
+
+    let currentMessage:string[] = []
+
+    for(let i = 0; i < messages.length; i++){
+      const stringIndex = count % messages[i].length;   
+      currentMessage.push(messages[i][stringIndex])
+    }
+
 
     // Send currentString to the recipient
     const onSuccess = () => {

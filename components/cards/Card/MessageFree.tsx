@@ -17,8 +17,8 @@ export interface IFreeCard2 {
     setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
     activeSecuence : number | null;
     setActiveSecuence : (id: number | null) => void;
-    messages : string[];
-    setMessages : (mensajes: string[]) => void;
+    messages : any[];
+    setMessages : (mensajes: any[]) => void;
 }
 
 

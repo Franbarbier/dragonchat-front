@@ -41,7 +41,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
-    const [messages, setMessages] = useState<string[]>([''])
+    const [mensaje, setMensaje] = useState<string>('')
+    const [messages, setMessages] = useState<any>([['']])
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
@@ -202,8 +203,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             default:
                 break;
         }
-
     },[finalList, activeCard, messages])
+
 
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
