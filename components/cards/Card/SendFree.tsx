@@ -74,9 +74,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const [bloques, setBloques] = useState<number>(0);
   const [pausa, setPausa] = useState<number>(0);
 
+  const [listCounter, setListCounter] = useState<number>(0);
+
+  const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
+  
+
+  async function sendMove(cnt, callback) {
 
 
-  async function sendMove(userInfo, count) {
+    let count = cnt;
 
     try{
 
@@ -89,8 +95,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     const stringIndex = count % messages.length;
     const currentMessage = messages[stringIndex];
 
-    // Send currentString to the recipient    
+    // Send currentString to the recipient
     const onSuccess = () => {
+
+      console.log(sentMessage, count)
+
+      
 
       if (sentMessage?.status == 200 || sentMessage?.status == 201) {
         let newContacts = [...contactos];
@@ -129,13 +139,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               setNotification({...notification, render : false})
             }
           });
-          setTimeout(() => { window.location.href = ROUTES.QR; }, 500);
+          setTimeout(() => { window.location.href = ROUTES.QR; }, 1000);
         }
       }
 
 
     };
 
+
+    // Chequear si se puede evitar esto
     let authToken = ""
 
     try {
@@ -154,78 +166,33 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       destinatario.numero,
       authToken
     );
+
     onSuccess();
+
+
+    
+    // Chequear bien donde va esta parte.. si aca o en el UseEffect
+    if (count < contactos.length - 1 && sendingState == SENDING_STATE.SENDING ) {
+      setListCounter(count + 1);
+      callback(count + 1, callback);
+    }
+
+
   }catch(error){
     alert("Ocurrio un error inesperado en la plataforma. Por favor intenta mas tarde.")
   }
 
 
+    
+
   }
 
+  useEffect(()=> { console.log("counter", listCounter) }, [listCounter])
 
   useEffect(() => {
 
-    // Numero aleatoria para desrobotizar los envios
-    if (sendingState === SENDING_STATE.SENDING) {
-      const arrayOfBlocks: Array<Array<ContactInfo>> = contactos.reduce(
-        (accumulator, actualValue) => {
-          if (
-            actualValue.nombre.trim() === "" ||
-            actualValue.numero.trim() === ""
-          ) {
-            return accumulator;
-          }
-          if (
-            actualValue.estado === STATUS.SUCCESS || actualValue.estado === STATUS.ERROR
-          ) {
-            return accumulator;
-          }
-          if (accumulator.length === 0) {
-            return [[actualValue]];
-          }
-          const lastIndex = accumulator.length - 1;
-          const previus = accumulator[lastIndex];
-          if (previus.length < bloques) {
-            previus.push(actualValue);
-            return accumulator;
-          } else {
-            return [...accumulator, [actualValue]];
-          }
-        },
-        new Array<Array<ContactInfo>>()
-      );
-
-      const contacts = contactos.filter(
-        (c) => c.numero.trim() !== '' && c.nombre.trim() !== ''
-      );
-
-
-      const userInfo = JSON.parse(Cookie.get("dragonchat_login1") || "{}");
-
-      let localTimers: Array<NodeJS.Timeout> = [];
-      let messagesCount = 0;
-      arrayOfBlocks.forEach((block, blockIndex) => {
-        block.forEach((contact) => {
-          const blockTime = (blockIndex * pausa);          
-          const contactTime = (messagesCount * timer);
-          const ms = blockTime + contactTime;
-          messagesCount ++;
-                    
-          const timerId = setTimeout(() => {
-            const index = contacts.findIndex(
-              (c) => c.numero === contact.numero
-              );
-
-            sendMove(userInfo, index);
-            
-            if (index === contacts.length -1 ) {
-              setSendingState(SENDING_STATE.FINISH);
-            }
-          }, ( ms + (Math.floor(Math.random() * 5) + 1)*1000 ) );
-          localTimers.push(timerId);
-        })
-      });
-      setTimers(localTimers);
+    if ( sendingState == SENDING_STATE.SENDING ) {
+        sendMove(listCounter, sendMove)
     }
 
   }, [sendingState])

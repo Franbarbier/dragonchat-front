@@ -23,7 +23,28 @@ const apiSenderWhatsappController = {
         }
     },
     sendMessage: async (user, name, message, phone, authToken: string) => {
+        
+        
+        // try {
+            
+        //     const resolveAfter3econds = () => {
+        //         return new Promise((resolve) => {
+        //             setTimeout(() => {
+        //                 resolve('resolved');
+        //             }, 2000);
+        //         });
+        //     }
+        //     const payload = { user, name, message, phone };
+
+        //     const response = await resolveAfter3econds();
+
+        //     return response
+        // } catch (error: any) {
+        //     return error
+        // }
+
         try {
+            console.log(message)
             const payload = { user, name, message, phone };
             const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`, payload, { headers: {"Authorization": `Bearer ${authToken}`} });
             return response
