@@ -39,6 +39,6 @@ return (
           </div>
         </div>
       );
-}
+} 
 
 export default ModalPasatePro;

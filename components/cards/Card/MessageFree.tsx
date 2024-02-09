@@ -36,6 +36,9 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, sele
 
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}} key={`card${idCard}`} >
+            
+            {activeCard == idCard &&
+            <>
             <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
             <img src="/trama-car.svg" className={`${styles.tramaLeft} ${styles.tramas}`} />
             <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
@@ -65,6 +68,8 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, sele
                             <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
                     }
             </div>
+            </>}
+
         </div>
     
     );
