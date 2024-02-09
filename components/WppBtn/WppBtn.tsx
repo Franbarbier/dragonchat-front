@@ -18,7 +18,7 @@ const WppBtn: React.FC<IWppBtn> = ({  }) => {
             <div id={styles.wpp_btn_cont}>
                 <div>
                     <div>
-                        <a href="https://wa.me/573104719365?text=Hola!%20Me%20contacto%20desde%20dragonchat%20por%20" target="_blank">
+                        <a href="https://wa.me/56946581170?text=Hola!%20Me%20contacto%20desde%20dragonchat%20por%20" target="_blank">
                             <img src="/whatsapp.png" />
                         </a>
                     </div>
