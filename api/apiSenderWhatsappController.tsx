@@ -24,28 +24,8 @@ const apiSenderWhatsappController = {
     },
     sendMessage: async (user, name, messages, phone, authToken: string) => {
         
-        
-        // try {
-            
-        //     const resolveAfter3econds = () => {
-        //         return new Promise((resolve) => {
-        //             setTimeout(() => {
-        //                 resolve('resolved');
-        //             }, 2000);
-        //         });
-        //     }
-        //     const payload = { user, name, message, phone };
-
-        //     const response = await resolveAfter3econds();
-
-        //     return response
-        // } catch (error: any) {
-        //     return error
-        // }
-
         try {
             const payload = { user, name, messages, phone };
-
             const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`, payload,  { headers: {
                                                                                                             "x-api-version": 1,
                                                                                                             "Authorization": `Bearer ${authToken}`,
