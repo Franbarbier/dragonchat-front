@@ -163,11 +163,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         }, 500);
       }
 
-      console.log("se agrega un count", count)
       setTimeout(()=>{
         setListCounter(count + 1);
       }, delay * 1000)
-      console.log( count)
 
     };
         

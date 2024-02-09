@@ -114,7 +114,6 @@ export async function getServerSideProps({ req, res }) {
   const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
   const accessToken = JSON.parse(responseText).access_token
 
-  // console.log(cookies.get(LOGIN_COOKIE))
 
   if (cookies.get(STRIPE_COOKIE)) {
 

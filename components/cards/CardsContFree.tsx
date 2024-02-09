@@ -276,7 +276,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         setListCounter(0)
     }
 
-    console.log(contactos, messages, sendingState, modalFinish, listCounter)
 
 
     return (
