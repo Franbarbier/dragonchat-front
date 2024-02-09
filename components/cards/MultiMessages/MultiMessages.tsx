@@ -13,13 +13,11 @@ export interface IMultiMessages {
 const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages }) => {
    
 
-    const [testMsj, setTestMsj] = useState<any[]>([[""]])
+    const [testMsj, setTestMsj] = useState<any[]>(messages)
 
     useEffect(()=>{
-        console.log(messages)
         if (testMsj.length == 0) {
             setTestMsj([[""]])
-            
         }
     },[messages])
 
@@ -41,31 +39,31 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                 <div>
                     <div>
                         <ul>
-                            <li>Puedes mandar hasta 5 mensajes en un solo envio, recorda que cada mensaje puede tener variaciones y se enviaran aleatoriamente a cada destinatario.</li>
-                            <li>Escribiendo <strong>[name]</strong> se va a enviar dinamicamente el nombre del destinatario.</li>
+                            <li>Escribiendo <strong>[name]</strong> se enviará dinámicamente el nombre del destinario</li>
+                            <li> <img className={styles.forkIcon} src="./fork.png" />Permite escribir <strong>variaciones de mensajes</strong> que seran enviadas equitativamente a todos los destinatarios</li>
                         </ul>
                     </div>
                     <div className={styles.MultiMessages}>
-                        <div style={{"overflowY": testMsj.length == 0  ? "hidden" : "auto"}}>
+                        <div>
+                        {/* <div style={{"overflowY": testMsj.length == 0  ? "hidden" : "auto"}}> */}
                             {testMsj.map((message, index)=>{
                                     return (
-                                        <div className={styles.messages_cont} >
-                                            <span>Mensaje Nro. {index + 1}</span>
-                                            
+                                        <div className={styles.messages_cont} >                                            
                                                 <div>
                                                     {
                                                         message.length >= 0 && (
                                                         message.map((msj, j)=>{
                                                             return (
                                                                 <div>
-                                                                    <div>
-                                                                        <textarea value={ msj } placeholder={`Variacion Nro. ${j + 1}`} onChange={ (e)=>{
+                                                                    <div className={styles.txtareaCont}>
+                                                                        <img src="/var_linea.svg" alt="" className={styles.svgBranch}/>
+                                                                        <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
                                                                             let newMessages = [...testMsj];
                                                                             const thisArr = newMessages[index]
                                                                             thisArr[j] = e.target.value;
                                                                             newMessages[index] = thisArr;
                                                                             setTestMsj(newMessages);
-                                                                            // console.log(newMessages)
+                                                                            
                                                                         } }
                                                                         rows={1}
                                                                         />
@@ -86,13 +84,15 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         )
                                                     }
                                                     
+                                                        <button className={styles.newVaracion} onClick={()=>{
+                                                            const newArray = [...testMsj];
+                                                            newArray[index] = [...message, ``];
+                                                            setTestMsj(newArray);
+                                                        }} title='Agregar variacion'>
+                                                            <img src="./fork.png" />
+                                                        </button>
 
                                                 </div>
-                                                <button className={styles.newVaracion} onClick={()=>{
-                                                    const newArray = [...testMsj];
-                                                    newArray[index] = [...message, ``];
-                                                    setTestMsj(newArray);
-                                                }} title='Agregar variacion'>+</button>
                                             
 
                                         </div>
@@ -107,9 +107,9 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                             <CustomColorBtn
                                 type="submit"
                                 text="AGREGAR MENSAJE"
-                                backgroundColorInit="#13013780"
-                                backgroundColorEnd="#13013780"
-                                borderColor="var(--newViolet)"
+                                backgroundColorInit="#724cdf"
+                                backgroundColorEnd="#3a94fe"
+                                borderColor="#5573f0"
                                 onClick={ ()=> { addMsj() }  }
                                 disable={ testMsj.length >= 5 }
                             />

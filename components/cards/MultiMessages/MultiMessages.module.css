@@ -3,14 +3,9 @@
     flex-direction: column;
 
 }
-.MultiMessages>div:first-child{
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    max-height: 33vh;
-    padding: 11px;
-    overflow: hidden;
-
+.MultiMessages>div{
+    overflow-y: auto;
+    height: 35vh;
 }
 .MultiMessages_cont li{ 
     list-style: circle;
@@ -20,76 +15,102 @@
     width: 95%;
     margin-left: 5%;
     letter-spacing: 1px;
+    line-height: 17px;
 }
 /* set the scroll bar css */
 
 .messages_cont{
-    background: #015c4b;
-    border-radius: 7px;
-    width: fit-content;
-    padding: 11px;
     position: relative;
-    width: 67%;
-    margin-bottom: 5px;
 }
-.messages_cont:first-child::after{
-    content: '';
-    position: absolute;
-    top: -4px;
-    right: -3%;
-    border-left: 16px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 21px solid #015c4b;
-    border-radius: 11px;
-    transform: rotate(305deg);
-}
-.messages_cont>span{
-    font-size: 7PX;
-    color: #ddd;
-    position: absolute;
-    top: 3px;
-    left: 7px;
-}
-.newVaracion{
-    width: 90%;
-    margin: auto;
-    display: block;
-    border: 1px solid var(--violeta1);
-    cursor: pointer;
-    color: var(--violeta1);;
-    background-color: var(--inputBckgr);
-    margin-top: 6px;
-    border-radius: 4px;
-}
+
+
 .messages_cont>div>div{
     position: relative;
     margin: 9px 0;
+}
+.newVaracion{
+    position: absolute;
+    top: 18px;
+    right: 15%;
+    background-color: transparent;
+    border: transparent;
+    width: 22px;
+    cursor: pointer;
+    opacity: 0.4;
+}
+.newVaracion img{ 
+    filter: invert(1);
+    transform: rotate(90deg);
+    width: 100%;
 }
 .messages_cont .deleteVariacion{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    left: -5px;
+    right: 5%;
     border: 1px solid #fff;
-    padding: 1px;
+    padding: 4px;
     border-radius: 10px;
+    width: 22px;
+    opacity: 0.4;
+}
+.messages_cont>div>div>div{
+    margin-left: 10%;
+    width: 90%;
 }
 .messages_cont textarea{
-    resize: none;
-    text-align: right;
-    width: 90%;
     margin: auto;
+    background-color: var(--newPink);
+    border: 1px solid var(--newViolet);
     display: block;
-    background-color: #034c3e;
-    border: 1px solid #074e41;
-    border-radius: 4px;
-    padding: 6px;
+    border-radius: 6px;
+    padding: 22px 18px;
     font-size: 0.7em;
+    padding-right: 19%;
     letter-spacing: 1px;
+    color: white;
+    resize: none;
+    width: 100%;
+}
+.messages_cont>div:hover .newVaracion, .messages_cont>div>div:hover .deleteVariacion{
+    opacity: 0.7;
+}
+.newVaracion:hover, .deleteVariacion:hover{
+    opacity: 1!important;
+}
+.svgBranch{
+    position: absolute;
+    width: auto;
+    height: 70px;
+    right: 85%;
+    top: -62%;
+    transform: translateY(0);
+    z-index: -1;
+    user-select: none;
+}
+.messages_cont>div>div:first-child>div{
+    width: 100%!important;
+    margin-left: 0!important;
+}
+.messages_cont>div>div:first-child .svgBranch{ display: none; }
+
+.txtareaContfirst-child::before{
+
+}
+.messages_cont textarea::placeholder{
+    color: #cccccc;
 }
 
 .agregarMultiMensaje button{
     width: 100%;
 
+}
+
+.forkIcon {
+    filter: invert(1);
+    width: 26px;
+    transform: rotate(90deg);
+    margin-right: 7px;
+    margin-bottom: -8px;
 }

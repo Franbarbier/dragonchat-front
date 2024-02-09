@@ -1,16 +1,16 @@
-import { ROUTES } from "../../enums";
-import { ContactInfo } from "../cards/CardsContFree";
-import CardTitle from "../cards/CardTitle/CardTitle";
-import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
+import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
+import CardTitle from "../CardTitle/CardTitle";
+import { ContactInfo } from "../CardsContFree";
 import styles from './ModalFinish.module.css';
 
 export interface IModalFinish {
    blackList: ContactInfo[];
+   nuevaDifusion : ()=> void
 }
 
 
 
-const ModalFinish: React.FC<IModalFinish> = ({ blackList }) => {
+const ModalFinish: React.FC<IModalFinish> = ({ blackList, nuevaDifusion }) => {
 
 
 function downloadCSV(data, filename) {
@@ -47,9 +47,9 @@ return (
         <div className={styles.modal_finish}>
 
           <div>
-            <CardTitle text={`Envio realizado`} />
+            <CardTitle text={`Envio finalizado`} />
             <div>
-                <h3>¡Tu envío ha finalizado con éxito!</h3>
+                {/* <h3>¡Tu envío ha finalizado con éxito!</h3> */}
                 
                 {blackList?.length > 0 &&
                 <>
@@ -74,7 +74,9 @@ return (
                         backgroundColorInit="#c21c3b"
                         backgroundColorEnd="#f9bd4f"
                         borderColor="#e17846"
-                        onClick={()=>{ window.location.href = ROUTES.DASH }}
+                        onClick={()=>{
+                          nuevaDifusion()
+                        }}
                     />
                 </div>
 
