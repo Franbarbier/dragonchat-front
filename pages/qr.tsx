@@ -145,16 +145,10 @@ export async function getServerSideProps({req, res}) {
       }
     });
 
-<<<<<<< HEAD
     const responseData = await getData.json();
 
     if (responseData?.suscription ) {
-=======
-
-    const responseData = await getData.json();
-
-    if (responseData?.subscription && responseData?.subscription?.isPaid == undefined ) {
->>>>>>> 794c74c1431de057d52cf724c80ff07c957fbcda
+      
       data.subscription.isPaid = false;
     }else{
       data = responseData
@@ -171,11 +165,7 @@ export async function getServerSideProps({req, res}) {
   }
 
 
-<<<<<<< HEAD
-  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid || false, maintenance : maint } };
-=======
   return  { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid ? data?.subscription?.isPaid : false, maintenance : maint } }
->>>>>>> 794c74c1431de057d52cf724c80ff07c957fbcda
   
   
   }
