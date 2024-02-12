@@ -42,7 +42,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
     const [mensaje, setMensaje] = useState<string>('')
-    const [messages, setMessages] = useState<any>([['']])
+    const [messages, setMessages] = useState<string[][]>([['']])
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 

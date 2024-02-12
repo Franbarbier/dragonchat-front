@@ -27,7 +27,7 @@ export interface IFreeCard3 {
 
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
-  messages: string[];
+  messages: string[][];
   setBlackList: (contactos: ContactInfo[]) => void;
 
   notification : INotification;
@@ -85,7 +85,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
 
-  async function sendMove(cnt) {
+  async function sendMove(cnt:number) {
 
     let count = cnt;
 
@@ -260,7 +260,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     key={contact.nombre + index}
                   >
                     <AnimatePresence>
-                      {/* {contact.estado == STATUS.PENDING && ( */}
                       {((index == listCounter && sendingState == SENDING_STATE.SENDING && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) || contact.estado == STATUS.PENDING ) && (
 
                         <motion.aside
@@ -289,14 +288,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                       </div>
                     </div>
 
-                    {/* <div className={styles.estado_envio}> */}
                     {contact.estado == STATUS.SUCCESS && (
                       <img className={styles.estado_envio} src="/check.svg" />
                     )}
                     {contact.estado == STATUS.ERROR && (
                       <img className={styles.estado_envio} src="/close.svg" />
                     )}
-                    {/* </div> */}
                   </div>
                 )}
               </>

@@ -49,7 +49,6 @@ return (
           <div>
             <CardTitle text={`Envio finalizado`} />
             <div>
-                {/* <h3>¡Tu envío ha finalizado con éxito!</h3> */}
                 
                 {blackList?.length > 0 &&
                 <>

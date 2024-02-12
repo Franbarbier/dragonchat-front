@@ -5,8 +5,8 @@ import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
 export interface IMultiMessages {
-    messages : any;
-    setMessages : (message: any) => void;
+    messages : string[][];
+    setMessages : (message: string[][]) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
 }
@@ -14,10 +14,10 @@ export interface IMultiMessages {
 const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages }) => {
    
 
-    const [testMsj, setTestMsj] = useState<any[]>(messages)
+    const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
     useEffect(()=>{
-        if (testMsj.length == 0) {
+        if (testMsj.length === 0) {
             setTestMsj([[""]])
         }
     },[messages])
@@ -46,7 +46,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                     </div>
                     <div className={styles.MultiMessages}>
                         <div>
-                        {/* <div style={{"overflowY": testMsj.length == 0  ? "hidden" : "auto"}}> */}
                             {testMsj.map((message, index)=>{
                                     return (
                                         <AnimatePresence>
@@ -56,7 +55,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                 animate={{ opacity: 1, y : 0 }}
                                                 key="notificationRepeat"
                                             >
-                                        {/* <div className={styles.messages_cont} >*/}
                                                 <div>
                                                     {
                                                         message.length >= 0 && (
@@ -110,13 +108,12 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
 
                                                 </motion.div>
 
-                                                {/* </div> */}
+                                               
                                         </AnimatePresence>
                                     )
                                 })
                             }
                             <div>
-                                {/* <img src="/close.svg" /> */}
                             </div>
                         </div>
                         <div className={styles.agregarMultiMensaje}>

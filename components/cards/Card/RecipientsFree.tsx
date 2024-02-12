@@ -209,7 +209,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                 :
                 <CardTitle text={`${finalList.length - 1} Destinatarios`} />
                 }
-                {/* <div className={styles.card_table_cont}> */}
                     
                     <div style={{'margin': 'auto', 'width': '88%'}}>
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
@@ -252,7 +251,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                                             key={`number${index}`}
                                         />
                                     </div>
-                                    {/* { finalList.length - 1 !=  index ? <img src="/delete.svg" onClick={ ()=>{ setContactos( finalList.filter( ele => ele != elementInArray ) ) } } /> : <div></div>} */}
                                     { finalList.length - 1 !=  index ?
                                     
                                     <img src="/close.svg" onClick={ ()=>{ setContactos( finalList.filter( ele => ele != elementInArray ) ) } } />
@@ -283,8 +281,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                     
                     {isDragging && <div className={styles.dragging}>Drop file here</div>}
                     
-                    {/* <div className={styles.dragging}>Drop file here</div> */}
-
                     </div>
                     <div className={styles.footerBtns}>
                         <div>
@@ -328,7 +324,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                         </div>
                     </div>
                     
-                {/* </div> */}
 
             </div>
             </>

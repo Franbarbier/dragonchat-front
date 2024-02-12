@@ -5,8 +5,8 @@ import { INotification } from '../../Notification/Notification';
 import styles from './BasicMessages.module.css';
 
 export interface IBasicMessages {
-    messages : Array<any[]>;
-    setMessages : (message: Array<any[]>) => void;
+    messages : Array<string[]>;
+    setMessages : (message: Array<string[]>) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
 

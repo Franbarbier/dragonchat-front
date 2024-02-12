@@ -14,11 +14,24 @@ const WppBtn: React.FC<IWppBtn> = ({  }) => {
 
     const [renderWppMsj, setRenderWppMsj] = useState<boolean>(false);
 
+
+    function wppLink(number, message) {
+        // Encode the message by replacing spaces with '%20'
+        const encodedMessage = encodeURIComponent(message);
+      
+        // Construct the WhatsApp link with the encoded message
+        const whatsappLink = `https://wa.me/${number}?text=${encodedMessage}`;
+      
+        return whatsappLink;
+      }
+
+    const whatsappLink = wppLink(56946581170, 'Hola! Me contacto desde dragonchat por')
+
     return (
             <div id={styles.wpp_btn_cont}>
                 <div>
                     <div>
-                        <a href="https://wa.me/56946581170?text=Hola!%20Me%20contacto%20desde%20dragonchat%20por%20" target="_blank">
+                        <a href={whatsappLink} target="_blank">
                             <img src="/whatsapp.png" />
                         </a>
                     </div>
