@@ -44,15 +44,7 @@ const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notifi
                                     newMessages[index] = e.target.value;
                                     setMessages(newMessages);
                                 }} />
-                                <p contentEditable={true}
-                                    onInput={(e: React.FormEvent<HTMLParagraphElement>)=>{
-                                        let newMessages = [...messages];
-                                        newMessages[index] = e.currentTarget.innerText;
-                                        setMessages(newMessages);
-                                    }}
-                                    >
-                                        {message}
-                                </p>
+                                
                                 <img src="/close.svg" onClick={ 
                                     ()=>{
                                         if(messages.length > 1){
