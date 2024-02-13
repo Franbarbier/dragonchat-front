@@ -99,6 +99,30 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         var filtered = [...contactos]
 
         filtered = removeColors(filtered)
+
+        // if filtered had an item with property "nombre" and "property" empty, remove it
+        if (filtered.length > 1) {
+            filtered.map((item, index) => {
+                if (item.nombre == "" && item.numero == "" && index != filtered.length - 1) {
+                    filtered.splice(index, 1)
+                }
+                const isNombreEmpty = item.nombre === '';
+                const isNumeroEmpty = item.numero === '';
+                if ((isNombreEmpty && !isNumeroEmpty) || (!isNombreEmpty && isNumeroEmpty)) {
+                    setNotification({
+                        status : STATUS.ERROR,
+                        render : true,
+                        message : "No puede haber un campo vacío en la lista.",
+                        modalReturn : () => {
+                            setNotification({...notification, render : false},
+                        )}
+                    })
+                
+                }
+            }
+            )
+        }
+
         setFinalList(filtered)
         
     },[contactos])
