@@ -250,7 +250,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
           <div className={`${styles.table_rows} ${styles.enviando_table}`}>
             {contactos.map((contact, index) => (
-              <>
+              <div key={`contactoFinal${index}`}>
                 {contactos.length - 1 != index && (
                   // ${contact.status == STATUS.PENDING && styles.fireLoader}
                   <div
@@ -296,7 +296,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     )}
                   </div>
                 )}
-              </>
+              </div>
             ))}
           </div>
 
