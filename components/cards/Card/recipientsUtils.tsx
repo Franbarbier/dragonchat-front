@@ -5,9 +5,7 @@ export const executeFormat = (inputText:string, type: string, index:number, fina
 
     let breaks = new RegExp("\n")
     let tabs = new RegExp("\t")
-
     let prevCells:ContactInfo[] = finalList.slice(0, index)
-
     var newContacts:ContactInfo[] = []
 
     if (!breaks.test(inputText) && !tabs.test(inputText)) {
