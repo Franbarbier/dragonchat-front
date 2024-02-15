@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
@@ -48,23 +48,22 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                         <div>
                             {testMsj.map((message, index)=>{
                                     return (
-                                        <AnimatePresence>
+                                        <div key={`mensajesCopy${index}`}>
+                                        <>
                                             <motion.div className={styles.messages_cont}
                                                 initial={{ opacity: 0, y : 50 }}
-                                                exit={{ opacity: 0, y : 50 }}
                                                 animate={{ opacity: 1, y : 0 }}
-                                                key="notificationRepeat"
+                                                
                                             >
                                                 <div>
                                                     {
                                                         message.length >= 0 && (
                                                         message.map((msj, j)=>{
                                                             return (
-                                                                <div>
-                                                                    <AnimatePresence>
+                                                                <div key={`mensaje${index}-var${j}`}>
+                                                                    <>
                                                                     <motion.div className={styles.txtareaCont}
                                                                             initial={{ opacity: 0, y : 50 }}
-                                                                            exit={{ opacity: 0, y : 50 }}
                                                                             animate={{ opacity: 1, y : 0 }}>
                                                                         <img src="/var_linea.svg" alt="" className={styles.svgBranch}/>
                                                                         <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
@@ -88,7 +87,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                                     
                                                                             setTestMsj(newMessages);
                                                                         }} className={styles.deleteVariacion} />
-                                                                        </AnimatePresence>
+                                                                        </>
                                                                 </div>
                                                             )
                                                         } )
@@ -109,7 +108,8 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                 </motion.div>
 
                                                
-                                        </AnimatePresence>
+                                        </>
+                                        </div>
                                     )
                                 })
                             }

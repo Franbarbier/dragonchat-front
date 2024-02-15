@@ -50,7 +50,7 @@ return (
             <CardTitle text={`Envio finalizado`} />
             <div>
                 
-                {blackList?.length > 0 &&
+                {blackList?.length > 0 ?
                 <>
                   <p>Hubo {blackList?.length} mensajes que no se pudieron enviar. Puede ser porque la linea ingresada no existe o debido al % de Entregabilidad de tu plan actual.</p>
                   <p>Podes descargar una lista de los contactos a los que no se le pudo entregar correctamente el mensaje</p>
@@ -64,6 +64,9 @@ return (
                     onClick={()=>{ downloadCSV(blackList, 'no-enviados.csv'); }}
                   />
                 </>
+              :
+              
+              <h3>Se enviaron todos los mensajes correctamente!</h3>
               }
                 
                 <div>

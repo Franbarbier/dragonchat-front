@@ -6,8 +6,7 @@ import CardTitle from '../CardTitle/CardTitle';
 import { ContactInfo } from '../CardsContFree';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
-import { executeFormat } from './RecipientsUtils';
-
+import { executeFormat } from "./recipientsUtils";
 
 interface IModalImport {
     modalImport : boolean;
@@ -36,6 +35,8 @@ interface ICustomContextMenu {
 
 const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisible, executeFormat, finalList, setContactos, notification, setNotification }) => {
 
+
+    executeFormat
 
     function handlerPegar() {
         navigator.clipboard.readText().then(text => { 
@@ -264,7 +265,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                     </div>
                     <div className={styles.grilla_fondo} ref={grillaFondo}>
                         {[...Array(finalList.length + 15)].map((elementInArray, index) => (
-                                <div className={styles.row_table} >
+                                <div className={styles.row_table} key={"fakerow"+index}>
                                     <div>
                                     <>
                                     </>
