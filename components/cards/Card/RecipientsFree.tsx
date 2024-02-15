@@ -6,7 +6,7 @@ import CardTitle from '../CardTitle/CardTitle';
 import { ContactInfo } from '../CardsContFree';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
-import { executeFormat } from './recipientsUtils';
+import { executeFormat } from "./recipientsUtils";
 
 interface IModalImport {
     modalImport : boolean;
