@@ -31,10 +31,10 @@ const Notification: React.FC<INotification> = ({ status, render, message, modalR
             {render && (status == STATUS.SUCCESS || status == STATUS.ERROR ) && (
 
                 <motion.div className={styles.notificationCont}
-                initial={{ opacity: 0, x : 50 }}
-                exit={{ opacity: 0, x : 50 }}
-                animate={{ opacity: 1, x : 0 }}
-                key="notificationSimple"
+                    initial={{ opacity: 0, x : 50 }}
+                    exit={{ opacity: 0, x : 50 }}
+                    animate={{ opacity: 1, x : 0 }}
+                    key="notificationSimple"
                 >
 
                     <div>

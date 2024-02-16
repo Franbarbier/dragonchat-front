@@ -42,6 +42,7 @@ const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notifi
                                     newMessage[index] = e.target.value;
                                     setMessages([newMessage])
                                 }} />
+                                
                                 <img src="/close.svg" onClick={ 
                                     ()=>{
                                         if(messages[0].length > 1){
