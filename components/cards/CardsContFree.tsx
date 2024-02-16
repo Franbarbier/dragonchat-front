@@ -100,7 +100,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
         filtered = removeColors(filtered)
 
-        // if filtered had an item with property "nombre" and "property" empty, remove it
         if (filtered.length > 1) {
             filtered.map((item, index) => {
                 if (item.nombre == "" && item.numero == "" && index != filtered.length - 1) {
@@ -130,7 +129,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     function removeColors(array) {
         
         let removedColors = [...array]
-        // Create a map to store counts of each numero value
         const countMap = new Map();
         removedColors.forEach((item) => {
             const count = countMap.get(item.numero) || 0;
@@ -171,7 +169,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             case 1:
                 const isValidArray = (arr) => {
                       if (arr.length < 2) {
-                        // Array must have at least one element
                         return false;
                       }
                     
@@ -180,11 +177,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         .map(item => item?.numero?.trim());
                     
                       if (nonEmptyNumeros.length !== new Set(nonEmptyNumeros).size) {
-                        // Check for repeated values in "numero"
                         return false;
                       }
                     
-                      // Check that none of the props are empty or blank spaces, excluding the last item
                       for (let i = 0; i < arr.length - 1; i++) {
                         const item = arr[i];
                         if (item?.nombre?.trim() === '' || item?.numero?.trim() === '') {
@@ -195,7 +190,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                 }
 
 
-                //   if there is NO repeated numbers. (o poner un setNextCard en el checkRepeated)
                 if ( isValidArray(finalList) ) {
                     setNextCard(true)
                 }else{
