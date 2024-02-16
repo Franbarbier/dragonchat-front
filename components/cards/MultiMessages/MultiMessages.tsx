@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
@@ -29,10 +29,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
-
-    const textareaRef = useRef(null);
-
-    
     
 
     return (
