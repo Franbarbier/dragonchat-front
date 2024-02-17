@@ -3,7 +3,8 @@ import { MESSAGE_TYPE } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import BasicMessages from '../BasicMessages/BasicMessages';
 import CardTitle from '../CardTitle/CardTitle';
-import ConversationPremium, { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
+import { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
+import MultiMessages from '../MultiMessages/MultiMessages';
 import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {
@@ -17,12 +18,13 @@ export interface IFreeCard2 {
     setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
     activeSecuence : number | null;
     setActiveSecuence : (id: number | null) => void;
-    messages : string[];
-    setMessages : (mensajes: string[]) => void;
+    messages : string[][];
+    setMessages : (mensajes: string[][]) => void;
+    isPaid: boolean;
 }
 
 
-const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence, messages, setMessages }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence, messages, setMessages, isPaid }) => {
 
     let idCard = 2;
 
@@ -60,17 +62,10 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, sele
                         </div>
                     </div>
                     </div>
-                    {tipoEnvio == MESSAGE_TYPE.DIFUSION ?
-                        <div className={styles.options_cont}>
-                            
+                    {isPaid ?
+                            <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
+                       :
                             <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
-
-                        </div>
-                        :
-                        <div>
-                            <ConversationPremium blocked={true} setSelectedSecuence={setSelectedSecuence} selectedSecuence={selectedSecuence} notification={notification} setNotification={setNotification} activeSecuence={activeSecuence} setActiveSecuence={setActiveSecuence} />
-                        </div>
-
                     }
             </div>
             </>}

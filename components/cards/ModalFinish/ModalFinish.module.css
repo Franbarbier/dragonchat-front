@@ -2,11 +2,12 @@
     font-size: 0.8em;
     text-align: center;
     margin: 3.5% 0;
+    letter-spacing: 0.5px;
 }
 .modal_finish h3{
     color: var(--rosita2);
     letter-spacing: 0.5px;
-    margin-bottom: 7%;
     text-align: center;
-    font-size: 1.3em;
+    font-size: 1.1em;
+    margin: 18% 0;
 }

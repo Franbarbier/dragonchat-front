@@ -5,7 +5,7 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
-import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
+import { HOST_URL } from "../../../constants/index";
 import { ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../../Notification/Notification";
@@ -21,25 +21,30 @@ export interface IFreeCard3 {
   setContactos: (contactos: ContactInfo[]) => void;
   setMessagesLimitAchieved: (limit: boolean) => void;
   messagesLimitAchieved: boolean;
-  modalShieldOptions: boolean;
   setModalShieldOptions: (limit: boolean) => void;
 
   setActiveCard: (id: number) => void;
-  shieldOptions: {
-    timer: number;
-    pausa: number;
-    bloques: number;
-  };
+
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
-  messages: string[];
+  messages: string[][];
   setBlackList: (contactos: ContactInfo[]) => void;
 
   notification : INotification;
   setNotification : (notification: INotification) => void;
 
+  activeShield: boolean;
+  setActiveShield: (active: boolean) => void;
   setModalFinish: (mod: boolean) => void;
   setRenderDialog : (render: boolean) => void;
+  timer : number;
+  bloques : number;
+  pausa : number;
+
+  modalFinish : boolean;
+  nuevaDifusion : () => void;
+  listCounter : number;
+  setListCounter : (val:number) => void
 
 }
 
@@ -51,7 +56,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   setMessagesLimitAchieved,
   messagesLimitAchieved,
   setModalShieldOptions,
-  shieldOptions,
   sendingState,
   setSendingState,
   messages,
@@ -59,47 +63,53 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   setNotification,
   setBlackList,
   setModalFinish,
-  setRenderDialog
+  setRenderDialog,
+  setActiveShield,
+  activeShield,
+  timer,
+  bloques,
+  pausa,
+  modalFinish,
+  nuevaDifusion,
+  listCounter,
+  setListCounter
+
 }) => {
   let idCard = 3;
   let router = useRouter();
 
   const [sending, setSending] = useState<boolean>(false);
-  const [timers, setTimers] = useState<Array<NodeJS.Timeout>>([]);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
 
-  const [activeShield, setActiveShield] = useState<boolean>(false);
 
-  const [timer, setTimer] = useState(0);
-  const [bloques, setBloques] = useState<number>(0);
-  const [pausa, setPausa] = useState<number>(0);
+  const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
+  
 
+  async function sendMove(cnt:number) {
 
-
-  async function sendMove(userInfo, count) {
+    let count = cnt;
 
     try{
 
     const destinatario:ContactInfo = contactos[count];
-    let newContacts = [...contactos];
-    newContacts[count].estado = STATUS.PENDING;
-    setContactos(newContacts);
-    
-    // Check which message to send
-    const stringIndex = count % messages.length;
-    const currentMessage = messages[stringIndex];
 
-    // Send currentString to the recipient    
+    let currentMessage:string[] = []
+
+    for(let i = 0; i < messages.length; i++){
+      const stringIndex = count % messages[i].length;   
+      currentMessage.push(messages[i][stringIndex])
+    }
+
+    let newContacts = [...contactos];
+
+    // Send currentString to the recipient
     const onSuccess = () => {
 
       if (sentMessage?.status == 200 || sentMessage?.status == 201) {
-        let newContacts = [...contactos];
         newContacts[count].estado = STATUS.SUCCESS;
-        setContactos(newContacts);
       } else {
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.ERROR;
-        setContactos(newContacts);
         
         // @ts-ignore
         setBlackList((prevBlackList: ContactInfo[]) => [...prevBlackList, destinatario]);
@@ -129,32 +139,47 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               setNotification({...notification, render : false})
             }
           });
-          setTimeout(() => { window.location.href = ROUTES.QR; }, 500);
+          setTimeout(() => { window.location.href = ROUTES.QR; }, 1000);
         }
       }
 
+      setContactos(newContacts);
+      
+
+
+      // Sistema de delays, que chequea si el escudo esta activo y si es asi, aplica los delays correspondientes
+      let delay = 3 //min
+      if (activeShield){
+        delay = timer
+        
+        if (listCounter % bloques == bloques-1 && listCounter != 0) {
+          delay = delay + (pausa * 60)
+        }
+      }
+
+      if (listCounter == contactos.length - 2) {
+        setTimeout(() => {
+          setModalFinish(true);
+        }, 500);
+      }
+
+      setTimeout(()=>{
+        setListCounter(count + 1);
+      }, delay * 1000)
 
     };
-
-    let authToken = ""
-
-    try {
-      authToken = JSON.parse(
-        Cookie.get( LOGIN_COOKIE )
-        ).access_token;   
-    } catch (error) {
-      authToken = ""
-    }
-
         
     const sentMessage = await apiSenderWhatsappController.sendMessage(
       userInfo.user_id,
       destinatario.nombre,
       currentMessage,
       destinatario.numero,
-      authToken
+      userInfo.access_token
     );
+
     onSuccess();
+    
+
   }catch(error){
     alert("Ocurrio un error inesperado en la plataforma. Por favor intenta mas tarde.")
   }
@@ -163,76 +188,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }
 
 
-  useEffect(() => {
-
-    // Numero aleatoria para desrobotizar los envios
-    if (sendingState === SENDING_STATE.SENDING) {
-      const arrayOfBlocks: Array<Array<ContactInfo>> = contactos.reduce(
-        (accumulator, actualValue) => {
-          if (
-            actualValue.nombre.trim() === "" ||
-            actualValue.numero.trim() === ""
-          ) {
-            return accumulator;
-          }
-          if (
-            actualValue.estado === STATUS.SUCCESS || actualValue.estado === STATUS.ERROR
-          ) {
-            return accumulator;
-          }
-          if (accumulator.length === 0) {
-            return [[actualValue]];
-          }
-          const lastIndex = accumulator.length - 1;
-          const previus = accumulator[lastIndex];
-          if (previus.length < bloques) {
-            previus.push(actualValue);
-            return accumulator;
-          } else {
-            return [...accumulator, [actualValue]];
-          }
-        },
-        new Array<Array<ContactInfo>>()
-      );
-
-      const contacts = contactos.filter(
-        (c) => c.numero.trim() !== '' && c.nombre.trim() !== ''
-      );
-
-
-      const userInfo = JSON.parse(Cookie.get("dragonchat_login1") || "{}");
-
-      let localTimers: Array<NodeJS.Timeout> = [];
-      let messagesCount = 0;
-      arrayOfBlocks.forEach((block, blockIndex) => {
-        block.forEach((contact) => {
-          const blockTime = (blockIndex * pausa);          
-          const contactTime = (messagesCount * timer);
-          const ms = blockTime + contactTime;
-          messagesCount ++;
-                    
-          const timerId = setTimeout(() => {
-            const index = contacts.findIndex(
-              (c) => c.numero === contact.numero
-              );
-
-            sendMove(userInfo, index);
-            
-            if (index === contacts.length -1 ) {
-              setSendingState(SENDING_STATE.FINISH);
-            }
-          }, ( ms + (Math.floor(Math.random() * 5) + 1)*1000 ) );
-          localTimers.push(timerId);
-        })
-      });
-      setTimers(localTimers);
-    }
-
-  }, [sendingState])
-
 
   
-
+  useEffect(() => {
+    if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
+        sendMove(listCounter);
+    }
+  }, [sendingState, listCounter]);
 
 
 
@@ -244,19 +206,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       setSendingState(SENDING_STATE.SENDING);
     } 
     if (sendingState === SENDING_STATE.SENDING) {
+      let newContacts = [...contactos];
+      newContacts[listCounter].estado = STATUS.PENDING;
+      setContactos(newContacts)
       setSendingState(SENDING_STATE.PAUSED);
-      timers.forEach((timerId) => {
-        clearTimeout(timerId);
-      })
     }
   };
 
-  useEffect(() => {
-    setActiveShield(true);
-    setTimer(shieldOptions.timer > 0 ? (shieldOptions.timer * 1000) : 1000);
-    setBloques(shieldOptions.bloques);
-    setPausa(shieldOptions.pausa * 1000);
-  }, [shieldOptions]);
 
   useEffect(() => {
     if (dejarDeEnviar) {
@@ -264,24 +220,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
   }, [dejarDeEnviar]);
 
-  useEffect(() => {
-    if (sendingState == SENDING_STATE.FINISH ) {
-      setModalFinish(true);
-    }
-  }, [sendingState])
+
 
   useEffect(() => {
 
-    const finishResSend = contactos.every((contact) => {
-      return typeof contact.estado && contact.estado != STATUS.PENDING;
-    });
-
-    if (sendingState == SENDING_STATE.FINISH && finishResSend) {
-      setModalFinish(true);
+    if (modalFinish) {
+      setSendingState(SENDING_STATE.FINISH);
     }
 
-
-  }, [contactos])
+  }, [modalFinish])
 
   return (
 
@@ -303,7 +250,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
           <div className={`${styles.table_rows} ${styles.enviando_table}`}>
             {contactos.map((contact, index) => (
-              <>
+              <div key={`contactoFinal${index}`}>
                 {contactos.length - 1 != index && (
                   // ${contact.status == STATUS.PENDING && styles.fireLoader}
                   <div
@@ -313,7 +260,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     key={contact.nombre + index}
                   >
                     <AnimatePresence>
-                      {contact.estado == STATUS.PENDING && (
+                      {((index == listCounter && sendingState == SENDING_STATE.SENDING && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) || contact.estado == STATUS.PENDING ) && (
+
                         <motion.aside
                           className={styles.fuegoLoader}
                           initial={{ opacity: 0 }}
@@ -340,17 +288,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                       </div>
                     </div>
 
-                    {/* <div className={styles.estado_envio}> */}
                     {contact.estado == STATUS.SUCCESS && (
                       <img className={styles.estado_envio} src="/check.svg" />
                     )}
                     {contact.estado == STATUS.ERROR && (
                       <img className={styles.estado_envio} src="/close.svg" />
                     )}
-                    {/* </div> */}
                   </div>
                 )}
-              </>
+              </div>
             ))}
           </div>
 
@@ -363,11 +309,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               <div className={styles.footerBtns}>
                 <aside
                   className={activeShield ? styles.shieldOn : styles.shieldOff}
-                  onClick={() => {
-                    setActiveShield(!activeShield);
-                  }}
                 >
-                  <div>
+                  <div onClick={() => {
+                    setActiveShield(!activeShield);
+                  }}>
                     <img src="/shield-clock.svg" />
                     <div className={styles.shieldFilter}></div>
                   </div>
@@ -392,7 +337,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     backgroundColorEnd="#3a94fe"
                     borderColor="#5573f0"
                     onClick={() => {
-                      router.reload();
+                      nuevaDifusion()
                     }}
                     disable={false}
                   />                  

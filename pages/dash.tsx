@@ -1,14 +1,14 @@
 import Cookies from 'cookies';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import CardsCont from '../components/cards/CardsContFree';
 import Header from '../components/Header/Header';
-import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import Loader from "../components/Loader/Loader2";
 import Maintenance from '../components/Maintenance/Maintenance';
 import ModalContainer from '../components/ModalContainer/ModalContainer';
 import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
 import Notification, { INotification } from '../components/Notification/Notification';
+import CardsCont from '../components/cards/CardsContFree';
+import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from '../constants/index';
 import { API_ROUTES, STATUS } from '../enums';
 import { decrypt } from '../utils/crypto';
@@ -113,6 +113,7 @@ export async function getServerSideProps({ req, res }) {
 
   const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
   const accessToken = JSON.parse(responseText).access_token
+
 
   if (cookies.get(STRIPE_COOKIE)) {
 

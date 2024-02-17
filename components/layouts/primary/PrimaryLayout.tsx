@@ -21,9 +21,7 @@ const PrimaryLayout: React.FC<IPrimaryLayout> = ({
         </main>
       </div>
 
-      {/* <ModalContainer>
-
-      </ModalContainer> */}
+    
     </>
   );
 };

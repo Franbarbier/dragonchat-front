@@ -8,7 +8,6 @@ import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import CopyPasteTuto from '../CopyPasteTuto/CopyPasteTuto';
 import ModalContainer from '../ModalContainer/ModalContainer';
-import ModalFinish from '../ModalFinish/ModalFinish';
 import NavBottom from '../NavBottom/NavBottom';
 import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
@@ -17,6 +16,7 @@ import FreeCard1 from './Card/RecipientsFree';
 import FreeCard3 from './Card/SendFree';
 import styles from './CardsCont.module.css';
 import { IChat, ISecuence } from './ConversationPremium/ConversationPremium';
+import ModalFinish from './ModalFinish/ModalFinish';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 
@@ -41,7 +41,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
-    const [messages, setMessages] = useState<string[]>([''])
+    const [mensaje, setMensaje] = useState<string>('')
+    const [messages, setMessages] = useState<string[][]>([['']])
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
@@ -90,6 +91,14 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [nextCard, setNextCard] = useState<boolean>(false)
     const [prevCard, setPrevCard] = useState<boolean>(false)
 
+    // sneding tracker
+    const [listCounter, setListCounter] = useState<any>(0);
+
+    // timers anti-blocker
+    const [activeShield, setActiveShield] = useState<boolean>(false);
+    const [timer, setTimer] = useState<number>(3);
+    const [bloques, setBloques] = useState<number>(0);
+    const [pausa, setPausa] = useState<number>(0);
 
     function handleRenderModal(render:boolean){
         setModalImport(render)
@@ -201,7 +210,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                 break;
             case 2:
 
-                const emptyMess = messages.some((str) => str.trim() === '');
+                const emptyMess = messages.some(subarray => subarray.includes(""))
 
                 if ( (tipoEnvio == MESSAGE_TYPE.DIFUSION && !emptyMess ) ) {
                     setNextCard(true)
@@ -220,8 +229,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             default:
                 break;
         }
-
     },[finalList, activeCard, messages])
+
 
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
@@ -271,6 +280,19 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     }, [activeCard])
 
     
+    function nuevaDifusion() {
+        setActiveCard(1)
+        const newArray = contactos.map(obj => {
+            // Destructure the object to remove the "estado" property
+            const { estado, ...rest } = obj;
+            return rest; // Return the object without the "estado" property
+        });
+        setContactos(newArray)
+        setMessages([['']])
+        setSendingState(SENDING_STATE.INIT)
+        setModalFinish(false)
+        setListCounter(0)
+    }
 
 
 
@@ -285,9 +307,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         setContactos={setContactos}
                         messagesLimitAchieved={messagesLimitAchieved}
                         setMessagesLimitAchieved={setMessagesLimitAchieved}
-                        modalShieldOptions={modalShieldOptions}
                         setModalShieldOptions={setModalShieldOptions}
-                        shieldOptions={shieldOptions}
                         sendingState={sendingState}
                         setSendingState={setSendingState}
                         messages={messages}
@@ -295,7 +315,16 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         notification={notification}
                         setBlackList={setBlackList}
                         setModalFinish={setModalFinish}
+                        modalFinish={modalFinish}
                         setRenderDialog={setRenderDialog}
+                        setActiveShield={setActiveShield}
+                        activeShield={activeShield}
+                        timer={timer}
+                        bloques={bloques}
+                        pausa={pausa}
+                        nuevaDifusion={nuevaDifusion}
+                        listCounter={listCounter}
+                        setListCounter={setListCounter}
                     />
 
                     <FreeCard1 
@@ -322,6 +351,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         setActiveSecuence={setActiveSecuence}
                         messages={messages}
                         setMessages={setMessages}
+                        isPaid={isPaid}
                     />
 
                     
@@ -387,13 +417,16 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                 <div className={styles.modal_shield_option}>
                     <div>
                         <ModalContainer closeModal={ ()=>{ setModalShieldOptions(false) } } addedClass={"modal_shield_option"}>
-                            <ModalShieldOptions setShieldOptions={setShieldOptions} setModalShieldOptions={setModalShieldOptions}
-                            tamanoBloque={tamanoBloque}
-                            setTamanoBloque={setTamanoBloque}
-                            pausaBloque={pausaBloque}
-                            setPausaBloque={setPausaBloque}
-                            pausaMensaje={pausaMensaje}
-                            setPausaMensaje={setPausaMensaje} />
+                            <ModalShieldOptions 
+                                setActiveShield={setActiveShield}
+                                setModalShieldOptions={setModalShieldOptions}
+                                timer={timer}
+                                setTimer={setTimer}
+                                bloques={bloques}
+                                setBloques={setBloques}
+                                pausa={pausa}
+                                setPausa={setPausa}
+                            />
                         </ModalContainer>
                     </div>
                 </div>
@@ -425,8 +458,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
            
            
             {modalFinish && !messagesLimitAchieved && (
-            <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"}>
-                <ModalFinish blackList={blackList} />
+            <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"} >
+                <ModalFinish blackList={blackList} nuevaDifusion={nuevaDifusion}/>
             </ModalContainer>
             )}
 
