@@ -4,26 +4,23 @@ import CardTitle from '../CardTitle/CardTitle';
 import styles from './ModalShieldOptions.module.css';
 
 export interface IModalShieldOptions {
-    setShieldOptions : (limit: {
-        timer: number,
-        pausa : number,
-        bloques: number
-    }) => void;
+    
     setModalShieldOptions : (modal: boolean) => void;
-    tamanoBloque : number;
-    setTamanoBloque : (tamano: number) => void;
-    pausaBloque : number;
-    setPausaBloque : (pausa: number) => void;
-    pausaMensaje : number;
-    setPausaMensaje : (pausa: number) => void;
-
+    timer : number
+    setTimer : (val:number) => void;
+    bloques : number
+    setBloques : (val:number) => void;
+    pausa : number
+    setPausa : (val:number) => void;
+    setActiveShield : (val:boolean) => void;
 }
 
 
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const ModalShieldOptions: React.FC<IModalShieldOptions> = ({ setShieldOptions, setModalShieldOptions, tamanoBloque, setTamanoBloque, pausaBloque, setPausaBloque, pausaMensaje, setPausaMensaje }) => {
+const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOptions, timer=3, setTimer, bloques=0, setBloques,
+    pausa=0, setPausa, setActiveShield }) => {
     
     
     const inputRef = useRef<HTMLInputElement>(null);
@@ -35,6 +32,19 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({ setShieldOptions, s
         inputRef2?.current?.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
         inputRef3?.current?.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
     },[])
+
+
+    function handleChangeValue(input, value){
+        
+        if (input.current?.id == "timer" && value < 3) {
+            input.current.value = 3;
+            return false;
+        }
+        if ((input.current?.id == "bloques" && value < 0) || (input.current?.id == "pausa" && value < 0)) {
+            input.current.value = 0;
+            return false;
+        }
+    }
 
     return (
         <div className={styles.ModalShieldOptions_cont}>
@@ -83,7 +93,7 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({ setShieldOptions, s
                                 </div>
                             </div>
                             <div className={styles.nameCont}>
-                                <span>Pausa entre mensajes</span>
+                                <span>Pausa entre destinatarios</span>
                             </div>
                         </div>
                     </div>
@@ -91,66 +101,82 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({ setShieldOptions, s
                         <div>
                             <h6>TAMAÑO DE BLOQUE (mensajes)</h6>
                             <div>
-                                <div onClick={()=> { if(tamanoBloque != 0) setTamanoBloque(tamanoBloque - 1)}}>
+                                <div onClick={()=> {
+                                    
+                                    if (parseInt(inputRef.current!.value) > 0) {
+                                        inputRef.current!.value = ( parseInt(inputRef.current!.value) - 1).toString()
+                                    }
+                                }} >
                                     <span>-</span>
                                 </div>
-                                <input ref={inputRef} type="number" value={tamanoBloque} onChange={
-                                    (e)=>{ if (/[0123456789]/g.test(e.target.value)) setTamanoBloque(parseInt(e.target.value)) }
+                                <input ref={inputRef} id="bloques" type="number" defaultValue={bloques} onChange={
+                                    (e)=>{ if (/[0123456789]/g.test(e.target.value)) handleChangeValue(inputRef, parseInt(e.target.value)) }
                                     } />
+                                <div onClick={ ()=> {
+                                    if (inputRef.current!.value == "" ) {
+                                        inputRef.current!.value = "0"
+                                    }else{
+                                        inputRef.current!.value = ( parseInt(inputRef.current!.value) + 1).toString()
+                                    }
+                                    }}>
+                                    <span>+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h6>PAUSA ENTRE BLOQUES (minutos)</h6>
+                            <div>
                                 <div onClick={()=> { 
-                                    if (Number.isNaN(tamanoBloque)) {
-                                        setTamanoBloque(1)
-                                    }else{
-                                        setTamanoBloque(tamanoBloque + 1)}
-                                    } }>
+                                    if (parseInt(inputRef2.current!.value) > 0) {
+                                        inputRef2.current!.value = ( parseInt(inputRef2.current!.value) - 1).toString()
+                                    }
+                                 }}>
+                                    <span>-</span>
+                                </div>
+                                <input ref={inputRef2} id="pausa" type="number" defaultValue={pausa} onChange={
+                                    (e)=>{ if (/[0123456789]/g.test(e.target.value)) handleChangeValue(inputRef2, parseInt(e.target.value)) }
+                                    } />
+                                <div onClick={ ()=> {
+                                        if (inputRef2.current!.value == "" ) {
+                                            inputRef2.current!.value = "0"
+                                        }else{
+                                            inputRef2.current!.value = ( parseInt(inputRef2.current!.value) + 1).toString()
+                                        }}}>
                                     <span>+</span>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <h6>PAUSA ENTRE BLOQUES (segundos)</h6>
+                            <h6>PAUSA ENTRE DESTINATARIOS (segundos)</h6>
                             <div>
-                                <div onClick={()=> { if(pausaBloque != 0) setPausaBloque(pausaBloque - 1)}}>
+                                <div onClick={()=> {  
+                                     if (parseInt(inputRef3.current!.value) > 3) {
+                                        inputRef3.current!.value = ( parseInt(inputRef3.current!.value) - 1).toString()
+                                    }
+                                 }}>
                                     <span>-</span>
                                 </div>
-                                <input ref={inputRef2} type="number" value={pausaBloque} onChange={
-                                    (e)=>{ if (/[0123456789]/g.test(e.target.value)) setPausaBloque(parseInt(e.target.value)) }
+                                <input id="timer" ref={inputRef3} type="number" defaultValue={timer} min={3} onChange={
+                                    (e)=>{  handleChangeValue(inputRef3, parseInt(e.target.value)) }
                                     } />
                                 <div onClick={ ()=> {
-                                    if (Number.isNaN(pausaBloque)) {
-                                        setPausaBloque(1)
-                                    }else{
-                                        setPausaBloque(pausaBloque + 1)}
-                                    } }>
-                                    <span>+</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <h6>PAUSA ENTRE MENSAJES (segundos)</h6>
-                            <div>
-                                <div onClick={()=> { if(pausaMensaje != 0) setPausaMensaje(pausaMensaje - 1)}}>
-                                    <span>-</span>
-                                </div>
-                                <input ref={inputRef3} type="number" value={pausaMensaje} onChange={
-                                    (e)=>{  if (/[0123456789]/g.test(e.target.value)) setPausaMensaje(parseInt(e.target.value)) }
-                                    } />
-                                <div onClick={ ()=> {
-                                    if (Number.isNaN(pausaMensaje)) {
-                                        setPausaMensaje(1)
-                                    }else{
-                                        setPausaMensaje(pausaMensaje + 1)}
-                                    } }>
+                                        if (inputRef3.current!.value == "" ) {
+                                            inputRef3.current!.value = "0"
+                                        }else{
+                                            inputRef3.current!.value = ( parseInt(inputRef3.current!.value) + 1).toString()
+                                        }}}>
                                     <span >+</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <OrangeBtn text={'Activar'} onClick={ ()=>{ setShieldOptions( {
-                        timer: Number.isNaN(pausaMensaje) ? 0 : pausaMensaje,
-                        pausa : Number.isNaN(pausaBloque) ? 0 : pausaBloque,
-                        bloques: Number.isNaN(tamanoBloque) ? 0 : tamanoBloque
-                    } ) ; setModalShieldOptions(false); } } />
+                    <OrangeBtn text={'Activar'} onClick={ ()=>{ 
+                        setTimer( Number.isNaN(parseInt(inputRef3.current!.value) ) ? 0 : parseInt(inputRef3.current!.value) );  
+                        setPausa( Number.isNaN(parseInt(inputRef2.current!.value) ) ? 0 : parseInt(inputRef2.current!.value) );  
+                        setBloques( Number.isNaN(parseInt(inputRef.current!.value) ) ? 0 : parseInt(inputRef.current!.value) );
+                        setActiveShield(true)
+                        setModalShieldOptions(false); 
+                    } } />
                     
 
                 </div>

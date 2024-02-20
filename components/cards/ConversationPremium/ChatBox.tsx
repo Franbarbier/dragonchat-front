@@ -153,7 +153,6 @@ const ChatBox: React.FC<IChatBox> = ({ message, setChat, chat, index, setSplitMo
                             />
                             {timerInfo && 
                                 <div>
-                                    {/* <span>5min</span> */}
                                     <input type="number" value={fupDelay.hours} onChange={
                                         (e)=>{if(e.target.value.length < 3 ) setFupDelay({...fupDelay, hours : e.target.value})}    
                                     }/>

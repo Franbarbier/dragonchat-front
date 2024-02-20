@@ -27,7 +27,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
 
     let intervalId;
 
-
     let count417 = 0;
 
     function startInterval(accessToken) {

@@ -31,16 +31,15 @@ const Notification: React.FC<INotification> = ({ status, render, message, modalR
             {render && (status == STATUS.SUCCESS || status == STATUS.ERROR ) && (
 
                 <motion.div className={styles.notificationCont}
-                initial={{ opacity: 0, x : 50 }}
-                exit={{ opacity: 0, x : 50 }}
-                animate={{ opacity: 1, x : 0 }}
-                key="notificationSimple"
+                    initial={{ opacity: 0, x : 50 }}
+                    exit={{ opacity: 0, x : 50 }}
+                    animate={{ opacity: 1, x : 0 }}
+                    key="notificationSimple"
                 >
 
                     <div>
                         {status == STATUS.SUCCESS && <img className={styles.checkNotif} src={`/check.svg`} alt="icon"/> }
                         {status == STATUS.ERROR && <img className={styles.errorNotif} src={`/close.svg`} alt="icon"/> }
-                        {/* {status == 'alert' && <img className={styles.alertNotif} src={`/exclamation.svg`} alt="icon"/> } */}
                         
                         <span>{message}</span>
                     </div>

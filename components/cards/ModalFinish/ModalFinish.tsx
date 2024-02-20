@@ -1,16 +1,16 @@
-import { ROUTES } from "../../enums";
-import { ContactInfo } from "../cards/CardsContFree";
-import CardTitle from "../cards/CardTitle/CardTitle";
-import CustomColorBtn from "../CustomColorBtn/CustomColorBtn";
+import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
+import CardTitle from "../CardTitle/CardTitle";
+import { ContactInfo } from "../CardsContFree";
 import styles from './ModalFinish.module.css';
 
 export interface IModalFinish {
    blackList: ContactInfo[];
+   nuevaDifusion : ()=> void
 }
 
 
 
-const ModalFinish: React.FC<IModalFinish> = ({ blackList }) => {
+const ModalFinish: React.FC<IModalFinish> = ({ blackList, nuevaDifusion }) => {
 
 
 function downloadCSV(data, filename) {
@@ -47,11 +47,10 @@ return (
         <div className={styles.modal_finish}>
 
           <div>
-            <CardTitle text={`Envio realizado`} />
+            <CardTitle text={`Envio finalizado`} />
             <div>
-                <h3>¡Tu envío ha finalizado con éxito!</h3>
                 
-                {blackList?.length > 0 &&
+                {blackList?.length > 0 ?
                 <>
                   <p>Hubo {blackList?.length} mensajes que no se pudieron enviar. Puede ser porque la linea ingresada no existe o debido al % de Entregabilidad de tu plan actual.</p>
                   <p>Podes descargar una lista de los contactos a los que no se le pudo entregar correctamente el mensaje</p>
@@ -65,6 +64,9 @@ return (
                     onClick={()=>{ downloadCSV(blackList, 'no-enviados.csv'); }}
                   />
                 </>
+              :
+              
+              <h3>Se enviaron todos los mensajes correctamente!</h3>
               }
                 
                 <div>
@@ -74,7 +76,9 @@ return (
                         backgroundColorInit="#c21c3b"
                         backgroundColorEnd="#f9bd4f"
                         borderColor="#e17846"
-                        onClick={()=>{ window.location.href = ROUTES.DASH }}
+                        onClick={()=>{
+                          nuevaDifusion()
+                        }}
                     />
                 </div>
 

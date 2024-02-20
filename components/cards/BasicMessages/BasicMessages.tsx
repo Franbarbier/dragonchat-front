@@ -5,18 +5,16 @@ import { INotification } from '../../Notification/Notification';
 import styles from './BasicMessages.module.css';
 
 export interface IBasicMessages {
-    messages : string[];
-    setMessages : (message: string[]) => void;
+    messages : Array<string[]>;
+    setMessages : (message: Array<string[]>) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
 
 }
 
 const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notification, setNotification }) => {
-   
 
-    const copy = useRef<HTMLTextAreaElement>(null);
-      
+    const copy = useRef<HTMLTextAreaElement>(null);      
     const handleCopy = () => {
         navigator.clipboard.writeText(copy.current!.innerHTML)
         .then(() => {
@@ -36,22 +34,24 @@ const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notifi
                     <li>Puedes agregar alternativas del mensaje que se enviará, se alternaran equitativamente entre todos los destinatarios.</li>
                 </ul>
                <div>
-                    {messages.map((message, index)=>{
+                    {messages[0].map((message, index)=>{
                         return (
                             <div className={styles.messages_cont}>
                                 <textarea value={message} placeholder={`Alternativa Nro. ${index + 1}`} onChange={(e)=>{
-                                    let newMessages = [...messages];
-                                    newMessages[index] = e.target.value;
-                                    setMessages(newMessages);
+                                    let newMessage = messages[0]
+                                    newMessage[index] = e.target.value;
+                                    setMessages([newMessage])
                                 }} />
+                                
                                 <img src="/close.svg" onClick={ 
                                     ()=>{
-                                        if(messages.length > 1){
+                                        if(messages[0].length > 1){
 
-                                            let newMessages = [...messages];
-                                            newMessages.splice(index, 1);
-                                            setMessages(newMessages);
-                                        }else{
+                                            let newMessage = messages[0]
+                                            newMessage.splice(index, 1)
+                                            setMessages([newMessage])
+
+                                        } else{
                                             setNotification({
                                                 modalReturn: () => {
                                                     setNotification({...notification, render : false})
@@ -73,7 +73,11 @@ const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notifi
                             backgroundColorInit="#13013780"
                             backgroundColorEnd="#13013780"
                             borderColor="var(--newViolet)"
-                            onClick={ ()=> setMessages( [...messages, '' ]) }
+                            onClick={ ()=> {
+                                let newMessages = [...messages];
+                                newMessages[0].push('');
+                                setMessages(newMessages);
+                            }}
                             disable={ false }
                         />
                     </div>

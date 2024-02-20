@@ -6,8 +6,7 @@ import CardTitle from '../CardTitle/CardTitle';
 import { ContactInfo } from '../CardsContFree';
 import HeaderRow from '../HeaderRow/HeaderRow';
 import styles from './FreeCard.module.css';
-import { executeFormat } from './RecipientsUtils';
-
+import { executeFormat } from "./recipientsUtils";
 
 interface IModalImport {
     modalImport : boolean;
@@ -36,6 +35,8 @@ interface ICustomContextMenu {
 
 const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisible, executeFormat, finalList, setContactos, notification, setNotification }) => {
 
+
+    executeFormat
 
     function handlerPegar() {
         navigator.clipboard.readText().then(text => { 
@@ -209,7 +210,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                 :
                 <CardTitle text={`${finalList.length - 1} Destinatarios`} />
                 }
-                {/* <div className={styles.card_table_cont}> */}
                     
                     <div style={{'margin': 'auto', 'width': '88%'}}>
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
@@ -252,7 +252,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                                             key={`number${index}`}
                                         />
                                     </div>
-                                    {/* { finalList.length - 1 !=  index ? <img src="/delete.svg" onClick={ ()=>{ setContactos( finalList.filter( ele => ele != elementInArray ) ) } } /> : <div></div>} */}
                                     { finalList.length - 1 !=  index ?
                                     
                                     <img src="/close.svg" onClick={ ()=>{ setContactos( finalList.filter( ele => ele != elementInArray ) ) } } />
@@ -266,7 +265,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                     </div>
                     <div className={styles.grilla_fondo} ref={grillaFondo}>
                         {[...Array(finalList.length + 15)].map((elementInArray, index) => (
-                                <div className={styles.row_table} >
+                                <div className={styles.row_table} key={"fakerow"+index}>
                                     <div>
                                     <>
                                     </>
@@ -283,8 +282,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                     
                     {isDragging && <div className={styles.dragging}>Drop file here</div>}
                     
-                    {/* <div className={styles.dragging}>Drop file here</div> */}
-
                     </div>
                     <div className={styles.footerBtns}>
                         <div>
@@ -328,7 +325,6 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                         </div>
                     </div>
                     
-                {/* </div> */}
 
             </div>
             </>

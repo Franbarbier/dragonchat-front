@@ -43,7 +43,6 @@ const NavBottom: React.FC<INavBottom> = ({setActiveCard, activeCard, nextCard, p
             <div style={{ transform :  `rotate(${ruletaAngulo}deg)`  }}>
               <img src="/wapi_plataforma_wheel_lines.png" />
 
-              {/* style={{ transform :  `translate(-50%, 50%) rotate(${ruletaAngulo}deg)`  }} */}
 
               <div className={`${styles.paginationBtn} ${styles.cardBtnPos0} ${activeCard == 1 && styles.activeBtn}`} onClick={ ()=>{ if (activeCard > 1 && prevCard){ setActiveCard(1) } } } >
                 <div className={styles.iconCont} >
