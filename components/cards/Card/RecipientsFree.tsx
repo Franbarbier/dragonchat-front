@@ -265,7 +265,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                     </div>
                     <div className={styles.grilla_fondo} ref={grillaFondo}>
                         {[...Array(finalList.length + 15)].map((elementInArray, index) => (
-                                <div className={styles.row_table} key={"fakerow"+index}>
+                                <div className={`${styles.row_table} ${index > finalList.length-1 && styles.bckgrndCell}`} key={"fakerow"+index}>
                                     <div>
                                     <>
                                     </>
