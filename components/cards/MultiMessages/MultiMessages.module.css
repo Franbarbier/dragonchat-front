@@ -88,7 +88,6 @@
 .messages_cont textarea::-webkit-scrollbar-thumb{
     border-radius: 10px;
     background: #ccbcff!important;
-    /* border: 0.3em solid var(--newPink); */
     border: none;
 }
 .messages_cont textarea::-webkit-scrollbar-track{
@@ -138,7 +137,6 @@
     width: 3.5vw;
     height: 3.5vw!important;
     overflow-y: hidden!important;
-    /* padding-top: 9.5%; */
     border-radius: 90px;
     cursor: pointer;
     left: 50%;
