@@ -62,7 +62,7 @@ const TimerSync: React.FC<ITimerSync> = ({ }) => {
     return <>
                 <div className={styles.timerCont}>
                     <CardTitle text="Sincronizando" />
-                    <h4>Perfecto! Aguarda 3 minutos para asegurarnos que Whatsapp terminó de sincronizarse a tu dispositivo</h4>
+                    <h4>Perfecto! Aguarda 5 minutos para asegurarnos que Whatsapp terminó de sincronizarse a tu dispositivo</h4>
 
                     <div className={styles.cron}>
                             <p>{timer}</p>
