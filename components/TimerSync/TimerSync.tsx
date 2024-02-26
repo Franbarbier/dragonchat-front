@@ -1,74 +1,55 @@
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
-import CardTitle from '../cards/CardTitle/CardTitle';
-import styles from './TimerSync.module.css';
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import CardTitle from "../cards/CardTitle/CardTitle";
+import styles from "./TimerSync.module.css";
 
-export interface ITimerSync {
+const TimerSync = () => {
+  const [timer, setTimer] = useState("03:00");
 
-}
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const timeLeft = getTimeLeftUntilHour();
 
-const TimerSync: React.FC<ITimerSync> = ({ }) => {
-
-    const [timer, setTimer] = useState<string>('03:00');
-
-    useEffect(() => {
-
-        let timing = setInterval(() => {
-            if ( getTimeLeftUntilHour() < 1000 ) {
-                clearInterval(timing);
-                Cookies.set("syncTime", null, { expires: new Date(0) });
-                window.location.href = "/dash";
-                return false
-
-            }
-            const minutesLeft = Math.floor(getTimeLeftUntilHour() / (1000 * 60));
-            let sec = getTimeLeftUntilHour() % (1000 * 60);
-            const secondsLeft = Math.floor(sec / 1000);
-            
-            if (isNaN(minutesLeft)) {
-                setTimer(`00:00`);
-                return;
-            }
-
-            var sec0;
-            if (secondsLeft < 10) {
-                sec0 = `0${secondsLeft}`;
-                setTimer(`${minutesLeft}:${sec}`);
-            } else {
-                sec0 = `${secondsLeft}`;
-            }
-
-            if (minutesLeft < 10) {
-                setTimer(`0${minutesLeft}:${sec0}`);
-                return;
-            }
-            setTimer(`${minutesLeft}:${sec0}`);
-            
-        }, 1000);
-        
-    }, []);
-
-    function getTimeLeftUntilHour() {
-
-        const syncTime = new Date( Cookies.get('syncTime') )
-        const in5 = new Date( syncTime.getTime() + 300000 );
-
-        // Calculate the time difference between now and the target hour
-        let timeDiff = in5.getTime() - new Date().getTime();
-
-        return  timeDiff;
+      if (timeLeft < 1000) {
+        clearInterval(interval);
+        Cookies.set("syncTime", null, { expires: new Date(0) });
+        window.location.href = "/dash";
+        return;
       }
 
-    return <>
-                <div className={styles.timerCont}>
-                    <CardTitle text="Sincronizando" />
-                    <h4>Perfecto! Aguarda 5 minutos para asegurarnos que Whatsapp terminó de sincronizarse a tu dispositivo</h4>
+      const minutesLeft = Math.floor(timeLeft / (1000 * 60));
+      const secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-                    <div className={styles.cron}>
-                            <p>{timer}</p>
-                    </div>
-               </div>
-    </>;
-}
+      const formattedMinutes =
+        minutesLeft < 10 ? `0${minutesLeft}` : minutesLeft;
+      const formattedSeconds =
+        secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft;
+
+      setTimer(`${formattedMinutes}:${formattedSeconds}`);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  function getTimeLeftUntilHour() {
+    const syncTime = new Date(Cookies.get("syncTime"));
+    const in5 = new Date(syncTime.getTime() + 300000);
+    return in5.getTime() - new Date().getTime();
+  }
+
+  return (
+    <div className={styles.timerCont}>
+      <CardTitle text="Sincronizando" />
+      <h4>
+        Perfecto! Aguarda 5 minutos para asegurarnos que Whatsapp terminó de
+        sincronizarse a tu dispositivo
+      </h4>
+
+      <div className={styles.cron}>
+        <p>{timer}</p>
+      </div>
+    </div>
+  );
+};
 
 export default TimerSync;
