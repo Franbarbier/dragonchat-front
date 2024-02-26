@@ -4,7 +4,7 @@ import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from "./TimerSync.module.css";
 
 const TimerSync = () => {
-  const [timer, setTimer] = useState("03:00");
+  const [timer, setTimer] = useState("05:00");
 
   useEffect(() => {
     const interval = setInterval(() => {
