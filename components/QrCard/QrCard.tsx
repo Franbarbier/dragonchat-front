@@ -66,13 +66,11 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
                     }
                 })
                 setLoadingQr(true);
-                // Router.push("/")
                 clearInterval(intervalId);
                 Cookies.set('syncTime',  new Date() )
                 // redireccion al nuevo timer
                 window.location.href = ROUTES.SYNCING
                 
-                // window.location.href = ROUTES.DASH
             }
 
         }, 3500); 

@@ -114,7 +114,6 @@ export default Dash;
 export async function getServerSideProps({ req, res }) {
   
   const cookies = new Cookies(req, res);
-  console.log("server cookie" , cookies.get('syncTime')) 
   var stripeStatus: null | number = null
 
   const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));

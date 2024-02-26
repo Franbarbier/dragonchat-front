@@ -12,13 +12,6 @@ const TimerSync: React.FC<ITimerSync> = ({ }) => {
     const [timer, setTimer] = useState<string>('03:00');
 
     useEffect(() => {
-        const apartir = new Date();
-
-        
-
-        // const interval = setInterval(() => {
-        //     setTimer(getTimeLeftUntilHour(syncTime))
-        // }, 1000);
 
         let timing = setInterval(() => {
             if ( getTimeLeftUntilHour() < 1000 ) {
@@ -58,15 +51,13 @@ const TimerSync: React.FC<ITimerSync> = ({ }) => {
     function getTimeLeftUntilHour() {
 
         const syncTime = new Date( Cookies.get('syncTime') )
-        const in5 = new Date( syncTime.getTime() + 180000 );
+        const in5 = new Date( syncTime.getTime() + 300000 );
 
         // Calculate the time difference between now and the target hour
         let timeDiff = in5.getTime() - new Date().getTime();
 
         return  timeDiff;
       }
-
-      console.log(Cookies.get('syncTime'))
 
     return <>
                 <div className={styles.timerCont}>
