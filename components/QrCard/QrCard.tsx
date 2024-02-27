@@ -68,7 +68,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
                 setLoadingQr(true);
                 clearInterval(intervalId);
                 Cookies.set('syncTime',  new Date() )
-                // redireccion al nuevo timer
                 window.location.href = ROUTES.SYNCING
                 
             }
