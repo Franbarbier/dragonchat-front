@@ -1123,6 +1123,9 @@ background: #555;
 
 
 @media (max-width: 749px) {
+    .footerBtns button{
+        white-space: normal;
+    }
     .card_title{
         font-size: 14px;
     }

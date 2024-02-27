@@ -5,12 +5,12 @@ import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE, NO_SIGNUP } from '../../constants/index';
 import { STATUS } from '../../enums';
 import { mailIsValid } from '../../utils/validators';
-import CardTitle from '../cards/CardTitle/CardTitle';
 import CountryCodeFlagSelector from '../CountryCodeFlagSelector/CountryCodeFlagSelector';
+import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
-import OrangeBtn from '../OrangeBtn/OrangeBtn';
+import CardTitle from '../cards/CardTitle/CardTitle';
 import styles from './SignUpView.module.css';
 
 export interface ISignUpView {
@@ -24,7 +24,6 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
     const [formData, setFormData] = useState({ name: '', mail: '', pass: '', confirmPass: '', code: '', number: '' });
     const [userExists, setUserExists] = useState(false);
     const [loading, setLoading] = useState(false);
-
 
     const formIsValid = useMemo(() => (
         formData.name != "" &&
@@ -171,7 +170,17 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                 {!equalPass && <p className={styles.alert}>{"Las contraseñas no coinciden :("}</p>}
                 {userExists && <p className={styles.alert}>{"Ya existe un usuario registrado con ese email."}</p>}
 
-                <OrangeBtn text="Crear cuenta" onClick={handleCrearCuenta} />
+                <CustomColorBtn
+                        type="submit"
+                        text="CREAR CUENTA"
+                        backgroundColorInit="#c21c3b"
+                        backgroundColorEnd="#f9bd4f"
+                        borderColor="#e17846"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            handleCrearCuenta()
+                        }}
+                    />
             </form>
 
             <div className={styles.hasAccount}>

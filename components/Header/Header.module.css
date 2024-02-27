@@ -113,7 +113,11 @@
 }
 
 @media (max-width: 750px) {
-
+.proLogo{
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-left: 0;
+}
 .header_cont>nav{
     width: 100%;
     padding: 1vh 4%;
