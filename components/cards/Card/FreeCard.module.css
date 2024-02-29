@@ -173,7 +173,9 @@ background: #555;
 .grilla_fondo>div:last-child .celda_table{ border-left-width: 2px; border-bottom-width: 2px; }
 .grilla_fondo>div:first-child .celda_table{ border-right-width: 2px; border-top-width: 2px;}
 
-
+.bckgrndCell>div{
+    background-color: rgba(0, 0, 0, 0.7)!important;
+}
 
 .celda_table textarea{
     background: transparent;
@@ -289,7 +291,7 @@ background: #555;
     z-index: 0;
 }
 .grilla_fondo .celda_table{
-    background-color: rgba(0, 0, 0, 0.32);
+    background-color: transparent;
 }
 .draggedIcon{ cursor: none; }
 
