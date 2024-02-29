@@ -131,17 +131,20 @@
 .agregarMultiMensaje {
     background-color: var(--newPink);
     border: 3px solid var(--borders);
-    position: absolute;
-    display: block;
     margin: auto;
-    width: 3.5vw;
-    height: 3.5vw!important;
     overflow-y: hidden!important;
     border-radius: 90px;
     cursor: pointer;
     left: 50%;
     transform: translateX(-50%);
     bottom: 5%;
+    position: absolute;
+    display: block;
+
+    height: 50PX!important;
+    width: 0;
+    padding-left: 44px;
+
 
 }
 .agregarMultiMensaje:hover{
@@ -166,4 +169,23 @@
     transform: rotate(90deg);
     margin-right: 7px;
     margin-bottom: -8px;
+}
+
+/* if mobile */
+@media (max-width: 768px){
+    .svgBranch{
+        right: 78%;
+    }
+    .MultiMessages_cont li{ 
+        font-size: 0.65em;
+    }
+    .forkIcon {
+        width: 18px;
+    }
+    .agregarMultiMensaje{
+        height: 45px !important;
+        width: 0;
+        padding-left: 39px;
+        bottom: 6.5%;
+    }
 }

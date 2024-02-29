@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
+import LineDash from "../../../public/var_linea.svg";
+
+
 export interface IMultiMessages {
     messages : string[][];
     setMessages : (message: string[][]) => void;
@@ -28,6 +31,13 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
+
+
+    function kkkkk() {
+        return <div dangerouslySetInnerHTML={{ __html: LineDash }} />
+    }
+
+    console.log(kkkkk(), LineDash)
 
 
     return (
@@ -59,8 +69,17 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                     <>
                                                                     <motion.div className={styles.txtareaCont}
                                                                             initial={{ opacity: 0, y : 50 }}
-                                                                            animate={{ opacity: 1, y : 0 }}>
-                                                                        <img src="/var_linea.svg" alt="" className={styles.svgBranch}/>
+                                                                            animate={{ opacity: 1, y : 0 }}
+                                                                            transition={{duration : 0.5 }}>
+                                                                        
+                                                                        
+                                                                        <motion.img src="/var_linea.svg" alt="" className={styles.svgBranch}
+                                                                            initial={{ opacity: 0, y : 8 }}
+                                                                            animate={{ opacity: 1, y : 0 }}
+                                                                            transition={{ duration: 0.5, delay : 0.5 }}
+                                                                        />
+                                                                        
+                                                                    
                                                                         <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
                                                                             let newMessages = [...testMsj];
                                                                             const thisArr = newMessages[index]
