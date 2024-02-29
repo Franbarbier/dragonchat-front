@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
-import LineDash from "../../../public/var_linea.svg";
 
 
 export interface IMultiMessages {
@@ -32,12 +31,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         setMessages(testMsj)
     },[testMsj])
 
-
-    function kkkkk() {
-        return <div dangerouslySetInnerHTML={{ __html: LineDash }} />
-    }
-
-    console.log(kkkkk(), LineDash)
 
 
     return (
