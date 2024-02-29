@@ -7,7 +7,7 @@
     overflow-y: auto;
     height: 35vh;
 }
-.MultiMessages_cont li{ 
+.MultiMessages_cont li{
     list-style: circle;
     font-size: 0.8em;
     padding: 0 5px;
@@ -113,4 +113,15 @@
     transform: rotate(90deg);
     margin-right: 7px;
     margin-bottom: -8px;
+}
+
+/* if mobile */
+@media (max-width: 768px) {
+    .MultiMessages_cont li{
+        font-size: 0.7em;
+    }
+    .forkIcon {
+        width: 23px;
+        margin-bottom: -7px;
+    }
 }
