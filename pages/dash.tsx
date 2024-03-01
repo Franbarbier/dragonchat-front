@@ -1,4 +1,6 @@
 import Cookies from 'cookies';
+import CookiesJS from 'js-cookie';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import Header from '../components/Header/Header';
@@ -24,6 +26,9 @@ interface IDashProps {
 
 const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) => {
 
+  // syncing
+  if (CookiesJS.get("syncTime")) window.location.href = "/syncing";
+
   const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [modalStripe, setModalStripe] = useState<null | number>(stripe)
 
@@ -36,6 +41,7 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
     message: "",
     modalReturn: () => { }
   })
+
 
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
@@ -106,8 +112,7 @@ export default Dash;
 
 
 export async function getServerSideProps({ req, res }) {
-
-
+  
   const cookies = new Cookies(req, res);
   var stripeStatus: null | number = null
 
