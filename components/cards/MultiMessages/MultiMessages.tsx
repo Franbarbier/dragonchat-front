@@ -23,14 +23,9 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         }
     },[messages])
 
-    function addMsj() {
-        setTestMsj([...testMsj, [""]])
-    }
-
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
-
 
 
     return (
