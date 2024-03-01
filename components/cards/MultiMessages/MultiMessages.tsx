@@ -14,7 +14,6 @@ export interface IMultiMessages {
 
 const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages }) => {
    
-
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
     useEffect(()=>{
@@ -26,7 +25,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
-
 
     return (
             <div className={styles.MultiMessages_cont}>
