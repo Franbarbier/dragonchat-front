@@ -396,11 +396,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           </div>
 
         </div>
-        {/* {sendingState === SENDING_STATE.FINISH && (
-          <div className={styles.}>
-
-          </div>
-        )} */}
+      
       </div>
     }
     </div>
