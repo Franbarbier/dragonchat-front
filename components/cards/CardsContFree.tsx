@@ -341,26 +341,39 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                     <FreeCard2
                         activeCard={activeCard}
                         selectedSecuence={selectedSecuence}
-                        setSelectedSecuence={setSelectedSecuence}
                         setBreadcrumb={setBreadcrumb}
                         notification={notification}
                         setNotification={setNotification}      
                         tipoEnvio={tipoEnvio}
                         setTipoEnvio={setTipoEnvio}
-                        activeSecuence={activeSecuence}
-                        setActiveSecuence={setActiveSecuence}
                         messages={messages}
                         setMessages={setMessages}
                         isPaid={isPaid}
+                        nextCard={nextCard}
+                        setActiveCard={setActiveCard}
                     />
 
                     
 
             </div>
-
-            <div className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
-                <button><img src="/arrow-card.png" /></button>
-            </div>
+            
+            {/* Si esta en ultima card y ya termino de enviar muestra el refresh */}
+            {
+                activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
+                <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ } }>
+                    <button><img src="/resend.png" /></button>
+                    <AnimatePresence>
+                        <motion.aside
+                            initial={{x : -10, y :'-50%' }}
+                            animate={{x : 0, y :'-50%' }}
+                        >Nuevo envío</motion.aside>
+                    </AnimatePresence>
+                </div>
+                :
+                <div className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
+                    <button><img src="/arrow-card.png" /></button>
+                </div>
+            }
             
             <div className={`${styles.prevCard} ${ ! prevCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( prevCard ) setActiveCard(activeCard-1) } }>
                 <button><img src="/arrow-card.png" /></button>

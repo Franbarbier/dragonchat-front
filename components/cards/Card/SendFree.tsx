@@ -188,7 +188,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }
 
 
-
   
   useEffect(() => {
     if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
@@ -197,8 +196,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }, [sendingState, listCounter]);
 
 
-
-  
 
   const handleButtonClick = async () => {
 
@@ -230,9 +227,29 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   }, [modalFinish])
 
-  return (
 
-    
+  // set trigger when enter is pressed, and disable it when the component is unmounted
+  function handleEnter(event) {
+    if (event.key == "Enter" ) {
+      
+      if (sendingState === SENDING_STATE.FINISH) {
+        nuevaDifusion()
+      }
+      handleButtonClick()
+      
+    }
+  }
+  useEffect(() => {
+    if (activeCard == idCard) { 
+      document.addEventListener("keydown", handleEnter);
+      return () => {
+        document.removeEventListener("keydown", handleEnter);
+      };
+    }
+  });
+
+
+  return (
     <div
     className={`${styles.card} ${styles["numberCard" + activeCard]} ${
       activeCard == idCard && styles.active
@@ -379,6 +396,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           </div>
 
         </div>
+        {/* {sendingState === SENDING_STATE.FINISH && (
+          <div className={styles.}>
+
+          </div>
+        )} */}
       </div>
     }
     </div>
