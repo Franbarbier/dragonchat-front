@@ -3,11 +3,17 @@ export const globalName = (message:string[]) => {
 
     const variations = [
         /\[name\]/gi,
+        /\[NAME\]/gi,
         /\(name\)/gi,
+        /\(NAME\)/gi,
         /\{name\}/gi,
+        /\{NAME\}/gi,
         /\[nombre\]/gi,
+        /\[NOMBRE\]/gi,
         /\(nombre\)/gi,
+        /\(NOMBRE\)/gi,
         /\{nombre\}/gi,
+        /\{NOMBRE\}/gi,
         /\[user\]/gi,
         /\(user\)/gi,
         /\{user\}/gi,
