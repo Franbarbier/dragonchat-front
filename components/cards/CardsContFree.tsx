@@ -292,6 +292,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         setSendingState(SENDING_STATE.INIT)
         setModalFinish(false)
         setListCounter(0)
+        setBlackList([])
     }
 
 
@@ -459,7 +460,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
            
             {modalFinish && !messagesLimitAchieved && (
             <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"} >
-                <ModalFinish blackList={blackList} nuevaDifusion={nuevaDifusion}/>
+                <ModalFinish blackList={blackList} nuevaDifusion={nuevaDifusion} isPaid={isPaid}/>
             </ModalContainer>
             )}
 
