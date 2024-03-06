@@ -22,6 +22,7 @@ export interface IFreeCard3 {
   setMessagesLimitAchieved: (limit: boolean) => void;
   messagesLimitAchieved: boolean;
   setModalShieldOptions: (limit: boolean) => void;
+  modalShieldOptions : boolean;
 
   setActiveCard: (id: number) => void;
 
@@ -40,7 +41,7 @@ export interface IFreeCard3 {
   timer : number;
   bloques : number;
   pausa : number;
-
+  
   modalFinish : boolean;
   nuevaDifusion : () => void;
   listCounter : number;
@@ -72,7 +73,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   modalFinish,
   nuevaDifusion,
   listCounter,
-  setListCounter
+  setListCounter,
+  modalShieldOptions
 
 }) => {
   let idCard = 3;
@@ -84,6 +86,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
+
+  useEffect(() => {
+      if (timer == 3 && bloques == 0 && pausa == 0) {
+        setActiveShield(false)
+      }
+  },[modalShieldOptions])
+
 
   async function sendMove(cnt:number) {
 

@@ -308,6 +308,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         messagesLimitAchieved={messagesLimitAchieved}
                         setMessagesLimitAchieved={setMessagesLimitAchieved}
                         setModalShieldOptions={setModalShieldOptions}
+                        modalShieldOptions={modalShieldOptions}
                         sendingState={sendingState}
                         setSendingState={setSendingState}
                         messages={messages}
