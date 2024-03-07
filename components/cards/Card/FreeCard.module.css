@@ -619,7 +619,11 @@ background: #555;
     50% {opacity: 0.3;}
     100% {opacity: 1;}
 }
-
+.fuegoLoader video{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
 .sending_anim_cont{
     animation-name: sending;
     animation-duration: 3s;
