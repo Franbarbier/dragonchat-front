@@ -84,17 +84,13 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
         
           const response = await apiUserController.logout(accessToken);
     
-          if (response.status == 200) {
-    
+          if (response) {
             Cookie.remove(LOGIN_COOKIE);
-    
-    
             Router.push(`${ROUTES.LOGIN}`);
             setLoading(false)
-    
           }
+    
         } catch (error: any) {
-            // alert(error.response.data.error);
             setLoading(false)
         }
       }

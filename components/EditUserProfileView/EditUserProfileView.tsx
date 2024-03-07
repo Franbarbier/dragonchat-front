@@ -71,8 +71,8 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     try {
       const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
       const response = await apiUserController.logout(accessToken);
-
-      if (response.status == 200) {
+      
+      if (response) {
         Cookies.remove(LOGIN_COOKIE);
         Router.push(ROUTES.LOGIN);
         setLoading(false)
