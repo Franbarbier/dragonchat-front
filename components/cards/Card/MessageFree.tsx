@@ -47,20 +47,20 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, sele
                     <CardTitle text={"Mensaje"} />
                 </div>
                 <div>
-                    <div className={styles.tabs_cont}>
+                     {/* <div className={styles.tabs_cont}>
                         <div>
                             <div className={`${styles.difu_tab} ${tipoEnvio == MESSAGE_TYPE.DIFUSION && styles.active_tab}`}
                             onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.DIFUSION) } }
                             >
                                 <h6>Difusión</h6>
                             </div>
-                            {/* <div className={`${styles.conv_tab} ${tipoEnvio == MESSAGE_TYPE.CONVERSACION && styles.active_tab}`}
+                           <div className={`${styles.conv_tab} ${tipoEnvio == MESSAGE_TYPE.CONVERSACION && styles.active_tab}`}
                             onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.CONVERSACION) } }
                             >
                                 <h6>Conversación</h6>
-                            </div> */}
+                            </div> 
                         </div>
-                    </div>
+                    </div>*/}
                     </div>
                     {isPaid ?
                             <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />

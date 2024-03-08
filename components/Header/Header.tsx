@@ -84,21 +84,31 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
         
           const response = await apiUserController.logout(accessToken);
     
-          if (response.status == 200) {
-    
+          if (response) {
             Cookie.remove(LOGIN_COOKIE);
-    
-    
             Router.push(`${ROUTES.LOGIN}`);
             setLoading(false)
-    
           }
+    
         } catch (error: any) {
-            // alert(error.response.data.error);
             setLoading(false)
         }
       }
 
+
+    const logoClicked = () => {
+        setNotification({
+            status : STATUS.ALERT,
+            message : "Deseas volver al incio? Los contactos y mensajes cargados se perderán. Y si hay un envío en curso, se cancelará.",
+            render : true,
+            modalReturn : (booleanReturn)=>{
+                    setNotification({...notification, render : false })
+                    if ( booleanReturn ) {
+                        window.location.href = ROUTES.DASH;
+                }
+            }
+        })
+    }
 
     return (
         <div className={styles.header_cont}>
@@ -106,7 +116,7 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
             <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
             <nav>
                 <div>
-                    <img width={'130px'} src={'dragonchat_logo_full.svg'} />
+                    <img width={'130px'} src={'dragonchat_logo_full.svg'} onClick={()=> logoClicked() } />
                     {isPaid &&
                         <span className={styles.proLogo}>2.0</span>
                     }
