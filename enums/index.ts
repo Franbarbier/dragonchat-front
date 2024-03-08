@@ -77,3 +77,8 @@ export enum FILE {
   CONTACTS_CSV = '/ImportContactsEg.csv',
   MAINTENANCE = 'dragonchat_dragon_tecnico.webp',
 };
+
+export enum EVENT_KEY {
+  ENTER = 'Enter',
+  
+};

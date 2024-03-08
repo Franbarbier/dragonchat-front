@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
-import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
+import { EVENT_KEY, MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
@@ -234,7 +234,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
-            if (event.key == "Enter" && activeCard == 1) {
+            if (event.key == EVENT_KEY.ENTER && activeCard == 1) {
                 event.preventDefault()
                 if ( nextCard ) setActiveCard(activeCard+1)
             }
