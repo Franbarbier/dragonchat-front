@@ -3,14 +3,14 @@ import Router from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE, NO_SIGNUP } from '../../constants/index';
-import { STATUS } from '../../enums';
+import { EVENT_KEY, STATUS } from '../../enums';
 import { mailIsValid } from '../../utils/validators';
-import CardTitle from '../cards/CardTitle/CardTitle';
 import CountryCodeFlagSelector from '../CountryCodeFlagSelector/CountryCodeFlagSelector';
 import InputGral from '../InputGral/InputGral';
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
 import OrangeBtn from '../OrangeBtn/OrangeBtn';
+import CardTitle from '../cards/CardTitle/CardTitle';
 import styles from './SignUpView.module.css';
 
 export interface ISignUpView {
@@ -48,7 +48,7 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
 
     useEffect(() => {
         const handleKeyPress = (event) => {
-            if (event.key === 'Enter') {
+            if (event.key === EVENT_KEY.ENTER) {
                 // Trigger sign-up function when Enter key is pressed
                 handleCrearCuenta();
             }

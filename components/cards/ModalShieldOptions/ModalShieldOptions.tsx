@@ -36,6 +36,12 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOption
 
     function handleChangeValue(input, value){
         
+        // if starts with 0, remove the 0 and let the typed number
+        if (input.current.value.startsWith("0")) {
+            input.current.value = value;
+            return false;
+        }
+
         if (input.current?.id == "timer" && value < 3) {
             input.current.value = 3;
             return false;
