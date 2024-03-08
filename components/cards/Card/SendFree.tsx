@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
 import { HOST_URL } from "../../../constants/index";
-import { ROUTES, SENDING_STATE, STATUS } from "../../../enums";
+import { EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../../Notification/Notification";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
@@ -239,7 +239,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   // set trigger when enter is pressed, and disable it when the component is unmounted
   function handleEnter(event) {
-    if (event.key == "Enter" ) {
+    if (event.key == EVENT_KEY.ENTER ) {
       
       if (sendingState === SENDING_STATE.FINISH) {
         nuevaDifusion()

@@ -114,11 +114,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
         } else {
            
             // get index of selected item and check the las selected item from the actual selected
-            if (!selectedList[index].selected) {
-                selectedList[index].selected = true
-            }else{
-                selectedList[index].selected = false
-            }
+            selectedList[index].selected = !selectedList[index].selected
             
         }
         

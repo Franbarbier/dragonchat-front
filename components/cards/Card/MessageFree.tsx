@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { MESSAGE_TYPE, STATUS } from '../../../enums';
+import { EVENT_KEY, MESSAGE_TYPE, STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import BasicMessages from '../BasicMessages/BasicMessages';
 import CardTitle from '../CardTitle/CardTitle';
@@ -34,7 +34,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
     
     function handleEnter(event) {
         
-        if (event.key === 'Enter' && !event.shiftKey) {
+        if (event.key === EVENT_KEY.ENTER && !event.shiftKey) {
             event.preventDefault()
             setNotification({
                 status : STATUS.SUCCESS,
