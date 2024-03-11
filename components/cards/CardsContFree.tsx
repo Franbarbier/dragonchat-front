@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
-import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
+import { EVENT_KEY, MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
@@ -234,7 +234,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
-            if (event.key == "Enter" && activeCard == 1) {
+            if (event.key == EVENT_KEY.ENTER && activeCard == 1) {
                 event.preventDefault()
                 if ( nextCard ) setActiveCard(activeCard+1)
             }
@@ -309,6 +309,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         messagesLimitAchieved={messagesLimitAchieved}
                         setMessagesLimitAchieved={setMessagesLimitAchieved}
                         setModalShieldOptions={setModalShieldOptions}
+                        modalShieldOptions={modalShieldOptions}
                         sendingState={sendingState}
                         setSendingState={setSendingState}
                         messages={messages}
@@ -342,26 +343,39 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                     <FreeCard2
                         activeCard={activeCard}
                         selectedSecuence={selectedSecuence}
-                        setSelectedSecuence={setSelectedSecuence}
                         setBreadcrumb={setBreadcrumb}
                         notification={notification}
                         setNotification={setNotification}      
                         tipoEnvio={tipoEnvio}
                         setTipoEnvio={setTipoEnvio}
-                        activeSecuence={activeSecuence}
-                        setActiveSecuence={setActiveSecuence}
                         messages={messages}
                         setMessages={setMessages}
                         isPaid={isPaid}
+                        nextCard={nextCard}
+                        setActiveCard={setActiveCard}
                     />
 
                     
 
             </div>
-
-            <div className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
-                <button><img src="/arrow-card.png" /></button>
-            </div>
+            
+            {/* Si esta en ultima card y ya termino de enviar muestra el refresh */}
+            {
+                activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
+                <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ } }>
+                    <button><img src="/resend.png" /></button>
+                    <AnimatePresence>
+                        <motion.aside
+                            initial={{x : -10, y :'-50%' }}
+                            animate={{x : 0, y :'-50%' }}
+                        >Nuevo envío</motion.aside>
+                    </AnimatePresence>
+                </div>
+                :
+                <div className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
+                    <button><img src="/arrow-card.png" /></button>
+                </div>
+            }
             
             <div className={`${styles.prevCard} ${ ! prevCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( prevCard ) setActiveCard(activeCard-1) } }>
                 <button><img src="/arrow-card.png" /></button>
