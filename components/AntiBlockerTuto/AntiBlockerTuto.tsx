@@ -18,11 +18,11 @@ const AntiBlockerTuto: React.FC<IAntiBlockerTuto> = ({ setTuto }) => {
 
     const handleOuterClick = () => {
         setTuto("desp")
-      };
+    };
     
-      const handleInnerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleInnerClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
-      };
+    };
 
     return (
         <AnimatePresence>
