@@ -95,9 +95,6 @@
 }
 .messages_cont>div>div:first-child .svgBranch{ display: none; }
 
-.txtareaContfirst-child::before{
-
-}
 .messages_cont textarea::placeholder{
     color: #cccccc;
 }
