@@ -20,14 +20,7 @@ const apiSenderWhatsappController = {
         `${API_GATEWAY_URL}${API_ROUTES.DISCONNECT}`,
         { headers: getHeaders(authToken) }
       );
-      if (response.status == 200) {
-        alert("Whatsapp correctamente desvinculado.");
-      } else {
-        alert(
-          "Tu sesión no pudo ser desvinculada de forma correcta. Espera unos momentos y vuelve a intentar."
-        );
-      }
-
+      
       return response;
     } catch (error) {
       return error;
@@ -41,6 +34,7 @@ const apiSenderWhatsappController = {
         payload,
         { headers: getHeadersVersion(authToken) }
       );
+
       return response;
     } catch (error: any) {
       return error;
