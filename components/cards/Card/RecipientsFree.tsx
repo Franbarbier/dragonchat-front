@@ -93,14 +93,31 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
     
 
     // select rows
-    function setSelection(index){
+    function setSelection(event, index){
+
+
         let selectedList = [...finalList]
 
-        if (!selectedList[index].selected) {
-            selectedList[index].selected = true
-        }else{
-            selectedList[index].selected = false
+        if (event.shiftKey) {
+            // Shift key was pressed
+            let lastIndex = -1;
+            for (let i = 0; i < selectedList.length; i++) {
+                if (selectedList[i].selected) {
+                    lastIndex = i;
+                }
+            }
+            // Update selected status based on the last and current index
+            for (let i = Math.min(lastIndex, index); i <= Math.max(lastIndex, index); i++) {
+                selectedList[i].selected = true;
+            }
+            // Perform the action for Shift + click
+        } else {
+           
+            // get index of selected item and check the las selected item from the actual selected
+            selectedList[index].selected = !selectedList[index].selected
+            
         }
+        
         setContactos(selectedList)
     }
 
@@ -228,7 +245,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
 
                                     <div key={`row${index}`}>
                                     { finalList.length - 1 !=  index ?
-                                        <aside onClick={ ()=>{ setSelection(index) } } className={ `${elementInArray.selected && styles.rowSelected} `  }>
+                                        <aside onClick={ (e)=>{ setSelection(e, index) } } className={ `${elementInArray.selected && styles.rowSelected} `  }>
                                             <div>
                                                 <></>
                                             </div>
@@ -265,7 +282,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                     </div>
                     <div className={styles.grilla_fondo} ref={grillaFondo}>
                         {[...Array(finalList.length + 15)].map((elementInArray, index) => (
-                                <div className={styles.row_table} key={"fakerow"+index}>
+                                <div className={`${styles.row_table} ${index > finalList.length-1 && styles.bckgrndCell}`} key={"fakerow"+index}>
                                     <div>
                                     <>
                                     </>

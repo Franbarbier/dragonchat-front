@@ -66,6 +66,27 @@
     top: 50%;
     left: 50%;
 }
+.resend img{
+    filter: invert(1);
+    width: 55%;
+    transform: translate(-50%, -50%);
+    transform-origin: -50%, -50%;
+}
+
+.resend aside{
+    position: absolute;
+    width: max-content;
+    display: block;
+    background: var(--newPink);
+    border: 1px solid var(--borders);
+    padding: 4px 9px;
+    border-radius: 5px;
+    font-size: 0.6em;
+    letter-spacing: 0.5px;
+    top: 50%;
+    left: 130%;
+    transform: translateY(-50%);
+}
 .arrow_disabled button{
     cursor: inherit!important;
 }
@@ -297,8 +318,8 @@ cursor: pointer;
         width: 3vw;
         height: 3vw;
     }
-    .dragon1{left:17%;}
-    .dragon2{right:17%}
+    .dragon1{left:16%;}
+    .dragon2{right:16%}
 
 }
 

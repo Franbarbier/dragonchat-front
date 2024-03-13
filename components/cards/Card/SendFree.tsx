@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
 import { HOST_URL } from "../../../constants/index";
-import { ROUTES, SENDING_STATE, STATUS } from "../../../enums";
+import { EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../../Notification/Notification";
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
@@ -23,6 +23,7 @@ export interface IFreeCard3 {
   setMessagesLimitAchieved: (limit: boolean) => void;
   messagesLimitAchieved: boolean;
   setModalShieldOptions: (limit: boolean) => void;
+  modalShieldOptions : boolean;
 
   setActiveCard: (id: number) => void;
 
@@ -41,7 +42,7 @@ export interface IFreeCard3 {
   timer : number;
   bloques : number;
   pausa : number;
-
+  
   modalFinish : boolean;
   nuevaDifusion : () => void;
   listCounter : number;
@@ -73,7 +74,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   modalFinish,
   nuevaDifusion,
   listCounter,
-  setListCounter
+  setListCounter,
+  modalShieldOptions
 
 }) => {
   let idCard = 3;
@@ -85,6 +87,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
+
+  useEffect(() => {
+      if (timer == 3 && bloques == 0 && pausa == 0) {
+        setActiveShield(false)
+      }
+  },[modalShieldOptions])
+
 
   async function sendMove(cnt:number) {
 
@@ -191,9 +200,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
   }
-
-
-
   
   useEffect(() => {
     if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
@@ -202,8 +208,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }, [sendingState, listCounter]);
 
 
-
-  
 
   const handleButtonClick = async () => {
 
@@ -235,9 +239,29 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   }, [modalFinish])
 
-  return (
 
-    
+  // set trigger when enter is pressed, and disable it when the component is unmounted
+  function handleEnter(event) {
+    if (event.key == EVENT_KEY.ENTER ) {
+      
+      if (sendingState === SENDING_STATE.FINISH) {
+        nuevaDifusion()
+      }
+      handleButtonClick()
+      
+    }
+  }
+  useEffect(() => {
+    if (activeCard == idCard) { 
+      document.addEventListener("keydown", handleEnter);
+      return () => {
+        document.removeEventListener("keydown", handleEnter);
+      };
+    }
+  });
+
+
+  return (
     <div
     className={`${styles.card} ${styles["numberCard" + activeCard]} ${
       activeCard == idCard && styles.active
@@ -384,6 +408,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           </div>
 
         </div>
+      
       </div>
     }
     </div>

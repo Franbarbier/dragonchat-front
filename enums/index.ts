@@ -9,6 +9,7 @@ export enum ROUTES {
   CANCEL = '/cancel',
   CHECKOUT = '/checkout',
   RECOVER = '/recover_password',
+  SYNCING = '/syncing',
 };
 
 export enum API_ROUTES {
@@ -77,3 +78,7 @@ export enum FILE {
   MAINTENANCE = 'dragonchat_dragon_tecnico.webp',
 };
 
+export enum EVENT_KEY {
+  ENTER = 'Enter',
+  
+};

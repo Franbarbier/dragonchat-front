@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
-import { MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
+import { EVENT_KEY, MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
@@ -108,6 +108,29 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         var filtered = [...contactos]
 
         filtered = removeColors(filtered)
+
+        if (filtered.length > 1) {
+            filtered.map((item, index) => {
+                if (item.nombre == "" && item.numero == "" && index != filtered.length - 1) {
+                    filtered.splice(index, 1)
+                }
+                const isNombreEmpty = item.nombre === '';
+                const isNumeroEmpty = item.numero === '';
+                if ((isNombreEmpty && !isNumeroEmpty) || (!isNombreEmpty && isNumeroEmpty)) {
+                    setNotification({
+                        status : STATUS.ERROR,
+                        render : true,
+                        message : "No puede haber un campo vacío en la lista.",
+                        modalReturn : () => {
+                            setNotification({...notification, render : false},
+                        )}
+                    })
+                
+                }
+            }
+            )
+        }
+
         setFinalList(filtered)
         
     },[contactos])
@@ -115,7 +138,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     function removeColors(array) {
         
         let removedColors = [...array]
-        // Create a map to store counts of each numero value
         const countMap = new Map();
         removedColors.forEach((item) => {
             const count = countMap.get(item.numero) || 0;
@@ -156,7 +178,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             case 1:
                 const isValidArray = (arr) => {
                       if (arr.length < 2) {
-                        // Array must have at least one element
                         return false;
                       }
                     
@@ -165,11 +186,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         .map(item => item?.numero?.trim());
                     
                       if (nonEmptyNumeros.length !== new Set(nonEmptyNumeros).size) {
-                        // Check for repeated values in "numero"
                         return false;
                       }
                     
-                      // Check that none of the props are empty or blank spaces, excluding the last item
                       for (let i = 0; i < arr.length - 1; i++) {
                         const item = arr[i];
                         if (item?.nombre?.trim() === '' || item?.numero?.trim() === '') {
@@ -180,7 +199,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                 }
 
 
-                //   if there is NO repeated numbers. (o poner un setNextCard en el checkRepeated)
                 if ( isValidArray(finalList) ) {
                     setNextCard(true)
                 }else{
@@ -214,9 +232,10 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     },[finalList, activeCard, messages, sendingState])
 
 
+
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
-            if (event.key == "Enter" && activeCard == 1) {
+            if (event.key == EVENT_KEY.ENTER && activeCard == 1) {
                 event.preventDefault()
                 if ( nextCard ) setActiveCard(activeCard+1)
             }
@@ -274,6 +293,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         setSendingState(SENDING_STATE.INIT)
         setModalFinish(false)
         setListCounter(0)
+        setBlackList([])
     }
 
 
@@ -290,6 +310,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         messagesLimitAchieved={messagesLimitAchieved}
                         setMessagesLimitAchieved={setMessagesLimitAchieved}
                         setModalShieldOptions={setModalShieldOptions}
+                        modalShieldOptions={modalShieldOptions}
                         sendingState={sendingState}
                         setSendingState={setSendingState}
                         messages={messages}
@@ -323,26 +344,39 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                     <FreeCard2
                         activeCard={activeCard}
                         selectedSecuence={selectedSecuence}
-                        setSelectedSecuence={setSelectedSecuence}
                         setBreadcrumb={setBreadcrumb}
                         notification={notification}
                         setNotification={setNotification}      
                         tipoEnvio={tipoEnvio}
                         setTipoEnvio={setTipoEnvio}
-                        activeSecuence={activeSecuence}
-                        setActiveSecuence={setActiveSecuence}
                         messages={messages}
                         setMessages={setMessages}
                         isPaid={isPaid}
+                        nextCard={nextCard}
+                        setActiveCard={setActiveCard}
                     />
 
                     
 
             </div>
-
-            <div className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
-                <button><img src="/arrow-card.png" /></button>
-            </div>
+            
+            {/* Si esta en ultima card y ya termino de enviar muestra el refresh */}
+            {
+                activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
+                <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ } }>
+                    <button><img src="/resend.png" /></button>
+                    <AnimatePresence>
+                        <motion.aside
+                            initial={{x : -10, y :'-50%' }}
+                            animate={{x : 0, y :'-50%' }}
+                        >Nuevo envío</motion.aside>
+                    </AnimatePresence>
+                </div>
+                :
+                <div className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
+                    <button><img src="/arrow-card.png" /></button>
+                </div>
+            }
             
             <div className={`${styles.prevCard} ${ ! prevCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( prevCard ) setActiveCard(activeCard-1) } }>
                 <button><img src="/arrow-card.png" /></button>
@@ -441,7 +475,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
            
             {modalFinish && !messagesLimitAchieved && (
             <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"} >
-                <ModalFinish blackList={blackList} nuevaDifusion={nuevaDifusion}/>
+                <ModalFinish blackList={blackList} nuevaDifusion={nuevaDifusion} isPaid={isPaid}/>
             </ModalContainer>
             )}
 

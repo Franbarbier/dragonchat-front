@@ -29,7 +29,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
-    
+
 
     return (
             <div className={styles.MultiMessages_cont}>

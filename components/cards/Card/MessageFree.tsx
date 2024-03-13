@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { MESSAGE_TYPE } from '../../../enums';
+import { EVENT_KEY, MESSAGE_TYPE, STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import BasicMessages from '../BasicMessages/BasicMessages';
 import CardTitle from '../CardTitle/CardTitle';
@@ -9,22 +9,21 @@ import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {
     activeCard : number;
-    setSelectedSecuence:  (secuence: ISecuence | null) => void;
     selectedSecuence : ISecuence | null;
     setBreadcrumb : (breadcrumb: IChat[]) => void;
     setNotification : (notification: INotification) => void;
     notification : INotification;
     tipoEnvio : string;
     setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
-    activeSecuence : number | null;
-    setActiveSecuence : (id: number | null) => void;
     messages : string[][];
     setMessages : (mensajes: string[][]) => void;
     isPaid: boolean;
+    nextCard : boolean;
+    setActiveCard : (val: number) => void;
 }
 
 
-const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, activeSecuence, setActiveSecuence, messages, setMessages, isPaid }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard }) => {
 
     let idCard = 2;
 
@@ -32,6 +31,32 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, sele
         setBreadcrumb(selectedSecuence?.chat || [])
     },[selectedSecuence])
     
+    
+    function handleEnter(event) {
+        
+        if (event.key === EVENT_KEY.ENTER && !event.shiftKey) {
+            event.preventDefault()
+            setNotification({
+                status : STATUS.SUCCESS,
+                render : true,
+                message : "Para el salto de linea presionar SHIF+ENTER",
+                modalReturn : () => {setNotification({...notification, render : false})}
+            })
+
+            if ( nextCard ) setActiveCard(activeCard+1)           
+        } 
+
+    }
+
+
+    useEffect(()=>{
+        if (activeCard == idCard) {
+            document.addEventListener('keydown', handleEnter);
+            return () => {
+                document.removeEventListener('keydown', handleEnter);
+            }
+        }
+    })
 
 
     return (
@@ -47,20 +72,20 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, setSelectedSecuence, sele
                     <CardTitle text={"Mensaje"} />
                 </div>
                 <div>
-                    <div className={styles.tabs_cont}>
+                     {/* <div className={styles.tabs_cont}>
                         <div>
                             <div className={`${styles.difu_tab} ${tipoEnvio == MESSAGE_TYPE.DIFUSION && styles.active_tab}`}
                             onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.DIFUSION) } }
                             >
                                 <h6>Difusión</h6>
                             </div>
-                            {/* <div className={`${styles.conv_tab} ${tipoEnvio == MESSAGE_TYPE.CONVERSACION && styles.active_tab}`}
+                           <div className={`${styles.conv_tab} ${tipoEnvio == MESSAGE_TYPE.CONVERSACION && styles.active_tab}`}
                             onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.CONVERSACION) } }
                             >
                                 <h6>Conversación</h6>
-                            </div> */}
+                            </div> 
                         </div>
-                    </div>
+                    </div>*/}
                     </div>
                     {isPaid ?
                             <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />

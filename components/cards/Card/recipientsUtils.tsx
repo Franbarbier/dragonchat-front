@@ -20,6 +20,7 @@ export const executeFormat = (inputText:string, type: string, index:number, fina
             updateContact.splice(index, 1)
         }
 
+
         newContacts = updateContact
 
         
@@ -40,6 +41,7 @@ export const executeFormat = (inputText:string, type: string, index:number, fina
             
         });
    
+
         newContacts = prevCells.concat(output);
         
 
