@@ -26,7 +26,9 @@ const BasicMessages: React.FC<IBasicMessages> = ({ messages, setMessages, notifi
             , 2000)
         })
     };
-  
+
+
+
     return (
             <div className={styles.basicMessages_cont}>
                 <ul>
