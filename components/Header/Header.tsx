@@ -96,8 +96,6 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
       }
 
 
-<<<<<<< HEAD
-=======
     const logoClicked = () => {
         setNotification({
             status : STATUS.ALERT,
@@ -112,7 +110,6 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
         })
     }
 
->>>>>>> develop
     return (
         <div className={styles.header_cont}>
             <Loader loading={loading} />
