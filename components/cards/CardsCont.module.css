@@ -195,7 +195,7 @@
 .notifDeleteRepeat{
     position: fixed;
     z-index: 999;
-    top: 18%;
+    top: 10%;
     right: 3%;
     background-color: #000;
     border: 1px solid var(--amarillo);
@@ -232,18 +232,19 @@
     width: 20vw;
 }
 .notifDeleteRepeat button{
-padding: 8px 10px;
-font-size: 0.7em;
-font-weight: 100;
+    padding: 8px 10px;
+    font-size: 0.7em;
+    font-weight: 100;
+    width: 5em;
 }
 .btnOk{
-padding: 8px 16px;
-border-radius: 10px;
-background-color: #7561ca57;
-border: 1px solid var(--rosita2);
-color: var(--rosita2);
-letter-spacing: 1px;
-cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 10px;
+    background-color: #7561ca57;
+    border: 1px solid var(--rosita2);
+    color: var(--rosita2);
+    letter-spacing: 1px;
+    cursor: pointer;
 }
 .btnNo{
     padding: 8px 16px;
