@@ -85,7 +85,12 @@
     letter-spacing: 0.5px;
     top: 50%;
     left: 130%;
-    transform: translateY(-50%);
+    transform: translate(-30%, -50%);
+    opacity: 0;
+}
+.resend:hover aside{
+    transform: translate(0%, -50%);
+    opacity: 1;
 }
 .arrow_disabled button{
     cursor: inherit!important;

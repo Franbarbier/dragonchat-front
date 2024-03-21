@@ -379,13 +379,10 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             {/* Si esta en ultima card y ya termino de enviar muestra el refresh */}
             {
                 activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
-                <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ } }>
+                <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ nuevaDifusion() } }>
                     <button><img src="/resend.png" /></button>
                     <AnimatePresence>
-                        <motion.aside
-                            initial={{x : -10, y :'-50%' }}
-                            animate={{x : 0, y :'-50%' }}
-                        >Nuevo envío</motion.aside>
+                        <aside >Nuevo envío</aside>
                     </AnimatePresence>
                 </div>
                 :
