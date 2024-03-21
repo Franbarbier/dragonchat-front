@@ -21,7 +21,12 @@ import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 
 export interface ICardsCont {
-    isPaid : boolean,
+    isPaid: boolean;
+    setGlobalData: ( val:{contactos: ContactInfo[], messages: string[][]} ) => void;
+    globalData: {
+        contactos: ContactInfo[];
+        messages: string[][];
+    };
 }
 
 
@@ -35,14 +40,14 @@ export interface ContactInfo {
 
 
 
-const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
+const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) => {
 
     const [activeCard, setActiveCard] = useState<number>(1)
-    const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
+    const [contactos, setContactos] = useState<ContactInfo[]>(globalData.contactos ? globalData.contactos : [{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
     const [mensaje, setMensaje] = useState<string>('')
-    const [messages, setMessages] = useState<string[][]>([['']])
+    const [messages, setMessages] = useState<string[][]>(globalData.messages ? globalData.messages : [['']])
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
@@ -173,6 +178,11 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     }
 
     useEffect(()=>{
+
+        setGlobalData({
+            contactos : finalList,
+            messages : messages
+        })
 
         switch (activeCard) {
             case 1:
