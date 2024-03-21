@@ -57,7 +57,8 @@
     "babel-loader": "^8.2.5",
     "cross-env": "^7.0.3",
     "eslint": "^8.35.0",
-    "husky": "^8.0.1"
+    "husky": "^8.0.1",
+    "raw-loader": "^4.0.2"
   },
   "resolutions": {
     "webpack": "^5"
