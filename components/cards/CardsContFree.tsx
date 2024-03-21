@@ -105,6 +105,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [bloques, setBloques] = useState<number>(0);
     const [pausa, setPausa] = useState<number>(0);
 
+    const [isInputFocused, setIsInputFocused] = useState(false);
+
+
     function handleRenderModal(render:boolean){
         setModalImport(render)
     }
@@ -121,7 +124,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 }
                 const isNombreEmpty = item.nombre === '';
                 const isNumeroEmpty = item.numero === '';
-                if ((isNombreEmpty && !isNumeroEmpty) || (!isNombreEmpty && isNumeroEmpty)) {
+
+
+                if ((isNombreEmpty && !isNumeroEmpty) || (!isNombreEmpty && isNumeroEmpty) && !isInputFocused) {
                     setNotification({
                         status : STATUS.ERROR,
                         render : true,
@@ -138,7 +143,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
 
         setFinalList(filtered)
         
-    },[contactos])
+    },[contactos, isInputFocused])
 
     function removeColors(array) {
         
@@ -348,6 +353,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                         notification={notification}
                         setNotification={setNotification}
                         isPaid={isPaid}
+                        isInputFocused={isInputFocused}
+                        setIsInputFocused={setIsInputFocused}
 
                     />
                     <FreeCard2
