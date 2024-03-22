@@ -58,23 +58,12 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [modalImport, setModalImport] = useState<boolean>(false)
     const [modalShieldOptions, setModalShieldOptions] = useState<boolean>(false)
     const [breadcrumb, setBreadcrumb] = useState<IChat[]>([])
-    const [shieldOptions, setShieldOptions] = useState<{
-        timer: number,
-        pausa : number,
-        bloques: number
-    }>({
-        timer: 0,
-        pausa : 0,
-        bloques: 0
-    })
+   
 
 
     const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
     const [renderDialog, setRenderDialog] = useState<boolean>(false)
 
-    const [tamanoBloque, setTamanoBloque] = useState<number>(0);
-    const [pausaBloque, setPausaBloque] = useState<number>(0);
-    const [pausaMensaje, setPausaMensaje] = useState<number>(0);
 
     const [notification, setNotification] = useState<INotification>({
         status : STATUS.SUCCESS,
@@ -84,7 +73,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     })
 
     const [sendingState, setSendingState] = useState<SENDING_STATE>(SENDING_STATE.INIT);
-    const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
     const [repeated, setRepeated] = useState<number[]>([])
 
     const [modalFinish, setModalFinish] = useState<boolean>(false)
@@ -106,6 +94,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [pausa, setPausa] = useState<number>(0);
 
     const [isInputFocused, setIsInputFocused] = useState(false);
+    const [delayBetween, setDelayBetween] = useState<number>(1)
 
 
     function handleRenderModal(render:boolean){
@@ -342,6 +331,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                         nuevaDifusion={nuevaDifusion}
                         listCounter={listCounter}
                         setListCounter={setListCounter}
+                        delayBetween={delayBetween}
                     />
 
                     <FreeCard1 
@@ -370,6 +360,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                         isPaid={isPaid}
                         nextCard={nextCard}
                         setActiveCard={setActiveCard}
+                        delayBetween={delayBetween}
+                        setDelayBetween={setDelayBetween}
                     />
 
                     

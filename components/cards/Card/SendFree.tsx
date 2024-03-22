@@ -47,6 +47,8 @@ export interface IFreeCard3 {
   listCounter : number;
   setListCounter : (val:number) => void
 
+  delayBetween : number;
+
 }
 
 
@@ -74,7 +76,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   nuevaDifusion,
   listCounter,
   setListCounter,
-  modalShieldOptions
+  modalShieldOptions,
+  delayBetween
 
 }) => {
   let idCard = 3;
@@ -192,7 +195,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       destinatario.nombre,
       currentMessage,
       destinatario.numero,
-      userInfo.access_token
+      userInfo.access_token,
+      delayBetween
     );
 
     onSuccess();
