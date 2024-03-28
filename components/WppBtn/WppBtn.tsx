@@ -10,14 +10,14 @@ const WppBtn: React.FC<IWppBtn> = ({}) => {
   function wppLink(number, message) {
     const encodedMessage = encodeURIComponent(message);
 
-    const whatsappLink = `https://wa.me/${number}?text=${encodedMessage}`;
+    const whatsappLink = `https://api.whatsapp.com/send?phone=${number}?text=${encodedMessage}`;
 
     return whatsappLink;
   }
 
   const whatsappLink = wppLink(
-    573104719365,
-    "Hola! Me contacto desde dragonchat por"
+    573104707671,
+    "Hola!! Paso por acá porque necesito ayuda con el DragonChat"
   );
 
   return (
