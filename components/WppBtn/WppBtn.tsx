@@ -16,7 +16,7 @@ const WppBtn: React.FC<IWppBtn> = ({}) => {
   }
 
   const whatsappLink = wppLink(
-    573104707671,
+    573104719365,
     "Hola!! Paso por acá porque necesito ayuda con el DragonChat"
   );
 
