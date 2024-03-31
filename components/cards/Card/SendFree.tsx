@@ -13,6 +13,7 @@ import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
 import HeaderRow from "../HeaderRow/HeaderRow";
+import CardStructure from "./CardStructure";
 import styles from "./FreeCard.module.css";
 
 export interface IFreeCard3 {
@@ -45,7 +46,8 @@ export interface IFreeCard3 {
   modalFinish : boolean;
   nuevaDifusion : () => void;
   listCounter : number;
-  setListCounter : (val:number) => void
+  setListCounter : (val:number) => void;
+  isPaid : boolean;
 
 }
 
@@ -74,7 +76,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   nuevaDifusion,
   listCounter,
   setListCounter,
-  modalShieldOptions
+  modalShieldOptions,
+  isPaid
 
 }) => {
   let idCard = 3;
@@ -259,13 +262,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
   return (
-    <div
-    className={`${styles.card} ${styles["numberCard" + activeCard]} ${
-      activeCard == idCard && styles.active
-    }`}
-    id={`${styles["card" + idCard]}`}
-    key={`card${idCard}`}
-    >      
+    <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid}>
+    <>
     {activeCard == idCard &&
       <div className={styles.card_container}>
         <div>
@@ -325,8 +323,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
               </div>
             ))}
           </div>
-
-          <div
+        
+        </div>
+        <div
             className={`${styles.options_cont} ${
               sending && styles.sending_anim_cont
             }`}
@@ -404,11 +403,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             )}
           </div>
 
-        </div>
       
       </div>
     }
-    </div>
+    </>
+    </CardStructure>
   );
 };
 

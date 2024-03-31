@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
-import { EVENT_KEY, MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
+import { COOKIES_SETTINGS, EVENT_KEY, MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
@@ -16,9 +16,12 @@ import FreeCard1 from './Card/RecipientsFree';
 import FreeCard3 from './Card/SendFree';
 import styles from './CardsCont.module.css';
 import { IChat, ISecuence } from './ConversationPremium/ConversationPremium';
+import FreeBanner from './FreeBanner/FreeBanner';
+import HintMessage from './HintMessage/HintMessage';
 import ModalFinish from './ModalFinish/ModalFinish';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
+import TipsCarrousel from './TipsCarrousel/TipsCarrousel';
 
 export interface ICardsCont {
     isPaid : boolean,
@@ -36,6 +39,8 @@ export interface ContactInfo {
 
 
 const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
+
+
 
     const [activeCard, setActiveCard] = useState<number>(1)
     const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
@@ -99,6 +104,10 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [timer, setTimer] = useState<number>(3);
     const [bloques, setBloques] = useState<number>(0);
     const [pausa, setPausa] = useState<number>(0);
+
+
+    const [showTips, setShowTips] = useState<boolean>(false)
+    const [hintMessage, setHintMessage] = useState<boolean>(false)
 
     function handleRenderModal(render:boolean){
         setModalImport(render)
@@ -231,6 +240,18 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
         }
     },[finalList, activeCard, messages])
 
+    const tipCarrousel = useRef<HTMLDivElement>(null);
+
+    function tipClick(event: MouseEvent) {
+        setHintMessage(false)
+
+        let tipIcon = (event.target as HTMLElement)?.id == 'tipIcon' || (event.target as HTMLElement)?.parentElement?.id == 'tipIcon'
+        let tipCarrouselEl = (tipCarrousel.current && tipCarrousel.current.contains(event.target as Node))
+        
+        if (!tipIcon && !tipCarrouselEl) {
+            setShowTips(false)
+        }
+    }
 
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
@@ -239,11 +260,22 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                 if ( nextCard ) setActiveCard(activeCard+1)
             }
         }
+        
+        if (activeCard == 2) {
+
+            // setHintMessage(true)
+            
+            document.addEventListener("click", tipClick);
+            return () => {
+                document.removeEventListener("click", tipClick);
+            };
+        }
+
         document.addEventListener("keydown", handleKeyPress);
         return () => {
           document.removeEventListener("keydown", handleKeyPress);
         };
-      })
+    })
 
 
     const isMobile = useDeviceType();
@@ -252,30 +284,37 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     // Sistema de de cookies para saber si mostras o no los tutoriales
     useEffect(() => {
-        if (copyPasteTutorial == "nunca") {
-            Cookies.set(COPYPASTE_TUTO, "nunca", { expires: 200 })
+        if (copyPasteTutorial == COOKIES_SETTINGS.NUNCA) {
+            Cookies.set(COPYPASTE_TUTO, COOKIES_SETTINGS.NUNCA, { expires: 200 })
         }
-        if (copyPasteTutorial == "desp" || copyPasteTutorial == "nunca") {
+        if (copyPasteTutorial == COOKIES_SETTINGS.DESP || copyPasteTutorial == COOKIES_SETTINGS.NUNCA) {
             setCopyPasteTutorial(null)
         }
     }, [copyPasteTutorial])
     
     useEffect(() => {
-        if (Cookies.get(COPYPASTE_TUTO) != "nunca") setCopyPasteTutorial("")
+        if (Cookies.get(COPYPASTE_TUTO) != COOKIES_SETTINGS.NUNCA) setCopyPasteTutorial("")
     }, [])
 
     useEffect(() => {
-        if (antiBlockerTuto == "nunca") {
-            Cookies.set(ANTIBLOCKER_TUTO, "nunca", { expires: 200 })
+        if (antiBlockerTuto == COOKIES_SETTINGS.NUNCA) {
+            Cookies.set(ANTIBLOCKER_TUTO, COOKIES_SETTINGS.NUNCA, { expires: 200 })
         }
-        if (antiBlockerTuto == "desp" || antiBlockerTuto == "nunca") {
+        if (antiBlockerTuto == COOKIES_SETTINGS.DESP || antiBlockerTuto == COOKIES_SETTINGS.NUNCA) {
             setAntiBlockerTuto(null)
         }
     }, [antiBlockerTuto])
 
     useEffect(() => {
+        if (activeCard == 2) {
+            setTimeout(() => {
+                setHintMessage(true)
+            }, 300);
+        }else{
+            setHintMessage(false)
+        }
         if (activeCard == 3) {
-            if (Cookies.get(ANTIBLOCKER_TUTO) != "nunca") setAntiBlockerTuto("")
+            if (Cookies.get(ANTIBLOCKER_TUTO) != COOKIES_SETTINGS.NUNCA) setAntiBlockerTuto("")
         }
     }, [activeCard])
 
@@ -299,8 +338,11 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
     return (
         <div>
-            <div className={styles.cards_cont}>
+            {!isPaid && <FreeBanner />}
+
+            <div className={`${styles.cards_cont} ${!isPaid && styles.cards_free_height}` }>
                     
+
                     <FreeCard3
                         setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
@@ -327,6 +369,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         nuevaDifusion={nuevaDifusion}
                         listCounter={listCounter}
                         setListCounter={setListCounter}
+                        isPaid={isPaid}
                     />
 
                     <FreeCard1 
@@ -353,33 +396,33 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         isPaid={isPaid}
                         nextCard={nextCard}
                         setActiveCard={setActiveCard}
+                        setShowTips={setShowTips}
                     />
 
                     
+                { activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
+                    <aside className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ } }>
+                        <button><img src="/resend.png" /></button>
+                        <AnimatePresence>
+                            <motion.aside
+                                initial={{x : -10, y :'-50%' }}
+                                animate={{x : 0, y :'-50%' }}
+                            >Nuevo envío</motion.aside>
+                        </AnimatePresence>
+                    </aside>
+                    :
+                    <aside className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
+                        <button><img src="/arrow-card.png" /></button>
+                    </aside>
+                }
+                
+                <aside className={`${styles.prevCard} ${ ! prevCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( prevCard ) setActiveCard(activeCard-1) } }>
+                    <button><img src="/arrow-card.png" /></button>
+                </aside>
 
             </div>
             
             {/* Si esta en ultima card y ya termino de enviar muestra el refresh */}
-            {
-                activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
-                <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ } }>
-                    <button><img src="/resend.png" /></button>
-                    <AnimatePresence>
-                        <motion.aside
-                            initial={{x : -10, y :'-50%' }}
-                            animate={{x : 0, y :'-50%' }}
-                        >Nuevo envío</motion.aside>
-                    </AnimatePresence>
-                </div>
-                :
-                <div className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
-                    <button><img src="/arrow-card.png" /></button>
-                </div>
-            }
-            
-            <div className={`${styles.prevCard} ${ ! prevCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( prevCard ) setActiveCard(activeCard-1) } }>
-                <button><img src="/arrow-card.png" /></button>
-            </div>
 
             {
                 !isMobile &&
@@ -408,7 +451,11 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                             <img src="/dragon_anim.gif" alt="dragon-chat"/>
                         }
                     </div>
-                    <img className={`${styles.dragon2} ${messagesLimitAchieved && styles.limitedAnim}`} src="/dragon_anim.gif" alt="dragon-chat"/>
+                    <div className={styles.dragon2} ref={tipCarrousel} onClick={ ()=> {if (activeCard == 2 ) setShowTips(true)} }>
+                        <img className={`${messagesLimitAchieved && styles.limitedAnim}`} src={"/dragon_anim.gif"} alt="dragon-chat"/>
+                        { showTips && <TipsCarrousel />}
+                        { hintMessage && <HintMessage />}
+                    </div>
                 </div>
             }
             <NavBottom

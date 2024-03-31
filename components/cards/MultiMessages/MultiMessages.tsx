@@ -39,10 +39,10 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
             <div className={styles.MultiMessages_cont}>
                 <div>
                     <div>
-                        <ul>
+                        {/* <ul>
                             <li>Escribiendo <strong>[name]</strong> se enviará dinámicamente el nombre del destinario</li>
                             <li> <img className={styles.forkIcon} src="./fork.png" />Permite escribir <strong>variaciones de mensajes</strong> que seran enviadas equitativamente a todos los destinatarios</li>
-                        </ul>
+                        </ul> */}
                     </div>
                     <div className={styles.MultiMessages}>
                         <div>

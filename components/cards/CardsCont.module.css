@@ -1,13 +1,16 @@
 .cards_cont{
     position: absolute;
-    top: 50%;
+    bottom: 0%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0%);
     width: 100vw;
     height: 100vh;
     z-index: 0;
 }
 
+.cards_free_height{
+    height: 92%!important;
+}
 
 .nextCard, .prevCard{
     position: absolute;
@@ -20,7 +23,7 @@
     transform: translate(-50%, -50%);
     cursor: pointer;
     border-radius: 200px;
-    z-index: 2;
+    z-index: 10;
 }
 
 .nextCard::after, .prevCard::after{
@@ -106,14 +109,13 @@
     width: 17%;
     max-width: 200px;
 }
-.dragon1>img, .dragon2>img{
-    z-index: 101;
-}
-.dragon1>img {
+
+.dragon1>img, .dragon2>img {
     display: block;
     width: 100%;
     max-width: 200px;
     user-select: none;
+    z-index: 101;
 }
 
 .dragon1>.wpp_limit_alert {

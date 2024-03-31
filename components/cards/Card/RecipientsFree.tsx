@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { ROUTES, STATUS } from '../../../enums';
+import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
 import { ContactInfo } from '../CardsContFree';
 import HeaderRow from '../HeaderRow/HeaderRow';
+import CardStructure from './CardStructure';
 import styles from './FreeCard.module.css';
 import { executeFormat } from "./recipientsUtils";
 
-interface IModalImport {
-    modalImport : boolean;
-}
 
 export interface IFreeCard1 {
     isPaid : boolean;
@@ -191,43 +189,17 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
       
     return (
 
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}} key={`card${idCard}`} >
-            
+            <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} >
+            <>
             { activeCard == idCard &&
             <>
 
             <CustomContextMenu position={position} contextVisible={contextVisible} executeFormat={executeFormat} setContactos={setContactos} finalList={finalList} notification={notification} setNotification={setNotification} />
-
             
-            <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
-            <img src="/trama-car.svg" className={`${styles.tramaLeft} ${styles.tramas}`} />
-            <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
 
             <div className={styles.card_container} >
-                {!isPaid ?
-                <div>
-                    <div className={styles.title_lines_cont}>
-                        <div className={`${styles.left_line} ${styles.title_lines}`}></div>
-                        <div>
-                            <h3>VERSION 1.0</h3>
-                            <h6>ENTREGABILIDAD = 60% <span>i</span>
-                            <aside
-                            
-                                // oncclick redirect to /checkout
-                                onClick={()=>{window.location.href = ROUTES.CHECKOUT}}
-                                >
-                                <div>
-                                    <p>Con nuestro plan actual, garantizamos una entregabilidad del 60%. Pero, si buscas lo mejor, nuestro plan Premium aumenta esa entregabilidad casi al 100%. <i>¡Mejora tus resultados con el plan Premium!</i></p>
-                                </div>
-                            </aside></h6>
-                        </div>
-                        <div className={`${styles.right_line} ${styles.title_lines}`}></div>
-                    </div>
-                </div>
-                :
-                <CardTitle text={`${finalList.length - 1} Destinatarios`} />
-                }
-                    
+                <CardTitle text={isPaid ? `${finalList.length - 1} Destinatarios` : "VERSION 1.0"} />
+
                     <div style={{'margin': 'auto', 'width': '88%'}}>
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
                     </div>
@@ -347,7 +319,8 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
             </>
             }
 
-        </div>
+       </>
+        </CardStructure>
     
     );
 }

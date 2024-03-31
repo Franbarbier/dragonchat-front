@@ -5,6 +5,7 @@ import BasicMessages from '../BasicMessages/BasicMessages';
 import CardTitle from '../CardTitle/CardTitle';
 import { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
 import MultiMessages from '../MultiMessages/MultiMessages';
+import CardStructure from './CardStructure';
 import styles from './FreeCard.module.css';
 
 export interface IFreeCard2 {
@@ -20,10 +21,11 @@ export interface IFreeCard2 {
     isPaid: boolean;
     nextCard : boolean;
     setActiveCard : (val: number) => void;
+    setShowTips : (val: boolean) => void;
 }
 
 
-const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, setShowTips }) => {
 
     let idCard = 2;
 
@@ -49,9 +51,12 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
     }
 
 
+
+
     useEffect(()=>{
         if (activeCard == idCard) {
             document.addEventListener('keydown', handleEnter);
+        
             return () => {
                 document.removeEventListener('keydown', handleEnter);
             }
@@ -60,32 +65,18 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
 
 
     return (
-        <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == idCard && styles.active}`} id={`${styles['card'+idCard]}`} onClick={()=>{}} key={`card${idCard}`} >
+        <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid}>
+            <>
             
             {activeCard == idCard &&
             <>
-            <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
-            <img src="/trama-car.svg" className={`${styles.tramaLeft} ${styles.tramas}`} />
-            <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
+            
+
             <div className={styles.card_container}>
                 <div>
                     <CardTitle text={"Mensaje"} />
                 </div>
                 <div>
-                     {/* <div className={styles.tabs_cont}>
-                        <div>
-                            <div className={`${styles.difu_tab} ${tipoEnvio == MESSAGE_TYPE.DIFUSION && styles.active_tab}`}
-                            onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.DIFUSION) } }
-                            >
-                                <h6>Difusión</h6>
-                            </div>
-                           <div className={`${styles.conv_tab} ${tipoEnvio == MESSAGE_TYPE.CONVERSACION && styles.active_tab}`}
-                            onClick={ ()=>{ setTipoEnvio(MESSAGE_TYPE.CONVERSACION) } }
-                            >
-                                <h6>Conversación</h6>
-                            </div> 
-                        </div>
-                    </div>*/}
                     </div>
                     {isPaid ?
                             <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
@@ -93,9 +84,15 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
                             <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
                     }
             </div>
-            </>}
 
-        </div>
+            <aside className={styles.tipIcon} id="tipIcon" onClick={ ()=> setShowTips(true) }>
+                <span>Ayuda</span>
+                <img src='./pregunta.png' />
+            </aside>
+            </>
+            }
+        </>
+        </CardStructure>
     
     );
 }
