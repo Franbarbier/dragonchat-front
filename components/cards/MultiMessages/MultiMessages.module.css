@@ -17,8 +17,15 @@
     letter-spacing: 1px;
     line-height: 17px;
 }
-/* set the scroll bar css */
-
+.MultiMessages_cont li input{
+    width: 5em;
+    padding: 2px 8px;
+    border: 1px solid var(--newViolet);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+    /* font-size: 0.8em; */
+    text-align: center;
+}
 .messages_cont{
     position: relative;
 }
@@ -121,9 +128,6 @@
 }
 .messages_cont>div>div:first-child .svgBranch{ display: none; }
 
-.txtareaContfirst-child::before{
-
-}
 .messages_cont textarea::placeholder{
     color: #cccccc;
 }

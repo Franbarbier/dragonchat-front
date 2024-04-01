@@ -21,6 +21,8 @@ export interface IFreeCard1 {
     setDroppedCsv : (droppedCsv: File) => void;
     notification : INotification
     setNotification : (notification: INotification) => void;
+    isInputFocused : boolean;
+    setIsInputFocused : (val: boolean) => void;
 }
 
 interface ICustomContextMenu {
@@ -75,12 +77,12 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     )
 }
 
-const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
+const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, handleRenderModal, finalList, setDroppedCsv, notification, setNotification, isInputFocused, setIsInputFocused }) => {
 
 
     let idCard = 1;
 
-    const grillaFondo = useRef(null);
+    const grillaOficial = useRef(null);
     
     function formatList(e:any, type:string, index:number, ){
         let inputText = e.target.value;
@@ -89,18 +91,29 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
         }
     };
 
-
-    
-
     // select rows
-    function setSelection(index){
+    function setSelection(event, index){
         let selectedList = [...finalList]
-
-        if (!selectedList[index].selected) {
-            selectedList[index].selected = true
-        }else{
-            selectedList[index].selected = false
+        if (event.shiftKey) {
+            // Shift key was pressed
+            let lastIndex = -1;
+            for (let i = 0; i < selectedList.length; i++) {
+                if (selectedList[i].selected) {
+                    lastIndex = i;
+                }
+            }
+            // Update selected status based on the last and current index
+            for (let i = Math.min(lastIndex, index); i <= Math.max(lastIndex, index); i++) {
+                selectedList[i].selected = true;
+            }
+            // Perform the action for Shift + click
+        } else {
+           
+            // get index of selected item and check the las selected item from the actual selected
+            selectedList[index].selected = !selectedList[index].selected
+            
         }
+        
         setContactos(selectedList)
     }
 
@@ -122,11 +135,19 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
             setContextVisible(false);
         };
         document.addEventListener("click", hideMenu);
+        document.addEventListener("click", checkInputFocus);
         return () => {
-            document.removeEventListener("click", hideMenu);
+        document.removeEventListener("click", checkInputFocus);
+        document.removeEventListener("click", hideMenu);
         };
     }, []);
 
+
+    function checkInputFocus(e) {
+        if (grillaOficial.current && !(grillaOficial.current as HTMLElement).contains(e.target)) {
+            setIsInputFocused(false)
+        }
+    }
 
     // movida del drag n drop
     const [isDragging, setIsDragging] = useState(false);
@@ -221,14 +242,14 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                         onDrop={handleDrop}
                     >
                         
-                    <div className={`${styles.grilla_oficial} ${isDragging && styles.draggedIcon }`} >
+                    <div className={`${styles.grilla_oficial} ${isDragging && styles.draggedIcon }`} ref={grillaOficial}>
                         {finalList.map((elementInArray, index) => ( 
                                 
                                 <div className={`${styles.row_table} ${elementInArray.repeated !== undefined ? (elementInArray.repeated === 1 ? styles.firstRepeated : styles.repeated) : ''}`} key={`recipient${index}`} >
 
                                     <div key={`row${index}`}>
                                     { finalList.length - 1 !=  index ?
-                                        <aside onClick={ ()=>{ setSelection(index) } } className={ `${elementInArray.selected && styles.rowSelected} `  }>
+                                        <aside onClick={ (e)=>{ setSelection(e, index) } } className={ `${elementInArray.selected && styles.rowSelected} `  }>
                                             <div>
                                                 <></>
                                             </div>
@@ -242,6 +263,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                                             onInput={ (e)=>{formatList(e, 'nombre', index)} }
                                             value={elementInArray.nombre}
                                             key={`nombre${index}`}
+                                            onFocus={()=> setIsInputFocused(true)}
                                         />
                                     </div>
                                     <div className={styles.celda_table} onContextMenu={(e)=>handleContextMenu(e, 'numero', index)}>
@@ -250,6 +272,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                                             onInput={ (e)=>{ formatList(e, 'numero', index) } }
                                             value={elementInArray.numero}
                                             key={`number${index}`}
+                                            onFocus={()=> setIsInputFocused(true)}
                                         />
                                     </div>
                                     { finalList.length - 1 !=  index ?
@@ -263,7 +286,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                         }
                         
                     </div>
-                    <div className={styles.grilla_fondo} ref={grillaFondo}>
+                    <div className={styles.grilla_fondo} >
                         {[...Array(finalList.length + 15)].map((elementInArray, index) => (
                                 <div className={`${styles.row_table} ${index > finalList.length-1 && styles.bckgrndCell}`} key={"fakerow"+index}>
                                     <div>

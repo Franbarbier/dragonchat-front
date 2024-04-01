@@ -1,5 +1,8 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+
+import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
+
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
@@ -10,9 +13,11 @@ export interface IMultiMessages {
     setMessages : (message: string[][]) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
+    delayBetween : number;
+    setDelayBetween : (val: number) => void;
 }
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween }) => {
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
@@ -26,6 +31,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         setMessages(testMsj)
     },[testMsj])
 
+
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
@@ -33,6 +39,13 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                         <ul>
                             <li>Escribiendo <strong>[name]</strong> se enviará dinámicamente el nombre del destinario</li>
                             <li> <img className={styles.forkIcon} src="./fork.png" />Permite escribir <strong>variaciones de mensajes</strong> que seran enviadas equitativamente a todos los destinatarios</li>
+                            <li>Podes establecer un delay entre cada mensaje para una mejor experiencia: <input type='number' value={delayBetween} onChange={(e)=>{
+                                if (e.target.value < '1') {
+                                    e.target.value = '1';
+                                    return false;
+                                }
+                                setDelayBetween(Number(e.target.value))
+                            }}/> segundos</li>
                         </ul>
                     </div>
                     <div className={styles.MultiMessages}>

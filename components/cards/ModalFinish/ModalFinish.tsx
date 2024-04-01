@@ -5,12 +5,13 @@ import styles from './ModalFinish.module.css';
 
 export interface IModalFinish {
    blackList: ContactInfo[];
-   nuevaDifusion : ()=> void
+   nuevaDifusion : ()=> void;
+   isPaid: boolean;
 }
 
 
 
-const ModalFinish: React.FC<IModalFinish> = ({ blackList, nuevaDifusion }) => {
+const ModalFinish: React.FC<IModalFinish> = ({ blackList, nuevaDifusion, isPaid }) => {
 
 
 function downloadCSV(data, filename) {
@@ -52,7 +53,9 @@ return (
                 
                 {blackList?.length > 0 ?
                 <>
-                  <p>Hubo {blackList?.length} mensajes que no se pudieron enviar. Puede ser porque la linea ingresada no existe o debido al % de Entregabilidad de tu plan actual.</p>
+                  <p>
+                    
+                  Hubo {blackList?.length} {blackList?.length == 1 ? "mensaje que no se pudo entregar" : "mensajes que no se pudieron enviar."} Puede ser porque la linea ingresada no existe {!isPaid && 'o debido al % de Entregabilidad de tu plan actual'}.</p>
                   <p>Podes descargar una lista de los contactos a los que no se le pudo entregar correctamente el mensaje</p>
                   <CustomColorBtn
                     type="submit"
