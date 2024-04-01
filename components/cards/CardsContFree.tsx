@@ -459,7 +459,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         }
                     </div>
                     <div className={styles.dragon2} ref={tipCarrousel} onClick={ ()=> {if (activeCard == 2 ) setShowTips(true)} }>
-                        <img className={`${messagesLimitAchieved && styles.limitedAnim}`} src={"/dragon_anim.gif"} alt="dragon-chat"/>
+                        <img className={`${messagesLimitAchieved && styles.limitedAnim}`} src={ activeCard == 2 ? "/dragon_anim3.gif" : "/dragon_anim.gif"} alt="dragon-chat"/>
                         { showTips && <TipsCarrousel />}
                         { hintMessage && <HintMessage />}
                     </div>
