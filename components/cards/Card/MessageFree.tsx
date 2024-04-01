@@ -22,10 +22,11 @@ export interface IFreeCard2 {
     nextCard : boolean;
     setActiveCard : (val: number) => void;
     setShowTips : (val: boolean) => void;
+    setModalPro : (modalPro: boolean) => void;
 }
 
 
-const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, setShowTips }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, setShowTips, setModalPro }) => {
 
     let idCard = 2;
 
@@ -65,7 +66,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
 
 
     return (
-        <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid}>
+        <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
             <>
             
             {activeCard == idCard &&

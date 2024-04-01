@@ -38,12 +38,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
-                    <div>
-                        {/* <ul>
-                            <li>Escribiendo <strong>[name]</strong> se enviará dinámicamente el nombre del destinario</li>
-                            <li> <img className={styles.forkIcon} src="./fork.png" />Permite escribir <strong>variaciones de mensajes</strong> que seran enviadas equitativamente a todos los destinatarios</li>
-                        </ul> */}
-                    </div>
                     <div className={styles.MultiMessages}>
                         <div>
                             {testMsj.map((message, index)=>{
@@ -65,7 +59,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                     <motion.div className={styles.txtareaCont}
                                                                             initial={{ opacity: 0, y : 50 }}
                                                                             animate={{ opacity: 1, y : 0 }}>
-                                                                        <img src="/var_linea.svg" alt="" className={styles.svgBranch}/>
+                                                                        <img src="/var_linea.svg" alt="" className={styles.svgBranch} />
                                                                         <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
                                                                             let newMessages = [...testMsj];
                                                                             const thisArr = newMessages[index]
@@ -93,7 +87,9 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         } )
                                                         )
                                                     }
-                                                    
+
+                                                    { testMsj[index][0] != "" && 
+
                                                         <button className={styles.newVaracion} onClick={()=>{
                                                             const newArray = [...testMsj];
                                                             newArray[index] = [...message, ``];
@@ -101,6 +97,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         }} title='Agregar variacion'>
                                                             <img src="./fork.png" />
                                                         </button>
+                                                    }
 
                                                 </div>
                                             

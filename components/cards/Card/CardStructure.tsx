@@ -5,10 +5,11 @@ export interface ICardStructure {
     id_card : number;
     activeCard : number;
     isPaid : boolean;
+    setModalPro : (modalPro: boolean) => void;
 }
 
 
-const CardStructure: React.FC<ICardStructure> = ({ children, id_card, activeCard, isPaid }) => {
+const CardStructure: React.FC<ICardStructure> = ({ children, id_card, activeCard, isPaid, setModalPro }) => {
 
 
     return (
@@ -18,15 +19,15 @@ const CardStructure: React.FC<ICardStructure> = ({ children, id_card, activeCard
             <img src="/trama-car.svg" className={`${styles.tramaRight} ${styles.tramas}`} />
             {!isPaid && 
                 <div>
-                    <h5 className={styles.entregabilidad_free}>60% ENTREGABILIDAD <h6>i</h6></h5>
-                    <div>
-                        <p>Con nuestro plan actual, garantizamos una entregabilidad del 60%. Pero, si buscas lo mejor, nuestro plan Premium aumenta esa entregabilidad casi al 100%. <i>¡Mejora tus resultados con el plan Premium!</i></p>
+                    <h5 className={styles.entregabilidad_free}>60% ENTREGABILIDAD <span>i</span></h5>
+                    <div onClick={()=>{ setModalPro(true) }}>
+                        <p>Con nuestro plan actual, garantizamos una entregabilidad del 60%. Pero, si buscas lo mejor, DragonChat 2.0 aumenta esa entregabilidad casi al 100%. <i>¡Mejora tus resultados con Dragonchat 2.0!</i></p>
                     </div>
                 </div>
             }
             {children}
         </div>
-    
+
     );
 }
 

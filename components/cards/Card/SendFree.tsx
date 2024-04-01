@@ -48,6 +48,7 @@ export interface IFreeCard3 {
   listCounter : number;
   setListCounter : (val:number) => void;
   isPaid : boolean;
+  setModalPro: (modalPro: boolean) => void;
 
 }
 
@@ -77,7 +78,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   listCounter,
   setListCounter,
   modalShieldOptions,
-  isPaid
+  isPaid,
+  setModalPro
 
 }) => {
   let idCard = 3;
@@ -262,7 +264,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
   return (
-    <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid}>
+    <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
     <>
     {activeCard == idCard &&
       <div className={styles.card_container}>

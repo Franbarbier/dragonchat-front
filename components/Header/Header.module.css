@@ -1,5 +1,5 @@
 .header_cont>nav{
-    padding: 8px 15%;
+    padding: 8px 20%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -9,7 +9,7 @@
     position: fixed;
     width: 100%;
     top: 0;
-
+    background: #00000091;
 }
 .header_cont>nav>div{
     width: 30%;

@@ -59,7 +59,33 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     border-top-left-radius: 11px;
     border-top-right-radius: 11px;
 }
-
+.entregabilidad_free span{
+    font-family: monospace;
+    display: inline-block;
+    margin-left: 8px;
+    border: 1px solid white;
+    border-radius: 20px;
+    font-size: 1em;
+    width: 1.5em;
+    cursor: default;
+}
+.entregabilidad_free ~ div{
+    position: absolute;
+    font-size: 0.8em;
+    width: 20vw;
+    background: black;
+    padding: 15px;
+    border: 1px solid var(--amarillo);
+    border-radius: 5px;
+    z-index: 99;
+    left: 70%;
+    top: 0%;
+    display: none;
+    cursor: pointer;
+}
+.entregabilidad_free:hover ~ div, .entregabilidad_free ~ div:hover{
+    display: block;
+}
 .card_container{
     display: flex;
     flex-direction: column;

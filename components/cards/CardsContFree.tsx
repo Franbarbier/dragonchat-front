@@ -8,6 +8,7 @@ import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import CopyPasteTuto from '../CopyPasteTuto/CopyPasteTuto';
 import ModalContainer from '../ModalContainer/ModalContainer';
+import ModalPasatePro from '../ModalPasatePro/ModalPasatePro';
 import NavBottom from '../NavBottom/NavBottom';
 import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
@@ -105,6 +106,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [bloques, setBloques] = useState<number>(0);
     const [pausa, setPausa] = useState<number>(0);
 
+    const [modalPro, setModalPro] = useState(false);
 
     const [showTips, setShowTips] = useState<boolean>(false)
     const [hintMessage, setHintMessage] = useState<boolean>(false)
@@ -370,6 +372,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         listCounter={listCounter}
                         setListCounter={setListCounter}
                         isPaid={isPaid}
+                        setModalPro={setModalPro}
+
                     />
 
                     <FreeCard1 
@@ -381,6 +385,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         notification={notification}
                         setNotification={setNotification}
                         isPaid={isPaid}
+                        setModalPro={setModalPro}
 
                     />
                     <FreeCard2
@@ -397,6 +402,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         nextCard={nextCard}
                         setActiveCard={setActiveCard}
                         setShowTips={setShowTips}
+                        setModalPro={setModalPro}
+
                     />
 
                     
@@ -518,12 +525,24 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             )}
             </AnimatePresence>
            
+            {modalPro &&
+            <aside>
+                <div>
+                    <ModalContainer closeModal={ ()=> {setModalPro(false)} } addedClass="pro">
+                        <ModalPasatePro />
+                    </ModalContainer>
+                </div>
+            </aside>
+            }
+
            
             {modalFinish && !messagesLimitAchieved && (
             <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"} >
                 <ModalFinish blackList={blackList} nuevaDifusion={nuevaDifusion} isPaid={isPaid}/>
             </ModalContainer>
             )}
+
+            
 
         </div>
     

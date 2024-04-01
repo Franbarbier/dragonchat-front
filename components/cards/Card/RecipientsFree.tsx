@@ -19,6 +19,7 @@ export interface IFreeCard1 {
     setDroppedCsv : (droppedCsv: File) => void;
     notification : INotification
     setNotification : (notification: INotification) => void;
+    setModalPro : (modalPro: boolean) => void;
 }
 
 interface ICustomContextMenu {
@@ -73,7 +74,7 @@ const CustomContextMenu: React.FC<ICustomContextMenu> = ({ position, contextVisi
     )
 }
 
-const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, handleRenderModal, finalList, setDroppedCsv, notification, setNotification }) => {
+const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, handleRenderModal, finalList, setDroppedCsv, notification, setNotification, setModalPro }) => {
 
 
     let idCard = 1;
@@ -189,7 +190,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
       
     return (
 
-            <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} >
+            <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
             <>
             { activeCard == idCard &&
             <>
