@@ -21,12 +21,18 @@ export interface IFreeCard2 {
     isPaid: boolean;
     nextCard : boolean;
     setActiveCard : (val: number) => void;
+
+    delayBetween : number;
+    setDelayBetween : (val: number) => void;
+    
     setShowTips : (val: boolean) => void;
     setModalPro : (modalPro: boolean) => void;
 }
 
 
-const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, setShowTips, setModalPro }) => {
+
+
+const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, delayBetween, setDelayBetween, setShowTips, setModalPro  }) => {
 
     let idCard = 2;
 
@@ -80,7 +86,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
                 <div>
                     </div>
                     {isPaid ?
-                            <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
+                            <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween}/>
                        :
                             <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
                     }

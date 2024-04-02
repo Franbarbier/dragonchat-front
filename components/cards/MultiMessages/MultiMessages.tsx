@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
@@ -9,9 +9,11 @@ export interface IMultiMessages {
     setMessages : (message: string[][]) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
+    delayBetween : number;
+    setDelayBetween : (val: number) => void;
 }
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween }) => {
    
 
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
@@ -30,14 +32,11 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         setMessages(testMsj)
     },[testMsj])
 
-    const textareaRef = useRef(null);
-
-    
-    
 
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
+
                     <div className={styles.MultiMessages}>
                         <div>
                             {testMsj.map((message, index)=>{
