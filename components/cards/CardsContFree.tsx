@@ -233,7 +233,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             default:
                 break;
         }
-    },[finalList, activeCard, messages])
+    },[finalList, activeCard, messages, sendingState])
+
 
 
     useEffect(() => {

@@ -14,6 +14,7 @@ import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from "./FreeCard.module.css";
+import { globalName } from "./sendUtils";
 
 export interface IFreeCard3 {
   activeCard: number;
@@ -190,10 +191,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     };
         
+    // Check [name] variations
+    let newCurrent = globalName(currentMessage)
+
     const sentMessage = await apiSenderWhatsappController.sendMessage(
       userInfo.user_id,
       destinatario.nombre,
-      currentMessage,
+      newCurrent,
       destinatario.numero,
       userInfo.access_token,
       delayBetween
@@ -203,11 +207,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     
 
   }catch(error){
+    setSendingState(SENDING_STATE.PAUSED)
     alert("Ocurrio un error inesperado en la plataforma. Por favor intenta mas tarde.")
   }
 
 
   }
+
 
   function dio500(val) {
     if (val) {
