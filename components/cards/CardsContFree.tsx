@@ -21,7 +21,12 @@ import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 
 export interface ICardsCont {
-    isPaid : boolean,
+    isPaid: boolean;
+    setGlobalData: ( val:{contactos: ContactInfo[], messages: string[][]} ) => void;
+    globalData: {
+        contactos: ContactInfo[];
+        messages: string[][];
+    };
 }
 
 
@@ -35,14 +40,14 @@ export interface ContactInfo {
 
 
 
-const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
+const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) => {
 
     const [activeCard, setActiveCard] = useState<number>(1)
-    const [contactos, setContactos] = useState<ContactInfo[]>([{nombre: '', numero: ''}])
+    const [contactos, setContactos] = useState<ContactInfo[]>(globalData.contactos ? globalData.contactos : [{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
     const [mensaje, setMensaje] = useState<string>('')
-    const [messages, setMessages] = useState<string[][]>([['']])
+    const [messages, setMessages] = useState<string[][]>(globalData.messages ? globalData.messages : [['']])
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
@@ -53,23 +58,12 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [modalImport, setModalImport] = useState<boolean>(false)
     const [modalShieldOptions, setModalShieldOptions] = useState<boolean>(false)
     const [breadcrumb, setBreadcrumb] = useState<IChat[]>([])
-    const [shieldOptions, setShieldOptions] = useState<{
-        timer: number,
-        pausa : number,
-        bloques: number
-    }>({
-        timer: 0,
-        pausa : 0,
-        bloques: 0
-    })
+   
 
 
     const [messagesLimitAchieved, setMessagesLimitAchieved] = useState<boolean>(false)
     const [renderDialog, setRenderDialog] = useState<boolean>(false)
 
-    const [tamanoBloque, setTamanoBloque] = useState<number>(0);
-    const [pausaBloque, setPausaBloque] = useState<number>(0);
-    const [pausaMensaje, setPausaMensaje] = useState<number>(0);
 
     const [notification, setNotification] = useState<INotification>({
         status : STATUS.SUCCESS,
@@ -79,7 +73,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     })
 
     const [sendingState, setSendingState] = useState<SENDING_STATE>(SENDING_STATE.INIT);
-    const [activeSecuence, setActiveSecuence] = useState<number | null>(null)
     const [repeated, setRepeated] = useState<number[]>([])
 
     const [modalFinish, setModalFinish] = useState<boolean>(false)
@@ -100,6 +93,10 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     const [bloques, setBloques] = useState<number>(0);
     const [pausa, setPausa] = useState<number>(0);
 
+    const [isInputFocused, setIsInputFocused] = useState(false);
+    const [delayBetween, setDelayBetween] = useState<number>(1)
+
+
     function handleRenderModal(render:boolean){
         setModalImport(render)
     }
@@ -116,7 +113,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                 }
                 const isNombreEmpty = item.nombre === '';
                 const isNumeroEmpty = item.numero === '';
-                if ((isNombreEmpty && !isNumeroEmpty) || (!isNombreEmpty && isNumeroEmpty)) {
+
+
+                if ((isNombreEmpty && !isNumeroEmpty) || (!isNombreEmpty && isNumeroEmpty) && !isInputFocused) {
                     setNotification({
                         status : STATUS.ERROR,
                         render : true,
@@ -133,7 +132,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
 
         setFinalList(filtered)
         
-    },[contactos])
+    },[contactos, isInputFocused])
 
     function removeColors(array) {
         
@@ -173,6 +172,11 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
     }
 
     useEffect(()=>{
+
+        setGlobalData({
+            contactos : finalList,
+            messages : messages
+        })
 
         switch (activeCard) {
             case 1:
@@ -327,6 +331,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         nuevaDifusion={nuevaDifusion}
                         listCounter={listCounter}
                         setListCounter={setListCounter}
+                        delayBetween={delayBetween}
                     />
 
                     <FreeCard1 
@@ -338,6 +343,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         notification={notification}
                         setNotification={setNotification}
                         isPaid={isPaid}
+                        isInputFocused={isInputFocused}
+                        setIsInputFocused={setIsInputFocused}
 
                     />
                     <FreeCard2
@@ -353,6 +360,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
                         isPaid={isPaid}
                         nextCard={nextCard}
                         setActiveCard={setActiveCard}
+                        delayBetween={delayBetween}
+                        setDelayBetween={setDelayBetween}
                     />
 
                     
@@ -362,13 +371,10 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid }) => {
             {/* Si esta en ultima card y ya termino de enviar muestra el refresh */}
             {
                 activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
-                <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ } }>
+                <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ nuevaDifusion() } }>
                     <button><img src="/resend.png" /></button>
                     <AnimatePresence>
-                        <motion.aside
-                            initial={{x : -10, y :'-50%' }}
-                            animate={{x : 0, y :'-50%' }}
-                        >Nuevo envío</motion.aside>
+                        <aside >Nuevo envío</aside>
                     </AnimatePresence>
                 </div>
                 :

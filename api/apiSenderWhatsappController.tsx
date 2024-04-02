@@ -20,27 +20,21 @@ const apiSenderWhatsappController = {
         `${API_GATEWAY_URL}${API_ROUTES.DISCONNECT}`,
         { headers: getHeaders(authToken) }
       );
-      if (response.status == 200) {
-        alert("Whatsapp correctamente desvinculado.");
-      } else {
-        alert(
-          "Tu sesión no pudo ser desvinculada de forma correcta. Espera unos momentos y vuelve a intentar."
-        );
-      }
-
+      
       return response;
     } catch (error) {
       return error;
     }
   },
-  sendMessage: async (user, name, messages, phone, authToken: string) => {
+  sendMessage: async (user, name, messages, phone, authToken: string, timeBetween:number) => {
     try {
-      const payload = { user, name, messages, phone };
+      const payload = { user, name, messages, phone, timeBetween };
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`,
         payload,
         { headers: getHeadersVersion(authToken) }
       );
+
       return response;
     } catch (error: any) {
       return error;
