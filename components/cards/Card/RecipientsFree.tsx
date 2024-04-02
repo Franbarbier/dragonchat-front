@@ -19,9 +19,12 @@ export interface IFreeCard1 {
     setDroppedCsv : (droppedCsv: File) => void;
     notification : INotification
     setNotification : (notification: INotification) => void;
+
     setModalPro : (modalPro: boolean) => void;
+
     isInputFocused : boolean;
     setIsInputFocused : (val: boolean) => void;
+
 }
 
 interface ICustomContextMenu {

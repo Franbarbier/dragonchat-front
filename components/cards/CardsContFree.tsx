@@ -376,7 +376,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                         setListCounter={setListCounter}
                         isPaid={isPaid}
                         setModalPro={setModalPro}
-
                         delayBetween={delayBetween}
                     />
 
@@ -409,7 +408,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                         setActiveCard={setActiveCard}
                         setShowTips={setShowTips}
                         setModalPro={setModalPro}
-
                         delayBetween={delayBetween}
                         setDelayBetween={setDelayBetween}
                     />

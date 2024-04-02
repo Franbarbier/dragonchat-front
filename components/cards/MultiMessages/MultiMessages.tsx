@@ -37,6 +37,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
             <div className={styles.MultiMessages_cont}>
                 <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                     <div>
                         <ul>
@@ -52,6 +53,9 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                         </ul>
                     </div>
 >>>>>>> develop
+=======
+
+>>>>>>> 7237c4978af75af9062112517da73155b3e01248
                     <div className={styles.MultiMessages}>
                         <div>
                             {testMsj.map((message, index)=>{
