@@ -1,5 +1,5 @@
-import { AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useRef, useState } from 'react';
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import styles from './AntiBlockerTuto.module.css';
 
@@ -18,16 +18,22 @@ const AntiBlockerTuto: React.FC<IAntiBlockerTuto> = ({ setTuto }) => {
 
     const handleOuterClick = () => {
         setTuto("desp")
-      };
+    };
     
-      const handleInnerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleInnerClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
-      };
+    };
+
+    const constraintsRef = useRef(null)
+
 
     return (
         <AnimatePresence>
-           <div className={styles.tutoBackground} onClick={handleOuterClick} >
-            <div onClick={handleInnerClick}>
+           <motion.div className={styles.tutoBackground} onClick={handleOuterClick} ref={constraintsRef} >
+            <motion.div onClick={handleInnerClick} 
+            
+            drag
+                        dragConstraints={constraintsRef}>
                 <div>
                     <h4>Conoces la funcion "Anti Blocker"? Te permite espaciar por bloques y tiempo el envío de mensajes </h4>
                     <div style={{"transform": show ? "scale(0)" : "scale(1)"}}>
@@ -55,15 +61,19 @@ const AntiBlockerTuto: React.FC<IAntiBlockerTuto> = ({ setTuto }) => {
                 <aside className={styles.notShow} onClick={()=> setTuto("nunca")}>
                     <span>x</span> <i>No volver a mostrar</i>
                 </aside>
-                <aside className={styles.videoCont} style={{"height": show ? "70vh" : "0vh", "marginTop" : show ? "5%" : "0" }}>
-                    <video src="dc_explica_antiblock_1.mp4" autoPlay loop muted></video>
+            
+                {show &&
+                <>
+                 <aside  className={styles.videoCont} style={{"height": show ? "70vh" : "0vh", "marginTop" : show ? "5%" : "0" }} >
+                    <video src="Tutorial-AntiBloquer.mp4" autoPlay loop controls />
                 </aside>
-
-                {show && <button onClick={()=> setTuto("nunca")}>ENTENDIDO</button> }
+                <button onClick={()=> setTuto("nunca")}>ENTENDIDO</button>
+                </>
+                }
                 
 
-            </div>
-           </div>
+            </motion.div>
+           </motion.div>
         </AnimatePresence>
     
     );

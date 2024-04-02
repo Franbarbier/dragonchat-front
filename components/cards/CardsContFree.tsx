@@ -94,10 +94,10 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [listCounter, setListCounter] = useState<any>(0);
 
     // timers anti-blocker
-    const [activeShield, setActiveShield] = useState<boolean>(false);
-    const [timer, setTimer] = useState<number>(3);
-    const [bloques, setBloques] = useState<number>(0);
-    const [pausa, setPausa] = useState<number>(0);
+    const [activeShield, setActiveShield] = useState<boolean>(true);
+    const [timer, setTimer] = useState<number>(25);
+    const [bloques, setBloques] = useState<number>(15);
+    const [pausa, setPausa] = useState<number>(15);
 
     const [modalPro, setModalPro] = useState(false);
 
@@ -243,7 +243,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             default:
                 break;
         }
-    },[finalList, activeCard, messages])
+    },[finalList, activeCard, messages, sendingState])
+
 
     const tipCarrousel = useRef<HTMLDivElement>(null);
 
