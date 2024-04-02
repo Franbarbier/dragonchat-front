@@ -58,7 +58,15 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiSenderWhatsappController.disconnect(authToken);
 
-    if (response) {
+    if ((response as { status: number }).status == 200) {
+      setNotification({
+        status: STATUS.SUCCESS,
+        render: true,
+        message: "Whatsapp desvinculado de forma exitosa!",
+        modalReturn: () => {
+          setNotification({ ...notification, render: false })
+        }
+      })
       Router.push(ROUTES.QR);
     }
 

@@ -5,7 +5,7 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
-import { HOST_URL } from "../../../constants/index";
+import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
 import { EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../../Notification/Notification";
@@ -50,6 +50,8 @@ export interface IFreeCard3 {
   isPaid : boolean;
   setModalPro: (modalPro: boolean) => void;
 
+  delayBetween : number;
+
 }
 
 
@@ -79,7 +81,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   setListCounter,
   modalShieldOptions,
   isPaid,
-  setModalPro
+  setModalPro,
+  delayBetween
 
 }) => {
   let idCard = 3;
@@ -88,6 +91,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const [sending, setSending] = useState<boolean>(false);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
 
+  const [errorCounter, setErrorCounter] = useState<number>(0);
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
@@ -121,6 +125,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
       if (sentMessage?.status == 200 || sentMessage?.status == 201) {
         newContacts[count].estado = STATUS.SUCCESS;
+        dio500(false)
+
       } else {
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.ERROR;
@@ -142,6 +148,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           setRenderDialog(true)
           setSending(false);
           setDejarDeEnviar(true);
+          dio500(false)
+
         }else if (sentMessage?.response?.status == 410) {
           setSending(false);
           setDejarDeEnviar(true);
@@ -154,6 +162,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             }
           });
           setTimeout(() => { window.location.href = ROUTES.QR; }, 1000);
+          dio500(false)
+
+        }else if(sentMessage?.response?.status == 500){
+          dio500(true)
         }
       }
 
@@ -188,7 +200,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       destinatario.nombre,
       currentMessage,
       destinatario.numero,
-      userInfo.access_token
+      userInfo.access_token,
+      delayBetween
     );
 
     onSuccess();
@@ -201,6 +214,46 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   }
 
+  function dio500(val) {
+    if (val) {
+      setErrorCounter(errorCounter + 1);
+    }else{
+      setErrorCounter(0);
+    }
+  }
+
+  useEffect(() => {
+    if (errorCounter == 5){
+          setSending(false);
+          (async () => {
+            setDejarDeEnviar(true);
+            
+            const authToken = JSON.parse(Cookie.get(LOGIN_COOKIE)).access_token;
+            const response = await apiSenderWhatsappController.disconnect(authToken);
+
+            if ((response as { status: number }).status == 200) {
+              setNotification({
+                status: STATUS.ERROR,
+                render: true,
+                message: 'Tu dispositivo no está vincualdo!',
+                modalReturn: () => {
+                  setNotification({...notification, render : false})
+                }
+              });
+              setTimeout(() => { window.location.href = ROUTES.QR; }, 700);
+            } else {
+              setNotification({
+                status: STATUS.ERROR,
+                render: true,
+                message: 'Ocurrió un error inesperado. Por favor desvincula tu dispositivo y vuelve a intentarlo.',
+                modalReturn: () => {
+                  setNotification({...notification, render : false})
+                }
+              });
+            }
+          })();
+        }
+  }, [errorCounter]);
 
   
   useEffect(() => {
@@ -234,13 +287,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
   useEffect(() => {
-
     if (modalFinish) {
       setSendingState(SENDING_STATE.FINISH);
     }
-
   }, [modalFinish])
-
 
   // set trigger when enter is pressed, and disable it when the component is unmounted
   function handleEnter(event) {

@@ -1,4 +1,3 @@
-import { STATUS } from "../../../enums"
 import { ContactInfo } from "../CardsContFree"
 
 export const executeFormat = (inputText:string, type: string, index:number, finalList, {notification, setNotification}) => {
@@ -136,15 +135,6 @@ const checkDuplicated2 = (filtered, notification, setNotification) => {
         
             const repeatedNumber = repeatedCounterMap.get(item.numero) || 1;
             repeatedCounterMap.set(item.numero, repeatedNumber + 1);
-            
-            setNotification({
-                status : STATUS.ERROR,
-                render : true,
-                message : "No puede haber numeros repetidos en la lista.",
-                modalReturn : () => {
-                    setNotification({...notification, render : false},
-                )}
-            })
 
             return {
                 ...item,
