@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { EVENT_KEY, MESSAGE_TYPE, STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
-import BasicMessages from '../BasicMessages/BasicMessages';
 import CardTitle from '../CardTitle/CardTitle';
 import { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
 import MultiMessages from '../MultiMessages/MultiMessages';
@@ -82,11 +81,8 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
                 </div>
                 <div>
                     </div>
-                    {isPaid ?
-                            <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween}/>
-                       :
-                            <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
-                    }
+                    <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween} isPaid={isPaid} setModalPro={setModalPro}/>
+
             </div>
 
             <aside className={styles.tipIcon} id="tipIcon" onClick={ ()=> setShowTips(true) }>

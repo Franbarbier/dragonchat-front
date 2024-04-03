@@ -911,7 +911,6 @@ background: #555;
 .lock_overlay>div:hover p{ color: var(--amarillo); }
 .lock_overlay>div p{
     font-size: 14px;
-    letter-spacing: 1px;
     text-align: center;
     margin-top: 5%;
 }
@@ -1014,7 +1013,6 @@ background: #555;
     text-align: center;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@1,900&display=swap');
 
 .title_lines_cont {
     display: flex;

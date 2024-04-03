@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
@@ -11,9 +12,11 @@ export interface IMultiMessages {
     setNotification : (notification: INotification) => void;
     delayBetween : number;
     setDelayBetween : (val: number) => void;
+    isPaid: boolean;
+    setModalPro : (modalPro: boolean) => void;
 }
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
    
 
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
@@ -25,7 +28,19 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     },[messages])
 
     function addMsj() {
-        setTestMsj([...testMsj, [""]])
+        if (isPaid) {
+            setTestMsj([...testMsj, [""]])
+        }else{
+            setNotification({
+                status : STATUS.ALERT,
+                render : true,
+                message : "Para poder agregar más mensajes debes tener una cuenta 2.0",
+                modalReturn : (e) => {
+                    setNotification({...notification, render : false})
+                    if (e) {  setModalPro(true) }
+                }
+            })
+        }
     }
 
     useEffect(()=>{

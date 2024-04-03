@@ -413,25 +413,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                     />
 
                     
-                { activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
-                    <aside className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ } }>
-                        <button><img src="/resend.png" /></button>
-                        <AnimatePresence>
-                            <motion.aside
-                                initial={{x : -10, y :'-50%' }}
-                                animate={{x : 0, y :'-50%' }}
-                            >Nuevo envío</motion.aside>
-                        </AnimatePresence>
-                    </aside>
-                    :
-                    <aside className={`${styles.nextCard} ${ ! nextCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( nextCard ) setActiveCard(activeCard+1) } }>
-                        <button><img src="/arrow-card.png" /></button>
-                    </aside>
-                }
-                
-                <aside className={`${styles.prevCard} ${ ! prevCard ? styles.arrow_disabled : ""}`} onClick={ ()=>{ if ( prevCard ) setActiveCard(activeCard-1) } }>
-                    <button><img src="/arrow-card.png" /></button>
-                </aside>
 
             </div>
             
