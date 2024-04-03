@@ -19,7 +19,11 @@
   position: absolute;
   top: 8%;
   left: 3%;
-  
+  cursor: grab;
+}
+/* on grabbing */
+.tutoBackground>div:active{
+  cursor: grabbing;
 }
 .tutoBackground>div>div{  
   display: flex;
