@@ -5,7 +5,7 @@
 }
 .MultiMessages>div{
     overflow-y: auto;
-    height: 35vh;
+    height: 37vh;
 }
 .MultiMessages_cont li{ 
     list-style: circle;
@@ -76,8 +76,34 @@
     padding-right: 19%;
     color: white;
     resize: none;
-    width: 100%;
+    width: 98%;
+    outline: none;
+    scroll-behavior: smooth;
 }
+.messages_cont textarea:focus{
+   transform: scale(1.02);
+}
+
+.messages_cont textarea::-webkit-scrollbar{
+    width: 5px;
+    border: none;
+
+    padding: 1px;
+}
+.messages_cont textarea::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background: #ccbcff!important;
+    border: none;
+}
+.messages_cont textarea::-webkit-scrollbar-track{
+    background-color: var(--newPink);
+    border: none;
+    padding: 1px;
+}
+.messages_cont textarea::sc
+
+
+
 .messages_cont>div:hover .newVaracion, .messages_cont>div>div:hover .deleteVariacion{
     opacity: 0.7;
 }
@@ -104,15 +130,64 @@
     color: #cccccc;
 }
 
-.agregarMultiMensaje button{
-    width: 100%;
+.agregarMultiMensaje {
+    background-color: var(--newPink);
+    border: 3px solid var(--borders);
+    margin: auto;
+    overflow-y: hidden!important;
+    border-radius: 90px;
+    cursor: pointer;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 5%;
+    position: absolute;
+    display: block;
+
+    height: 50PX!important;
+    width: 0;
+    padding-left: 44px;
+
 
 }
-
+.agregarMultiMensaje:hover{
+    transform: translateX(-50%);
+}
+.agregarMultiMensaje img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 65%;
+    height: 65%;
+    user-select: none;
+}
+.noMoreMsjs{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 .forkIcon {
     filter: invert(1);
     width: 26px;
     transform: rotate(90deg);
     margin-right: 7px;
     margin-bottom: -8px;
+}
+
+/* if mobile */
+@media (max-width: 768px){
+    .svgBranch{
+        right: 78%;
+    }
+    .MultiMessages_cont li{ 
+        font-size: 0.65em;
+    }
+    .forkIcon {
+        width: 18px;
+    }
+    .agregarMultiMensaje{
+        height: 45px !important;
+        width: 0;
+        padding-left: 39px;
+        bottom: 6.5%;
+    }
 }

@@ -40,7 +40,7 @@
 .trama2{
     position: absolute;
     z-index: 0;
-    transform: rotate(-45deg);
+    transform: translate(-10%, -10%) rotate(-45deg);
     bottom: -10%;
     right: -30%;
     opacity: 0.4;
