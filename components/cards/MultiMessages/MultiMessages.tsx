@@ -36,14 +36,10 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
                     <div>
                         <ul>
-                            <li>Escribiendo <strong>[name]</strong> se enviará dinámicamente el nombre del destinario</li>
-                            <li> <img className={styles.forkIcon} src="./fork.png" />Permite escribir <strong>variaciones de mensajes</strong> que seran enviadas equitativamente a todos los destinatarios</li>
-                            <li>Podes establecer un delay entre cada mensaje para una mejor experiencia: <input type='number' value={delayBetween} onChange={(e)=>{
+                             <li>Podes establecer un delay entre cada mensaje para una mejor experiencia: <input type='number' value={delayBetween} onChange={(e)=>{
                                 if (e.target.value < '1') {
                                     e.target.value = '1';
                                     return false;
@@ -52,10 +48,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                             }}/> segundos</li>
                         </ul>
                     </div>
->>>>>>> develop
-=======
 
->>>>>>> 7237c4978af75af9062112517da73155b3e01248
                     <div className={styles.MultiMessages}>
                         <div>
                             {testMsj.map((message, index)=>{
