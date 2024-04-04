@@ -117,9 +117,7 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
             <nav>
                 <div>
                     <img width={'130px'} src={'dragonchat_logo_full.svg'} onClick={()=> logoClicked() } />
-                    {isPaid &&
-                        <span className={styles.proLogo}>2.0</span>
-                    }
+ 
                 </div>
                 
 

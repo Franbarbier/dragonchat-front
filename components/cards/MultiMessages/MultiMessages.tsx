@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
@@ -37,9 +36,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                 <div>
                     <div>
                         <ul>
-                            <li>Escribiendo <strong>[name]</strong> se enviará dinámicamente el nombre del destinario</li>
-                            <li> <img className={styles.forkIcon} src="./fork.png" />Permite escribir <strong>variaciones de mensajes</strong> que seran enviadas equitativamente a todos los destinatarios</li>
-                            <li>Podes establecer un delay entre cada mensaje para una mejor experiencia: <input type='number' value={delayBetween} onChange={(e)=>{
+                             <li>Podes establecer un delay entre cada mensaje para una mejor experiencia: <input type='number' value={delayBetween} onChange={(e)=>{
                                 if (e.target.value < '1') {
                                     e.target.value = '1';
                                     return false;
