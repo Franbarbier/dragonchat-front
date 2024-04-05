@@ -14,9 +14,10 @@ export interface IMultiMessages {
     setNotification : (notification: INotification) => void;
     delayBetween : number;
     setDelayBetween : (val: number) => void;
+    isPaid: boolean;
 }
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid }) => {
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
@@ -34,17 +35,20 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
-                    <div>
-                        <ul>
-                             <li>Podes establecer un delay entre cada mensaje para una mejor experiencia: <input type='number' value={delayBetween} onChange={(e)=>{
+                    {isPaid &&
+                        <div className={styles.delayBetCont}>
+                            <p>Podes establecer un delay entre cada mensaje para una mejor experiencia:</p>
+                            <input type='number' value={delayBetween} onChange={(e)=>{
                                 if (e.target.value < '1') {
                                     e.target.value = '1';
                                     return false;
                                 }
                                 setDelayBetween(Number(e.target.value))
-                            }}/> segundos</li>
-                        </ul>
-                    </div>
+                            }
+                            }/> <span>(segundos)</span>
+                        </div>
+                    
+                    }
                     <div className={styles.MultiMessages}>
                         <div>
                             {testMsj.map((message, index)=>{

@@ -9,7 +9,6 @@ import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
 import { EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import { INotification } from "../../Notification/Notification";
-import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
 import HeaderRow from "../HeaderRow/HeaderRow";
@@ -422,13 +421,30 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                       nuevaDifusion()
                     }}
                     disable={false}
-                  />                  
-                ) : (
-                  <OrangeBtn
-                    text={sendingState === SENDING_STATE.SENDING ? "Pausar" : "Enviar"}
-                    onClick={handleButtonClick}
                   />
-                )}
+                ) : 
+                    <>
+                  { sendingState === SENDING_STATE.SENDING ?
+                      <button className={styles.pausarEnvio}  onClick={() => { handleButtonClick() }}>
+                        <img src="./pausa.png" />
+                        <span>PAUSAR ENVIO</span>
+                      </button>
+                      :
+                      <CustomColorBtn
+                        type="submit"
+                        text={ "Enviar" }
+                        backgroundColorInit={ "#c21c3b" }
+                        backgroundColorEnd={ "#f9bd4f" }
+                        borderColor={ "#e17846"}
+                        onClick={() => {
+                          handleButtonClick()
+                        }}
+                        disable={false}
+                      />
+                    
+                  }
+                  </>
+                }
               </div>
             ) : (
               <>

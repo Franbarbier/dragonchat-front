@@ -492,6 +492,8 @@ background: #555;
     cursor: pointer;
 }
 
+
+
 .message>textarea{
     background-color: #a361c557;
     border: 1px solid var(--rosita1);
@@ -836,6 +838,24 @@ background: #555;
     margin-top: 5%;
 }
 
+.pausarEnvio{
+    background: #a00014;
+    border-color: #a00014;
+    border-radius: 10px;
+    width: 100%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 3%;
+    font-size: 0.8em;
+}
+.pausarEnvio img{
+    filter: invert(1);
+    width: 1em;
+    margin-right: 9px;
+}
 .footerBtns{
     display: flex;
     justify-content: space-between;

@@ -90,7 +90,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
                     </div>*/}
                     </div>
                     {isPaid ?
-                            <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween}/>
+                            <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween} isPaid={isPaid}/>
                        :
                             <BasicMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} />
                     }
