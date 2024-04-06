@@ -17,14 +17,14 @@
 }
 .delayBetCont span{
     position: absolute;
-    font-size: 0.6em;
+    font-size: 0.7em;
     right: 0%;
     top: 103%;
     color: #ddd
 }
 .delayBetCont p{
     padding-right: 5%;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 .delayBetCont input{
     width: 5em;

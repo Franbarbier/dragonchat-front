@@ -20,7 +20,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
-    border-radius: 200px;
+    border-radius: 180px;
     z-index: 2;
 }
 
@@ -30,7 +30,7 @@
     height: 110%;
     border: 2px solid #90ca46;
     display: block;
-    border-radius: 200px;
+    border-radius: 180px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -54,16 +54,16 @@
     left: 8vw;
 }
 .prevCard img{
-    width: 80%;
+    width: 75%;
     position: absolute;
-    transform: translate(-55%, -50%) rotate(90deg);
+    transform: translate(-55%, -55%) rotate(90deg);
     top: 50%;
     left: 50%;
 }
 .nextCard img{
-    width: 80%;
+    width: 75%;
     position: absolute;
-    transform: translate(-45%, -50%) rotate(-90deg);
+    transform: translate(-45%, -55%) rotate(-90deg);
     top: 50%;
     left: 50%;
 }
@@ -109,8 +109,8 @@
     display: flex;
     position: absolute;
     top: 15%;
-    width: 17%;
-    max-width: 200px;
+    width: 13%;
+    max-width: 180px;
 }
 .dragon1>img, .dragon2>img{
     z-index: 101;
@@ -118,7 +118,7 @@
 .dragon1>img {
     display: block;
     width: 100%;
-    max-width: 200px;
+    max-width: 180px;
     user-select: none;
 }
 
@@ -135,8 +135,8 @@
     display: block;
     position: absolute;
     top: 60%;
-    width: 17%;
-    max-width: 200px;
+    width: 13%;
+    max-width: 180px;
     transform: rotateY(180deg);
     user-select: none;
 
@@ -317,13 +317,13 @@
     }
     .nextCard{
         left: 70vw;
-        width: 3vw;
-        height: 3vw;
+        width: 2.5vw;
+        height: 2.5vw;
     }
     .prevCard{
         left: 30vw;
-        width: 3vw;
-        height: 3vw;
+        width: 2.5vw;
+        height: 2.5vw;
     }
     .dragon1{left:16%;}
     .dragon2{right:16%}
