@@ -5,7 +5,8 @@
 }
 .MultiMessages>div{
     overflow-y: auto;
-    height: 37vh;
+    /* height: 37vh; */
+    max-height: 50vh;
 }
 
 .delayBetCont{
