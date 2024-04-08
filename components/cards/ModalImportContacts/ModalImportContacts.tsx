@@ -5,8 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 import { FILE, FILE_TYPE, STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import OrangeBtn from "../../OrangeBtn/OrangeBtn";
-import { ContactInfo } from "../CardsContFree";
 import CardTitle from "../CardTitle/CardTitle";
+import { ContactInfo } from "../CardsContFree";
 import ContactRow from "../ContactRow/ContactRow";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from './ModalImportContacts.module.css';
@@ -150,7 +150,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                   className={styles.csvInput}
                   id="csvInput"
                   name="file"
-                  type="File"
+                  type="file"
                 />
               </div>
             </div>
