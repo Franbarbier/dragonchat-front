@@ -277,9 +277,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       setSendingState(SENDING_STATE.SENDING);
     } 
     if (sendingState === SENDING_STATE.SENDING) {
-      // let newContacts = [...contactos];
-      // newContacts[listCounter].estado = STATUS.PENDING;
-      // setContactos(newContacts)
       setSendingState(SENDING_STATE.PAUSED);
     }
   };
