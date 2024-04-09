@@ -348,8 +348,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     key={contact.nombre + index}
                   >
                     <AnimatePresence>
-
-                      {/* {(index == listCounter && sendingState == SENDING_STATE.SENDING && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) && ( */}
                       {((index == listCounter && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) || contact.estado == STATUS.PENDING ) && (
 
                         <motion.aside
