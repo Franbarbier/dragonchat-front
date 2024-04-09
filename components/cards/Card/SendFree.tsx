@@ -349,7 +349,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                   >
                     <AnimatePresence>
 
-                      {(index == listCounter && sendingState == SENDING_STATE.SENDING && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) && (
+                      {/* {(index == listCounter && sendingState == SENDING_STATE.SENDING && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) && ( */}
+                      {((index == listCounter && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) || contact.estado == STATUS.PENDING ) && (
 
                         <motion.aside
                           className={styles.fuegoLoader}
