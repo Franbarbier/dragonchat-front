@@ -106,6 +106,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     const destinatario:ContactInfo = contactos[count];
 
+    // controlar si el destinatario ya fue enviado, si es asi, se salta al siguiente
+    if (destinatario.estado == STATUS.SUCCESS || destinatario.estado == STATUS.ERROR) {
+      setListCounter(count + 1);
+      return;
+    }
+
     let currentMessage:string[] = []
 
     for(let i = 0; i < messages.length; i++){
@@ -257,6 +263,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   
   useEffect(() => {
+
     if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
         sendMove(listCounter);
     }
@@ -270,9 +277,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       setSendingState(SENDING_STATE.SENDING);
     } 
     if (sendingState === SENDING_STATE.SENDING) {
-      let newContacts = [...contactos];
-      newContacts[listCounter].estado = STATUS.PENDING;
-      setContactos(newContacts)
+      // let newContacts = [...contactos];
+      // newContacts[listCounter].estado = STATUS.PENDING;
+      // setContactos(newContacts)
       setSendingState(SENDING_STATE.PAUSED);
     }
   };
@@ -313,6 +320,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   });
 
 
+
+
+
   return (
     <div
     className={`${styles.card} ${styles["numberCard" + activeCard]} ${
@@ -341,7 +351,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     key={contact.nombre + index}
                   >
                     <AnimatePresence>
-                      {((index == listCounter && sendingState == SENDING_STATE.SENDING && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) || contact.estado == STATUS.PENDING ) && (
+
+                      {(index == listCounter && sendingState == SENDING_STATE.SENDING && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) && (
 
                         <motion.aside
                           className={styles.fuegoLoader}
@@ -430,6 +441,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                         <span>PAUSAR ENVIO</span>
                       </button>
                       :
+                      <>
                       <CustomColorBtn
                         type="submit"
                         text={ "Enviar" }
@@ -439,9 +451,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                         onClick={() => {
                           handleButtonClick()
                         }}
-                        disable={false}
+                        disable={ contactos[listCounter].estado == STATUS.PENDING }
                       />
-                    
+                      </>
                   }
                   </>
                 }
