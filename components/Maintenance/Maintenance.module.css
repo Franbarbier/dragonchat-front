@@ -36,7 +36,6 @@
 }
 .maintCont>div>aside>div{
     font-size: 0.9em;
-    letter-spacing: 0.4px;
     text-align: center;
     background: linear-gradient(to bottom, #FFFFCC, #dcdc41);
     /* border: 1px solid var(--amarillo); */

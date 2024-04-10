@@ -1,6 +1,5 @@
 
 .modal_no_enviados>div>div>p{
-    letter-spacing: 0.7px;
     margin: 5% 0;
     font-size: 0.8em;
 }
@@ -8,7 +7,6 @@
     margin: 3% 0 5% ;
     font-size: 0.9em;
     font-weight: 400;
-    letter-spacing: 0.5px;
 }
 .modal_no_enviados ul img{
     filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(14deg) brightness(165%) contrast(80%);

@@ -49,7 +49,7 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
       {maintenance && <Maintenance setLoading={setLoading} />}
 
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
-
+      
       <AnimatePresence>
         {!openSettings && (
           <>
@@ -174,7 +174,8 @@ export async function getServerSideProps({ req, res }) {
       maint = true
   }
 
-  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
+  return { props: { stripe : stripeStatus, isPaid : false, maintenance : maint } };
+  // return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
 
 }
 
