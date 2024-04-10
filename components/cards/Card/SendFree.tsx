@@ -265,6 +265,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   useEffect(() => {
 
     if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
+        const contacti = [...contactos]
+
+        // check if contacti[listCounter] has "estado" as a property
+        if (!contacti[listCounter].hasOwnProperty("estado")) {
+          contacti[listCounter].estado = STATUS.PENDING
+        }
+        setContactos(contacti) 
         sendMove(listCounter);
     }
   }, [sendingState, listCounter]);
@@ -316,10 +323,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
   });
 
-
-
-
-
   return (
     <div
     className={`${styles.card} ${styles["numberCard" + activeCard]} ${
@@ -337,19 +340,22 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           <HeaderRow campos={["Nombre", "Número"]} key="header-row-sendFree" />
 
           <div className={`${styles.table_rows} ${styles.enviando_table}`}>
+            
             {contactos.map((contact, index) => (
+              
               <div key={`contactoFinal${index}`}>
                 {contactos.length - 1 != index && (
-                  // ${contact.status == STATUS.PENDING && styles.fireLoader}
+                  
                   <div
-                    className={`${styles.row_card} ${
-                      contact.estado == STATUS.ERROR && styles.error
-                    } ${contact.estado == STATUS.SUCCESS && styles.success}`}
-                    key={contact.nombre + index}
+                  className={`${styles.row_card} ${
+                    contact.estado == STATUS.ERROR && styles.error
+                  } ${contact.estado == STATUS.SUCCESS && styles.success}`}
+                  key={contact.nombre + index}
                   >
                     <AnimatePresence>
-                      {((index == listCounter && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) || contact.estado == STATUS.PENDING ) && (
 
+                      {((index == listCounter && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS && sendingState == SENDING_STATE.SENDING ) || (contact.estado == STATUS.PENDING && sendingState == SENDING_STATE.PAUSED) ) && (
+                      
                         <motion.aside
                           className={styles.fuegoLoader}
                           initial={{ opacity: 0 }}
