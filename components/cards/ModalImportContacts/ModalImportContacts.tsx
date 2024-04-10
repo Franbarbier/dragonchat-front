@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
 import { FILE, FILE_TYPE, STATUS } from '../../../enums';
+import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
-import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
 import ContactRow from "../ContactRow/ContactRow";
@@ -104,10 +104,19 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
             name="file"
             type="File"
           />
-          <OrangeBtn text="Subir contactos" onClick={() => {
-            uploadContacts(parsedCsvData)
-            setModalImport(false)
-          }} />
+
+          <CustomColorBtn
+                type="submit"
+                text="Subir contactos"
+                backgroundColorInit="#c21c3b" 
+                backgroundColorEnd="#f9bd4f"
+                borderColor="#e17846"
+                onClick={() => {
+                  uploadContacts(parsedCsvData)
+                  setModalImport(false)
+                  setParsedCsvData([])
+                }}
+            />
         </div>
         :
         <>

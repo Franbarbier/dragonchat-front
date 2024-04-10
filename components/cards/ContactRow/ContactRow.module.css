@@ -1,13 +1,13 @@
-
 .row_card {
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     color: rgb(232, 232, 232);
     border-radius: 5px;
-    padding: 3.5px 0px;
+    padding: 6.5px 0px;
     border: 1px solid var(--rosita1);
-    margin-bottom: 2.5%;
+    margin-bottom: 1.5%;
     position: relative;
     display: flex;
+    font-size: 0.85em;
     justify-content: space-between;
 }
 .row_card.sent{

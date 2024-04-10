@@ -104,6 +104,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     useEffect(()=>{
         var filtered = [...contactos]
 
+
+        console.log("aSsssasdasd")
         filtered = removeColors(filtered)
 
         if (filtered.length > 1) {
