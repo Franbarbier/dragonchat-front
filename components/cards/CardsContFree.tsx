@@ -300,8 +300,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
         setBlackList([])
     }
 
-
-
     return (
         <div>
             <div className={styles.cards_cont}>

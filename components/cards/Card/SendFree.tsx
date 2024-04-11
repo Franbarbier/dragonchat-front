@@ -185,10 +185,16 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       }
 
       if (listCounter == contactos.length - 2) {
-        setTimeout(() => {
-          setModalFinish(true);
-        }, 500);
+        setNotification({
+          status: STATUS.SUCCESS,
+          render: true,
+          message: 'Envío realizado con éxito!',
+          modalReturn: () => {
+            setNotification({...notification, render : false})
+          }
+        });
       }
+
 
       setTimeout(()=>{
         setListCounter(count + 1);
@@ -218,6 +224,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
   }
+
+  
 
 
   function dio500(val) {
@@ -274,10 +282,14 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         setContactos(contacti) 
         sendMove(listCounter);
     }
+
+    if( listCounter == contactos.length -1 ){
+      setModalFinish(true);
+    }
+
   }, [sendingState, listCounter]);
 
-
-
+  // setListCounter(0)
   const handleButtonClick = async () => {
 
     if (sendingState === SENDING_STATE.INIT || sendingState === SENDING_STATE.PAUSED) {
@@ -390,6 +402,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     )}
                   </div>
                 )}
+                  {/* <aside><span>{delayTimer}</span></aside> */}
               </div>
             ))}
           </div>

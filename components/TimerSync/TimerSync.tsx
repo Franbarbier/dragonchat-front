@@ -6,9 +6,6 @@ import styles from "./TimerSync.module.css";
 const TimerSync = () => {
   const [timer, setTimer] = useState("05:00");
 
-
-  console.log(Cookies.get("syncTime"))
-
   useEffect(() => {
     const interval = setInterval(() => {
       const timeLeft = getTimeLeftUntilHour();
