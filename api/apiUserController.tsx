@@ -34,7 +34,7 @@ const apiUserController = {
             if (error?.response?.status == 409) {
                 setUserExists(true);
             } else {
-                alert("Algo salió mal, por favor vuelve a intentarlo en unos minutos.");
+                return error;
             }
         }
         return;

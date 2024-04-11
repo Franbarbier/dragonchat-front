@@ -117,11 +117,19 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
             return false;
         }
 
+
         const signUp_res = await apiUserController.signUp(formData, setUserExists, stripe_data);
+
+        if (signUp_res) {
+            setLoading(false)
+        }
 
         if (signUp_res?.status == 200 || signUp_res?.status == 201) {
             handleNotification(STATUS.SUCCESS, "Usuario creado con exito!");
             handleLogin(formData.mail, formData.pass);
+        }else{
+            handleNotification(STATUS.ERROR, "Ocurrio un error inesperado, intentalo mas tarde.");
+
         }
     };
 
