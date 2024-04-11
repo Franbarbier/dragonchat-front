@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-
-import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
+import { STATUS } from '../../../enums';
 
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
@@ -15,9 +14,11 @@ export interface IMultiMessages {
     setNotification : (notification: INotification) => void;
     delayBetween : number;
     setDelayBetween : (val: number) => void;
+    isPaid: boolean;
+    setModalPro : (modalPro: boolean) => void;
 }
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
@@ -27,6 +28,22 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         }
     },[messages])
 
+    function addMsj() {
+        if (isPaid) {
+            setTestMsj([...testMsj, [""]])
+        }else{
+            setNotification({
+                status : STATUS.ALERT,
+                render : true,
+                message : "Para poder agregar más mensajes debes tener una cuenta 2.0",
+                modalReturn : (e) => {
+                    setNotification({...notification, render : false})
+                    if (e) {  setModalPro(true) }
+                }
+            })
+        }
+    }
+
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
@@ -35,11 +52,10 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
+
                     <div>
                         <ul>
-                            <li>Escribiendo <strong>[name]</strong> se enviará dinámicamente el nombre del destinario</li>
-                            <li> <img className={styles.forkIcon} src="./fork.png" />Permite escribir <strong>variaciones de mensajes</strong> que seran enviadas equitativamente a todos los destinatarios</li>
-                            <li>Podes establecer un delay entre cada mensaje para una mejor experiencia: <input type='number' value={delayBetween} onChange={(e)=>{
+                             <li>Podes establecer un delay entre cada mensaje para una mejor experiencia: <input type='number' value={delayBetween} onChange={(e)=>{
                                 if (e.target.value < '1') {
                                     e.target.value = '1';
                                     return false;
@@ -48,6 +64,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                             }}/> segundos</li>
                         </ul>
                     </div>
+
                     <div className={styles.MultiMessages}>
                         <div>
                             {testMsj.map((message, index)=>{
@@ -68,17 +85,10 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                     <>
                                                                     <motion.div className={styles.txtareaCont}
                                                                             initial={{ opacity: 0, y : 50 }}
-                                                                            animate={{ opacity: 1, y : 0 }}
-                                                                            transition={{duration : 0.5 }}>
+                                                                            animate={{ opacity: 1, y : 0 }}>
+                                                                        <img src="/var_linea.svg" alt="" className={styles.svgBranch} />
+
                                                                         
-                                                                        
-                                                                        <motion.img src="/var_linea.svg" alt="" className={styles.svgBranch}
-                                                                            initial={{ opacity: 0, y : 8 }}
-                                                                            animate={{ opacity: 1, y : 0 }}
-                                                                            transition={{ duration: 0.5, delay : 0.5 }}
-                                                                        />
-                                                                        
-                                                                    
                                                                         <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
                                                                             let newMessages = [...testMsj];
                                                                             const thisArr = newMessages[index]
@@ -116,8 +126,18 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         } )
                                                         )
                                                     }
-                                                    
-                                                        
+
+                                                    { testMsj[index][0] != "" && 
+
+                                                        <button className={styles.newVaracion} onClick={()=>{
+                                                            const newArray = [...testMsj];
+                                                            newArray[index] = [...message, ``];
+                                                            setTestMsj(newArray);
+                                                        }} title='Agregar variacion'>
+                                                            <img src="./fork.png" />
+                                                        </button>
+                                                    }
+
 
                                                 </div>
                                             

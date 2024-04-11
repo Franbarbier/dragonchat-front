@@ -82,3 +82,9 @@ export enum EVENT_KEY {
   ENTER = 'Enter',
   
 };
+
+export enum COOKIES_SETTINGS {
+  NUNCA = 'nunca',
+  DESP = 'desp'
+  
+};

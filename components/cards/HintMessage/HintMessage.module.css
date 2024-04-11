@@ -1,0 +1,27 @@
+.hint_message {
+    overflow: hidden;
+    transform: rotateY(180deg);
+    position: absolute;
+    bottom: 106%;
+    right: 30%;
+    background: black;
+    border: 1px solid var(--amarillo);
+    border-radius: 5px;
+    padding: 0px 0px;
+    max-width: 20vw;
+    padding: 10px 30px;
+    font-size: 0.8em;
+    width: 20vw;
+  }
+  .arrowDialog{
+    position: absolute;
+    content: '';
+    right: 50%;
+    top: -6%;
+    width: 20px;
+    height: 20px;
+    border-right: 1px solid var(--amarillo);
+    border-bottom: 1px solid var(--amarillo);
+    background-color: black;
+    transform: translate(0%, -50%) rotate(45deg);
+}

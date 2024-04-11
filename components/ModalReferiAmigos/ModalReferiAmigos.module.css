@@ -1,12 +1,10 @@
 
 .modal_ref>div>div>p{
-    letter-spacing: 1px;
 }
 .modal_ref ul li{
     margin: 3% 0 5% ;
     font-size: 0.9em;
     font-weight: 400;
-    letter-spacing: 1px;
 }
 .modal_ref ul img{
     filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(14deg) brightness(165%) contrast(80%);
