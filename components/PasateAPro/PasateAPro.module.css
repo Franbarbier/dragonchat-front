@@ -28,9 +28,10 @@
     background: rgb(255 251 17 / 30%);
 }
 .pasate_cont>button>img{
-    display: block;
-    margin-right: 6px;
-    width: 18px;
+  display: block;
+  margin-right: 6px;
+  width: 18px;
+  transform: rotate(-90deg);
 }
 .pasate_cont>button>span{
     display: block;

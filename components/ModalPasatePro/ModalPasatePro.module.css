@@ -1,14 +1,12 @@
 
 .modal_pro>div>div>p{
-    letter-spacing: 0.5px;
     margin: 8% 0;
 
 }
 .modal_pro ul li{
-    margin: 3% 0 5% ;
+    margin: 1px 0 3px ;
     font-size: 0.9em;
     font-weight: 400;
-    letter-spacing: 0.5px;
 }
 .modal_pro ul img{
     filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(14deg) brightness(165%) contrast(80%);
@@ -24,4 +22,20 @@
 }
 .modal_pro button{
     margin-top: 10%;
+}
+.modal_pro>div>div>ul{
+    padding: 0 19px;
+}
+.pro_feats{
+    margin-top: 25px;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #e12b2e;
+    background-image: linear-gradient(135deg, #6a5e46 20%, #5a3e24);
+}
+.pro_feats>h3{
+    text-align: center;
+    color: #f5c93b;
+    font-size: 1.1em;
+    margin-bottom: 20px;
 }
