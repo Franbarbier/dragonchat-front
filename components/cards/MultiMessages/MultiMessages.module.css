@@ -43,7 +43,6 @@
     margin-bottom: 10px;
     width: 95%;
     margin-left: 5%;
-    letter-spacing: 1px;
     line-height: 17px;
 }
 .MultiMessages_cont li input{
@@ -104,7 +103,6 @@
     padding: 22px 18px;
     font-size: 0.7em;
     padding-right: 19%;
-    letter-spacing: 1px;
     color: white;
     resize: none;
     width: 98%;

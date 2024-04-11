@@ -209,7 +209,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
           type="password"
           value={userData.confirmPassword}
           onChange={(value) => setUserData(prev => ({ ...prev, confirmPassword: value.trim() }))}
-          labelText="NUEVA CONFIRMAR CONTRASEÑA"
+          labelText="CONFIRMAR CONTRASEÑA"
           labelClassName={styles.input_label}
         />
 

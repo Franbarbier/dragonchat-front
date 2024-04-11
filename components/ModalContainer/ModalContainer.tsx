@@ -22,7 +22,6 @@ const ModalContainer: React.FC<IModalContainer> = ({ children, closeModal, added
                 </div>
                 <aside>
                     <img src={"/trama-car.svg"} className={styles.trama1}/>
-                    <img src={"/trama-car.svg"} className={styles.trama2}/>
                 </aside>
                 <div style={{'position': 'relative', 'zIndex': '2'}}>
                     {children}

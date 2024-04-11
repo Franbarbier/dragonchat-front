@@ -117,7 +117,9 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
             <nav>
                 <div>
                     <img width={'130px'} src={'dragonchat_logo_full.svg'} onClick={()=> logoClicked() } />
- 
+                    
+                        {isPaid ? <span className={`${styles.proGradient} ${styles.proLogo}`}>2.0</span> : <span className={styles.proLogo} style={{"cursor": "pointer"}} onClick={()=> setModalPro(true)}>1.0</span>}
+                    
                 </div>
                 
 
