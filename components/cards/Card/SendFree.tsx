@@ -299,7 +299,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   }, [sendingState, listCounter]);
 
-  // setListCounter(0)
+
   const handleButtonClick = async () => {
 
     if (sendingState === SENDING_STATE.INIT || sendingState === SENDING_STATE.PAUSED) {
@@ -407,7 +407,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                     )}
                   </div>
                 )}
-                  {/* <aside><span>{delayTimer}</span></aside> */}
               </div>
             ))}
           </div>
