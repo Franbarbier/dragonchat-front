@@ -8,6 +8,7 @@ import apiSenderWhatsappController from "../../../api/apiSenderWhatsappControlle
 import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
 import { EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
+import Loader2 from "../../Loader/Loader2";
 import { INotification } from "../../Notification/Notification";
 import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
@@ -87,6 +88,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
 
   const [errorCounter, setErrorCounter] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false)
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
@@ -193,6 +195,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             setNotification({...notification, render : false})
           }
         });
+        setLoading(true)
+
       }
 
 
@@ -285,6 +289,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     if( listCounter == contactos.length -1 ){
       setModalFinish(true);
+      setLoading(false)
     }
 
   }, [sendingState, listCounter]);
@@ -507,6 +512,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       
       </div>
     }
+      <Loader2 loading={loading} />
+
     </div>
   );
 };
