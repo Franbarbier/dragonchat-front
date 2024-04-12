@@ -164,8 +164,6 @@ export async function getServerSideProps({req, res}) {
       maint = true
   }
 
-  console.log(data.subscription.isPaid)
-
 
   return  { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid ? data?.subscription?.isPaid : false, maintenance : maint } }
   

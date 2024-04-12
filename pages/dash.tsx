@@ -117,7 +117,6 @@ export async function getServerSideProps({ req, res }) {
   var stripeStatus: null | number = null
   // cookies.set(LOGIN_COOKIE, null, { expires: new Date(0) });
 
-  console.log(cookies.get(LOGIN_COOKIE))
   const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
   const accessToken = JSON.parse(responseText).access_token
 
