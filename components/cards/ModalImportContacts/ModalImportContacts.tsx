@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FILE, FILE_TYPE, STATUS } from '../../../enums';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
+import { filteringContacts } from "../Card/recipientsUtils";
 import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
 import ContactRow from "../ContactRow/ContactRow";
@@ -78,7 +79,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
     };
   }, []);
 
-  const campos = ["Nombre", "Número"]
+  const campos = ["NOMBRE", "NUMERO"]
 
   return (
     <div>
@@ -112,7 +113,11 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                 backgroundColorEnd="#f9bd4f"
                 borderColor="#e17846"
                 onClick={() => {
-                  uploadContacts(parsedCsvData)
+
+                  let filteredContacts = filteringContacts(parsedCsvData)
+
+                  setIsFile(false)
+                  uploadContacts(filteredContacts )
                   setModalImport(false)
                   setParsedCsvData([])
                 }}

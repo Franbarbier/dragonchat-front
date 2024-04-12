@@ -97,25 +97,28 @@ export const executeFormat = (inputText:string, type: string, index:number, fina
         newContacts = prevCells.concat(output);
     }
 
-
-    newContacts.map((item)=>{
-        item.numero = item.numero?.replace(/[^0-9]/g, '');
-    })
-    const lastObject = newContacts[newContacts.length - 1];
-
-
-
-    if ((lastObject.hasOwnProperty("nombre") && lastObject.nombre != "") || (lastObject.hasOwnProperty("numero") && lastObject.numero != "") ) {
-        newContacts = [...newContacts, {'nombre':'', 'numero':''}]
-    }
-
-    let finalDupls = checkDuplicated2(newContacts, notification, setNotification)
+    let finalDupls = filteringContacts(newContacts)
 
     return finalDupls
 
 }
 
-const checkDuplicated2 = (filtered, notification, setNotification) => {
+export const filteringContacts = (contactosFiltrados) => {
+    contactosFiltrados.map((item)=>{
+        item.numero = item.numero?.replace(/[^0-9]/g, '');
+    })
+    const lastObject = contactosFiltrados[contactosFiltrados.length - 1];
+
+    if ((lastObject.hasOwnProperty("nombre") && lastObject.nombre != "") || (lastObject.hasOwnProperty("numero") && lastObject.numero != "") ) {
+        contactosFiltrados = [...contactosFiltrados, {'nombre':'', 'numero':''}]
+    }
+
+    contactosFiltrados = checkDuplicated2(contactosFiltrados)
+
+    return contactosFiltrados
+}
+
+const checkDuplicated2 = (filtered) => {
 
     const data = [...filtered];
     // Create a map to store counts of each numero value

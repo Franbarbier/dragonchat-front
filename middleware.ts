@@ -61,5 +61,5 @@ export async function middleware(req: NextRequest, _) {
 }
 
 export const config = {
-  matcher: ["/dash1", "/qr", "/premium", "/login", "/user/edit", "/signup", "/recover_password", "/new_password"],
+  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit", "/signup", "/recover_password", "/new_password"],
 };

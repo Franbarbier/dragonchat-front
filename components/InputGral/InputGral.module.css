@@ -1,6 +1,7 @@
 .input_cont {
     margin: 3% 0;
     position: relative;
+    width: 100%;
 }
 
 .input_cont input {
