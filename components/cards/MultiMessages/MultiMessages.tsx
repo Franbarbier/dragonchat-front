@@ -81,7 +81,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                             setTestMsj(newMessages);
                                                                             
                                                                         } }
-                                                                        // rows={1}
+                                                                        rows={1}
                                                                         />
                                                                     </motion.div>
                                                                         <img src="/close.svg" width={"12px"} onClick={()=>{
@@ -95,14 +95,13 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                             setTestMsj(newMessages);
                                                                         }} className={styles.deleteVariacion} />
 
-                                                                        <button className={styles.newVaracion} onClick={()=>{
+                                                                        <img className={styles.newVaracion} onClick={()=>{
                                                                             const newArray = [...testMsj];
                                                                             newArray[index] = [...message, ``];
                                                                             setTestMsj(newArray);
-                                                                        }} title='Agregar variacion'>
-                                                                            <img src="./fork.png" />
-                                                                        </button>
-
+                                                                        }} title='Agregar variacion'
+                                                                        src="./fork.png"   />                                                                        
+                                                                        
 
                                                                         </>
                                                                 </div>
