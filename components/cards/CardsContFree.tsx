@@ -302,7 +302,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
         if (Cookies.get(COPYPASTE_TUTO) != COOKIES_SETTINGS.NUNCA) setCopyPasteTutorial("")
     }, [])
 
-    useEffect(() => {
+useEffect(() => {
         if (antiBlockerTuto == COOKIES_SETTINGS.NUNCA) {
             Cookies.set(ANTIBLOCKER_TUTO, COOKIES_SETTINGS.NUNCA, { expires: 200 })
         }
@@ -311,6 +311,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
         }
     }, [antiBlockerTuto])
 
+    
     useEffect(() => {
         if (activeCard == 2) {
             setTimeout(() => {

@@ -153,7 +153,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                             <div>
                             </div>
                         </div>
-                        <div className={`${styles.agregarMultiMensaje} ${messages.length > 4 && styles.noMoreMsjs}`} onClick={()=> {if (messages.length < 5) { setTestMsj([...testMsj, [""]]) } }}>
+                        <div className={`${styles.agregarMultiMensaje} ${messages.length > 4 && styles.noMoreMsjs}`} onClick={()=> {if (messages.length < 5) { addMsj() } }}>
                             <img src="/close.svg" />
                         </div>
                     </div>
