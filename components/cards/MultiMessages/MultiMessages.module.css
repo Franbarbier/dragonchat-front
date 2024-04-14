@@ -36,13 +36,16 @@
 }
 .newVaracion{
     position: absolute;
-    top: 18px;
+    /* top: 18px; */
     right: 15%;
     background-color: transparent;
     border: transparent;
     width: 22px;
     cursor: pointer;
     opacity: 0.4;
+
+    bottom: 50%;
+    transform: translateY(50%);
 }
 .newVaracion img{ 
     filter: invert(1);

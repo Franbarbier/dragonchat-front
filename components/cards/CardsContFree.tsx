@@ -345,7 +345,7 @@ useEffect(() => {
 
     return (
         <div>
-            {!isPaid && <FreeBanner />}
+            {!isPaid && <FreeBanner setModalPro={ ()=>{setModalPro(true)} }/>}
 
             <div className={`${styles.cards_cont} ${!isPaid && styles.cards_free_height}` }>
                     

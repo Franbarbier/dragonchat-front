@@ -174,7 +174,7 @@ export async function getServerSideProps({ req, res }) {
       maint = true
   }
 
-  return { props: { stripe : stripeStatus, isPaid :false, maintenance : maint } };
+  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
 
 }
 

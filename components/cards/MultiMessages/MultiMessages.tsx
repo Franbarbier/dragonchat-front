@@ -81,7 +81,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                             setTestMsj(newMessages);
                                                                             
                                                                         } }
-                                                                        rows={1}
+                                                                        // rows={1}
                                                                         />
                                                                     </motion.div>
                                                                         <img src="/close.svg" width={"12px"} onClick={()=>{
