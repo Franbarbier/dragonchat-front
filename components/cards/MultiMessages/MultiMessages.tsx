@@ -28,22 +28,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         }
     },[messages])
 
-    function addMsj() {
-        if (isPaid) {
-            setTestMsj([...testMsj, [""]])
-        }else{
-            setNotification({
-                status : STATUS.ALERT,
-                render : true,
-                message : "Para poder agregar más mensajes debes tener una cuenta 2.0",
-                modalReturn : (e) => {
-                    setNotification({...notification, render : false})
-                    if (e) {  setModalPro(true) }
-                }
-            })
-        }
-    }
-
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
@@ -153,7 +137,21 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                             <div>
                             </div>
                         </div>
-                        <div className={`${styles.agregarMultiMensaje} ${messages.length > 4 && styles.noMoreMsjs}`} onClick={()=> {if (messages.length < 5) { addMsj() } }}>
+                        <div className={`${styles.agregarMultiMensaje} ${messages.length > 4 && styles.noMoreMsjs}`} onClick={()=> {
+                                if (isPaid) {
+                                    if (messages.length < 5) { setTestMsj([...testMsj, [""]]) }
+                                }else{
+                                    setNotification({
+                                        status: STATUS.ALERT,
+                                        render: true,
+                                        message: 'Para agregar más mensajes debes tener una cuenta premium. Leer mas?',
+                                        modalReturn: (val) => {
+                                            if (val) { setModalPro(true)  }
+                                            setNotification({...notification, render : false})
+                                        }
+                                    })
+                                }
+                        }}>
                             <img src="/close.svg" />
                         </div>
                     </div>
