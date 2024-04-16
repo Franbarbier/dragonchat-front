@@ -173,6 +173,16 @@
     margin-bottom: -8px;
 }
 
+.emojiCont{
+    position: absolute;
+    top: 50%;
+    right: 20%;
+
+}
+
+.emojipicker{
+    background: red;
+}
 /* if mobile */
 @media (max-width: 768px){
     .svgBranch{

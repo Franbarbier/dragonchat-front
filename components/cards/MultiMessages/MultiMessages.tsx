@@ -6,6 +6,7 @@ import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
 
+import Picker from "emoji-picker-react";
 
 export interface IMultiMessages {
     messages : string[][];
@@ -21,6 +22,7 @@ export interface IMultiMessages {
 const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
+
 
     useEffect(()=>{
         if (testMsj.length === 0) {
@@ -48,6 +50,15 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         setMessages(testMsj)
     },[testMsj])
 
+    const [inputStr, setInputStr] = useState("");
+    const [showPicker, setShowPicker] = useState(false);
+
+    const onEmojiClick = (event, emojiObject) => {
+        setInputStr((prevInput) => prevInput + emojiObject.emoji);
+        setShowPicker(false);
+    };
+
+  
 
     return (
             <div className={styles.MultiMessages_cont}>
@@ -99,6 +110,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         } }
                                                                         rows={1}
                                                                         />
+                                                                        
                                                                     </motion.div>
                                                                         <img src="/close.svg" width={"12px"} onClick={()=>{
 
@@ -119,6 +131,20 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                             <img src="./fork.png" />
                                                                         </button>
 
+                                                                        <input
+                                                                            className="input-style"
+                                                                            value={inputStr}
+                                                                            onChange={(e) => setInputStr(e.target.value)}
+                                                                            />
+                                                                            <img
+                                                                            className="emoji-icon"
+                                                                            src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
+                                                                            onClick={() => setShowPicker((val) => !val)}
+                                                                        />
+
+                                                                        {showPicker && (
+                                                                            <Picker onEmojiClick={onEmojiClick} />
+                                                                        )}
 
                                                                         </>
                                                                 </div>

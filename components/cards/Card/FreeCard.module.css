@@ -257,7 +257,7 @@ background: #555;
     position: relative;
     width: 96%;
     margin: auto;
-    padding: 0 4%;
+    padding: 0 6%;
 
 }
 #card3 .row_table{
@@ -282,7 +282,7 @@ background: #555;
     cursor: pointer;
     transform: translateY(-50%);
     top: 50%;
-    left: 0%;
+    left: 0.4%;
     opacity: 0;
     border: 1px solid var(--rosita2);
     box-shadow: inset 0px 0px 3px 2px var(--rosita1);
@@ -291,7 +291,7 @@ background: #555;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: -0.7%;
+    right: 0.4%;
     width: 6%;
     border-radius: 50px;
     padding: 5px;
