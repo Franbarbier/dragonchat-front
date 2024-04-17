@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE, MAINTENANCE } from '../../constants/index';
 import { ROUTES, STATUS } from '../../enums';
-import CardTitle from '../cards/CardTitle/CardTitle';
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import InputGral from '../InputGral/InputGral';
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
+import CardTitle from '../cards/CardTitle/CardTitle';
 import styles from './LoginView.module.css';
 
 
@@ -54,9 +54,6 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                         }
                     );
 
-                    // Router.push("/dash")
-                    // window.location.("/dash")
-                    // redirect with window.location to /dash
                     window.location.href = ROUTES.DASH
 
                 } else {
@@ -114,7 +111,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                     <div>
                         <CustomColorBtn
                             type="submit"
-                            text="INICIAR SESIÓN"
+                            text={!logging ? "INICIAR SESIÓN" : "INICIANDO SESIÓN"}
                             backgroundColorInit="#c21c3b"
                             backgroundColorEnd="#f9bd4f"
                             borderColor="#e17846"
@@ -122,6 +119,7 @@ const LoginView: React.FC<ILoginView> = ({ setNotification, notification }) => {
                                 e.preventDefault()
                                 handleLogin()
                             }}
+                            disable={ logging }
                         />
                     </div>
 

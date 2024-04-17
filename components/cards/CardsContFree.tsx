@@ -163,7 +163,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             }else{
                 return {
                     ...item,
-                    repeated : undefined
+                    repeated : undefined,
                 }
             }
         });

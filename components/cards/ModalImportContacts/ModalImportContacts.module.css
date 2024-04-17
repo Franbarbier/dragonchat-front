@@ -33,6 +33,8 @@
     cursor: pointer;
     font-size: 0.9em;
     margin-bottom: 3%;
+    font-family: 'Orbitron';
+
 
 }
 
@@ -44,6 +46,7 @@
 }
 .saveOrEdit .labelFile, .saveOrEdit button{
     width: 47%;
+    font-size: 10px;
 }
 .saveOrEdit button{
     margin: 0!important;

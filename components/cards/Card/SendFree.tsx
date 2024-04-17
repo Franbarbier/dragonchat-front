@@ -354,7 +354,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           <CardTitle text={!sending ? "Enviar" : "Enviando"} />
         </div>
         <div className={styles.card_table_cont}>
-          <HeaderRow campos={["Nombre", "Número"]} key="header-row-sendFree" />
+          <HeaderRow campos={["NOMBRE", "NUMERO"]} key="header-row-sendFree" />
 
           <div className={`${styles.table_rows} ${styles.enviando_table}`}>
             

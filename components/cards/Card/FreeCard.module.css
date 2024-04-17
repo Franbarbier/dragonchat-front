@@ -92,6 +92,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     justify-content: flex-start;
     height: 100%;
 }
+
 .tramas{
     position: absolute;
     z-index: -1;
