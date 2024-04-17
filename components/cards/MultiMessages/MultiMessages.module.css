@@ -109,7 +109,6 @@
     width: 98%;
     outline: none;
     scroll-behavior: smooth;
-    height: calc(0.85em + 44px);
 }
 
 /* Styles specifically for Mozilla Firefox */

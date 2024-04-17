@@ -97,12 +97,16 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
+  const [porcentajeEnvio, setPorcentajeEnvio] = useState<number>(listCounter * 100 / (contactos.length - 1));
 
   useEffect(() => {
       if (timer == 3 && bloques == 0 && pausa == 0) {
         setActiveShield(false)
       }
   },[modalShieldOptions])
+
+
+
 
 
   async function sendMove(cnt:number) {
@@ -130,6 +134,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     // Send currentString to the recipient
     const onSuccess = () => {
+
+      
 
       if (sentMessage?.status == 200 || sentMessage?.status == 201) {
         newContacts[count].estado = STATUS.SUCCESS;
@@ -176,6 +182,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           dio500(true)
         }
       }
+
 
       setContactos(newContacts);
       
@@ -351,7 +358,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     {activeCard == idCard &&
       <div className={styles.card_container}>
         <div>
-          <CardTitle text={!sending ? "Enviar" : "Enviando"} />
+          <CardTitle text={ sendingState == SENDING_STATE.INIT ? "Enviar" : `Enviando ${ (listCounter+1) * 100 / (contactos.length - 1) }%`} />
         </div>
         <div className={styles.card_table_cont}>
           <HeaderRow campos={["NOMBRE", "NUMERO"]} key="header-row-sendFree" />

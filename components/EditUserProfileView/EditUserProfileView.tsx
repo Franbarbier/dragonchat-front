@@ -29,6 +29,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     setLoading(true);
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiUserController.getData(authToken);
+
     setLoading(false);
 
     return response;

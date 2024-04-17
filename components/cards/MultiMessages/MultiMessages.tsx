@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { STATUS } from '../../../enums';
 
@@ -7,6 +7,7 @@ import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
 
+import Picker from "emoji-picker-react";
 
 export interface IMultiMessages {
     messages : string[][];
@@ -24,17 +25,45 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
+
     useEffect(()=>{
         if (testMsj.length === 0) {
             setTestMsj([[""]])
         }
     },[messages])
 
+
+
+    const emojiCont = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (emojiCont.current && !(emojiCont.current as Element).contains(event.target as Node)) {
+                setShowPicker([99,99]);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [emojiCont]);
+
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
 
+    const [showPicker, setShowPicker] = useState<[number, number]>([99,99]);
 
+    const onEmojiClick = (event) => {
+        
+        let newMessages = [...testMsj];
+        const thisArr = newMessages[showPicker[0]]
+        thisArr[showPicker[1]] = thisArr[showPicker[1]] + event.emoji;
+        newMessages[showPicker[0]] = thisArr;
+        setTestMsj(newMessages);
+
+        setShowPicker([99,99]);
+    };
+
+  
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
@@ -86,6 +115,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         } }
                                                                         rows={1}
                                                                         />
+                                                                        
                                                                     </motion.div>
                                                                         <img src="/close.svg" width={"12px"} onClick={()=>{
 
@@ -99,6 +129,18 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         }} className={styles.deleteVariacion} />
 
 
+                                                                        
+                                                                        <img
+                                                                            className={styles.emojiIcon}
+                                                                            src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
+                                                                            onClick={() => setShowPicker([index, j])}
+                                                                        />
+                                                                        {(j == showPicker[1] && index == showPicker[0])  && (
+                                                                            <div className={styles.pickerCont} ref={emojiCont}>
+                                                                                <Picker onEmojiClick={onEmojiClick} />
+
+                                                                            </div>
+                                                                        )}
                                                                         { testMsj[index][0] != "" && 
                                                                             <img className={styles.newVaracion} onClick={()=>{
                                                                                 const newArray = [...testMsj];
