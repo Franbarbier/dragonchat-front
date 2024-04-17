@@ -23,7 +23,7 @@ const ContactRow: React.FC<IContactRow> = ({ contact, campos }) => {
             </div>
             <div className={`column${columnWidth}`}>
                 <div>
-                    <span>+{contact.numero}</span>
+                    <span>{contact.numero.length > 0 ? `+${contact.numero}` : contact.numero}</span>
                 </div>
             </div>
         </div>

@@ -40,13 +40,13 @@ const TimerSync = () => {
   return (
     <div className={styles.timerCont}>
       <CardTitle text="Sincronizando" />
-      <h4>
+      <p>
         Perfecto! Aguarda 5 minutos para asegurarnos que Whatsapp terminó de
         sincronizarse a tu dispositivo
-      </h4>
+      </p>
 
       <div className={styles.cron}>
-        <p>{timer}</p>
+        <h3>{timer}</h3>
       </div>
     </div>
   );
