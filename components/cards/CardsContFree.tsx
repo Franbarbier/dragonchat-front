@@ -327,6 +327,7 @@ useEffect(() => {
 
     
     function nuevaDifusion() {
+        setListCounter(0)
         setActiveCard(1)
         const newArray = contactos.map(obj => {
             // Destructure the object to remove the "estado" property
@@ -337,11 +338,8 @@ useEffect(() => {
         setMessages([['']])
         setSendingState(SENDING_STATE.INIT)
         setModalFinish(false)
-        setListCounter(0)
         setBlackList([])
     }
-
-
 
     return (
         <div>

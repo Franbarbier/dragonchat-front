@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+
 import { STATUS } from '../../../enums';
 
 import { INotification } from '../../Notification/Notification';
@@ -17,6 +18,7 @@ export interface IMultiMessages {
     isPaid: boolean;
     setModalPro : (modalPro: boolean) => void;
 }
+
 
 const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
    
@@ -36,19 +38,20 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
-
-                    <div>
-                        <ul>
-                             <li>Podes establecer un delay entre cada mensaje para una mejor experiencia: <input type='number' value={delayBetween} onChange={(e)=>{
+                    {isPaid &&
+                        <div className={styles.delayBetCont}>
+                            <p>Podes establecer un delay entre cada mensaje para una mejor experiencia:</p>
+                            <input type='number' value={delayBetween} onChange={(e)=>{
                                 if (e.target.value < '1') {
                                     e.target.value = '1';
                                     return false;
                                 }
                                 setDelayBetween(Number(e.target.value))
-                            }}/> segundos</li>
-                        </ul>
-                    </div>
-
+                            }
+                            }/> <span>(segundos)</span>
+                        </div>
+                    
+                    }
                     <div className={styles.MultiMessages}>
                         <div>
                             {testMsj.map((message, index)=>{
@@ -95,13 +98,15 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                             setTestMsj(newMessages);
                                                                         }} className={styles.deleteVariacion} />
 
-                                                                        <img className={styles.newVaracion} onClick={()=>{
-                                                                            const newArray = [...testMsj];
-                                                                            newArray[index] = [...message, ``];
-                                                                            setTestMsj(newArray);
-                                                                        }} title='Agregar variacion'
-                                                                        src="./fork.png"   />                                                                        
-                                                                        
+
+                                                                        { testMsj[index][0] != "" && 
+                                                                            <img className={styles.newVaracion} onClick={()=>{
+                                                                                const newArray = [...testMsj];
+                                                                                newArray[index] = [...message, ``];
+                                                                                setTestMsj(newArray);
+                                                                            }} title='Agregar variacion'
+                                                                            src="./fork.png"   />                                                                        
+                                                                        }
 
                                                                         </>
                                                                 </div>
@@ -110,16 +115,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         )
                                                     }
 
-                                                    { testMsj[index][0] != "" && 
-
-                                                        <button className={styles.newVaracion} onClick={()=>{
-                                                            const newArray = [...testMsj];
-                                                            newArray[index] = [...message, ``];
-                                                            setTestMsj(newArray);
-                                                        }} title='Agregar variacion'>
-                                                            <img src="./fork.png" />
-                                                        </button>
-                                                    }
 
 
                                                 </div>

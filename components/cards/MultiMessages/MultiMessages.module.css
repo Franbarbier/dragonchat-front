@@ -5,7 +5,36 @@
 }
 .MultiMessages>div{
     overflow-y: auto;
-    height: 37vh;
+    /* height: 37vh; */
+    max-height: 50vh;
+}
+
+.delayBetCont{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5%;
+    position: relative;
+}
+.delayBetCont span{
+    position: absolute;
+    font-size: 0.7em;
+    right: 0%;
+    top: 103%;
+    color: #ddd
+}
+.delayBetCont p{
+    padding-right: 5%;
+    font-size: 0.9em;
+}
+.delayBetCont input{
+    width: 5em;
+    padding: 2px 8px;
+    border: 1px solid var(--newViolet);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+
 }
 .MultiMessages_cont li{ 
     list-style: circle;
@@ -80,6 +109,7 @@
     width: 98%;
     outline: none;
     scroll-behavior: smooth;
+    height: calc(0.85em + 44px);
 }
 
 /* Styles specifically for Mozilla Firefox */
