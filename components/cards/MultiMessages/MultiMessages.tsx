@@ -46,9 +46,9 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         }
     }
 
-    // set useref
+
     const emojiCont = useRef(null);
-    // if click is outside the emoji picker, close it
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (emojiCont.current && !(emojiCont.current as Element).contains(event.target as Node)) {

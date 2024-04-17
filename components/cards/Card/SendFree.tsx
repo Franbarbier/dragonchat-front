@@ -96,7 +96,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
-  // const porcentajeEnvio = `${((listCounter / contactos.length) * 100).toFixed(2)}%`;
   const [porcentajeEnvio, setPorcentajeEnvio] = useState<number>(listCounter * 100 / (contactos.length - 1));
 
   useEffect(() => {
