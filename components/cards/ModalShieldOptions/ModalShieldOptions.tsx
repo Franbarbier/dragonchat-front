@@ -35,14 +35,14 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOption
 
 
     function handleChangeValue(input, value){
-        
+    
         // if starts with 0, remove the 0 and let the typed number
-        if (input.current.value.startsWith("0")) {
+        if (input.current.value.startsWith("0") && input.current?.id != "timer" ) {
             input.current.value = value;
             return false;
         }
 
-        if (input.current?.id == "timer" && value < 3) {
+        if (input.current?.id == "timer" &&  value < 3  ) {
             input.current.value = 3;
             return false;
         }
@@ -162,12 +162,12 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOption
                                  }}>
                                     <span>-</span>
                                 </div>
-                                <input id="timer" ref={inputRef3} type="number" defaultValue={timer} min={3} onChange={
-                                    (e)=>{  handleChangeValue(inputRef3, parseInt(e.target.value)) }
-                                    } />
+                                <input id="timer" ref={inputRef3} type="number" defaultValue={timer} min={3} 
+                                    onInput={ (e)=>{  handleChangeValue(inputRef3, parseInt(e.currentTarget.value)) } }
+                                />
                                 <div onClick={ ()=> {
                                         if (inputRef3.current!.value == "" ) {
-                                            inputRef3.current!.value = "0"
+                                            inputRef3.current!.value = "3"
                                         }else{
                                             inputRef3.current!.value = ( parseInt(inputRef3.current!.value) + 1).toString()
                                         }}}>
@@ -177,7 +177,7 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOption
                         </div>
                     </div>
                     <OrangeBtn text={'Activar'} onClick={ ()=>{ 
-                        setTimer( Number.isNaN(parseInt(inputRef3.current!.value) ) ? 0 : parseInt(inputRef3.current!.value) );  
+                        setTimer( Number.isNaN(parseInt(inputRef3.current!.value) ) ? 3 : parseInt(inputRef3.current!.value) );  
                         setPausa( Number.isNaN(parseInt(inputRef2.current!.value) ) ? 0 : parseInt(inputRef2.current!.value) );  
                         setBloques( Number.isNaN(parseInt(inputRef.current!.value) ) ? 0 : parseInt(inputRef.current!.value) );
                         setActiveShield(true)

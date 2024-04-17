@@ -8,8 +8,8 @@ import apiSenderWhatsappController from "../../../api/apiSenderWhatsappControlle
 import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
 import { EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
+import Loader2 from "../../Loader/Loader2";
 import { INotification } from "../../Notification/Notification";
-import OrangeBtn from "../../OrangeBtn/OrangeBtn";
 import CardTitle from "../CardTitle/CardTitle";
 import { ContactInfo } from "../CardsContFree";
 import HeaderRow from "../HeaderRow/HeaderRow";
@@ -93,6 +93,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
 
   const [errorCounter, setErrorCounter] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false)
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
@@ -111,6 +112,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     try{
 
     const destinatario:ContactInfo = contactos[count];
+
+    // controlar si el destinatario ya fue enviado, si es asi, se salta al siguiente
+    if (destinatario.estado == STATUS.SUCCESS || destinatario.estado == STATUS.ERROR) {
+      setListCounter(count + 1);
+      return;
+    }
 
     let currentMessage:string[] = []
 
@@ -185,10 +192,18 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       }
 
       if (listCounter == contactos.length - 2) {
-        setTimeout(() => {
-          setModalFinish(true);
-        }, 500);
+        setNotification({
+          status: STATUS.SUCCESS,
+          render: true,
+          message: 'Envío realizado con éxito!',
+          modalReturn: () => {
+            setNotification({...notification, render : false})
+          }
+        });
+        setLoading(true)
+
       }
+
 
       setTimeout(()=>{
         setListCounter(count + 1);
@@ -218,6 +233,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
   }
+
+  
 
 
   function dio500(val) {
@@ -263,11 +280,24 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   
   useEffect(() => {
+
     if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
+        const contacti = [...contactos]
+
+        // check if contacti[listCounter] has "estado" as a property
+        if (!contacti[listCounter].hasOwnProperty("estado")) {
+          contacti[listCounter].estado = STATUS.PENDING
+        }
+        setContactos(contacti) 
         sendMove(listCounter);
     }
-  }, [sendingState, listCounter]);
 
+    if( listCounter == contactos.length -1 ){
+      setModalFinish(true);
+      setLoading(false)
+    }
+
+  }, [sendingState, listCounter]);
 
 
   const handleButtonClick = async () => {
@@ -276,9 +306,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       setSendingState(SENDING_STATE.SENDING);
     } 
     if (sendingState === SENDING_STATE.SENDING) {
-      let newContacts = [...contactos];
-      newContacts[listCounter].estado = STATUS.PENDING;
-      setContactos(newContacts)
       setSendingState(SENDING_STATE.PAUSED);
     }
   };
@@ -318,7 +345,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
   });
 
-
   return (
     <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
     <>
@@ -331,19 +357,22 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           <HeaderRow campos={["Nombre", "Número"]} key="header-row-sendFree" />
 
           <div className={`${styles.table_rows} ${styles.enviando_table}`}>
+            
             {contactos.map((contact, index) => (
+              
               <div key={`contactoFinal${index}`}>
                 {contactos.length - 1 != index && (
-                  // ${contact.status == STATUS.PENDING && styles.fireLoader}
+                  
                   <div
-                    className={`${styles.row_card} ${
-                      contact.estado == STATUS.ERROR && styles.error
-                    } ${contact.estado == STATUS.SUCCESS && styles.success}`}
-                    key={contact.nombre + index}
+                  className={`${styles.row_card} ${
+                    contact.estado == STATUS.ERROR && styles.error
+                  } ${contact.estado == STATUS.SUCCESS && styles.success}`}
+                  key={contact.nombre + index}
                   >
                     <AnimatePresence>
-                      {((index == listCounter && sendingState == SENDING_STATE.SENDING && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS) || contact.estado == STATUS.PENDING ) && (
 
+                      {((index == listCounter && contact.estado != STATUS.ERROR && contact.estado != STATUS.SUCCESS && sendingState == SENDING_STATE.SENDING ) || (contact.estado == STATUS.PENDING && sendingState == SENDING_STATE.PAUSED) ) && (
+                      
                         <motion.aside
                           className={styles.fuegoLoader}
                           initial={{ opacity: 0 }}
@@ -423,13 +452,31 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                       nuevaDifusion()
                     }}
                     disable={false}
-                  />                  
-                ) : (
-                  <OrangeBtn
-                    text={sendingState === SENDING_STATE.SENDING ? "Pausar" : "Enviar"}
-                    onClick={handleButtonClick}
                   />
-                )}
+                ) : 
+                    <>
+                  { sendingState === SENDING_STATE.SENDING ?
+                      <button className={styles.pausarEnvio}  onClick={() => { handleButtonClick() }}>
+                        <img src="./pausa.png" />
+                        <span>PAUSAR ENVIO</span>
+                      </button>
+                      :
+                      <>
+                      <CustomColorBtn
+                        type="submit"
+                        text={ "Enviar" }
+                        backgroundColorInit={ "#c21c3b" }
+                        backgroundColorEnd={ "#f9bd4f" }
+                        borderColor={ "#e17846"}
+                        onClick={() => {
+                          handleButtonClick()
+                        }}
+                        disable={ contactos[listCounter].estado == STATUS.PENDING }
+                      />
+                      </>
+                  }
+                  </>
+                }
               </div>
             ) : (
               <>
@@ -464,6 +511,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       
       </div>
     }
+      <Loader2 loading={loading} />
+
     </>
     </CardStructure>
   );
