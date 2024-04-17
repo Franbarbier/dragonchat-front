@@ -65,17 +65,18 @@
 }
 .newVaracion{
     position: absolute;
-    top: 18px;
     right: 15%;
     background-color: transparent;
     border: transparent;
     width: 22px;
     cursor: pointer;
     opacity: 0.4;
+    top: 50%;
+    transform: translateY(-50%);
+    filter: invert(1);
+    transform: rotate(90deg) translateX(-50%);
 }
 .newVaracion img{ 
-    filter: invert(1);
-    transform: rotate(90deg);
     width: 100%;
 }
 .messages_cont .deleteVariacion{
@@ -101,14 +102,23 @@
     display: block;
     border-radius: 6px;
     padding: 22px 18px;
-    font-size: 0.7em;
+    font-size: 0.85em;
     padding-right: 19%;
     color: white;
     resize: none;
     width: 98%;
     outline: none;
     scroll-behavior: smooth;
+    height: calc(0.85em + 44px);
 }
+
+/* Styles specifically for Mozilla Firefox */
+@-moz-document url-prefix() {
+    .messages_cont textarea{
+        height: calc( 1.4em + 44px)!important;
+    }
+}
+
 
 .messages_cont textarea:focus{
    transform: scale(1.02);
@@ -167,7 +177,7 @@
     cursor: pointer;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 5%;
+    bottom: 7%;
     position: absolute;
     display: block;
 
@@ -175,8 +185,9 @@
     width: 0;
     padding-left: 44px;
 
-
 }
+
+
 .agregarMultiMensaje:hover{
     transform: translateX(-50%);
 }
