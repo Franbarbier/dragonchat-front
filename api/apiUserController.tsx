@@ -64,6 +64,8 @@ const apiUserController = {
         return response;
     },
     edit: async (accessToken, name, email, password, passwordConfirmation, number, code) => {
+
+
         const response = await axios.put(
             `${API_GATEWAY_URL}${API_ROUTES.EDIT}`,
             {
@@ -80,7 +82,7 @@ const apiUserController = {
                     "Authorization": `Bearer ${accessToken}`,
                 }
             });
-
+            
         return response;
     },
     passwordRecoverSendEmail: async (mail: string, setExistingUser: (value: boolean) => void) => {

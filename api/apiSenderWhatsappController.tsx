@@ -34,7 +34,6 @@ const apiSenderWhatsappController = {
         payload,
         { headers: getHeadersVersion(authToken) }
       );
-
       return response;
     } catch (error: any) {
       return error;

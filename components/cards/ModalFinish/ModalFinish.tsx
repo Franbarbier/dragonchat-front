@@ -55,7 +55,7 @@ return (
                 <>
                   <p>
                     
-                  Hubo {blackList?.length} {blackList?.length == 1 ? "mensaje que no se pudo entregar" : "mensajes que no se pudieron enviar."} Puede ser porque la linea ingresada no existe {!isPaid && 'o debido al % de Entregabilidad de tu plan actual'}.</p>
+                  Hubo {blackList?.length} {blackList?.length == 1 ? "mensaje que no se pudo entregar" : "mensajes que no se pudieron enviar."} Puede ser porque la linea ingresada no existe{!isPaid && ' o debido al % de Entregabilidad de tu plan actual'}.</p>
                   <p>Podes descargar una lista de los contactos a los que no se le pudo entregar correctamente el mensaje</p>
                   <CustomColorBtn
                     type="submit"
