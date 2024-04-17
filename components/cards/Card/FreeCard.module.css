@@ -92,6 +92,7 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     justify-content: flex-start;
     height: 100%;
 }
+
 .tramas{
     position: absolute;
     z-index: -1;
@@ -124,6 +125,8 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     overflow-y: auto;
     margin-bottom: 3%;
     position: relative;
+    overflow-x: hidden;
+    
 }
 
 .table_layout:after{
@@ -137,29 +140,30 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     left: 0;
     display: none;
 }
-.table_layout::-webkit-scrollbar {
+.table_layout::-webkit-scrollbar,  .table_layout::-moz-scrollbar {
     width: 3px;
     border-radius: 2px;
-    display: none;
+    display: none!important;
 }
   
 /* Track */
-.table_layout::-webkit-scrollbar-track {
+.table_layout::-webkit-scrollbar-track, .table_layout::-moz-scrollbar-track {
     border-radius: 2px;
     background: var(--rosita2);
 padding-left: 8px;
 }
 
 /* Handle */
-.table_layout::-webkit-scrollbar-thumb {
+.table_layout::-webkit-scrollbar-thumb, .table_layout::-moz-scrollbar-thumb {
     border-radius: 2px;
     background: var(--newViolet);
 }
 
 /* Handle on hover */
-.table_layout::-webkit-scrollbar-thumb:hover {
-background: #555;
+.table_layout::-webkit-scrollbar-thumb:hover, .table_layout::-moz-scrollbar-thumb:hover {
+    background: #555;
 }
+
 
 .table_layout>div>div, .table_layout>div>div>div{
     display: flex;
@@ -226,10 +230,11 @@ background: #555;
     resize: none;
     /* height: 1.5em; */
     overflow: hidden;
-    padding: 8px 2px;
+    padding: 6px 2px;
     vertical-align: bottom;
     outline: none;
     white-space: pre;
+    font-size: 0.9em;
 }
 
 
@@ -915,6 +920,24 @@ background: #555;
     margin-top: 5%;
 }
 
+.pausarEnvio{
+    background: #a00014;
+    border-color: #a00014;
+    border-radius: 10px;
+    width: 100%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 3%;
+    font-size: 0.8em;
+}
+.pausarEnvio img{
+    filter: invert(1);
+    width: 1em;
+    margin-right: 9px;
+}
 .footerBtns{
     display: flex;
     justify-content: space-between;

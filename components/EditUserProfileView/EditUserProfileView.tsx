@@ -35,6 +35,8 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     return response;
   }
 
+
+
   useEffect(() => {
     if (!userDataBeenCalled.current) {
       userDataBeenCalled.current = true
@@ -97,7 +99,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
 
     // if password is larger than 0, check that is larger than 6, if is 0, is because the user doesn't want to change the password
 
-    if (!equalPassword) {
+    if (!equalPassword && userData.password.length > 0) {
       setNotification({
         status: STATUS.ERROR,
         render: true,

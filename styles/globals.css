@@ -57,23 +57,38 @@ li{ list-style: none; }
   /* background-color: #5d3770; */
   height: 4px;
 }
+
 ::-webkit-scrollbar-track{
   background:rgba(0, 0, 0, 0.7);
   transition:background .2s;
   border-radius: 10px;
   overflow: hidden;
 }
+
 ::-webkit-scrollbar-thumb{
   background:var(--newViolet);
   background: linear-gradient(var(--newViolet), #8865ce );
-
   transition:background .2s;
   border-radius: 4px;
   border: 2px solid rgb(0, 0, 0);
 }
+
 ::-webkit-scrollbar-thumb:hover{
   background:var(--newViolet);
   background: linear-gradient(#8865ce , var(--newViolet));
+}
+
+
+/* Mozilla Firefox */
+/* Track */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--newViolet) rgba(0, 0, 0, 0.7);
+}
+
+/* Handle */
+*::-moz-scrollbar-thumb {
+  background-color: var(--newViolet);
 }
 /* 
 ::-webkit-scrollbar{width:9px;position:absolute; background-color: rgb(242, 242, 242); height: 4px;}
