@@ -5,8 +5,7 @@
 }
 .MultiMessages>div{
     overflow-y: auto;
-    /* height: 37vh; */
-    max-height: 50vh;
+    height: 48vh;
 }
 
 .delayBetCont{
@@ -103,18 +102,20 @@
     border-radius: 6px;
     padding: 22px 18px;
     font-size: 0.85em;
-    padding-right: 19%;
+    padding-right: 25%;
     color: white;
     resize: none;
     width: 98%;
     outline: none;
     scroll-behavior: smooth;
+    height: calc( 1.4em + 45px)!important;
+
 }
 
 /* Styles specifically for Mozilla Firefox */
 @-moz-document url-prefix() {
     .messages_cont textarea{
-        height: calc( 1.4em + 44px)!important;
+        height: calc( 1.4em + 45px)!important;
     }
 }
 
@@ -141,10 +142,10 @@
 }
 
 
-.messages_cont>div:hover .newVaracion, .messages_cont>div>div:hover .deleteVariacion{
+.messages_cont>div>div:hover .newVaracion, .messages_cont>div>div:hover .deleteVariacion, .messages_cont>div>div:hover .emojiIcon{
     opacity: 0.7;
 }
-.newVaracion:hover, .deleteVariacion:hover{
+.newVaracion:hover, .deleteVariacion:hover,.emojiIcon:hover{
     opacity: 1!important;
 }
 .svgBranch{
@@ -158,7 +159,7 @@
     user-select: none;
 }
 .messages_cont>div>div:first-child>div{
-    width: 100%!important;
+    width: 100%;
     margin-left: 0!important;
 }
 .messages_cont>div>div:first-child .svgBranch{ display: none; }
@@ -210,7 +211,22 @@
     margin-right: 7px;
     margin-bottom: -8px;
 }
+.pickerCont{
+    position: absolute;
+    z-index: 9;
+    width: auto!important;
+}
+.emojiIcon{
+    filter: invert(1);
+    position: absolute;
+    right: 24%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    cursor: pointer;
+    width: 20px;
 
+}
 /* if mobile */
 @media (max-width: 768px){
     .svgBranch{
