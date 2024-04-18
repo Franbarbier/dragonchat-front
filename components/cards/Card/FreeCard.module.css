@@ -20,14 +20,24 @@
     opacity: 1!important;
 }
 
-#card2.numberCard1{ transform: translate(-30%, -50%) scale(0.9); }
-#card3.numberCard1{ transform: translate(-10%, -50%) scale(0.8); }
+/* Total actual cards: 4 */
+#card2.numberCard1{ transform: translate(-35%, -50%) scale(0.9); }
+#card3.numberCard1{ transform: translate(-20%, -50%) scale(0.8); }
+#card4.numberCard1{ transform: translate(-5%, -50%) scale(0.7); }
 
-#card1.numberCard2{ transform: translate(-70%, -50%) scale(0.9); }
-#card3.numberCard2{ transform: translate(-30%, -50%) scale(0.9); }
+#card1.numberCard2{ transform: translate(-65%, -50%) scale(0.9); }
+#card3.numberCard2{ transform: translate(-35%, -50%) scale(0.9); }
+#card4.numberCard2{ transform: translate(-20%, -50%) scale(0.8); }
 
-#card1.numberCard3{ transform: translate(-90%, -50%) scale(0.8); }
-#card2.numberCard3{ transform: translate(-70%, -50%) scale(0.9); }
+#card1.numberCard3{ transform: translate(-80%, -50%) scale(0.8); }
+#card2.numberCard3{ transform: translate(-65%, -50%) scale(0.9); }
+#card4.numberCard3{ transform: translate( -35%, -50%) scale(0.9); }
+
+#card1.numberCard4{ transform: translate(-95%, -50%) scale(0.7); }
+#card2.numberCard4{ transform: translate(-80%, -50%) scale(0.8); }
+#card3.numberCard4{ transform: translate(-65%, -50%) scale(0.9); }
+
+
 
 .active{ 
     opacity: 1!important;

@@ -12,6 +12,7 @@ import ModalPasatePro from '../ModalPasatePro/ModalPasatePro';
 import NavBottom from '../NavBottom/NavBottom';
 import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
+import FreeCard3 from './Card/AntiBlocker';
 import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
 import FreeCard4 from './Card/SendFree';
@@ -394,6 +395,11 @@ useEffect(() => {
                         isInputFocused={isInputFocused}
                         setIsInputFocused={setIsInputFocused}
 
+                    />
+                    <FreeCard3
+                        activeCard={activeCard}
+                        setModalPro={setModalPro}
+                        isPaid={isPaid}
                     />
                     <FreeCard2
                         activeCard={activeCard}
