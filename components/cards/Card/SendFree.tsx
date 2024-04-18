@@ -2,7 +2,6 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import Cookie from "js-cookie";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
 import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
@@ -17,7 +16,7 @@ import CardStructure from "./CardStructure";
 import styles from "./FreeCard.module.css";
 import { globalName } from "./sendUtils";
 
-export interface IFreeCard3 {
+export interface IFreeCard4 {
   activeCard: number;
   contactos: ContactInfo[];
   setContactos: (contactos: ContactInfo[]) => void;
@@ -56,7 +55,7 @@ export interface IFreeCard3 {
 }
 
 
-const FreeCard3: React.FC<IFreeCard3> = ({
+const FreeCard4: React.FC<IFreeCard4> = ({
   activeCard,
   contactos = [],
   setContactos,
@@ -86,8 +85,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   delayBetween
 
 }) => {
-  let idCard = 3;
-  let router = useRouter();
+  let idCard = 4;
 
   const [sending, setSending] = useState<boolean>(false);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
@@ -525,4 +523,4 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   );
 };
 
-export default FreeCard3;
+export default FreeCard4;

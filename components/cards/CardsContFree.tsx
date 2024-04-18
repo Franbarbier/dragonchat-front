@@ -14,7 +14,7 @@ import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
 import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
-import FreeCard3 from './Card/SendFree';
+import FreeCard4 from './Card/SendFree';
 import styles from './CardsCont.module.css';
 import { IChat, ISecuence } from './ConversationPremium/ConversationPremium';
 import FreeBanner from './FreeBanner/FreeBanner';
@@ -232,6 +232,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 setPrevCard(true)
                 break;
             case 3:
+                break;
+            case 4:
                 setNextCard(false)
                 if (sendingState == SENDING_STATE.FINISH || sendingState == SENDING_STATE.SENDING) {
                     setPrevCard(false)                    
@@ -348,7 +350,7 @@ useEffect(() => {
             <div className={`${styles.cards_cont} ${!isPaid && styles.cards_free_height}` }>
                     
 
-                    <FreeCard3
+                    <FreeCard4
                         setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={finalList}
@@ -417,7 +419,7 @@ useEffect(() => {
             </div>
             
             {/* Si esta en ultima card y ya termino de enviar muestra el refresh */}
-            {activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
+            {activeCard == 4 && sendingState == SENDING_STATE.FINISH ? 
                 <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ nuevaDifusion() } }>
                     <button><img src="/resend.png" /></button>
                     <AnimatePresence>
