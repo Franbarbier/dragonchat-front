@@ -22,7 +22,6 @@ import FreeBanner from './FreeBanner/FreeBanner';
 import HintMessage from './HintMessage/HintMessage';
 import ModalFinish from './ModalFinish/ModalFinish';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
-import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 import TipsCarrousel from './TipsCarrousel/TipsCarrousel';
 
 export interface ICardsCont {
@@ -233,11 +232,14 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 setPrevCard(true)
                 break;
             case 3:
+                setPrevCard(true)
+                setNextCard(true)
+
                 break;
             case 4:
                 setNextCard(false)
                 if (sendingState == SENDING_STATE.FINISH || sendingState == SENDING_STATE.SENDING) {
-                    setPrevCard(false)                    
+                    setPrevCard(false)
                 }else{
                     setPrevCard(true)
                 }
@@ -400,6 +402,12 @@ useEffect(() => {
                         activeCard={activeCard}
                         setModalPro={setModalPro}
                         isPaid={isPaid}
+                        timer={timer}
+                        bloques={bloques}
+                        pausa={pausa}
+                        setTimer={setTimer}
+                        setBloques={setBloques}
+                        setPausa={setPausa}
                     />
                     <FreeCard2
                         activeCard={activeCard}
@@ -493,7 +501,7 @@ useEffect(() => {
                     </div>
                 </div>
             }
-            {modalShieldOptions &&
+            {/* {modalShieldOptions &&
                 <div className={styles.modal_shield_option}>
                     <div>
                         <ModalContainer closeModal={ ()=>{ setModalShieldOptions(false) } } addedClass={"modal_shield_option"}>
@@ -510,7 +518,7 @@ useEffect(() => {
                         </ModalContainer>
                     </div>
                 </div>
-            }
+            } */}
 
             {copyPasteTutorial != null && <CopyPasteTuto setTuto={setCopyPasteTutorial} /> }
             {antiBlockerTuto != null && <AntiBlockerTuto setTuto={setAntiBlockerTuto } /> }

@@ -99,8 +99,9 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 .card_container{
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     height: 100%;
+    max-height: 100%;
 }
 
 .tramas{
@@ -275,7 +276,7 @@ padding-left: 8px;
     padding: 0 6%;
 
 }
-#card3 .row_table{
+#card4 .row_table{
     overflow: hidden;
     height: 2em;
 }
@@ -366,7 +367,7 @@ padding-left: 8px;
     justify-content: center;
     align-items: center;
 }
-#card3 .card_container>div:nth-child(2){
+#card4 .card_container>div:nth-child(2){
     height: 80%;
 }
 .table_rows.enviando_table{
@@ -673,7 +674,207 @@ padding-left: 8px;
     background-color: rgba(230, 230, 56, 0.448)!important;
 
 }
+.antiblockerInfo{
+    margin: 5% 0 7%;
+}
+.antiblockerInfo p{
+    font-size: 1.1em;
+    text-align: center;
+}
+.controls{
+    display: flex;
+    width: 92%;
+    margin: 0 auto;
+    justify-content: space-between;
+    height: 60%;
+}
+.activeShield button{
+    padding: 10px 0;
+}
+/* Anti blocker imported css from modal */
+.wireMsjs{
+    width: 65%;
+    /* margin: auto; */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.wireMsjs>div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.wireCont{ width: 42%;}
+.bloqueCont{
+    padding: 4px;
+    border: 1px solid var(--newViolet);
+    background-color: #4c239c42;
+    border-radius: 5px;
 
+}
+.messageCont{
+    border: 1px solid var(--newViolet);
+    border-radius: 5px;
+    height: 22px;
+    background-color: rgba(7, 7, 148, 0.356);
+    margin-bottom: 11px;
+}
+.messageCont:last-child{
+    margin-bottom: 0px;
+}
+.blockSpace{
+    padding: 10px 5px;
+    border-radius: 5px;
+    height: 17px;
+    background-color: #91151579;
+    border: 1px solid #911515;
+}
+.blockSpace>img{
+    height: 100%;
+    display: block;
+    margin: auto;
+}
+.nameCont{
+    width: 35%;
+}
+.linesCont{
+    width: 25%
+}
+.linesCont hr{
+    border: 1px #fff dashed;
+    width: 70%;
+    margin: auto;
+}
+.linesCont>div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.linesCont>div>div{
+    width: 30%;
+    border: 2px #fff dashed;
+    border-left: none;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 20px;
+    margin-left: 15%;
+}
+.linesCont>div hr{
+    margin-right: 15%;
+
+}
+.shieldInputsCont{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.shieldInputsCont h6{
+    color: var(--rosita2);
+    text-align: center;
+    font-size: 0.6em;
+    font-weight: 300;
+    margin-bottom: 4px;
+
+}
+.shieldInputsCont>div>div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    width: 85%;
+    margin-bottom: 5%;
+    max-width: 13em;
+    position: relative;
+
+}
+.shieldInputsCont>div:last-child{
+    margin-bottom: 0;
+}
+.shieldInputsCont>div>div>div{
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    border: 2px solid var(--newViolet);
+    border-radius: 90px;
+    background-color: var(--rosita2);
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+.shieldInputsCont>div>div>span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+.shieldInputsCont>div>div>p{
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    user-select: none;
+}
+.infoInputs p{
+    width: 260px;
+    background: #000;
+    padding: 12px 16px;
+    border: 1px solid var(--amarillo);
+    border-radius: 5px;
+    z-index: 99;
+    display: none;
+    transform: translate(11%, -12%);
+}
+.infoInputs span{
+    font-size: 1.1em;
+    border-radius: 50px;
+    border: 1px solid #fff;
+    padding: 0.2em 0.45em;
+    width: max-content;
+    display: block;
+    font-family: 'Courier New', Courier, monospace;
+
+}
+.infoInputs {
+    position: absolute;
+    top: 100%;
+    left: 17%;
+    z-index: 99;
+}
+.infoInputs:hover p{
+    display: block;
+}
+.shieldInputsCont>div input{
+    width: 45%;
+    padding: 7px 5px;
+    border: 1px solid var(--newViolet);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.shieldInputsCont input::-webkit-outer-spin-button, .shieldInputsCont input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* Firefox */
+.shieldInputsCont input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* if mobile */
+@media (max-width: 500px){
+    .shieldInputsCont{
+        margin-bottom: 10%;
+    }
+}
+
+/* finish imported css from modal */
 
 .infoIcon{
     margin-right: 10px;
@@ -959,7 +1160,6 @@ padding-left: 8px;
 }
 .footerBtns button{
     height: 100%;
-    font-size: 0.8em;
 }
 .footerBtns>aside{
     width: 12%;
