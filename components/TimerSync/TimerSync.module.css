@@ -1,7 +1,6 @@
-.timerCont h4{
+.timerCont p{
     color: #ddd;
     font-weight: 300;
-    letter-spacing: 0.5px;
     text-align: center;
     margin-bottom: 10%;
 }

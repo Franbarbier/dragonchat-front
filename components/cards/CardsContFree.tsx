@@ -1,13 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
-import { EVENT_KEY, MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
+import { COOKIES_SETTINGS, EVENT_KEY, MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
 import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import CopyPasteTuto from '../CopyPasteTuto/CopyPasteTuto';
 import ModalContainer from '../ModalContainer/ModalContainer';
+import ModalPasatePro from '../ModalPasatePro/ModalPasatePro';
 import NavBottom from '../NavBottom/NavBottom';
 import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
@@ -16,9 +17,12 @@ import FreeCard1 from './Card/RecipientsFree';
 import FreeCard3 from './Card/SendFree';
 import styles from './CardsCont.module.css';
 import { IChat, ISecuence } from './ConversationPremium/ConversationPremium';
+import FreeBanner from './FreeBanner/FreeBanner';
+import HintMessage from './HintMessage/HintMessage';
 import ModalFinish from './ModalFinish/ModalFinish';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
+import TipsCarrousel from './TipsCarrousel/TipsCarrousel';
 
 export interface ICardsCont {
     isPaid: boolean;
@@ -41,6 +45,8 @@ export interface ContactInfo {
 
 
 const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) => {
+
+
 
     const [activeCard, setActiveCard] = useState<number>(1)
     const [contactos, setContactos] = useState<ContactInfo[]>(globalData.contactos ? globalData.contactos : [{nombre: '', numero: ''}])
@@ -93,6 +99,10 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [bloques, setBloques] = useState<number>(15);
     const [pausa, setPausa] = useState<number>(15);
 
+    const [modalPro, setModalPro] = useState(false);
+
+    const [showTips, setShowTips] = useState<boolean>(false)
+    const [hintMessage, setHintMessage] = useState<boolean>(false)
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [delayBetween, setDelayBetween] = useState<number>(1)
 
@@ -153,7 +163,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             }else{
                 return {
                     ...item,
-                    repeated : undefined
+                    repeated : undefined,
                 }
             }
         });
@@ -236,6 +246,18 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     },[finalList, activeCard, messages, sendingState])
 
 
+    const tipCarrousel = useRef<HTMLDivElement>(null);
+
+    function tipClick(event: MouseEvent) {
+        setHintMessage(false)
+
+        let tipIcon = (event.target as HTMLElement)?.id == 'tipIcon' || (event.target as HTMLElement)?.parentElement?.id == 'tipIcon'
+        let tipCarrouselEl = (tipCarrousel.current && tipCarrousel.current.contains(event.target as Node))
+        
+        if (!tipIcon && !tipCarrouselEl) {
+            setShowTips(false)
+        }
+    }
 
     useEffect(() => {
         function handleKeyPress(event: KeyboardEvent) {
@@ -244,11 +266,22 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 if ( nextCard ) setActiveCard(activeCard+1)
             }
         }
+        
+        if (activeCard == 2) {
+
+            // setHintMessage(true)
+            
+            document.addEventListener("click", tipClick);
+            return () => {
+                document.removeEventListener("click", tipClick);
+            };
+        }
+
         document.addEventListener("keydown", handleKeyPress);
         return () => {
           document.removeEventListener("keydown", handleKeyPress);
         };
-      })
+    })
 
 
     const isMobile = useDeviceType();
@@ -257,35 +290,44 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
 
     // Sistema de de cookies para saber si mostras o no los tutoriales
     useEffect(() => {
-        if (copyPasteTutorial == "nunca") {
-            Cookies.set(COPYPASTE_TUTO, "nunca", { expires: 200 })
+        if (copyPasteTutorial == COOKIES_SETTINGS.NUNCA) {
+            Cookies.set(COPYPASTE_TUTO, COOKIES_SETTINGS.NUNCA, { expires: 200 })
         }
-        if (copyPasteTutorial == "desp" || copyPasteTutorial == "nunca") {
+        if (copyPasteTutorial == COOKIES_SETTINGS.DESP || copyPasteTutorial == COOKIES_SETTINGS.NUNCA) {
             setCopyPasteTutorial(null)
         }
     }, [copyPasteTutorial])
     
     useEffect(() => {
-        if (Cookies.get(COPYPASTE_TUTO) != "nunca") setCopyPasteTutorial("")
+        if (Cookies.get(COPYPASTE_TUTO) != COOKIES_SETTINGS.NUNCA) setCopyPasteTutorial("")
     }, [])
 
-    useEffect(() => {
-        if (antiBlockerTuto == "nunca") {
-            Cookies.set(ANTIBLOCKER_TUTO, "nunca", { expires: 200 })
+useEffect(() => {
+        if (antiBlockerTuto == COOKIES_SETTINGS.NUNCA) {
+            Cookies.set(ANTIBLOCKER_TUTO, COOKIES_SETTINGS.NUNCA, { expires: 200 })
         }
-        if (antiBlockerTuto == "desp" || antiBlockerTuto == "nunca") {
+        if (antiBlockerTuto == COOKIES_SETTINGS.DESP || antiBlockerTuto == COOKIES_SETTINGS.NUNCA) {
             setAntiBlockerTuto(null)
         }
     }, [antiBlockerTuto])
 
+    
     useEffect(() => {
+        if (activeCard == 2) {
+            setTimeout(() => {
+                setHintMessage(true)
+            }, 300);
+        }else{
+            setHintMessage(false)
+        }
         if (activeCard == 3) {
-            if (Cookies.get(ANTIBLOCKER_TUTO) != "nunca") setAntiBlockerTuto("")
+            if (Cookies.get(ANTIBLOCKER_TUTO) != COOKIES_SETTINGS.NUNCA) setAntiBlockerTuto("")
         }
     }, [activeCard])
 
     
     function nuevaDifusion() {
+        setListCounter(0)
         setActiveCard(1)
         const newArray = contactos.map(obj => {
             // Destructure the object to remove the "estado" property
@@ -296,16 +338,16 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
         setMessages([['']])
         setSendingState(SENDING_STATE.INIT)
         setModalFinish(false)
-        setListCounter(0)
         setBlackList([])
     }
 
-
-
     return (
         <div>
-            <div className={styles.cards_cont}>
+            {!isPaid && <FreeBanner setModalPro={ ()=>{setModalPro(true)} }/>}
+
+            <div className={`${styles.cards_cont} ${!isPaid && styles.cards_free_height}` }>
                     
+
                     <FreeCard3
                         setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
@@ -332,6 +374,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                         nuevaDifusion={nuevaDifusion}
                         listCounter={listCounter}
                         setListCounter={setListCounter}
+                        isPaid={isPaid}
+                        setModalPro={setModalPro}
                         delayBetween={delayBetween}
                     />
 
@@ -344,6 +388,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                         notification={notification}
                         setNotification={setNotification}
                         isPaid={isPaid}
+                        setModalPro={setModalPro}
                         isInputFocused={isInputFocused}
                         setIsInputFocused={setIsInputFocused}
 
@@ -361,6 +406,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                         isPaid={isPaid}
                         nextCard={nextCard}
                         setActiveCard={setActiveCard}
+                        setShowTips={setShowTips}
+                        setModalPro={setModalPro}
                         delayBetween={delayBetween}
                         setDelayBetween={setDelayBetween}
                     />
@@ -370,8 +417,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             </div>
             
             {/* Si esta en ultima card y ya termino de enviar muestra el refresh */}
-            {
-                activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
+            {activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
                 <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ nuevaDifusion() } }>
                     <button><img src="/resend.png" /></button>
                     <AnimatePresence>
@@ -415,7 +461,11 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                             <img src="/dragon_anim.gif" alt="dragon-chat"/>
                         }
                     </div>
-                    <img className={`${styles.dragon2} ${messagesLimitAchieved && styles.limitedAnim}`} src="/dragon_anim.gif" alt="dragon-chat"/>
+                    <div className={styles.dragon2} ref={tipCarrousel} onClick={ ()=> {if (activeCard == 2 ) setShowTips(true)} }>
+                        <img className={`${messagesLimitAchieved && styles.limitedAnim}`} src={ activeCard == 2 ? "/dragon_anim3.gif" : "/dragon_anim.gif"} alt="dragon-chat"/>
+                        { showTips && <TipsCarrousel />}
+                        { hintMessage && <HintMessage />}
+                    </div>
                 </div>
             }
             <NavBottom
@@ -478,12 +528,24 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             )}
             </AnimatePresence>
            
+            {modalPro &&
+            <aside>
+                <div>
+                    <ModalContainer closeModal={ ()=> {setModalPro(false)} } addedClass="pro">
+                        <ModalPasatePro />
+                    </ModalContainer>
+                </div>
+            </aside>
+            }
+
            
             {modalFinish && !messagesLimitAchieved && (
             <ModalContainer closeModal={ ()=> {setModalFinish(false)} } addedClass={"no_enviados"} >
                 <ModalFinish blackList={blackList} nuevaDifusion={nuevaDifusion} isPaid={isPaid}/>
             </ModalContainer>
             )}
+
+            
 
         </div>
     

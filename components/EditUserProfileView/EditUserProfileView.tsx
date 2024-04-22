@@ -29,10 +29,13 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     setLoading(true);
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiUserController.getData(authToken);
+
     setLoading(false);
 
     return response;
   }
+
+
 
   useEffect(() => {
     if (!userDataBeenCalled.current) {
@@ -96,7 +99,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
 
     // if password is larger than 0, check that is larger than 6, if is 0, is because the user doesn't want to change the password
 
-    if (!equalPassword) {
+    if (!equalPassword && userData.password.length > 0) {
       setNotification({
         status: STATUS.ERROR,
         render: true,
@@ -209,7 +212,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
           type="password"
           value={userData.confirmPassword}
           onChange={(value) => setUserData(prev => ({ ...prev, confirmPassword: value.trim() }))}
-          labelText="NUEVA CONFIRMAR CONTRASEÑA"
+          labelText="CONFIRMAR CONTRASEÑA"
           labelClassName={styles.input_label}
         />
 

@@ -49,7 +49,7 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
       {maintenance && <Maintenance setLoading={setLoading} />}
 
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
-
+      
       <AnimatePresence>
         {!openSettings && (
           <>
@@ -120,6 +120,7 @@ export async function getServerSideProps({ req, res }) {
   const accessToken = JSON.parse(responseText).access_token
 
 
+
   if (cookies.get(STRIPE_COOKIE)) {
 
     const stripe_data = decrypt(JSON.parse(cookies.get(STRIPE_COOKIE)))
@@ -174,7 +175,9 @@ export async function getServerSideProps({ req, res }) {
       maint = true
   }
 
+
   return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
+
 
 }
 

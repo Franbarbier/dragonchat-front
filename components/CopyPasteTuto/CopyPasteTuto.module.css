@@ -79,7 +79,7 @@
   height: 100%;
 }
 .tutoBackground>div>button{
-  position: absolute;
+    position: absolute;
     bottom: -3%;
     left: 50%;
     transform: translateX(-50%);
@@ -90,4 +90,5 @@
     letter-spacing: 1px;
     cursor: pointer;
     font-size: 0.8em;
+    color: white;
 }
