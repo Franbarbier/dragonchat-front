@@ -51,6 +51,7 @@ export interface IFreeCard4 {
   setModalPro: (modalPro: boolean) => void;
 
   delayBetween : number;
+  prevCard : boolean;
 
 }
 
@@ -82,7 +83,9 @@ const FreeCard4: React.FC<IFreeCard4> = ({
   modalShieldOptions,
   isPaid,
   setModalPro,
-  delayBetween
+  delayBetween,
+  setActiveCard,
+  prevCard
 
 }) => {
   let idCard = 4;
@@ -95,7 +98,7 @@ const FreeCard4: React.FC<IFreeCard4> = ({
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
-  const [porcentajeEnvio, setPorcentajeEnvio] = useState<number>(listCounter * 100 / (contactos.length - 1));
+  const [shieldNotif, setShieldNotif] = useState<boolean>(false);
 
   useEffect(() => {
       if (timer == 3 && bloques == 0 && pausa == 0) {
@@ -209,7 +212,6 @@ const FreeCard4: React.FC<IFreeCard4> = ({
 
       }
 
-
       setTimeout(()=>{
         setListCounter(count + 1);
       }, delay * 1000)
@@ -285,7 +287,7 @@ const FreeCard4: React.FC<IFreeCard4> = ({
 
   
   useEffect(() => {
-
+  
     if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
         const contacti = [...contactos]
 
@@ -296,13 +298,13 @@ const FreeCard4: React.FC<IFreeCard4> = ({
         setContactos(contacti) 
         sendMove(listCounter);
     }
-
     if( listCounter == contactos.length -1 ){
       setModalFinish(true);
       setLoading(false)
     }
 
   }, [sendingState, listCounter]);
+
 
 
   const handleButtonClick = async () => {
@@ -349,6 +351,22 @@ const FreeCard4: React.FC<IFreeCard4> = ({
       };
     }
   });
+
+  useEffect(() => {
+    if ( sendingState == SENDING_STATE.SENDING) {
+      setShieldNotif(true)
+      setTimeout(() => {
+        setShieldNotif(false)
+      }, 3000);
+    }
+  }, [sendingState])
+  useEffect(() => {      
+      setShieldNotif(true)
+      setTimeout(() => {
+        setShieldNotif(false)
+      }, 3000);
+  }, [activeShield])
+
 
   return (
     <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
@@ -424,12 +442,19 @@ const FreeCard4: React.FC<IFreeCard4> = ({
           >
             {!messagesLimitAchieved ? (
               <div className={styles.footerBtns}>
+                <AnimatePresence>
+                {shieldNotif && (
+                  <motion.span
+                    initial={{ opacity: 0, x : -15 }}
+                    exit={{ opacity: 0, x : -15 }}
+                    animate={{ opacity: 1, x : 0 }}
+                    >{!activeShield ? "Tu anti-blocker esta desactivado" : "Tu anti-blocker esta activado" }</motion.span>
+                  )}
+                </AnimatePresence>
                 <aside
                   className={activeShield ? styles.shieldOn : styles.shieldOff}
                 >
-                  <div onClick={() => {
-                    setActiveShield(!activeShield);
-                  }}>
+                  <div onClick={() => { setActiveShield(!activeShield)  }}>
                     <img src="/shield-clock.svg" />
                     <div className={styles.shieldFilter}></div>
                   </div>
@@ -438,9 +463,8 @@ const FreeCard4: React.FC<IFreeCard4> = ({
                       e.preventDefault();
                       if ( sendingState == SENDING_STATE.FINISH ) {
                         return false;
-                        
                       }
-                      setModalShieldOptions(true);
+                      if ( prevCard ) setActiveCard(activeCard-1);
                     }}
                   >
                     <img src="/icon_config.svg" />

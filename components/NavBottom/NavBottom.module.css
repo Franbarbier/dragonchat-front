@@ -60,5 +60,8 @@
     transform: translate(187%, -172%) rotate(60deg);
 }
 .cardBtnPos2{
-    transform: translate(195%, 95%) rotate(120deg);
+    transform: translate(185%, 87%) rotate(120deg);
+}
+.cardBtnPos3{
+    transform: translate(-50%, 215%) rotate(180deg);
 }

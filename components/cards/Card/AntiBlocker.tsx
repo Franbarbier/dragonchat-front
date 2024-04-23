@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import CardTitle from '../CardTitle/CardTitle';
 import CardStructure from './CardStructure';
@@ -37,6 +37,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ activeCard, setModalPro, isPaid, time
     },[])
 
     
+    const [openTuto, setOpenTuto] = useState<boolean>(false);
       
     return (
 
@@ -47,16 +48,27 @@ const FreeCard3: React.FC<IFreeCard3> = ({ activeCard, setModalPro, isPaid, time
 
             <div className={styles.card_container} >
                 <CardTitle text={"ANTI-BLOCKER"} />
-                <div className={styles.antiblockerInfo}>
+                <div className={styles.antiblockerInfo} >
                     <p>El Anti-Blocker está hecho para evitar el baneo de WhatsApp.<br/>Es una pausa entre tus envíos para desrobotizar la frecuencia con la que salen los mensajes.</p>
-                    <CustomColorBtn
-                        type="submit"
-                        text="COMO FUNCIONA"
-                        backgroundColorInit="#13013780"
-                        backgroundColorEnd="#13013780"
-                        borderColor="var(--newViolet)"
-                        onClick={()=>{ console.log("asd")} }
+
+                    <div  className={`${openTuto && styles.bckgrndFx}`}>
+                        {openTuto &&
+                            <div>
+                                <video width="100%" src="Tutorial-AntiBloquer.mp4" autoPlay loop controls />
+
+                            </div>
+                        }
+
+
+                        <CustomColorBtn
+                            type="submit"
+                            text={ !openTuto ? "COMO FUNCIONA" : "CERRAR TUTORIAL"}
+                            backgroundColorInit="#13013780"
+                            backgroundColorEnd="#13013780"
+                            borderColor="var(--newViolet)"
+                            onClick={()=>{ setOpenTuto(!openTuto) }}
                         />
+                    </div>
                 </div>
                 <div className={styles.controls}>
                     <div className={styles.wireMsjs}>
@@ -132,7 +144,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({ activeCard, setModalPro, isPaid, time
                                     <span>-</span>
                                 </div>
                                 <input
-                                onBlur={(e)=>{ if(e.currentTarget.value == '' || !isNaN(parseInt(e.currentTarget.value))) setBloques(0) } }
+                                onBlur={(e)=>{ 
+                                    if(e.currentTarget.value == '' || isNaN(parseInt(e.currentTarget.value))) setBloques(0) 
+                                } }
                                 ref={inputRef} id="bloques" type="number" value={bloques} onChange={
                                     (e)=>{ setBloques(parseInt(e.target.value)) }
                                     } />
@@ -160,7 +174,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ activeCard, setModalPro, isPaid, time
                                     <span>-</span>
                                 </div>
                                 <input
-                                onBlur={ (e)=>{ if(e.currentTarget.value == '' || !isNaN(parseInt(e.currentTarget.value))) setPausa(0) } }
+                                onBlur={ (e)=>{ if(e.currentTarget.value == '' || isNaN(parseInt(e.currentTarget.value))) setPausa(0) } }
                                 ref={inputRef2} id="pausa" type="number" value={pausa} onChange={
                                     (e)=>{ setPausa(parseInt(e.target.value)) }
                                     } />

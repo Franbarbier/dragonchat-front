@@ -669,13 +669,28 @@ padding-left: 8px;
     border:1px solid rgb(176, 27, 27)!important;
     background-color: rgba(230, 230, 56, 0.448);
     text-shadow: 1px 1px 3px rgb(48, 48, 48);
-}
+}a
 #card2 .active_tab:hover{
     background-color: rgba(230, 230, 56, 0.448)!important;
 
 }
 .antiblockerInfo{
     margin: 5% 0 7%;
+    position: relative;
+}
+.antiblockerInfo>div{
+    position: absolute;
+    width: 100%;
+    top: 115%;
+    z-index: 15;
+}
+.bckgrndFx{
+    backdrop-filter: blur(1em);
+    background: rgba(0, 0, 0, 1);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+
 }
 .antiblockerInfo p{
     font-size: 1.1em;
@@ -842,7 +857,8 @@ padding-left: 8px;
     position: absolute;
     top: 100%;
     left: 17%;
-    z-index: 99;
+    z-index: 10;
+    user-select: none;
 }
 .infoInputs:hover p{
     display: block;
@@ -1153,6 +1169,17 @@ padding-left: 8px;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
+    position: relative;
+}
+.footerBtns>span{
+    position: absolute;
+    right: 103%;
+    width: max-content;
+    bottom: 0%;
+    background: black;
+    padding: 5px 8px;
+    border-radius: 5px;
+    border: 1px solid var(--amarillo);
 }
 .footerBtns>div{
     width: 48%;

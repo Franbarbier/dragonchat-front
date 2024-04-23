@@ -382,6 +382,7 @@ useEffect(() => {
                         isPaid={isPaid}
                         setModalPro={setModalPro}
                         delayBetween={delayBetween}
+                        prevCard = {prevCard}
                     />
 
                     <FreeCard1 
@@ -501,24 +502,7 @@ useEffect(() => {
                     </div>
                 </div>
             }
-            {/* {modalShieldOptions &&
-                <div className={styles.modal_shield_option}>
-                    <div>
-                        <ModalContainer closeModal={ ()=>{ setModalShieldOptions(false) } } addedClass={"modal_shield_option"}>
-                            <ModalShieldOptions 
-                                setActiveShield={setActiveShield}
-                                setModalShieldOptions={setModalShieldOptions}
-                                timer={timer}
-                                setTimer={setTimer}
-                                bloques={bloques}
-                                setBloques={setBloques}
-                                pausa={pausa}
-                                setPausa={setPausa}
-                            />
-                        </ModalContainer>
-                    </div>
-                </div>
-            } */}
+        
 
             {copyPasteTutorial != null && <CopyPasteTuto setTuto={setCopyPasteTutorial} /> }
             {antiBlockerTuto != null && <AntiBlockerTuto setTuto={setAntiBlockerTuto } /> }
