@@ -99,11 +99,14 @@ border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
 .card_container{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     height: 100%;
     max-height: 100%;
 }
+#card4 .card_container{
+    justify-content: space-between;
 
+}
 .tramas{
     position: absolute;
     z-index: -1;
@@ -701,7 +704,8 @@ padding-left: 8px;
     width: 92%;
     margin: 0 auto;
     justify-content: space-between;
-    height: 60%;
+    height: 100%;
+    margin-top: 7%;
 }
 .activeShield button{
     padding: 10px 0;
