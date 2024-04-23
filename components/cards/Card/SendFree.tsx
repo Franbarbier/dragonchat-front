@@ -358,7 +358,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     {activeCard == idCard &&
       <div className={styles.card_container}>
         <div>
-          <CardTitle text={ sendingState == SENDING_STATE.INIT ? "Enviar" : `Enviando ${ (listCounter+1) * 100 / (contactos.length - 1) }%`} />
+          <CardTitle text={ sendingState == SENDING_STATE.INIT ? "Enviar" : `Enviando ${ ((listCounter+1) * 100 / (contactos.length - 1)).toFixed(0) }%`} />
         </div>
         <div className={styles.card_table_cont}>
           <HeaderRow campos={["NOMBRE", "NUMERO"]} key="header-row-sendFree" />
