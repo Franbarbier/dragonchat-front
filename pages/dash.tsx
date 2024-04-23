@@ -1,4 +1,3 @@
-import Cookies from 'cookies';
 import CookiesJS from 'js-cookie';
 
 import { AnimatePresence, motion } from 'framer-motion';
@@ -11,9 +10,7 @@ import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
 import Notification, { INotification } from '../components/Notification/Notification';
 import CardsCont, { ContactInfo } from '../components/cards/CardsContFree';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
-import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from '../constants/index';
-import { API_ROUTES, STATUS } from '../enums';
-import { decrypt } from '../utils/crypto';
+import { STATUS } from '../enums';
 import { NextPageWithLayout } from './page';
 import EditUserProfile from './user/edit';
 
@@ -113,69 +110,8 @@ export default Dash;
 
 export async function getServerSideProps({ req, res }) {
   
-  const cookies = new Cookies(req, res);
-  var stripeStatus: null | number = null
+  return { props: { stripe : null, isPaid : true, maintenance : false } };
 
-  const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
-  const accessToken = JSON.parse(responseText).access_token
-
-
-  if (cookies.get(STRIPE_COOKIE)) {
-
-    const stripe_data = decrypt(JSON.parse(cookies.get(STRIPE_COOKIE)))
-    const changePlan = await fetch(`${API_GATEWAY_URL}${API_ROUTES.UPDATE_PLAN}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        session_id: JSON.parse(stripe_data).session_id,
-        product_id: JSON.parse(stripe_data).product_id
-      }),
-      headers: {
-        "Authorization": `Bearer ${accessToken}`,
-        "Content-Type": "application/json"
-      }
-    });
-
-    const handleChangePlan = await changePlan.json();
-
-    if (handleChangePlan.isPaid == true) {
-      cookies.set(STRIPE_COOKIE, null, { expires: new Date(0) });
-      // no encontre como eliminarla asique la seteo con un null y ya expirada
-      stripeStatus = 200
-    }
-  }
-
-
-  let maint = false
-  let data:any = {subscription:{isPaid: false}}
-  
-  try {
-    const getData = await fetch(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, {
-      method: 'GET',
-      headers: {
-        "Authorization": `Bearer ${accessToken}`,
-        "Content-Type": "application/json"
-      }
-    });
-    const responseData = await getData.json();
-
-    if (responseData.subscription && responseData.subscription.isPaid === undefined) {
-      data.subscription.isPaid = false;
-    }else{
-      data = responseData
-    }
-    
-  } catch (error) {
-  }
-
-  if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) {
-    maint = true
-  }
-  if ( data?.subscription?.isPaid == true && MAINTENANCE_PREMIUM ) {
-      maint = true
-  }
-
-
-  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
 
 
 }
