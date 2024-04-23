@@ -206,7 +206,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({ activeCard, setModalPro, isPaid, time
                                     onInput={ (e)=>{  setTimer(parseInt(e.currentTarget.value)) } }
                                     onBlur={ (e)=>{
                                         if (e.currentTarget.value == "" || parseInt(e.currentTarget.value) < 3) {
-                                            e.currentTarget.value = '3'
+                                            setTimer(3)
                                         }
                                     } }
                                 />
