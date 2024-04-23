@@ -9,6 +9,9 @@ interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout<GralProps>
 }
 
+import noIndexMiddleware from './_middleware/noIndex';
+
+
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
@@ -53,6 +56,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   </>
   )
 }
+
+App.middleware = [noIndexMiddleware]; // Apply the middleware to all pages
+
 
 export type GralProps = {
   sampleTextProp?: string,
