@@ -27,8 +27,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     
   }, [])
   
-  console.log("NHOHHLHLHLHL-----------------------------------------")
-
 
   return (
     <>
@@ -57,7 +55,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   )
 }
 
-App.middleware = [noIndexMiddleware]; // Apply the middleware to all pages
+// Apply the middleware only on the server-side
+if (typeof window === 'undefined') {
+  App.middleware = [noIndexMiddleware];
+}
 
 
 export type GralProps = {
