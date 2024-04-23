@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
 import { FILE, FILE_TYPE, STATUS } from '../../../enums';
+import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../Notification/Notification';
-import OrangeBtn from "../../OrangeBtn/OrangeBtn";
-import { ContactInfo } from "../CardsContFree";
+import { filteringContacts } from "../Card/recipientsUtils";
 import CardTitle from "../CardTitle/CardTitle";
+import { ContactInfo } from "../CardsContFree";
 import ContactRow from "../ContactRow/ContactRow";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import styles from './ModalImportContacts.module.css';
@@ -31,7 +32,8 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
       complete: ({ data }: { data: Array<{ numero: string, nombre: string }> }) => {
         if (data?.length > 0 && data[0].nombre && data[0].numero) {
           setIsFile(true)
-          setParsedCsvData(data.filter(d => d.nombre?.replaceAll(' ', '') !== '' && d.numero?.replaceAll(' ', '') !== ''))
+          console.log(data)
+          setParsedCsvData(data)
         } else {
           setNotification({
             status: STATUS.ERROR,
@@ -78,7 +80,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
     };
   }, []);
 
-  const campos = ["Nombre", "Número"]
+  const campos = ["NOMBRE", "NUMERO"]
 
   return (
     <div>
@@ -104,10 +106,23 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
             name="file"
             type="File"
           />
-          <OrangeBtn text="Subir contactos" onClick={() => {
-            uploadContacts(parsedCsvData)
-            setModalImport(false)
-          }} />
+
+          <CustomColorBtn
+                type="submit"
+                text="Subir contactos"
+                backgroundColorInit="#c21c3b" 
+                backgroundColorEnd="#f9bd4f"
+                borderColor="#e17846"
+                onClick={() => {
+
+                  let filteredContacts = filteringContacts(parsedCsvData)
+
+                  setIsFile(false)
+                  uploadContacts(filteredContacts )
+                  setModalImport(false)
+                  setParsedCsvData([])
+                }}
+            />
         </div>
         :
         <>
@@ -150,7 +165,7 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
                   className={styles.csvInput}
                   id="csvInput"
                   name="file"
-                  type="File"
+                  type="file"
                 />
               </div>
             </div>

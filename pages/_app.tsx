@@ -21,6 +21,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     if (window.location.href.includes("vercel")) {
       window.location.href = "https://dragonchat.io/"
     }
+    
   }, [])
   
   console.log("NHOHHLHLHLHL-----------------------------------------")
@@ -55,6 +56,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
 export type GralProps = {
   sampleTextProp?: string,
-  linkedWhatsapp: boolean,
+  linkedWhatsapp?: boolean,
   session_data?: string,
 }

@@ -14,7 +14,6 @@ const TreeNodeComponent: React.FC<{ message: IChat }> = ({ message }) => {
 
   return (
     <>
-                {/* {JSON.stringify(message)} */}
                 {message.type == "texto" &&
                     <div className={styles.singleMessageCont}>
                         <p className={styles[colorSide]}>{message.info}</p>

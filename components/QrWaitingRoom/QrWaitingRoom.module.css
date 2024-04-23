@@ -55,7 +55,6 @@
     background-color: #7561ca57;
     border: 1px solid var(--rosita2);
     color: var(--rosita2);
-    letter-spacing: 1px;
     backdrop-filter: blur(9px);
 }
 .queuInfo p>span, .queuInfo span>span{

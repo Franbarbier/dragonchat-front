@@ -1,3 +1,4 @@
+.ModalShieldOptions_cont * { user-select: none;}
 .wireMsjs{
     width: 80%;
     margin: auto;
@@ -85,6 +86,7 @@
     margin: auto;
     width: 80%;
     margin-bottom: 5%;
+    max-width: 13em;
 }
 .shieldInputsCont>div:last-child{
     margin-bottom: 0;
@@ -108,7 +110,7 @@
     user-select: none;
 }
 .shieldInputsCont>div input{
-    width: 75%;
+    width: 55%;
     padding: 2px 8px;
     border: 1px solid var(--newViolet);
     border-radius: 5px;

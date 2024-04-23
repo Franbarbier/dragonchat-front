@@ -25,7 +25,6 @@
     width: 20vw;
     font-size: 0.7em;
     font-weight: 100;
-    letter-spacing: 1px;
     color: var(--amarillo);
     transform: translateY(-50%);
     background-color: var(--violeta2t);

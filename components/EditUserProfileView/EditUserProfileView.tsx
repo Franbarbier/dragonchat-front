@@ -29,10 +29,13 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     setLoading(true);
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiUserController.getData(authToken);
+
     setLoading(false);
 
     return response;
   }
+
+
 
   useEffect(() => {
     if (!userDataBeenCalled.current) {
@@ -58,7 +61,15 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     const authToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
     const response = await apiSenderWhatsappController.disconnect(authToken);
 
-    if (response) {
+    if ((response as { status: number }).status == 200) {
+      setNotification({
+        status: STATUS.SUCCESS,
+        render: true,
+        message: "Whatsapp desvinculado de forma exitosa!",
+        modalReturn: () => {
+          setNotification({ ...notification, render: false })
+        }
+      })
       Router.push(ROUTES.QR);
     }
 
@@ -71,8 +82,8 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
     try {
       const accessToken = JSON.parse(Cookies.get(LOGIN_COOKIE)).access_token;
       const response = await apiUserController.logout(accessToken);
-
-      if (response.status == 200) {
+      
+      if (response) {
         Cookies.remove(LOGIN_COOKIE);
         Router.push(ROUTES.LOGIN);
         setLoading(false)
@@ -88,7 +99,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
 
     // if password is larger than 0, check that is larger than 6, if is 0, is because the user doesn't want to change the password
 
-    if (!equalPassword) {
+    if (!equalPassword && userData.password.length > 0) {
       setNotification({
         status: STATUS.ERROR,
         render: true,
@@ -201,7 +212,7 @@ const EditUserProfileView: React.FC<IEditUserProfileView> = ({ setLoading, notif
           type="password"
           value={userData.confirmPassword}
           onChange={(value) => setUserData(prev => ({ ...prev, confirmPassword: value.trim() }))}
-          labelText="NUEVA CONFIRMAR CONTRASEÑA"
+          labelText="CONFIRMAR CONTRASEÑA"
           labelClassName={styles.input_label}
         />
 

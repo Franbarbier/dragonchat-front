@@ -15,8 +15,8 @@ const ProBtn: React.FC<IProBtn> = ({ onClick }) => {
                 // setModalRef(true)
                 onClick(true)
             }}>
-                <img src="corona.png" />
-                <span>PASATE A PRO</span>
+                <img src="upgrade.png" />
+                <span>PASATE A 2.0</span>
             </button>
         </div>
     );

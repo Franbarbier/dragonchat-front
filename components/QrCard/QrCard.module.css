@@ -1,4 +1,4 @@
-
+.qrCard_cont{z-index: 5;}
 .qrImg_cont .flipFront img{
     display: block;
     margin: auto;
@@ -11,7 +11,6 @@
 .qrImg_cont h4{
     font-size: 0.9em;
     margin: 0 auto 7%;
-    /* text-align: center; */
     font-weight: 300;
     letter-spacing: 1px;
     color: #afaac3;
@@ -50,7 +49,6 @@
 }
 .instruciones_cont>div p{
     font-size: 0.8em;
-    letter-spacing: 1px;
 }
 .instruciones_cont>div span{
     font-size: 0.7em;
@@ -78,7 +76,6 @@
     -webkit-backdrop-filter: blur(10px);
     /* backdrop-filter: blur(90px); */
     padding: 17px;
-    letter-spacing: 0.5px;
 }
 
 
@@ -117,7 +114,6 @@
 
 .flipFront{
     color: #fff;
-    background: #2196f3;
 }
 
 .flipBack{
@@ -125,13 +121,77 @@
     top: 0;
     left: 0;
     transform: rotateY(180deg);
-    color: #2196f3;
     background: #fff;
 }
 .flipBack p{
     font-size: 0.7em;
 }
-
+.errorQRModal{
+    position: absolute;
+    bottom: 120%;
+    left: 0%;
+    width: 40vw;
+    display: flex;
+    align-items: center;
+}
+.errorQRModal>img{
+    width: 30%;
+    height: auto;
+}
+.errorQRModal>div{
+    text-align: center;
+    background: linear-gradient(to bottom, #FFFFCC, #dcdc41);
+    /* border: 1px solid var(--amarillo); */
+    /* box-shadow: 0px 0px 15px 4px #414141b0; */
+    color: #000;
+    border-radius: 5px;
+    position: relative;
+    padding: 10px;
+    height: max-content;
+    margin-bottom: 7%;
+}
+.errorQRModal>div:before{
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: #e2e25f;
+    right: calc(100% - 7px);
+    transform: rotate(45deg);
+    z-index: -1;
+    top: 25%;
+}
+.errorQRModal>div h3{
+    font-size: 0.8em;
+}
+.errorQRModal>div p{
+    margin-top: 3%;
+    font-size: 0.7em;
+}
+.errorQRModal span{
+    position: absolute;
+    background: black;
+    border: var(--amarillo) 1px solid;
+    color: var(--amarillo);
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.7em;
+    top: 107%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: vibrate 1s 1s 3;
+}
+@keyframes vibrate {
+    0%     {transform: translateX(-47%) ;}
+   12%  {transform: translateX(-53%) ;}
+   25%  {transform: translateX(-47%) ;}
+   37%  {transform: translateX(-53%) ;}
+   47%  {transform: translateX(-47%) ;}
+   62%  {transform: translateX(-53%) ;}
+   75%  {transform: translateX(-47%) ;}
+   87%  {transform: translateX(-53%) ;}
+   100%   {transform: translateX(-47%) ;}
+ }
 /* if mobile */
 @media (max-width: 768px) {
     .qrSteps{
@@ -142,6 +202,8 @@
         width: 70%;
         width: auto;
         max-height: 30vh;
+        width: auto!important;
+
     }
     .qrSteps>div{
         width: 100%;

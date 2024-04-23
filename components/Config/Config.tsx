@@ -37,7 +37,6 @@ const Config: React.FC<IConfig> = () => {
                 <div>
                     <div className={styles.config_icon} onClick={ ()=>{ setMenuConfig(!menuConfig) } }>
                         <FontAwesomeIcon icon={faUserCircle} />
-                        {/* <img src="/settings.png" />                         */}
                     </div>
                     
                     {menuConfig &&

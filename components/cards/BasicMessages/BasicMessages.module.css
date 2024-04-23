@@ -10,7 +10,6 @@
   margin-bottom: 10px;
   width: 95%;
   margin-left: 5%;
-  letter-spacing: 1px;
 }
 
 .basicMessages_cont ul li strong{
@@ -44,7 +43,7 @@
 .messages_cont img:hover{
   opacity: 1;
 }
-.messages_cont textarea{
+.messages_cont textarea, .messages_cont p{
   background-color: #a361c557;
   border: 1px solid var(--rosita1);
   border-radius: 5px;
@@ -54,6 +53,6 @@
   padding: 10px;
   width: 88%;
 }
-.messages_cont textarea:focus{
+.messages_cont textarea:focus, .messages_cont p:focus{
   outline: var(--amarillo) 1px solid;
 }

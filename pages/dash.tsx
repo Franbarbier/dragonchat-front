@@ -1,14 +1,16 @@
 import Cookies from 'cookies';
+import CookiesJS from 'js-cookie';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import CardsCont from '../components/cards/CardsContFree';
 import Header from '../components/Header/Header';
-import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import Loader from "../components/Loader/Loader2";
 import Maintenance from '../components/Maintenance/Maintenance';
 import ModalContainer from '../components/ModalContainer/ModalContainer';
 import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
 import Notification, { INotification } from '../components/Notification/Notification';
+import CardsCont, { ContactInfo } from '../components/cards/CardsContFree';
+import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from '../constants/index';
 import { API_ROUTES, STATUS } from '../enums';
 import { decrypt } from '../utils/crypto';
@@ -24,10 +26,13 @@ interface IDashProps {
 
 const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) => {
 
+  // syncing
+  if (CookiesJS.get("syncTime")) window.location.href = "/syncing";
+
   const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [modalStripe, setModalStripe] = useState<null | number>(stripe)
 
-  const [contactsLength , setContactsLength] = useState<false>(false)
+  const [globalData, setGlobalData] = useState<{contactos : ContactInfo[],  messages : string[][]} >({contactos : [{nombre: '', numero: ''}], messages : [['']]});   
 
   const [loading, setLoading] = useState<boolean>(false)
   const [notification, setNotification] = useState<INotification>({
@@ -37,13 +42,14 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
     modalReturn: () => { }
   })
 
+
   return (
     <section style={{ 'position': 'relative', 'height': '100%', 'width': '100%' }}>
 
       {maintenance && <Maintenance setLoading={setLoading} />}
 
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
-
+      
       <AnimatePresence>
         {!openSettings && (
           <>
@@ -58,9 +64,9 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
                 'width': '100vw',
                 'height': '100vh',
                 'position': 'relative'
-              }}
-              >
-                <CardsCont isPaid={isPaid}/>
+              }} >
+
+                <CardsCont isPaid={isPaid} setGlobalData={setGlobalData} globalData={globalData}/>
 
               </div>
             </motion.div>
@@ -106,13 +112,14 @@ export default Dash;
 
 
 export async function getServerSideProps({ req, res }) {
-
-
+  
   const cookies = new Cookies(req, res);
   var stripeStatus: null | number = null
 
   const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
   const accessToken = JSON.parse(responseText).access_token
+
+
 
   if (cookies.get(STRIPE_COOKIE)) {
 
@@ -170,6 +177,8 @@ export async function getServerSideProps({ req, res }) {
 
 
   return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
+
+
 }
 
 Dash.getLayout = (page) => {
