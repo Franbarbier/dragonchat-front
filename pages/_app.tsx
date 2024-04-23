@@ -9,7 +9,6 @@ interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout<GralProps>
 }
 
-import noIndexMiddleware from './_middleware/noIndex';
 
 
 
@@ -56,9 +55,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 }
 
 // Apply the middleware only on the server-side
-if (typeof window === 'undefined') {
-  App.middleware = [noIndexMiddleware];
-}
+// if (typeof window === 'undefined') {
+//   App.middleware = [noIndexMiddleware];
+// }
 
 
 export type GralProps = {
