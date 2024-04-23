@@ -12,16 +12,16 @@ import ModalPasatePro from '../ModalPasatePro/ModalPasatePro';
 import NavBottom from '../NavBottom/NavBottom';
 import Notification, { INotification } from '../Notification/Notification';
 import WppBtn from '../WppBtn/WppBtn';
+import FreeCard3 from './Card/AntiBlocker';
 import FreeCard2 from './Card/MessageFree';
 import FreeCard1 from './Card/RecipientsFree';
-import FreeCard3 from './Card/SendFree';
+import FreeCard4 from './Card/SendFree';
 import styles from './CardsCont.module.css';
 import { IChat, ISecuence } from './ConversationPremium/ConversationPremium';
 import FreeBanner from './FreeBanner/FreeBanner';
 import HintMessage from './HintMessage/HintMessage';
 import ModalFinish from './ModalFinish/ModalFinish';
 import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
-import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 import TipsCarrousel from './TipsCarrousel/TipsCarrousel';
 
 export interface ICardsCont {
@@ -232,9 +232,14 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 setPrevCard(true)
                 break;
             case 3:
+                setPrevCard(true)
+                setNextCard(true)
+
+                break;
+            case 4:
                 setNextCard(false)
                 if (sendingState == SENDING_STATE.FINISH || sendingState == SENDING_STATE.SENDING) {
-                    setPrevCard(false)                    
+                    setPrevCard(false)
                 }else{
                     setPrevCard(true)
                 }
@@ -348,7 +353,7 @@ useEffect(() => {
             <div className={`${styles.cards_cont} ${!isPaid && styles.cards_free_height}` }>
                     
 
-                    <FreeCard3
+                    <FreeCard4
                         setActiveCard={(val:number)=>setActiveCard(val)}
                         activeCard={activeCard}
                         contactos={finalList}
@@ -377,6 +382,7 @@ useEffect(() => {
                         isPaid={isPaid}
                         setModalPro={setModalPro}
                         delayBetween={delayBetween}
+                        prevCard = {prevCard}
                     />
 
                     <FreeCard1 
@@ -392,6 +398,17 @@ useEffect(() => {
                         isInputFocused={isInputFocused}
                         setIsInputFocused={setIsInputFocused}
 
+                    />
+                    <FreeCard3
+                        activeCard={activeCard}
+                        setModalPro={setModalPro}
+                        isPaid={isPaid}
+                        timer={timer}
+                        bloques={bloques}
+                        pausa={pausa}
+                        setTimer={setTimer}
+                        setBloques={setBloques}
+                        setPausa={setPausa}
                     />
                     <FreeCard2
                         activeCard={activeCard}
@@ -417,7 +434,7 @@ useEffect(() => {
             </div>
             
             {/* Si esta en ultima card y ya termino de enviar muestra el refresh */}
-            {activeCard == 3 && sendingState == SENDING_STATE.FINISH ? 
+            {activeCard == 4 && sendingState == SENDING_STATE.FINISH ? 
                 <div className={`${styles.nextCard} ${styles.resend}`} onClick={ ()=>{ nuevaDifusion() } }>
                     <button><img src="/resend.png" /></button>
                     <AnimatePresence>
@@ -485,24 +502,7 @@ useEffect(() => {
                     </div>
                 </div>
             }
-            {modalShieldOptions &&
-                <div className={styles.modal_shield_option}>
-                    <div>
-                        <ModalContainer closeModal={ ()=>{ setModalShieldOptions(false) } } addedClass={"modal_shield_option"}>
-                            <ModalShieldOptions 
-                                setActiveShield={setActiveShield}
-                                setModalShieldOptions={setModalShieldOptions}
-                                timer={timer}
-                                setTimer={setTimer}
-                                bloques={bloques}
-                                setBloques={setBloques}
-                                pausa={pausa}
-                                setPausa={setPausa}
-                            />
-                        </ModalContainer>
-                    </div>
-                </div>
-            }
+        
 
             {copyPasteTutorial != null && <CopyPasteTuto setTuto={setCopyPasteTutorial} /> }
             {antiBlockerTuto != null && <AntiBlockerTuto setTuto={setAntiBlockerTuto } /> }

@@ -24,6 +24,9 @@ const NavBottom: React.FC<INavBottom> = ({setActiveCard, activeCard, nextCard, p
       case 3:
           setRuletaAngulo('-120')
         break;
+      case 4:
+          setRuletaAngulo('-180')
+        break;
           
       default:
         break;
@@ -60,10 +63,21 @@ const NavBottom: React.FC<INavBottom> = ({setActiveCard, activeCard, nextCard, p
                   </div>
                 </div>
               </div>
-              <div className={`${styles.paginationBtn} ${styles.card3Btn} ${styles.cardBtnPos2} ${activeCard == 3 && styles.activeBtn}`} onClick={ ()=>{ if (activeCard < 3){ if (nextCard) { setActiveCard(activeCard+1) } } }} >
+              <div className={`${styles.paginationBtn} ${styles.card3Btn} ${styles.cardBtnPos2} ${activeCard == 3 && styles.activeBtn}`} onClick={ ()=>{ if (activeCard < 3){ if (nextCard) { setActiveCard(activeCard+1) } }else{ if (prevCard) { setActiveCard(activeCard-1)  } } } } >
                 <div className={styles.iconCont}>
                   <div>
-                    <img src="/send.svg" width={'100%'}/>
+                    <img src="/shield-clock.svg" width={'100%'}/>
+
+                  </div>
+                </div>
+              </div>
+
+              <div className={`${styles.paginationBtn} ${styles.card4Btn} ${styles.cardBtnPos3} ${activeCard == 4 && styles.activeBtn}`} onClick={ ()=>{ 
+                if (activeCard < 4){  if (nextCard) { setActiveCard(activeCard+1) }  }
+              }} >
+                <div className={styles.iconCont}>
+                  <div>
+                      <img src="/send.svg" width={'100%'}/>
                   </div>
                 </div>
               </div>

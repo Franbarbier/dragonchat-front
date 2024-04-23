@@ -2,7 +2,6 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import Cookie from "js-cookie";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
 import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
@@ -17,7 +16,7 @@ import CardStructure from "./CardStructure";
 import styles from "./FreeCard.module.css";
 import { globalName } from "./sendUtils";
 
-export interface IFreeCard3 {
+export interface IFreeCard4 {
   activeCard: number;
   contactos: ContactInfo[];
   setContactos: (contactos: ContactInfo[]) => void;
@@ -52,11 +51,12 @@ export interface IFreeCard3 {
   setModalPro: (modalPro: boolean) => void;
 
   delayBetween : number;
+  prevCard : boolean;
 
 }
 
 
-const FreeCard3: React.FC<IFreeCard3> = ({
+const FreeCard4: React.FC<IFreeCard4> = ({
   activeCard,
   contactos = [],
   setContactos,
@@ -83,11 +83,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   modalShieldOptions,
   isPaid,
   setModalPro,
-  delayBetween
+  delayBetween,
+  setActiveCard,
+  prevCard
 
 }) => {
-  let idCard = 3;
-  let router = useRouter();
+  let idCard = 4;
 
   const [sending, setSending] = useState<boolean>(false);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
@@ -97,7 +98,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
-  const [porcentajeEnvio, setPorcentajeEnvio] = useState<number>(listCounter * 100 / (contactos.length - 1));
+  const [shieldNotif, setShieldNotif] = useState<boolean>(false);
 
   useEffect(() => {
       if (timer == 3 && bloques == 0 && pausa == 0) {
@@ -211,7 +212,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
       }
 
-
       setTimeout(()=>{
         setListCounter(count + 1);
       }, delay * 1000)
@@ -287,7 +287,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   
   useEffect(() => {
-
+  
     if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
         const contacti = [...contactos]
 
@@ -298,13 +298,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         setContactos(contacti) 
         sendMove(listCounter);
     }
-
     if( listCounter == contactos.length -1 ){
       setModalFinish(true);
       setLoading(false)
     }
 
   }, [sendingState, listCounter]);
+
 
 
   const handleButtonClick = async () => {
@@ -351,6 +351,22 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       };
     }
   });
+
+  useEffect(() => {
+    if ( sendingState == SENDING_STATE.SENDING) {
+      setShieldNotif(true)
+      setTimeout(() => {
+        setShieldNotif(false)
+      }, 3000);
+    }
+  }, [sendingState])
+  useEffect(() => {      
+      setShieldNotif(true)
+      setTimeout(() => {
+        setShieldNotif(false)
+      }, 3000);
+  }, [activeShield])
+
 
   return (
     <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
@@ -426,12 +442,19 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           >
             {!messagesLimitAchieved ? (
               <div className={styles.footerBtns}>
+                <AnimatePresence>
+                {shieldNotif && (
+                  <motion.span
+                    initial={{ opacity: 0, x : -15 }}
+                    exit={{ opacity: 0, x : -15 }}
+                    animate={{ opacity: 1, x : 0 }}
+                    >{!activeShield ? "Tu anti-blocker esta desactivado" : "Tu anti-blocker esta activado" }</motion.span>
+                  )}
+                </AnimatePresence>
                 <aside
                   className={activeShield ? styles.shieldOn : styles.shieldOff}
                 >
-                  <div onClick={() => {
-                    setActiveShield(!activeShield);
-                  }}>
+                  <div onClick={() => { setActiveShield(!activeShield)  }}>
                     <img src="/shield-clock.svg" />
                     <div className={styles.shieldFilter}></div>
                   </div>
@@ -440,9 +463,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                       e.preventDefault();
                       if ( sendingState == SENDING_STATE.FINISH ) {
                         return false;
-                        
                       }
-                      setModalShieldOptions(true);
+                      if ( prevCard ) setActiveCard(activeCard-1);
                     }}
                   >
                     <img src="/icon_config.svg" />
@@ -525,4 +547,4 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   );
 };
 
-export default FreeCard3;
+export default FreeCard4;
