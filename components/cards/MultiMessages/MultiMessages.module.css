@@ -17,14 +17,14 @@
 }
 .delayBetCont span{
     position: absolute;
-    font-size: 0.7em;
+    font-size: 0.9em;
     right: 0%;
     top: 103%;
     color: #ddd
 }
 .delayBetCont p{
+    font-size: 1.1em;
     padding-right: 5%;
-    font-size: 0.9em;
 }
 .delayBetCont input{
     width: 5em;
@@ -33,6 +33,7 @@
     border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.3);
     text-align: center;
+    font-size: 1.1em;
 
 }
 .MultiMessages_cont li{ 

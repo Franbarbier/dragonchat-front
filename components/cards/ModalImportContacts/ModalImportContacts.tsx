@@ -32,7 +32,6 @@ const ModalImportContacts: React.FC<IModalImportContacts> = ({ setModalImport, u
       complete: ({ data }: { data: Array<{ numero: string, nombre: string }> }) => {
         if (data?.length > 0 && data[0].nombre && data[0].numero) {
           setIsFile(true)
-          console.log(data)
           setParsedCsvData(data)
         } else {
           setNotification({
