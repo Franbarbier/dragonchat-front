@@ -5,6 +5,7 @@ import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE } from '../../constants/index';
 import { ROUTES, STATUS } from '../../enums';
 import Loader from '../Loader/Loader';
+import ModalCalentador from '../ModalCalentador/ModalCalentador';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalPasatePro from '../ModalPasatePro/ModalPasatePro';
 import ModalTimer from '../ModalTimer/ModalTimer';
@@ -28,11 +29,13 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
 
     const [iconUrl, setIconUrl] = useState<string>('icon_config.svg')
     const [rotateAnim, setRotateAnim] = useState<boolean>(false)
-    const [buleano, setBuleano] = useState<boolean>(false)
     const [modalPro, setModalPro] = useState<boolean>(false)
     const [modalTimer, setModalTimer] = useState<boolean>(false)
 
     const [loading, setLoading] = useState<boolean>(false)
+
+    const [calentador, setCalentador] = useState<boolean>(false)
+    const [calentadorModal, setCalentadorModal] = useState<boolean>(false)
 
 
     useEffect(()=>{
@@ -110,6 +113,13 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
         })
     }
 
+
+    useEffect(()=>{
+        if (calentador){
+            setCalentadorModal(true)
+        }
+    }, [calentador])
+    
     return (
         <div className={styles.header_cont}>
             <Loader loading={loading} />
@@ -130,9 +140,20 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
                     </div>
                 }
                 {!qr &&
+                <>
+                    <div className={styles.calentadorCont} onClick={ ()=> setCalentador(!calentador) }>
+                        <span>Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500</span>
+                        <div className={`${calentador && styles.calentadorOn }`}>
+                            <div className={styles.trackToggle}></div>
+                            <div className={styles.calentadorIcon}>
+                                <img src='icon_fire2.svg' onClick={()=> console.log(":sddd") } />
+                            </div>
+                        </div>
+                    </div>
                     <div className={`${styles.settings_cont} ${rotateAnim && styles.rotate}`} onClick={ ()=>{ setOpenSettings(!openSettings) } }>
                         <img src={iconUrl} />
                     </div>
+                </>
                 }
                 </div>
                
@@ -160,6 +181,15 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
                     <div>
                         <ModalContainer closeModal={ ()=> {setModalTimer(false)} } addedClass="timerModal">
                             <ModalTimer />
+                        </ModalContainer>
+                    </div>
+                </div>
+            }
+            {calentadorModal &&
+                <div>
+                    <div>
+                        <ModalContainer closeModal={ ()=> {setCalentadorModal(false)} } addedClass="timerModal">
+                            <ModalCalentador setCalentadorModal={setCalentadorModal}/>
                         </ModalContainer>
                     </div>
                 </div>
