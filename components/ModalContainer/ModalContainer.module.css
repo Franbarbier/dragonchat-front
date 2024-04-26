@@ -10,7 +10,6 @@
 .modal_cont{
     border: 1px solid var(--rosita1);
     border-radius: 10px;
-    padding: 30px 40px;
     max-width: 50vw;
     width: 50vw;
     position: absolute;
@@ -18,24 +17,34 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 5;
-    overflow: hidden;
     background-image: linear-gradient(341deg, #412f4b 57%, rgb(65 47 75 / 28%));
     background-size: auto;
     background-repeat: no-repeat;
     backdrop-filter: blur(3px);
 
+    box-shadow: inset 0 0 0 2px rgb(0 0 0 / 82%), inset 0 0 80px 20px rgba(0, 0, 0, 0.15)
+    
+}
+.modal_cont>div{
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 30px 40px;
+
 }
 .trama1{
     position: absolute;
     z-index: 0;
-    transform: rotate(90deg);
-    top: -20%;
-    left: -30%;
-    opacity: 0.4;
+    transform: translate(-20%, -40%) rotate(90deg);
+    top: 0%;
+    left: 0%;
+    opacity: 0.28;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
     width: 100%;
+    max-width: 350px;
 }
 .trama2{
     position: absolute;
@@ -48,17 +57,32 @@
     width: 310px;
 }
 .close_mod{
+
     position: absolute;
-    right: 15px;
+    right: 0;
     z-index: 3;
-    top: 8px;
-    color: #dedede;
-    font-size: 1.3em;
+    top: 0;
+    opacity: 0.8;
     cursor: pointer;
     transition: .1s ease-in-out;
+    background: #000;
+    border-radius: 50px;
+    width: 1.6em;
+    height: 1.6em;
+    border: 1px solid var(--borders);
+    transform: translate(50%, -50%);
+
+
+}
+.close_mod img{
+    width: 60%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .close_mod:hover{
-    color: white;
+opacity: 1;
 }
 .no_enviados{ width: 40vw; }
 .modal_shield_option, .timerModal{ width: 35vw; }

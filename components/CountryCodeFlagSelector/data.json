@@ -1,20 +1,6 @@
 {
   "countries": [
     {
-      "name_en": "Chile",
-      "name_es": "Chile",
-      "continent_en": "South America",
-      "continent_es": "América del Sur",
-      "capital_en": "Santiago",
-      "capital_es": "Santiago",
-      "dial_code": "56",
-      "code_2": "CL",
-      "code_3": "CHL",
-      "tld": ".cl",
-      "km2": 756102,
-      "emoji": "🇨🇱"
-    },
-    {
       "name_en": "Argentina",
       "name_es": "Argentina",
       "continent_en": "South America",
@@ -27,6 +13,20 @@
       "tld": ".ar",
       "km2": 2780400,
       "emoji": "🇦🇷"
+    },
+    {
+      "name_en": "Chile",
+      "name_es": "Chile",
+      "continent_en": "South America",
+      "continent_es": "América del Sur",
+      "capital_en": "Santiago",
+      "capital_es": "Santiago",
+      "dial_code": "56",
+      "code_2": "CL",
+      "code_3": "CHL",
+      "tld": ".cl",
+      "km2": 756102,
+      "emoji": "🇨🇱"
     },
     {
       "name_en": "Colombia",

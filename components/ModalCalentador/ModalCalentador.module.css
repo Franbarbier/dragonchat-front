@@ -1,0 +1,18 @@
+.modal_calentador>div>div>p{
+    font-size: 0.9em;
+    text-align: center;
+    width: 100%;
+    margin: auto;
+}
+
+.modal_calentador .inputsCont{
+    margin: 7% 0;
+}
+.modal_calentador .btnsCont{
+    display: flex;
+    justify-content: space-between;
+
+}
+.modal_calentador .btnsCont>div{
+    width: 48%;
+}

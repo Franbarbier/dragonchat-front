@@ -17,15 +17,19 @@ const ModalContainer: React.FC<IModalContainer> = ({ children, closeModal, added
     return (
         <div className={styles.modal_background}  onClick={ ()=> { closeModal(false) } } >
             <div className={`${styles.modal_cont} ${styles[addedClass]}`}  onClick={ (e)=> { e.stopPropagation() } } >
-                <div className={styles.close_mod}  onClick={ ()=> { closeModal(false) } } >
-                    <p>x</p>
-                </div>
-                <aside>
-                    <img src={"/trama-car.svg"} className={styles.trama1}/>
-                </aside>
-                <div style={{'position': 'relative', 'zIndex': '2'}}>
-                    {children}
-                </div>
+                    <aside className={styles.close_mod}  onClick={ ()=> { closeModal(false) } } >
+                        <img src="close.svg" />
+                    </aside>
+                    <div>
+
+                        <aside>
+                            <img src={"/trama-car.svg"} className={styles.trama1}/>
+                        </aside>
+                        <div style={{'position': 'relative', 'zIndex': '2'}}>
+                            {children}
+                        </div>
+                    </div>
+
             </div>
         </div>
     

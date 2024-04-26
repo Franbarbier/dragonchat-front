@@ -121,6 +121,58 @@
     color: transparent; 
 }
 
+
+/* Calentador De Lineas */
+.calentadorCont{position: relative;}
+.calentadorCont>div{
+    width: 36px;
+    position: relative;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.calentadorCont .trackToggle{
+    width: 100%;
+    background-color: gray;
+    height: 10px;
+    border-radius: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.calentadorIcon{
+    width: 16px;
+    top: 0%;
+    left: 0%;
+    position: absolute;
+    transform: translateY(-50%);
+    filter: saturate(0);
+}
+.calentadorCont img{
+    width: 100%;
+}
+.calentadorOn .trackToggle{
+    background-image: linear-gradient(45deg, #422a93, #10011c);
+}
+.calentadorOn .calentadorIcon{
+    filter: saturate(1);
+    transform: translate( 20px , -50%);
+}
+.calentadorCont>span{
+    background-color: #000;
+    border: 1px solid var(--amarillo);
+    border-radius: 5px;
+    font-size: 0.8em;
+    padding: 5px 10px;
+    width: 20em;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    display: none;
+}
+.calentadorCont:hover>span{display: block;}
+
+
 @media (max-width: 750px) {
 
 .header_cont>nav{
