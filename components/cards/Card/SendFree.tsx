@@ -89,6 +89,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   let idCard = 3;
   let router = useRouter();
 
+
+  // remove last contact from the list
+  const[sendList, setSendList] = useState<ContactInfo[]>( contactos.slice(0, contactos.length - 1) );
+
   const [sending, setSending] = useState<boolean>(false);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
 
@@ -97,8 +101,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
-  const [porcentajeEnvio, setPorcentajeEnvio] = useState<number>(listCounter * 100 / (contactos.length - 1));
-
   useEffect(() => {
       if (timer == 3 && bloques == 0 && pausa == 0) {
         setActiveShield(false)
@@ -198,7 +200,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         }
       }
 
-      if (listCounter == contactos.length - 2) {
+      if (listCounter == contactos.length - 1) {
         setNotification({
           status: STATUS.SUCCESS,
           render: true,
@@ -207,8 +209,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             setNotification({...notification, render : false})
           }
         });
-        setLoading(true)
-
       }
 
 
@@ -253,7 +253,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }
 
   useEffect(() => {
-    if (errorCounter == 5){
+    if (errorCounter == 999999995){
           setSending(false);
           (async () => {
             setDejarDeEnviar(true);
@@ -299,12 +299,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         sendMove(listCounter);
     }
 
-    if( listCounter == contactos.length -1 ){
+    if( listCounter == contactos.length -1 && activeCard == idCard){
       setModalFinish(true);
       setLoading(false)
     }
 
   }, [sendingState, listCounter]);
+
 
 
   const handleButtonClick = async () => {
@@ -358,7 +359,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     {activeCard == idCard &&
       <div className={styles.card_container}>
         <div>
-          <CardTitle text={ sendingState == SENDING_STATE.INIT ? "Enviar" : `Enviando ${ ((listCounter+1) * 100 / (contactos.length - 1)).toFixed(0) }%`} />
+          <CardTitle text={ sendingState == SENDING_STATE.INIT ? "Enviar" : `Enviando ${ ((listCounter+1) * 100 / (contactos.length)).toFixed(0) }%`} />
         </div>
         <div className={styles.card_table_cont}>
           <HeaderRow campos={["NOMBRE", "NUMERO"]} key="header-row-sendFree" />
