@@ -115,7 +115,7 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
             <Loader loading={loading} />
             <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
             <nav>
-                <div>
+                <div className={styles.logoCont}>
                     <img width={'130px'} src={'dragonchat_logo_full.svg'} onClick={()=> logoClicked() } />
                     
                         {isPaid ?
@@ -123,7 +123,6 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
                         :
                         <>
                             <span className={styles.proLogo} style={{"cursor": "pointer"}} onClick={()=> setModalPro(true)}>1.0</span>
-                            <p>Esta versión cuenta con un límite de 25 mensajes por día.</p>
                         </>
                         }
                     

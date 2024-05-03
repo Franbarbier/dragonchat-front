@@ -95,6 +95,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const [errorCounter, setErrorCounter] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false)
 
+  const [shieldNotif, setShieldNotif] = useState<boolean>(false);
+
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
   const [porcentajeEnvio, setPorcentajeEnvio] = useState<number>(listCounter * 100 / (contactos.length - 1));
@@ -291,6 +293,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
         const contacti = [...contactos]
 
+        setShieldNotif(true)
+        setTimeout(() => {
+          setShieldNotif(false)
+        }, 3000);
+
+
         // check if contacti[listCounter] has "estado" as a property
         if (!contacti[listCounter].hasOwnProperty("estado")) {
           contacti[listCounter].estado = STATUS.PENDING
@@ -426,6 +434,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           >
             {!messagesLimitAchieved ? (
               <div className={styles.footerBtns}>
+                 <AnimatePresence>
+                  {shieldNotif && (
+                    <motion.span
+                      initial={{ opacity: 0, x : -15 }}
+                      exit={{ opacity: 0, x : -15 }}
+                      animate={{ opacity: 1, x : 0 }}
+                      >{!activeShield ? "Tu anti-blocker esta desactivado" : "Tu anti-blocker esta activado" }</motion.span>
+                    )}
+                  </AnimatePresence>
                 <aside
                   className={activeShield ? styles.shieldOn : styles.shieldOff}
                 >
@@ -503,7 +520,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                 >
                   <div>
                     <span>
-                      Llegaste a tu límite diario de 50 mensajes!
+                      Llegaste a tu límite diario de 25 mensajes!
                     </span>
                     <br/>
                     <span>

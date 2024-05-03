@@ -470,6 +470,13 @@ padding-left: 8px;
     right: 3%;
     width: 94%;
 }
+#card1 .card_container>p{
+    text-align: center;
+    width: 70%;
+    margin: 0 auto 3%;
+    color: var(--newPink);
+    transform: translateY(-10px);
+}
 
 .options_cont>form{
     display: block;
@@ -938,15 +945,30 @@ padding-left: 8px;
     width: 1em;
     margin-right: 9px;
 }
+
 .footerBtns{
     display: flex;
     justify-content: space-between;
     align-items: stretch;
+    position: relative;
+}
+
+.footerBtns>span{
+    position: absolute;
+    right: 103%;
+    width: max-content;
+    bottom: 0%;
+    background: black;
+    padding: 5px 8px;
+    border-radius: 5px;
+    border: 1px solid var(--amarillo);
 }
 .footerBtns>div{
     width: 48%;
     height: 100%;
 }
+
+
 .footerBtns button{
     height: 100%;
     font-size: 0.8em;
