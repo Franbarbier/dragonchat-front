@@ -21,7 +21,7 @@ return (
                   <li><img src="cierto.png"/>Importar contactos .csv.</li>
                   <li><img src="cierto.png"/>Sistema antiblocker.</li>
                   <li><img src="cierto.png"/>Entregabilidad del 60%.</li>
-                  <li><img src="cierto.png"/>Hasta 50 mensajes diarios.</li>
+                  <li><img src="cierto.png"/>Hasta 25 mensajes diarios.</li>
                 </ul>
                 <div className={styles.pro_feats}>
                     <h3>DRAGONCHAT 2.0</h3>
