@@ -52,6 +52,8 @@ export interface IFreeCard3 {
   setModalPro: (modalPro: boolean) => void;
 
   delayBetween : number;
+  errorCounter : number;
+  setErrorCounter : (val: number) => void;
 
 }
 
@@ -83,7 +85,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   modalShieldOptions,
   isPaid,
   setModalPro,
-  delayBetween
+  delayBetween,
+  errorCounter,
+  setErrorCounter
 
 }) => {
   let idCard = 3;
@@ -91,12 +95,13 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
   // remove last contact from the list
-  const[sendList, setSendList] = useState<ContactInfo[]>( contactos.slice(0, contactos.length - 1) );
+  const[sendList, setSendList] = useState<ContactInfo[]>( contactos.slice(0, contactos.length - 1 ));
+
+
 
   const [sending, setSending] = useState<boolean>(false);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
 
-  const [errorCounter, setErrorCounter] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false)
 
   const [shieldNotif, setShieldNotif] = useState<boolean>(false);
@@ -119,7 +124,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     try{
 
-    const destinatario:ContactInfo = contactos[count];
+    const destinatario:ContactInfo = sendList[count];
 
     // controlar si el destinatario ya fue enviado, si es asi, se salta al siguiente
     if (destinatario.estado == STATUS.SUCCESS || destinatario.estado == STATUS.ERROR) {
@@ -134,7 +139,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       currentMessage.push(messages[i][stringIndex])
     }
 
-    let newContacts = [...contactos];
+    let newContacts = [...sendList];
 
     // Send currentString to the recipient
     const onSuccess = () => {
@@ -146,7 +151,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         dio500(false)
 
       } else {
-        let newContacts = [...contactos];
+        let newContacts = [...sendList];
         newContacts[count].estado = STATUS.ERROR;
         
         // @ts-ignore
@@ -202,7 +207,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         }
       }
 
-      if (listCounter == contactos.length - 1) {
+      if (listCounter == sendList.length) {
         setNotification({
           status: STATUS.SUCCESS,
           render: true,
@@ -290,8 +295,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   
   useEffect(() => {
 
-    if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
-        const contacti = [...contactos]
+    if (sendingState === SENDING_STATE.SENDING && listCounter < sendList.length) {
+        const contacti = [...sendList]
 
         setShieldNotif(true)
         setTimeout(() => {
@@ -307,7 +312,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         sendMove(listCounter);
     }
 
-    if( listCounter == contactos.length -1 && activeCard == idCard){
+    if( listCounter == sendList.length -1 && activeCard == idCard){
       setModalFinish(true);
       setLoading(false)
     }
@@ -372,7 +377,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             ? "Enviar"
             : sendingState === SENDING_STATE.FINISH
             ? "Enviado"
-            : `Enviando ${((listCounter + 1) * 100 / contactos.length).toFixed(0)}%`
+            : `Enviando ${((listCounter + 1) * 100 / sendList.length).toFixed(0)}%`
           } />
         </div>
         <div className={styles.card_table_cont}>
@@ -380,11 +385,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
           <div className={`${styles.table_rows} ${styles.enviando_table}`}>
             
-            {contactos.map((contact, index) => (
+            {console.log(sendList, listCounter)}
+
+            {sendList.map((contact, index) => (
               
               <div key={`contactoFinal${index}`}>
-                {contactos.length - 1 != index && (
-                  
+                {/* {sendList.length - 1 != index && ( */}
                   <div
                   className={`${styles.row_card} ${
                     contact.estado == STATUS.ERROR && styles.error
@@ -428,7 +434,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                       <img className={styles.estado_envio} src="/close.svg" />
                     )}
                   </div>
-                )}
+                {/* // )} */}
+               
               </div>
             ))}
           </div>
@@ -502,7 +509,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                         onClick={() => {
                           handleButtonClick()
                         }}
-                        disable={ contactos[listCounter].estado == STATUS.PENDING }
+                        disable={ sendList[listCounter]?.estado == STATUS.PENDING }
                       />
                       </>
                   }

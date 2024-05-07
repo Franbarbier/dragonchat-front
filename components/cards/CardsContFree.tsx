@@ -106,6 +106,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [delayBetween, setDelayBetween] = useState<number>(1)
 
+    const [errorCounter, setErrorCounter] = useState<number>(0);
+
 
     function handleRenderModal(render:boolean){
         setModalImport(render)
@@ -325,6 +327,7 @@ useEffect(() => {
         }
     }, [activeCard])
 
+    console.log(finalList)
     
     function nuevaDifusion() {
         setListCounter(0)
@@ -339,6 +342,7 @@ useEffect(() => {
         setSendingState(SENDING_STATE.INIT)
         setModalFinish(false)
         setBlackList([])
+        setErrorCounter(0)
     }
 
     return (
@@ -377,6 +381,8 @@ useEffect(() => {
                         isPaid={isPaid}
                         setModalPro={setModalPro}
                         delayBetween={delayBetween}
+                        errorCounter={errorCounter}
+                        setErrorCounter={setErrorCounter}
                     />
 
                     <FreeCard1 
