@@ -124,7 +124,28 @@
     align-items: center;
     justify-content: center;
     
- }
+}
+.logoCont>p{
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: fit-content;
+    font-size: 0.7em;
+    color: var(--amarillo);
+    padding: 4px 6px;
+    border: solid 1px var(--amarillo);
+    border-radius: 5px;
+    width: max-content;
+
+    opacity: 0;
+    transform: translate(-15%, -50%);
+
+}
+.logoCont:hover>p{
+    opacity: 1;
+    transform: translate(-0%, -50%);
+}
 
 @media (max-width: 750px) {
 

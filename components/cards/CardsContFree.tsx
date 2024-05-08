@@ -115,7 +115,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     
     useEffect(()=>{
         var filtered = [...contactos]
-
         filtered = removeColors(filtered)
 
         if (filtered.length > 1) {
@@ -128,7 +127,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
 
 
                 if ((isNombreEmpty && !isNumeroEmpty) || (!isNombreEmpty && isNumeroEmpty) && !isInputFocused) {
-                    setNotification({
+                     setNotification({
                         status : STATUS.ERROR,
                         render : true,
                         message : "No puede haber un campo vacío en la lista.",
@@ -327,7 +326,6 @@ useEffect(() => {
         }
     }, [activeCard])
 
-    console.log(finalList)
     
     function nuevaDifusion() {
         setListCounter(0)

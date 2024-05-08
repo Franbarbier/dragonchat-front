@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
 import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
-import { EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
+import { DAILY_LIMIT, EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import Loader2 from "../../Loader/Loader2";
 import { INotification } from "../../Notification/Notification";
@@ -114,7 +114,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       }
   },[modalShieldOptions])
 
-
+  useEffect(() => {
+    // setSendList(contactos.slice(0, contactos.length - 1));
+    //  set send list as contacts with out last contact, if "nombre" and "numero" are empty, remove it from the list
+    setSendList(contactos.filter((contact) => contact.nombre !== "" && contact.numero !== ""));
+  }, [contactos]);
 
 
 
@@ -139,7 +143,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       currentMessage.push(messages[i][stringIndex])
     }
 
-    let newContacts = [...sendList];
+    let newContacts = [...contactos];
 
     // Send currentString to the recipient
     const onSuccess = () => {
@@ -151,7 +155,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         dio500(false)
 
       } else {
-        let newContacts = [...sendList];
+        let newContacts = [...contactos];
         newContacts[count].estado = STATUS.ERROR;
         
         // @ts-ignore
@@ -207,7 +211,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         }
       }
 
-      if (listCounter == sendList.length) {
+      if (listCounter == sendList.length - 1) {
         setNotification({
           status: STATUS.SUCCESS,
           render: true,
@@ -216,6 +220,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             setNotification({...notification, render : false})
           }
         });
+
+        setModalFinish(true);
+        return;
       }
 
 
@@ -296,9 +303,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   useEffect(() => {
 
     if (sendingState === SENDING_STATE.SENDING && listCounter < sendList.length) {
-        const contacti = [...sendList]
+        const contacti = [...contactos]
 
-        setShieldNotif(true)
+        
         setTimeout(() => {
           setShieldNotif(false)
         }, 3000);
@@ -312,14 +319,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         sendMove(listCounter);
     }
 
-    if( listCounter == sendList.length -1 && activeCard == idCard){
-      setModalFinish(true);
+    if( listCounter == sendList.length - 1 && activeCard == idCard){
       setLoading(false)
     }
 
   }, [sendingState, listCounter]);
 
-
+  useEffect(() => {
+    if (sendingState === SENDING_STATE.SENDING) setShieldNotif(true);
+  },[sendingState]);
 
   const handleButtonClick = async () => {
 
@@ -349,11 +357,14 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   // set trigger when enter is pressed, and disable it when the component is unmounted
   function handleEnter(event) {
     if (event.key == EVENT_KEY.ENTER ) {
-      
-      if (sendingState === SENDING_STATE.FINISH) {
-        nuevaDifusion()
+
+      // si el modal de anti bloqueo esta abierto, el enter es para "guardar" setting
+      if (!modalShieldOptions) {
+        if (sendingState === SENDING_STATE.FINISH) {
+          nuevaDifusion()
+        }
+        handleButtonClick() 
       }
-      handleButtonClick()
       
     }
   }
@@ -385,7 +396,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
           <div className={`${styles.table_rows} ${styles.enviando_table}`}>
             
-            {console.log(sendList, listCounter)}
 
             {sendList.map((contact, index) => (
               
@@ -534,7 +544,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                 >
                   <div>
                     <span>
-                      Llegaste a tu límite diario de 25 mensajes!
+                      Llegaste a tu límite diario de {DAILY_LIMIT.FREE} mensajes!
                     </span>
                     <br/>
                     <span>

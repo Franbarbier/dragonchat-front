@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { EVENT_KEY } from '../../../enums';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import CardTitle from '../CardTitle/CardTitle';
 import styles from './ModalShieldOptions.module.css';
@@ -51,6 +52,27 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOption
             return false;
         }
     }
+
+
+    function guardarSetting() {
+        
+        setTimer( Number.isNaN(parseInt(inputRef3.current!.value) ) ? 3 : parseInt(inputRef3.current!.value) );  
+        setPausa( Number.isNaN(parseInt(inputRef2.current!.value) ) ? 0 : parseInt(inputRef2.current!.value) );  
+        setBloques( Number.isNaN(parseInt(inputRef.current!.value) ) ? 0 : parseInt(inputRef.current!.value) );
+        setActiveShield(true)
+        setModalShieldOptions(false); 
+    }
+
+    function handleEnter(event) {
+        if (event.key == EVENT_KEY.ENTER ) guardarSetting()
+    }
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleEnter);
+        return () => {
+            document.removeEventListener("keydown", handleEnter);
+        };
+    });
 
     return (
         <div className={styles.ModalShieldOptions_cont}>
@@ -176,13 +198,7 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOption
                             </div>
                         </div>
                     </div>
-                    <OrangeBtn text={'Activar'} onClick={ ()=>{ 
-                        setTimer( Number.isNaN(parseInt(inputRef3.current!.value) ) ? 3 : parseInt(inputRef3.current!.value) );  
-                        setPausa( Number.isNaN(parseInt(inputRef2.current!.value) ) ? 0 : parseInt(inputRef2.current!.value) );  
-                        setBloques( Number.isNaN(parseInt(inputRef.current!.value) ) ? 0 : parseInt(inputRef.current!.value) );
-                        setActiveShield(true)
-                        setModalShieldOptions(false); 
-                    } } />
+                    <OrangeBtn text={'Activar'} onClick={ ()=>{ guardarSetting() } } />
                     
 
                 </div>

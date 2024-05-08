@@ -188,6 +188,10 @@ padding-left: 8px;
     box-shadow: inset 0px 0px 15px 1px #0000005c;
 }
 
+.emptyField textarea{
+    background: #fffb1133!important;
+}
+
 
 /* Maniobras para acomodar borders por no usar grilla o table */
 .grilla_fondo>div:first-child .celda_table:first-child, .grilla_oficial>div:first-child .celda_table:nth-child(2){
@@ -1235,7 +1239,7 @@ padding-left: 8px;
     }
 
     .row_card span{
-        font-size: 0.8em;
+        font-size: 0.9em;
     }
     
     .row_card span.contact_example{
