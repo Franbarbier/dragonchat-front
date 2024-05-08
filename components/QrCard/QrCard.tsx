@@ -179,7 +179,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
                 )}
                 {!activeQr && (
                     <div style={{ "opacity": loadingQr ? "0.3" : "1" }}>
-                        {/* <OrangeBtn onClick={handleIsConnected} /> */}
                         <CustomColorBtn
                             type="submit"
                             text={ !loadingQr ? "Generar QR" : "Generando QR"} 

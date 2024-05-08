@@ -115,7 +115,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   },[modalShieldOptions])
 
   useEffect(() => {
-    // setSendList(contactos.slice(0, contactos.length - 1));
     //  set send list as contacts with out last contact, if "nombre" and "numero" are empty, remove it from the list
     setSendList(contactos.filter((contact) => contact.nombre !== "" && contact.numero !== ""));
   }, [contactos]);
@@ -267,7 +266,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   }
 
   useEffect(() => {
-    if (errorCounter == 999999995){
+    if (errorCounter == 5){
           setSending(false);
           (async () => {
             setDejarDeEnviar(true);

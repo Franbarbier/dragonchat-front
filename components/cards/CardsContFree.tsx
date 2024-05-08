@@ -268,10 +268,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             }
         }
         
-        if (activeCard == 2) {
-
-            // setHintMessage(true)
-            
+        if (activeCard == 2) {            
             document.addEventListener("click", tipClick);
             return () => {
                 document.removeEventListener("click", tipClick);
