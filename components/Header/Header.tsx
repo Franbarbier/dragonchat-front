@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import apiUserController from '../../api/apiUserController';
 import { LOGIN_COOKIE } from '../../constants/index';
-import { ROUTES, STATUS } from '../../enums';
+import { DAILY_LIMIT, ROUTES, STATUS } from '../../enums';
 import Loader from '../Loader/Loader';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import ModalPasatePro from '../ModalPasatePro/ModalPasatePro';
@@ -115,10 +115,17 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
             <Loader loading={loading} />
             <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
             <nav>
-                <div>
+                <div className={styles.logoCont}>
                     <img width={'130px'} src={'dragonchat_logo_full.svg'} onClick={()=> logoClicked() } />
                     
-                        {isPaid ? <span className={`${styles.proGradient} ${styles.proLogo}`}>2.0</span> : <span className={styles.proLogo} style={{"cursor": "pointer"}} onClick={()=> setModalPro(true)}>1.0</span>}
+                        {isPaid ?
+                            <span className={`${styles.proGradient} ${styles.proLogo}`}>2.0</span>
+                        :
+                        <>
+                            <span className={styles.proLogo} style={{"cursor": "pointer"}} onClick={()=> setModalPro(true)}>1.0</span>
+                            <p>Esta versión ceunta con un<br />límite diario de {DAILY_LIMIT.FREE} mensajes.</p>
+                        </>
+                        }
                     
                 </div>
                 
