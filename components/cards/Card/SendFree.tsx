@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import apiSenderWhatsappController from "../../../api/apiSenderWhatsappController";
 import { HOST_URL, LOGIN_COOKIE } from "../../../constants/index";
-import { EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
+import { DAILY_LIMIT, EVENT_KEY, ROUTES, SENDING_STATE, STATUS } from "../../../enums";
 import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import Loader2 from "../../Loader/Loader2";
 import { INotification } from "../../Notification/Notification";
@@ -52,6 +52,8 @@ export interface IFreeCard3 {
   setModalPro: (modalPro: boolean) => void;
 
   delayBetween : number;
+  errorCounter : number;
+  setErrorCounter : (val: number) => void;
 
 }
 
@@ -83,29 +85,39 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   modalShieldOptions,
   isPaid,
   setModalPro,
-  delayBetween
+  delayBetween,
+  errorCounter,
+  setErrorCounter
 
 }) => {
   let idCard = 3;
   let router = useRouter();
 
+
+  // remove last contact from the list
+  const[sendList, setSendList] = useState<ContactInfo[]>( contactos.slice(0, contactos.length - 1 ));
+
+
+
   const [sending, setSending] = useState<boolean>(false);
   const [dejarDeEnviar, setDejarDeEnviar] = useState<boolean>();
 
-  const [errorCounter, setErrorCounter] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false)
+
+  const [shieldNotif, setShieldNotif] = useState<boolean>(false);
 
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
-  const [porcentajeEnvio, setPorcentajeEnvio] = useState<number>(listCounter * 100 / (contactos.length - 1));
-
   useEffect(() => {
       if (timer == 3 && bloques == 0 && pausa == 0) {
         setActiveShield(false)
       }
   },[modalShieldOptions])
 
-
+  useEffect(() => {
+    //  set send list as contacts with out last contact, if "nombre" and "numero" are empty, remove it from the list
+    setSendList(contactos.filter((contact) => contact.nombre !== "" && contact.numero !== ""));
+  }, [contactos]);
 
 
 
@@ -115,7 +127,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
     try{
 
-    const destinatario:ContactInfo = contactos[count];
+    const destinatario:ContactInfo = sendList[count];
 
     // controlar si el destinatario ya fue enviado, si es asi, se salta al siguiente
     if (destinatario.estado == STATUS.SUCCESS || destinatario.estado == STATUS.ERROR) {
@@ -198,7 +210,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         }
       }
 
-      if (listCounter == contactos.length - 2) {
+      if (listCounter == sendList.length - 1) {
         setNotification({
           status: STATUS.SUCCESS,
           render: true,
@@ -207,8 +219,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             setNotification({...notification, render : false})
           }
         });
-        setLoading(true)
 
+        setModalFinish(true);
+        return;
       }
 
 
@@ -288,8 +301,14 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   
   useEffect(() => {
 
-    if (sendingState === SENDING_STATE.SENDING && listCounter < contactos.length - 1) {
+    if (sendingState === SENDING_STATE.SENDING && listCounter < sendList.length) {
         const contacti = [...contactos]
+
+        
+        setTimeout(() => {
+          setShieldNotif(false)
+        }, 3000);
+
 
         // check if contacti[listCounter] has "estado" as a property
         if (!contacti[listCounter].hasOwnProperty("estado")) {
@@ -299,13 +318,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         sendMove(listCounter);
     }
 
-    if( listCounter == contactos.length -1 ){
-      setModalFinish(true);
+    if( listCounter == sendList.length - 1 && activeCard == idCard){
       setLoading(false)
     }
 
   }, [sendingState, listCounter]);
 
+  useEffect(() => {
+    if (sendingState === SENDING_STATE.SENDING) setShieldNotif(true);
+  },[sendingState]);
 
   const handleButtonClick = async () => {
 
@@ -335,11 +356,14 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   // set trigger when enter is pressed, and disable it when the component is unmounted
   function handleEnter(event) {
     if (event.key == EVENT_KEY.ENTER ) {
-      
-      if (sendingState === SENDING_STATE.FINISH) {
-        nuevaDifusion()
+
+      // si el modal de anti bloqueo esta abierto, el enter es para "guardar" setting
+      if (!modalShieldOptions) {
+        if (sendingState === SENDING_STATE.FINISH) {
+          nuevaDifusion()
+        }
+        handleButtonClick() 
       }
-      handleButtonClick()
       
     }
   }
@@ -358,18 +382,24 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     {activeCard == idCard &&
       <div className={styles.card_container}>
         <div>
-          <CardTitle text={ sendingState == SENDING_STATE.INIT ? "Enviar" : `Enviando ${ ((listCounter+1) * 100 / (contactos.length - 1)).toFixed(0) }%`} />
+          <CardTitle text={
+            sendingState === SENDING_STATE.INIT
+            ? "Enviar"
+            : sendingState === SENDING_STATE.FINISH
+            ? "Enviado"
+            : `Enviando ${((listCounter + 1) * 100 / sendList.length).toFixed(0)}%`
+          } />
         </div>
         <div className={styles.card_table_cont}>
           <HeaderRow campos={["NOMBRE", "NUMERO"]} key="header-row-sendFree" />
 
           <div className={`${styles.table_rows} ${styles.enviando_table}`}>
             
-            {contactos.map((contact, index) => (
+
+            {sendList.map((contact, index) => (
               
               <div key={`contactoFinal${index}`}>
-                {contactos.length - 1 != index && (
-                  
+                {/* {sendList.length - 1 != index && ( */}
                   <div
                   className={`${styles.row_card} ${
                     contact.estado == STATUS.ERROR && styles.error
@@ -413,7 +443,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                       <img className={styles.estado_envio} src="/close.svg" />
                     )}
                   </div>
-                )}
+                {/* // )} */}
+               
               </div>
             ))}
           </div>
@@ -426,6 +457,15 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           >
             {!messagesLimitAchieved ? (
               <div className={styles.footerBtns}>
+                 <AnimatePresence>
+                  {shieldNotif && (
+                    <motion.span
+                      initial={{ opacity: 0, x : -15 }}
+                      exit={{ opacity: 0, x : -15 }}
+                      animate={{ opacity: 1, x : 0 }}
+                      >{!activeShield ? "Tu anti-blocker esta desactivado" : "Tu anti-blocker esta activado" }</motion.span>
+                    )}
+                  </AnimatePresence>
                 <aside
                   className={activeShield ? styles.shieldOn : styles.shieldOff}
                 >
@@ -478,7 +518,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                         onClick={() => {
                           handleButtonClick()
                         }}
-                        disable={ contactos[listCounter].estado == STATUS.PENDING }
+                        disable={ sendList[listCounter]?.estado == STATUS.PENDING }
                       />
                       </>
                   }
@@ -503,7 +543,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
                 >
                   <div>
                     <span>
-                      Llegaste a tu límite diario de 50 mensajes!
+                      Llegaste a tu límite diario de {DAILY_LIMIT.FREE} mensajes!
                     </span>
                     <br/>
                     <span>

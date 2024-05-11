@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/index';
 import { ROUTES, STATUS } from '../../enums';
+import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
-import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from './QrCard.module.css';
 
@@ -179,7 +179,17 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
                 )}
                 {!activeQr && (
                     <div style={{ "opacity": loadingQr ? "0.3" : "1" }}>
-                        <OrangeBtn text={ !loadingQr ? "Generar QR" : "Generando QR"} onClick={handleIsConnected} />
+                        <CustomColorBtn
+                            type="submit"
+                            text={ !loadingQr ? "Generar QR" : "Generando QR"} 
+                            backgroundColorInit={ "#c21c3b" }
+                            backgroundColorEnd={ "#f9bd4f" }
+                            borderColor={ "#e17846"}
+                            onClick={() => {
+                                handleIsConnected()
+                            }}
+                            disable={ loadingQr }
+                      />
                     </div>
                 )}
             </div>

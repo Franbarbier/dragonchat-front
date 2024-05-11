@@ -1,6 +1,6 @@
 import React from 'react';
 import { HOST_URL } from '../../constants/index';
-import { ROUTES } from '../../enums/index';
+import { DAILY_LIMIT, ROUTES } from '../../enums/index';
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import styles from './BoxDialog.module.css';
 
@@ -17,7 +17,7 @@ const BoxDialog: React.FC<Props> = ({ setRenderDialog }) => {
             <div className={styles.box_dialog_arrow} ></div>
             <div className={styles.box_dialog_content} >
                 <span>
-                    <span>Llegaste a tu <strong>límite diario de 50 mensajes!</strong></span>
+                    <span>Llegaste a tu <strong>límite diario de {DAILY_LIMIT.FREE} mensajes!</strong></span>
                     <br /><br />
                     <span>Acordate que se van a resetear pasadas las 00:00 horas del dia siguiente.</span>
                     <br /><br />
