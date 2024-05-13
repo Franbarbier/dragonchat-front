@@ -208,7 +208,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
             <div className={styles.card_container} >
                     <CardTitle text={isPaid ? `${finalList.length - 1} Destinatarios` : "VERSION 1.0"} />
                     
-                    <p>Esta versión cuenta con un límite de 25 mensajes por día.</p>
+                    {!isPaid && <p>Esta versión cuenta con un límite de 25 mensajes por día.</p>}
 
                     <div style={{'margin': 'auto', 'width': '88%'}}>
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
