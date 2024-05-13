@@ -30,6 +30,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
     <Head>
       <link rel="shortcut icon" href="/dragonchat_logo.svg" />
+      
     </Head>
 
     {!multiTab &&
