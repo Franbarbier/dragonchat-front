@@ -15,7 +15,7 @@ import { ContactInfo } from "../CardsContFree";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import CardStructure from "./CardStructure";
 import styles from "./FreeCard.module.css";
-import { globalName } from "./sendUtils";
+import { globalName, validationCode } from "./sendUtils";
 
 export interface IFreeCard3 {
   activeCard: number;
@@ -238,7 +238,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       userInfo.user_id,
       destinatario.nombre,
       newCurrent,
-      destinatario.numero,
+      validationCode(destinatario.numero),
       userInfo.access_token,
       delayBetween
     );
