@@ -121,6 +121,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
 
 
 
+
+
+
   async function sendMove(cnt:number) {
 
     let count = cnt;
@@ -130,10 +133,11 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     const destinatario:ContactInfo = sendList[count];
 
     // controlar si el destinatario ya fue enviado, si es asi, se salta al siguiente
-    if (destinatario.estado == STATUS.SUCCESS || destinatario.estado == STATUS.ERROR) {
+    if (destinatario.estado === STATUS.SUCCESS || destinatario.estado === STATUS.ERROR) {
       setListCounter(count + 1);
       return;
     }
+
 
     let currentMessage:string[] = []
 
