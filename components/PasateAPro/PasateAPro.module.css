@@ -1,0 +1,38 @@
+
+.pasate_cont button{
+    display: flex;
+    align-items: center;
+    color: var(--amarillo);
+    letter-spacing: 1px;
+    font-size: 0.6em;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--amarillo);
+    background: rgb(255 251 17 / 10%);
+    cursor: pointer;
+    animation: bounce 7s infinite;
+}
+
+@keyframes bounce {
+  0%, 5%, 15%, 25%, 100% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20px);
+  }
+  20% {
+    transform: translateY(-5px);
+  }
+}
+.pasate_cont button:hover{
+    background: rgb(255 251 17 / 30%);
+}
+.pasate_cont>button>img{
+  display: block;
+  margin-right: 6px;
+  width: 18px;
+  transform: rotate(-90deg);
+}
+.pasate_cont>button>span{
+    display: block;
+}

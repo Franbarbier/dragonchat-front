@@ -1,0 +1,38 @@
+.input_cont {
+    margin: 3% 0;
+    position: relative;
+    width: 100%;
+}
+
+.input_cont input {
+    width: 100%;
+    background-color: var(--rosita1);
+    border-radius: 10px;
+    border: 1px solid var(--violeta1);
+    padding: 8px 20px;
+    color: white;
+}
+
+.input_cont input::placeholder {
+    color: rgb(235, 235, 235);
+}
+
+.ojito {
+    position: absolute;
+    top: 50%;
+    right: 3%;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+}
+
+.slash {
+    position: absolute;
+    top: 50%;
+    right: 4%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--violeta1);
+    font-weight: bold;
+    font-size: 2em;
+}

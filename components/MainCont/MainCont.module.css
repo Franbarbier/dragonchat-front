@@ -1,0 +1,33 @@
+.main_cont {
+    width: attr(data-width);
+    border: 1px solid var(--violeta1);
+    background-color: #422a935d;
+
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main_cont_maintence {
+    width: attr(data-width);
+    border: 1px solid var(--violeta1);
+    background-color: #422a935d;
+
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main_cont>div {
+    padding: 30px;
+}
+
+.main_cont_maintence>div {
+    padding: 30px;
+}

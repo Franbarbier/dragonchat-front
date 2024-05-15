@@ -1,0 +1,19 @@
+.otp_group {
+    display: flex;
+    width: 100%;
+    max-width: 360px;
+    column-gap: 10px;
+  }
+  
+  .otp_input {
+    width: 100%;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1;
+    background: #9f5bc35e;
+    border-color: var(--newPink2);
+  }

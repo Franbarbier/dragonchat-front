@@ -1,0 +1,28 @@
+
+.customColorBtn{
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+    cursor: pointer;
+    margin-top: 3%;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    color: white;
+}
+
+.disabled{
+    opacity: 0.7;
+    cursor: inherit!important;
+}
+
+@media (max-width: 749px) {
+
+.customColorBtn{
+    font-size: 0.6em!important;
+}
+
+}

@@ -1,0 +1,220 @@
+.qrCard_cont{z-index: 5;}
+.qrImg_cont .flipFront img{
+    display: block;
+    margin: auto;
+    padding: 12px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 7px 10px 3px #00000069;
+    width: 100%;
+}
+.qrImg_cont h4{
+    font-size: 0.9em;
+    margin: 0 auto 7%;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #afaac3;
+}
+.qrSteps{
+    display: flex;
+    justify-content: space-between;
+    margin: 30px auto 0;
+    align-items: center;
+}
+.qrSteps>div:first-child{
+    width: 30%;
+}
+.qrSteps>div{
+    width: 50%
+}
+
+.loading_cont p{
+    color: rgb(205, 205, 205);
+    animation-name: titilar;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+.instruciones_cont>div{
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.instruciones_cont>div:last-child{
+    margin-bottom: 0;
+}
+.instruciones_cont>div img{
+    width: 32px;
+    margin-right: 15px;
+}
+.instruciones_cont>div p{
+    font-size: 0.8em;
+}
+.instruciones_cont>div span{
+    font-size: 0.7em;
+    color: #afaac3;
+}
+@keyframes titilar {
+    0%{ opacity: 1; }
+    50%{ opacity: 0.2; }
+    100%{ opacity: 1; }
+}
+
+
+.alertaMsg{
+    color: #a68cec;
+    font-size: 12px;
+    padding: 12px;
+    padding: 8px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 107%;
+    border: 1px solid var(--violeta1);
+    background-color: #422a9391;
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(90px); */
+    padding: 17px;
+}
+
+
+.flipContainer{
+    font-family: 'Open Sans', sans serif;
+    font-size: 120px;
+    font-weight: bold;
+    /* width: 400px;
+    height: 250px;
+    margin: 80px auto; */
+    border-radius: 10px;
+    perspective: 1400px;
+}
+
+.flip{
+    position: relative;
+    height: 100%;
+    border-radius: 10px;
+    width: 100%;
+    transition: .5s;
+    transform-style: preserve-3d;
+}
+
+.flipFront, .flipBack{
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 10px;
+
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
+}
+
+.flipFront{
+    color: #fff;
+}
+
+.flipBack{
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotateY(180deg);
+    background: #fff;
+}
+.flipBack p{
+    font-size: 0.7em;
+}
+.errorQRModal{
+    position: absolute;
+    bottom: 120%;
+    left: 0%;
+    width: 40vw;
+    display: flex;
+    align-items: center;
+}
+.errorQRModal>img{
+    width: 30%;
+    height: auto;
+}
+.errorQRModal>div{
+    text-align: center;
+    background: linear-gradient(to bottom, #FFFFCC, #dcdc41);
+    /* border: 1px solid var(--amarillo); */
+    /* box-shadow: 0px 0px 15px 4px #414141b0; */
+    color: #000;
+    border-radius: 5px;
+    position: relative;
+    padding: 10px;
+    height: max-content;
+    margin-bottom: 7%;
+}
+.errorQRModal>div:before{
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: #e2e25f;
+    right: calc(100% - 7px);
+    transform: rotate(45deg);
+    z-index: -1;
+    top: 25%;
+}
+.errorQRModal>div h3{
+    font-size: 0.8em;
+}
+.errorQRModal>div p{
+    margin-top: 3%;
+    font-size: 0.7em;
+}
+.errorQRModal span{
+    position: absolute;
+    background: black;
+    border: var(--amarillo) 1px solid;
+    color: var(--amarillo);
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.7em;
+    top: 107%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: vibrate 1s 1s 3;
+}
+@keyframes vibrate {
+    0%     {transform: translateX(-47%) ;}
+   12%  {transform: translateX(-53%) ;}
+   25%  {transform: translateX(-47%) ;}
+   37%  {transform: translateX(-53%) ;}
+   47%  {transform: translateX(-47%) ;}
+   62%  {transform: translateX(-53%) ;}
+   75%  {transform: translateX(-47%) ;}
+   87%  {transform: translateX(-53%) ;}
+   100%   {transform: translateX(-47%) ;}
+ }
+/* if mobile */
+@media (max-width: 768px) {
+    .qrSteps{
+        flex-direction: column-reverse;
+
+    }
+    .qrImg_cont img{
+        width: 70%;
+        width: auto;
+        max-height: 30vh;
+        width: auto!important;
+
+    }
+    .qrSteps>div{
+        width: 100%;
+    }
+    .qrSteps>div:last-child{
+        margin-bottom: 30px;
+    }
+    .qrSteps>div:first-child{
+        width: 100%;
+    }
+    .alertaMsg{
+        display: none;
+    }
+}

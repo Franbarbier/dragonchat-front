@@ -1,0 +1,58 @@
+.basicMessages_cont>div{
+  height: 42vh;
+  overflow: auto;
+  padding: 5px;
+}
+.basicMessages_cont ul li {
+  list-style: circle;
+  font-size: 0.8em;
+  padding: 0 5px;
+  margin-bottom: 10px;
+  width: 95%;
+  margin-left: 5%;
+}
+
+.basicMessages_cont ul li strong{
+  cursor: pointer;
+  position: relative;
+}
+.copied::after {
+  content: "Copied!";
+  background-color: green;
+  position: absolute;
+  font-weight: 300;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 115%;
+  padding: 3px 5px;
+  border-radius: 5px;
+  transition: .2s;
+}
+.messages_cont{
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  justify-content: space-between;
+}
+
+.messages_cont img{
+  width: 5%;
+  opacity: 0.7;
+  cursor: pointer;
+}
+.messages_cont img:hover{
+  opacity: 1;
+}
+.messages_cont textarea, .messages_cont p{
+  background-color: #a361c557;
+  border: 1px solid var(--rosita1);
+  border-radius: 5px;
+  resize: none;
+  width: 100%;
+  box-shadow: 0px 3px 4px 3px #00000040;
+  padding: 10px;
+  width: 88%;
+}
+.messages_cont textarea:focus, .messages_cont p:focus{
+  outline: var(--amarillo) 1px solid;
+}
