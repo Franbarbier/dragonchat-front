@@ -67,20 +67,28 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
+                    <ul>
+
                     {isPaid &&
-                        <div className={styles.delayBetCont}>
-                            <p>Podes establecer un delay entre cada mensaje para una mejor experiencia:</p>
-                            <input type='number' value={delayBetween} onChange={(e)=>{
-                                if (e.target.value < '1') {
-                                    e.target.value = '1';
-                                    return false;
-                                }
-                                setDelayBetween(Number(e.target.value))
-                            }
-                            }/> <span>(segundos)</span>
-                        </div>
+                        <li className={styles.delayBetCont}>
+                            <div>Podes establecer un delay entre cada mensaje para una mejor experiencia:</div>
+                            <div>
+                                <input type='number' value={delayBetween} onChange={(e)=>{
+                                            if (e.target.value < '1') {
+                                                e.target.value = '1';
+                                                return false;
+                                            }
+                                            setDelayBetween(Number(e.target.value))
+                                        }
+                                    }/>
+                                <span>(segundos)</span>
+                            </div>
+                        </li>
                     
                     }
+                        <li>Escribiendo <strong>[name]</strong> se va a enviar dinamicamente el nombre del destinatario.</li>
+                    </ul>
+
                     <div className={styles.MultiMessages}>
                         <div>
                             {testMsj.map((message, index)=>{

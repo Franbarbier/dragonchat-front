@@ -1,5 +1,5 @@
 .header_cont>nav{
-    padding: 8px 20%;
+    padding: 8px 10%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -12,7 +12,7 @@
     background: #00000091;
 }
 .header_cont>nav>div{
-    width: 30%;
+    /* width: 30%; */
 }
 .header_cont>nav>div img{cursor: pointer;}
 .settings_cont img{
@@ -42,6 +42,7 @@
 0% { transform: rotate(0deg)}
 100% { transform: rotate(180deg)}
 }
+
 
 .menu_cont{
     display: flex;
@@ -103,9 +104,6 @@
     font-size: 1em;
 }
 .proLogo{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
     margin-left: 10px;
     font-size: 0.6em;
     border: 1px solid;
@@ -120,6 +118,34 @@
     background-clip: text;
     color: transparent; 
 }
+.logoCont{ 
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.logoCont>p{
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: fit-content;
+    font-size: 0.7em;
+    color: var(--amarillo);
+    padding: 4px 6px;
+    border: solid 1px var(--amarillo);
+    border-radius: 5px;
+    width: max-content;
+
+    opacity: 0;
+    transform: translate(-15%, -50%);
+
+}
+.logoCont:hover>p{
+    opacity: 1;
+    transform: translate(-0%, -50%);
+}
 
 @media (max-width: 750px) {
 
@@ -132,5 +158,8 @@
 }
 .referir_cont>button>img{
     margin-right: 0!important;
+}
+.logoCont>p{
+    display: none;
 }
 }

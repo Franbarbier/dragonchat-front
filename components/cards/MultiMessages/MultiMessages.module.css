@@ -9,23 +9,14 @@
 }
 
 .delayBetCont{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5%;
     position: relative;
 }
 .delayBetCont span{
-    position: absolute;
-    font-size: 0.7em;
-    right: 0%;
-    top: 103%;
+    font-size: 0.9em;
+    margin-left: 8px;
     color: #ddd
 }
-.delayBetCont p{
-    padding-right: 5%;
-    font-size: 0.9em;
-}
+
 .delayBetCont input{
     width: 5em;
     padding: 2px 8px;
@@ -37,12 +28,16 @@
 }
 .MultiMessages_cont li{ 
     list-style: circle;
-    font-size: 0.8em;
+    font-size: 1.1em;
     padding: 0 5px;
-    margin-bottom: 10px;
+    margin-bottom: 3%;
     width: 95%;
     margin-left: 5%;
     line-height: 17px;
+}
+.MultiMessages_cont li>div:last-child{
+    display: inline-block;
+    margin-left: 11px;
 }
 .MultiMessages_cont li input{
     width: 5em;

@@ -106,6 +106,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [delayBetween, setDelayBetween] = useState<number>(1)
 
+    const [errorCounter, setErrorCounter] = useState<number>(0);
+
 
     function handleRenderModal(render:boolean){
         setModalImport(render)
@@ -113,7 +115,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     
     useEffect(()=>{
         var filtered = [...contactos]
-
         filtered = removeColors(filtered)
 
         if (filtered.length > 1) {
@@ -126,7 +127,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
 
 
                 if ((isNombreEmpty && !isNumeroEmpty) || (!isNombreEmpty && isNumeroEmpty) && !isInputFocused) {
-                    setNotification({
+                     setNotification({
                         status : STATUS.ERROR,
                         render : true,
                         message : "No puede haber un campo vacío en la lista.",
@@ -267,10 +268,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             }
         }
         
-        if (activeCard == 2) {
-
-            // setHintMessage(true)
-            
+        if (activeCard == 2) {            
             document.addEventListener("click", tipClick);
             return () => {
                 document.removeEventListener("click", tipClick);
@@ -339,6 +337,7 @@ useEffect(() => {
         setSendingState(SENDING_STATE.INIT)
         setModalFinish(false)
         setBlackList([])
+        setErrorCounter(0)
     }
 
     return (
@@ -377,6 +376,8 @@ useEffect(() => {
                         isPaid={isPaid}
                         setModalPro={setModalPro}
                         delayBetween={delayBetween}
+                        errorCounter={errorCounter}
+                        setErrorCounter={setErrorCounter}
                     />
 
                     <FreeCard1 

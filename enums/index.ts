@@ -88,3 +88,7 @@ export enum COOKIES_SETTINGS {
   DESP = 'desp'
   
 };
+
+export enum DAILY_LIMIT {
+  FREE = 25,
+};
