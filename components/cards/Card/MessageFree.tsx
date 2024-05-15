@@ -54,6 +54,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
     }
 
 
+    console.log(messages)
 
 
     useEffect(()=>{
