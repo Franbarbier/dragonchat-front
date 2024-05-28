@@ -129,7 +129,6 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
             handleNotification(STATUS.SUCCESS, "Usuario creado con exito!");
             handleLogin(formData.mail, formData.pass);
         }else{
-            console.log(signUp_res)
             if (signUp_res?.status == 406) {
                 setModalip(true)
             }else if(signUp_res?.status == 409){
