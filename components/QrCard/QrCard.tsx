@@ -223,12 +223,3 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
 }
 
 export default QrCard;
-
-
-
-// se genera insyancia con wpp
-
-// Wpp me trae un QR
-// Se renderiza
-
-
