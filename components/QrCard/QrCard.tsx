@@ -42,9 +42,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
             }else{
                 if (dataConnect == 417){
                     stopIteration()
-                    
-                    // cerrar instancia
-                    // crear instancia nueva
                 }
 
                 if (dataConnect == 428 || dataConnect == 412) {
