@@ -17,10 +17,11 @@ export interface ISignUpView {
     stripe_data: Object | null,
     setNotification: (notification: INotification) => void,
     notification: INotification
-    setCantSignUpModal: (value: boolean) => void
+    setCantSignUpModal: (value: boolean) => void,
+    setModalip: (value: boolean) => void;
 }
 
-const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notification, setCantSignUpModal }) => {
+const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notification, setCantSignUpModal, setModalip }) => {
     const [formData, setFormData] = useState({ name: '', mail: '', pass: '', confirmPass: '', code: '', number: '' });
     const [userExists, setUserExists] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -128,15 +129,20 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
             handleNotification(STATUS.SUCCESS, "Usuario creado con exito!");
             handleLogin(formData.mail, formData.pass);
         }else{
-            handleNotification(STATUS.ERROR, "Ocurrio un error inesperado, intentalo mas tarde.");
-
+            console.log(signUp_res)
+            if (signUp_res?.status == 406) {
+                setModalip(true)
+            }else if(signUp_res?.status == 409){
+                handleNotification(STATUS.ERROR, "Ya existe un usuario registrado con ese email.");
+            }else{
+                handleNotification(STATUS.ERROR, "Ocurrio un error inesperado, intentalo mas tarde.");
+            }
         }
     };
 
     const handleFormChange = useCallback((field: 'name' | 'mail' | 'pass' | 'confirmPass', value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }))
     }, [setFormData]);
-
 
 
     return (
@@ -192,6 +198,8 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
                     </button>
                 </div>
             </div>
+
+            
     
         
         </div>

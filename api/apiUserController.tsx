@@ -30,12 +30,7 @@ const apiUserController = {
                 return response;
             }
         } catch (error: any) {
-
-            if (error?.response?.status == 409) {
-                setUserExists(true);
-            } else {
-                return error;
-            }
+            return error.response;
         }
         return;
     },

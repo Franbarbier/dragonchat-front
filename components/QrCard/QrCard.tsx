@@ -40,15 +40,16 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
             if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
             }else{
-                if (dataConnect == 428 || dataConnect == 412 || dataConnect == 417) {
-                    count417++;
-                    setLoadingQr(true);
-                    if(count417 == 40){
-                        stopIteration()
-                        return false
-                    }
+                if (dataConnect == 417){
+                    stopIteration()
+                    
+                    // cerrar instancia
+                    // crear instancia nueva
                 }
-                else{
+
+                if (dataConnect == 428 || dataConnect == 412) {
+                    setLoadingQr(true);
+                }else{
                     stopIteration()
                 }
                 
@@ -225,4 +226,12 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
 }
 
 export default QrCard;
+
+
+
+// se genera insyancia con wpp
+
+// Wpp me trae un QR
+// Se renderiza
+
 

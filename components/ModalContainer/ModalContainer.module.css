@@ -60,12 +60,13 @@
 .close_mod:hover{
     color: white;
 }
-.no_enviados{ width: 40vw; }
+.no_enviados, .modal_ip{ width: 40vw; }
 .modal_shield_option, .timerModal{ width: 35vw; }
 .width35{ width: 35vw; }
 .refAmis, .modal_plan, .pro{
     width: 30vw;
 }
+
 /* if mobile modal cont more width */
 @media screen and (max-width: 768px){
     .modal_cont{

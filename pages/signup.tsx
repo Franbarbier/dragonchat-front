@@ -3,6 +3,7 @@ import { useState } from "react";
 import CustomColorBtn from "../components/CustomColorBtn/CustomColorBtn";
 import MainCont from "../components/MainCont/MainCont";
 import ModalContainer from "../components/ModalContainer/ModalContainer";
+import ModalIpblocker from "../components/ModalIpblocker/ModlIpblocker";
 import Notification, { INotification } from "../components/Notification/Notification";
 import SignUpView from "../components/SignUpView/SignUpView";
 import styles from '../components/SignUpView/SignUpView.module.css';
@@ -24,6 +25,7 @@ const SignUp: NextPageWithLayout<GralProps> = (GralProps) => {
     })
 
     const [ cantSignUpModal, setCantSignUpModal ] = useState(false)
+    const [modalip, setModalip] = useState(false);
 
 
     return (
@@ -31,7 +33,7 @@ const SignUp: NextPageWithLayout<GralProps> = (GralProps) => {
             <Notification status={notification.status} render={notification.render} message={notification.message} modalReturn={notification.modalReturn} />
 
             <MainCont width={90} maxWidth={400}>
-                <SignUpView setCantSignUpModal={setCantSignUpModal} stripe_data={GralProps} setNotification={setNotification} notification={notification} />
+                <SignUpView setModalip={setModalip} setCantSignUpModal={setCantSignUpModal} stripe_data={GralProps} setNotification={setNotification} notification={notification} />
                 
             </MainCont>
 
@@ -59,6 +61,11 @@ const SignUp: NextPageWithLayout<GralProps> = (GralProps) => {
                 </ModalContainer>
             </div>
             }
+            {modalip && (
+                <ModalContainer closeModal={ ()=>{setModalip(false)} } addedClass='modal_ip' >
+                    <ModalIpblocker setModalip={setModalip} />
+                </ModalContainer >
+            )}
             
         </section>
     );
