@@ -40,7 +40,7 @@ export interface IFreeCard3 {
   setActiveShield: (active: boolean) => void;
   setModalFinish: (mod: boolean) => void;
   setRenderDialog : (render: boolean) => void;
-  timer : number;
+  timer : [number, number];
   bloques : number;
   pausa : number;
   
@@ -109,7 +109,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
   useEffect(() => {
-      if (timer == 3 && bloques == 0 && pausa == 0) {
+      if (timer[1] == 3 && bloques == 0 && pausa == 0) {
         setActiveShield(false)
       }
   },[modalShieldOptions])
@@ -207,8 +207,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       // Sistema de delays, que chequea si el escudo esta activo y si es asi, aplica los delays correspondientes
       let delay = 3 //min
       if (activeShield){
-        delay = timer
+        delay = Math.floor(Math.random() * (timer[0] - timer[1] + 1) + timer[1])
         
+        console.log(delay)
         if (listCounter % bloques == bloques-1 && listCounter != 0) {
           delay = delay + (pausa * 60)
         }

@@ -117,8 +117,7 @@ export async function getServerSideProps({ req, res }) {
   var stripeStatus: null | number = null
 
   const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
-  const accessToken = "JSON.parse(responseText).access_token"
-  // const accessToken = JSON.parse(responseText).access_token
+  const accessToken = JSON.parse(responseText).access_token
 
 
 
@@ -159,7 +158,7 @@ export async function getServerSideProps({ req, res }) {
       }
     });
     const responseData = await getData.json();
-
+    
     if (responseData.subscription && responseData.subscription.isPaid === undefined) {
       data.subscription.isPaid = false;
     }else{
@@ -177,7 +176,7 @@ export async function getServerSideProps({ req, res }) {
   }
 
 
-  return { props: { stripe : stripeStatus, isPaid : true, maintenance : maint } };
+  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
 
 
 }
