@@ -949,6 +949,9 @@ padding-left: 8px;
     width: 1em;
     margin-right: 9px;
 }
+.pausarEnvio span{
+    color: white;
+}
 .footerBtns{
     display: flex;
     justify-content: space-between;

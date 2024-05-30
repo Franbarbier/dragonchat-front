@@ -35,7 +35,14 @@
     margin-left: 5%;
     line-height: 17px;
 }
-.MultiMessages_cont li>div:last-child{
+.MultiMessages_cont ul li>strong{
+    padding: 4px 5px;
+    background: var(--newViolet);
+    border-radius: 4px;
+    display: inline-block;
+    cursor: pointer;
+}
+.delayBetCont li>div:last-child{
     display: inline-block;
     margin-left: 11px;
 }
@@ -106,6 +113,22 @@
     height: calc( 1.4em + 45px)!important;
 
 }
+.messages_cont p{
+    margin: auto;
+    background-color: var(--newPink);
+    border: 1px solid var(--newViolet);
+    display: block;
+    border-radius: 6px;
+    padding: 22px 18px;
+    font-size: 0.85em;
+    padding-right: 25%;
+    color: white;
+    width: 98%;
+    outline: none;
+    scroll-behavior: smooth;
+
+}
+
 
 /* Styles specifically for Mozilla Firefox */
 @-moz-document url-prefix() {

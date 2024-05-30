@@ -8,6 +8,7 @@ import styles from './MultiMessages.module.css';
 
 
 import Picker from "emoji-picker-react";
+import EditableParagraph from './EditableParagraph/EditableParagraph';
 
 export interface IMultiMessages {
     messages : string[][];
@@ -24,6 +25,7 @@ export interface IMultiMessages {
 const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
+    const [pMessages, setPMessages] = useState<string[][]>(messages)
 
 
     useEffect(()=>{
@@ -63,7 +65,21 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         setShowPicker([99,99]);
     };
 
+
+    console.log(pMessages)
+    console.log(messages, testMsj)
+
+    useEffect(()=>{
+        if (testMsj.length === 0) {
+            setPMessages([[""]])
+        }
+    },[messages])
+    useEffect(()=>{
+        setMessages(pMessages)
+    },[pMessages])
   
+
+    
     return (
             <div className={styles.MultiMessages_cont}>
                 <div>
@@ -86,12 +102,12 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                         </li>
                     
                     }
-                        <li>Escribiendo <strong>[name]</strong> se va a enviar dinamicamente el nombre del destinatario.</li>
+                        <li>Escribiendo <strong onClick={ ()=>{ } }>[name]</strong> se va a enviar dinamicamente el nombre del destinatario.</li>
                     </ul>
 
                     <div className={styles.MultiMessages}>
                         <div>
-                            {testMsj.map((message, index)=>{
+                            {pMessages.map((message, index)=>{
                                     return (
                                         <div key={`mensajesCopy${index}`}>
                                         <>
@@ -113,7 +129,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         <img src="/var_linea.svg" alt="" className={styles.svgBranch} />
 
                                                                         
-                                                                        <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
+                                                                        {/* <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
                                                                             let newMessages = [...testMsj];
                                                                             const thisArr = newMessages[index]
                                                                             thisArr[j] = e.target.value;
@@ -122,8 +138,21 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                             
                                                                         } }
                                                                         rows={1}
-                                                                        />
-                                                                        
+                                                                        /> */}
+                                                                        {/* <p
+                                                                            contentEditable
+                                                                            onBlur={(e)=>{
+                                                                                const target = e.target as HTMLParagraphElement; // Cast event target to HTMLParagraphElement
+                                                                                let newPMessages = [...pMessages];
+                                                                                const thisArrP = newPMessages[index]
+                                                                                thisArrP[j] = target.innerText; // Access innerText property
+                                                                                newPMessages[index] = thisArrP;
+                                                                                setPMessages(newPMessages);
+                                                                            }}
+                                                                        >{msj}</p> */}
+
+                                                                        <EditableParagraph msj={msj} />
+                                                                        {/* {console.log(pMessages[index][j],"HOLA", msj)} */}
                                                                     </motion.div>
                                                                         <img src="/close.svg" width={"12px"} onClick={()=>{
 

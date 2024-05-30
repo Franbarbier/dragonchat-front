@@ -13,7 +13,11 @@ export async function middleware(req: NextRequest, _) {
 
 
   // Las paginas que podes acceder sin estar logeado: login, signup, recover pass, new pass y checkout (esta no está dentro del middleware)
-  if (!req.nextUrl.pathname.startsWith(ROUTES.LOGIN) && !authCookie && !req.nextUrl.pathname.startsWith(ROUTES.SIGN_UP) && !req.nextUrl.pathname.startsWith(ROUTES.RECOVER) && !req.nextUrl.pathname.startsWith(ROUTES.NEW_PASS)) {
+  if (!authCookie &&
+      !req.nextUrl.pathname.startsWith(ROUTES.LOGIN) &&
+      !req.nextUrl.pathname.startsWith(ROUTES.SIGN_UP) &&
+      !req.nextUrl.pathname.startsWith(ROUTES.RECOVER) &&
+      !req.nextUrl.pathname.startsWith(ROUTES.NEW_PASS)) {
     return handleRedirect(req, ROUTES.LOGIN);
   }
 
@@ -61,5 +65,5 @@ export async function middleware(req: NextRequest, _) {
 }
 
 export const config = {
-  matcher: ["/dash", "/qr", "/premium", "/login", "/user/edit", "/signup", "/recover_password", "/new_password"],
+  matcher: ["/dash2", "/qr", "/premium", "/login", "/user/edit", "/signup", "/recover_password", "/new_password"],
 };
