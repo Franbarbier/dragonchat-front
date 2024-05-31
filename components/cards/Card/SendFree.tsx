@@ -208,8 +208,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       let delay = 3 //min
       if (activeShield){
         delay = Math.floor(Math.random() * (timer[0] - timer[1] + 1) + timer[1])
-        
-        console.log(delay)
+
         if (listCounter % bloques == bloques-1 && listCounter != 0) {
           delay = delay + (pausa * 60)
         }
