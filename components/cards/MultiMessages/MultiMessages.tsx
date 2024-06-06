@@ -28,9 +28,52 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     const [pMessages, setPMessages] = useState<string[][]>(messages)
 
 
+    const [content, setContent] = useState<[number, number]>([0,0]);
+
+    const [range, setRange] = useState<Range | null>(null);
+
+    const handleBlur = (e, index, j) => {
+
+        let newPMessages = [...pMessages];
+        newPMessages[index][j] = e.target.innerText;
+        setPMessages(newPMessages);
+
+        // get cursor position
+        const selection = window.getSelection();
+        // place a string in the cursor position
+        const range = selection ? selection.getRangeAt(0) : null;
+        console.log(range)
+        setRange(range);
+        setContent([index, j]);
+    };
+
+    const insertTextAtCursor = () => {
+    
+        let activeP = pMessages[content[0]][content[1]];
+
+        let newRange = range?.startOffset ?? activeP.length;
+        if (range?.startOffset === 0) {
+            newRange = activeP.length;
+        }
+
+        // set in the range position the string in "content" var string
+        const newContent = activeP.substring(0, newRange) + "[name]" + activeP.substring(newRange);
+
+        let newMessages = [...pMessages];
+        newMessages[content[0]][content[1]] = newContent;
+        setPMessages(newMessages);
+    
+    };
+    
+
+
     useEffect(()=>{
         if (testMsj.length === 0) {
             setTestMsj([[""]])
+        }
+        if (pMessages.length === 0) {
+            setPMessages([[""]])
+            
         }
     },[messages])
 
@@ -51,32 +94,23 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
+    useEffect(()=>{
+        setMessages(pMessages)
+    },[pMessages])
 
     const [showPicker, setShowPicker] = useState<[number, number]>([99,99]);
 
     const onEmojiClick = (event) => {
         
-        let newMessages = [...testMsj];
+        let newMessages = [...pMessages];
         const thisArr = newMessages[showPicker[0]]
         thisArr[showPicker[1]] = thisArr[showPicker[1]] + event.emoji;
         newMessages[showPicker[0]] = thisArr;
-        setTestMsj(newMessages);
+        setPMessages(newMessages);
 
         setShowPicker([99,99]);
     };
 
-
-    console.log(pMessages)
-    console.log(messages, testMsj)
-
-    useEffect(()=>{
-        if (testMsj.length === 0) {
-            setPMessages([[""]])
-        }
-    },[messages])
-    useEffect(()=>{
-        setMessages(pMessages)
-    },[pMessages])
   
 
     
@@ -102,7 +136,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                         </li>
                     
                     }
-                        <li>Escribiendo <strong onClick={ ()=>{ } }>[name]</strong> se va a enviar dinamicamente el nombre del destinatario.</li>
+                        <li>Escribiendo <strong onClick={ insertTextAtCursor }>[name]</strong> se va a enviar dinamicamente el nombre del destinatario.</li>
                     </ul>
 
                     <div className={styles.MultiMessages}>
@@ -122,47 +156,35 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         message.map((msj, j)=>{
                                                             return (
                                                                 <div key={`mensaje${index}-var${j}`}>
-                                                                    <>
                                                                     <motion.div className={styles.txtareaCont}
                                                                             initial={{ opacity: 0, y : 50 }}
-                                                                            animate={{ opacity: 1, y : 0 }}>
+                                                                            animate={{ opacity: 1, y : 0 }}
+                                                                            key={`campo${index}-${j}`}>
                                                                         <img src="/var_linea.svg" alt="" className={styles.svgBranch} />
 
-                                                                        
-                                                                        {/* <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
-                                                                            let newMessages = [...testMsj];
-                                                                            const thisArr = newMessages[index]
-                                                                            thisArr[j] = e.target.value;
-                                                                            newMessages[index] = thisArr;
-                                                                            setTestMsj(newMessages);
-                                                                            
-                                                                        } }
-                                                                        rows={1}
-                                                                        /> */}
-                                                                        {/* <p
-                                                                            contentEditable
-                                                                            onBlur={(e)=>{
-                                                                                const target = e.target as HTMLParagraphElement; // Cast event target to HTMLParagraphElement
-                                                                                let newPMessages = [...pMessages];
-                                                                                const thisArrP = newPMessages[index]
-                                                                                thisArrP[j] = target.innerText; // Access innerText property
-                                                                                newPMessages[index] = thisArrP;
-                                                                                setPMessages(newPMessages);
-                                                                            }}
-                                                                        >{msj}</p> */}
+                                                                        <EditableParagraph
+                                                                            msj={msj}
+                                                                            index={index}
+                                                                            j={j}
+                                                                            pMessages={pMessages}
+                                                                            setPMessages={setPMessages}
+                                                                            content={content}
+                                                                            setContent={setContent}
+                                                                            range={range}
+                                                                            setRange={setRange}
+                                                                            handleBlur={handleBlur}
+                                                                        />
 
-                                                                        <EditableParagraph msj={msj} />
-                                                                        {/* {console.log(pMessages[index][j],"HOLA", msj)} */}
                                                                     </motion.div>
                                                                         <img src="/close.svg" width={"12px"} onClick={()=>{
 
-                                                                            let newMessages = [...testMsj];
+                                                                            let newMessages = [...pMessages];
                                                                             const thisArr = newMessages[index]
                                                                             thisArr.splice(j, 1);
 
                                                                             if (thisArr.length == 0) { newMessages.splice(index, 1); }
                                                                                     
-                                                                            setTestMsj(newMessages);
+                                                                            setPMessages(newMessages);
                                                                         }} className={styles.deleteVariacion} />
 
 
@@ -178,16 +200,15 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
 
                                                                             </div>
                                                                         )}
-                                                                        { testMsj[index][0] != "" && 
+                                                                        { pMessages[index][0] != "" && 
                                                                             <img className={styles.newVaracion} onClick={()=>{
-                                                                                const newArray = [...testMsj];
+                                                                                const newArray = [...pMessages];
                                                                                 newArray[index] = [...message, ``];
-                                                                                setTestMsj(newArray);
+                                                                                setPMessages(newArray);
                                                                             }} title='Agregar variacion'
                                                                             src="./fork.png"   />                                                                        
                                                                         }
 
-                                                                        </>
                                                                 </div>
                                                             )
                                                         } )
@@ -212,7 +233,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                         </div>
                         <div className={`${styles.agregarMultiMensaje} ${messages.length > 4 && styles.noMoreMsjs}`} onClick={()=> {
                                 if (isPaid) {
-                                    if (messages.length < 5) { setTestMsj([...testMsj, [""]]) }
+                                    if (messages.length < 5) { setPMessages([...pMessages, [""]]) }
                                 }else{
                                     setNotification({
                                         status: STATUS.ALERT,

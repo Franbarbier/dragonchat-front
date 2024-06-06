@@ -1,59 +1,59 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import styles from '../MultiMessages.module.css';
 
 interface IEditableParagraph {
-    msj : string
+    msj : string;
+    index : number;
+    j : number;
+    setPMessages: (pMessages: string[][]) => void;
+    pMessages: string[][];
+    content : string;
+    setContent : (content: string) => void;
+    range : any;
+    setRange : (range: any) => void;
+    handleBlur : (e, i, j) => void;
 }
 
 
-const EditableParagraph: React.FC<IEditableParagraph> = ({ msj="" }) => {
+const EditableParagraph: React.FC<IEditableParagraph> = ({ msj="", index, j, setPMessages, pMessages, handleBlur}) => {
 
-  const [content, setContent] = useState(msj);
   const editableRef = useRef(null);
+  const [range, setRange] = useState(null);
 
-  useEffect(() => {
-    // Initialize contentEditable with initial state content
-    if (editableRef.current ) {
-      editableRef.current.innerHTML = content;
+
+ 
+
+  function encodeName(contenido:string) {
+    
+    // let spannedCont = contenido.replace(/(\S)\[name\](\S)/g, "<span>[name]</span>");
+    let resultado = contenido.replace(/\s*\[name\]\s*/g, ' <span>[name]</span> ');
+
+    // Eliminar espacios duplicados
+    resultado = resultado.replace(/\s+/g, ' ').trim();
+
+    // Asegurarse de que termine con un espacio si es necesario
+    if (!resultado.endsWith(' ') && resultado.length > 0) {
+        resultado += '&nbsp;';
     }
-  }, [content]);
 
-  const handleBlur = () => {
-    if (editableRef.current) {
-      setContent(editableRef.current.innerHTML);
-    }
-  };
+    console.log(resultado);
+    return resultado;
+  }
 
-  const insertTextAtCursor = (text) => {
-    const editableElement = editableRef.current;
-    if (!editableElement) return;
-    editableElement.focus();
-
-    const selection = window.getSelection();
-    if (!selection.rangeCount) return;
-    const range = selection.getRangeAt(0);
-
-    range.deleteContents();
-    const textNode = document.createTextNode(text);
-    range.insertNode(textNode);
-
-    // Move the cursor to the end of the inserted text node
-    range.setStartAfter(textNode);
-    range.setEndAfter(textNode);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    setContent(editableElement.innerHTML); // Update the state with the new content
-  };
 
   return (
-    <div>
+    <div key={"pcontentnro"+index+j}>
       <p
+        className={styles.editableParagraph}
+        key={"editbalep"+index+j}
         contentEditable="true"
         ref={editableRef}
-        onBlur={handleBlur}
-        style={{ border: '1px solid black', padding: '10px', minHeight: '100px' }}
-      >{content}</p>
-      <button onClick={() => insertTextAtCursor('[name]')}>Insert [name]</button>
+        onBlur={ (e)=> handleBlur(e, index, j)}
+        dangerouslySetInnerHTML={{ __html: encodeName(msj) }}
+        
+        onChange={()=>console.log("change")}
+      >
+      </p>
     </div>
   );
 }

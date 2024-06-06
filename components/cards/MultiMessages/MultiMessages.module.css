@@ -35,12 +35,13 @@
     margin-left: 5%;
     line-height: 17px;
 }
-.MultiMessages_cont ul li>strong{
+.MultiMessages_cont ul li>strong, .editableParagraph>span{
     padding: 4px 5px;
     background: var(--newViolet);
     border-radius: 4px;
-    display: inline-block;
+    /* display: inline-block; */
     cursor: pointer;
+
 }
 .delayBetCont li>div:last-child{
     display: inline-block;
@@ -126,6 +127,7 @@
     width: 98%;
     outline: none;
     scroll-behavior: smooth;
+    line-height: 1.7;
 
 }
 
