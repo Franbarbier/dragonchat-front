@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { EVENT_KEY, MESSAGE_TYPE, STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
@@ -31,6 +31,7 @@ export interface IFreeCard2 {
 const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, delayBetween, setDelayBetween, setShowTips, setModalPro }) => {
 
     let idCard = 2;
+    const [testNext, setTestNext] = useState<boolean>(false)
 
     useEffect(()=>{
         setBreadcrumb(selectedSecuence?.chat || [])
@@ -47,6 +48,9 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
                 message : "Para el salto de linea presionar SHIF+ENTER",
                 modalReturn : () => {setNotification({...notification, render : false})}
             })
+
+            // force focus out of any element
+            
 
             if ( nextCard ) setActiveCard(activeCard+1)           
         } 
@@ -65,6 +69,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
     })
 
 
+
     return (
         <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
             <>
@@ -79,7 +84,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
                 </div>
                 <div>
                     </div>
-                    <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween} isPaid={isPaid} setModalPro={setModalPro}/>
+                    <MultiMessages setTestNext={setTestNext} messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween} isPaid={isPaid} setModalPro={setModalPro}/>
 
             </div>
 

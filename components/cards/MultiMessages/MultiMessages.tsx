@@ -19,10 +19,11 @@ export interface IMultiMessages {
     setDelayBetween : (val: number) => void;
     isPaid: boolean;
     setModalPro : (modalPro: boolean) => void;
+    setTestNext : (val:boolean) => void
 }
 
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ setTestNext, notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
     const [pMessages, setPMessages] = useState<string[][]>(messages)
@@ -42,38 +43,47 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         const selection = window.getSelection();
         // place a string in the cursor position
         const range = selection ? selection.getRangeAt(0) : null;
-        console.log(range)
+
         setRange(range);
         setContent([index, j]);
     };
 
     const insertTextAtCursor = () => {
-    
-        let activeP = pMessages[content[0]][content[1]];
 
-        let newRange = range?.startOffset ?? activeP.length;
-        if (range?.startOffset === 0) {
-            newRange = activeP.length;
+        try {
+            let activeP = pMessages?.[content[0]]?.[content[1]] ?? '';
+            
+            let newRange = range?.startOffset ?? activeP.length;
+            if (range?.startOffset === 0) {
+                newRange = activeP.length;
+            }
+            
+            // set in the range position the string in "content" var string
+            const newContent = activeP.substring(0, newRange) + "[name]" + activeP.substring(newRange);
+            
+            let newMessages = [...pMessages];
+            newMessages[content[0]][content[1]] = newContent;
+            setPMessages(newMessages);
+
+        } catch (error) {
+
+            let activeP = pMessages[pMessages.length-1][0]
+            let newRange = activeP.length;
+            
+            // set in the range position the string in "content" var string
+            const newContent = activeP.substring(0, newRange) + "[name]"
+            let newMessages = [...pMessages];
+            newMessages[pMessages.length-1][0] = newContent;
+            setPMessages(newMessages);
         }
-
-        // set in the range position the string in "content" var string
-        const newContent = activeP.substring(0, newRange) + "[name]" + activeP.substring(newRange);
-
-        let newMessages = [...pMessages];
-        newMessages[content[0]][content[1]] = newContent;
-        setPMessages(newMessages);
     
     };
     
 
 
     useEffect(()=>{
-        if (testMsj.length === 0) {
-            setTestMsj([[""]])
-        }
         if (pMessages.length === 0) {
             setPMessages([[""]])
-            
         }
     },[messages])
 
@@ -173,6 +183,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                             range={range}
                                                                             setRange={setRange}
                                                                             handleBlur={handleBlur}
+                                                                            setTestNext={setTestNext}
                                                                         />
 
                                                                     </motion.div>
@@ -191,9 +202,10 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         
                                                                         <img
                                                                             className={styles.emojiIcon}
-                                                                            src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
+                                                                            src="./emoji-smile.svg"
                                                                             onClick={() => setShowPicker([index, j])}
                                                                         />
+
                                                                         {(j == showPicker[1] && index == showPicker[0])  && (
                                                                             <div className={styles.pickerCont} ref={emojiCont}>
                                                                                 <Picker onEmojiClick={onEmojiClick} />

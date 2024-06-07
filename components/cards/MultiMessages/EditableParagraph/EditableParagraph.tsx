@@ -7,15 +7,16 @@ interface IEditableParagraph {
     j : number;
     setPMessages: (pMessages: string[][]) => void;
     pMessages: string[][];
-    content : string;
-    setContent : (content: string) => void;
+    content : [number, number];
+    setContent : (content: [number, number]) => void;
     range : any;
     setRange : (range: any) => void;
     handleBlur : (e, i, j) => void;
+    setTestNext: (val: boolean) => void;
 }
 
 
-const EditableParagraph: React.FC<IEditableParagraph> = ({ msj="", index, j, setPMessages, pMessages, handleBlur}) => {
+const EditableParagraph: React.FC<IEditableParagraph> = ({ msj="", index, j, setPMessages, pMessages, handleBlur, setTestNext}) => {
 
   const editableRef = useRef(null);
   const [range, setRange] = useState(null);
@@ -36,7 +37,6 @@ const EditableParagraph: React.FC<IEditableParagraph> = ({ msj="", index, j, set
         resultado += '&nbsp;';
     }
 
-    console.log(resultado);
     return resultado;
   }
 
@@ -51,7 +51,12 @@ const EditableParagraph: React.FC<IEditableParagraph> = ({ msj="", index, j, set
         onBlur={ (e)=> handleBlur(e, index, j)}
         dangerouslySetInnerHTML={{ __html: encodeName(msj) }}
         
-        onChange={()=>console.log("change")}
+        onInput={(e)=>{ 
+          const target = e.target as HTMLInputElement;
+          if(target?.innerText?.length > 0){
+            setTestNext(true);
+          }
+        }}
       >
       </p>
     </div>
