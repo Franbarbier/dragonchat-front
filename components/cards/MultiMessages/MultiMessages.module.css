@@ -55,7 +55,21 @@
 
 .messages_cont>div>div{
     position: relative;
-    margin: 9px 0;
+    margin: 9px 0 12%;
+}
+
+.addFileBtn{
+    width: 98%!important;
+    position: absolute;
+    border: 1px white dashed;
+    background: transparent;
+    padding: 4px 20px;
+    left: 1%;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;
+    top: 108%;
+    text-align: left;
 }
 .newVaracion{
     position: absolute;
@@ -106,7 +120,16 @@
     height: calc( 1.4em + 45px)!important;
 
 }
-
+.MultiMessages>div>div:first-child>div textarea:after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-top: 1px solid var(--newViolet);
+    border-left: 1px solid var(--newViolet);
+    background: var(--newPink);
+}
 /* Styles specifically for Mozilla Firefox */
 @-moz-document url-prefix() {
     .messages_cont textarea{

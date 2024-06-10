@@ -159,6 +159,10 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         }
 
                                                                         </>
+
+                                                                        <div className={styles.addFileBtn}>
+                                                                            <button>Agregar archivo adjunto</button>
+                                                                        </div>
                                                                 </div>
                                                             )
                                                         } )
