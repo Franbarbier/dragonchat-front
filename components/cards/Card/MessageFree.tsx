@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { EVENT_KEY, MESSAGE_TYPE, STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
+import { Imessages } from '../CardsContFree';
 import { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
 import MultiMessages from '../MultiMessages/MultiMessages';
 import CardStructure from './CardStructure';
@@ -15,7 +16,7 @@ export interface IFreeCard2 {
     notification : INotification;
     tipoEnvio : string;
     setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
-    messages : string[][];
+    messages : Imessages;
     setMessages : (mensajes: string[][]) => void;
     isPaid: boolean;
     nextCard : boolean;
@@ -52,9 +53,6 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
         } 
 
     }
-
-
-    console.log(messages)
 
 
     useEffect(()=>{

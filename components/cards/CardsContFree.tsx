@@ -24,12 +24,14 @@ import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 import TipsCarrousel from './TipsCarrousel/TipsCarrousel';
 
+export type Imessages = string[][] | File[][];
+
 export interface ICardsCont {
     isPaid: boolean;
     setGlobalData: ( val:{contactos: ContactInfo[], messages: string[][]} ) => void;
     globalData: {
         contactos: ContactInfo[];
-        messages: string[][];
+        messages: any;
     };
 }
 
@@ -43,7 +45,6 @@ export interface ContactInfo {
 }
 
 
-
 const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) => {
 
 
@@ -53,7 +54,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
     const [mensaje, setMensaje] = useState<string>('')
-    const [messages, setMessages] = useState<string[][]>(globalData.messages ? globalData.messages : [['']])
+    const [messages, setMessages] = useState<any>(globalData.messages ? globalData.messages :  [['']] )
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
