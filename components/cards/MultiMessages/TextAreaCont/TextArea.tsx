@@ -166,6 +166,7 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                     
                     {hasFile && 
                             <div className={styles.fileName}>
+                                <img src="/clips-de-papel.png" width={"12px"} />
                                 <span>{hasFile.name}</span>
                                 <p
                                     onClick={() => {
