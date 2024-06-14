@@ -10,7 +10,7 @@ const TimerSync = () => {
     const interval = setInterval(() => {
       const timeLeft = getTimeLeftUntilHour();
 
-      if (timeLeft < 1000) {
+      if (timeLeft < 1000 || !Cookies.get("syncTime") ) {
         clearInterval(interval);
         Cookies.set("syncTime", null, { expires: new Date(0) });
         window.location.href = "/dash";
@@ -36,6 +36,7 @@ const TimerSync = () => {
     const in5 = new Date(syncTime.getTime() + 300000);
     return in5.getTime() - new Date().getTime();
   }
+
 
   return (
     <div className={styles.timerCont}>
