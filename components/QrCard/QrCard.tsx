@@ -40,15 +40,14 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
             if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
             }else{
-                if (dataConnect == 428 || dataConnect == 412 || dataConnect == 417) {
-                    count417++;
-                    setLoadingQr(true);
-                    if(count417 == 40){
-                        stopIteration()
-                        return false
-                    }
+                if (dataConnect == 417){
+                    stopIteration()
+                    // forzar el "disconnect"? para desp ejecutar "const dataConnection = await apiSenderWhatsappController.connect(accessToken)"a vos q te pare
                 }
-                else{
+
+                if (dataConnect == 428 || dataConnect == 412) {
+                    setLoadingQr(true);
+                }else{
                     stopIteration()
                 }
                 

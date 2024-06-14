@@ -224,13 +224,15 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 
                 break;
             case 2:
+                // Check if there are empty messages OR WITH ONLY BLANK SPACE
+                const emptyMess = messages.some(subarray => subarray.some(message => message.trim() === ""));
 
-                const emptyMess = messages.some(subarray => subarray.includes(""))
-
-                if ( (tipoEnvio == MESSAGE_TYPE.DIFUSION && !emptyMess ) ) {
-                    setNextCard(true)
-                }else{ setNextCard(false) }
-                setPrevCard(true)
+                if (tipoEnvio === MESSAGE_TYPE.DIFUSION && !emptyMess) {
+                    setNextCard(true);
+                } else {
+                    setNextCard(false);
+                }
+                setPrevCard(true);
                 break;
             case 3:
                 setNextCard(false)

@@ -380,6 +380,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     }
   });
 
+
   return (
     <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
     <>
