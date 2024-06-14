@@ -136,22 +136,14 @@ const Header: React.FC<IHeader> = ({ isPaid, openSettings, setOpenSettings, qr=f
                         <ProBtn onClick={()=>{setModalPro(true)}}/>
                     </div>
                 }
-                {!qr &&
+                
                     <div className={`${styles.settings_cont} ${rotateAnim && styles.rotate}`} onClick={ ()=>{ setOpenSettings(!openSettings) } }>
                         <img src={iconUrl} />
                     </div>
-                }
+                
                 </div>
                
-                {qr &&
-                    <div style={{"width":"fit-content"}}>
-                        <button
-                        onClick={handleLogout}
-                        style={logoutBtnStyle}
-                        >LOG OUT</button>
-
-                    </div>
-                 }
+                
             </nav>
             {modalPro &&
                 <div>

@@ -95,7 +95,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
 
     // timers anti-blocker
     const [activeShield, setActiveShield] = useState<boolean>(true);
-    const [timer, setTimer] = useState<number>(25);
+    const [timer, setTimer] = useState<[number,number]>([20,25]);
     const [bloques, setBloques] = useState<number>(15);
     const [pausa, setPausa] = useState<number>(15);
 
