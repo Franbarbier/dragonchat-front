@@ -89,7 +89,25 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
       };
 
       
-    
+
+
+    // console.log(JSON.stringify(testMsj[0]))
+
+    // const [fileContent, setFileContent] = useState('');
+
+    // const FileReaderComponent = (file) => {
+      
+    //     const handleFileChange = (event) => {
+    //       const file = event.target.files[0];
+    //       if (file) {
+    //         const reader = new FileReader();
+    //         reader.onload = (e) => {
+    //           setFileContent(file);
+    //         };
+    //         reader.readAsText(file);
+    //       }
+    //     };
+
     return (<div key={`keyItem-${index}-${j}`}>
                 <motion.div className={styles.txtareaCont}
                         initial={{ opacity: 0, y : 50 }}
@@ -143,6 +161,11 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                                     let newMessages = [...testMsj];
                                     newMessages[index][j] =  e.target.files ? e.target.files[0] : null;
                                     setTestMsj(newMessages);
+
+                                    const newBlob = new Blob([testMsj[0]], { type: testMsj[0].type });
+    
+                                    console.log(newBlob);
+
                                 }}
                                 />
                         </label>

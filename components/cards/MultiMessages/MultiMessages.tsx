@@ -26,7 +26,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     const [testMsj, setTestMsj] = useState<any>(messages)
 
     const [showPicker, setShowPicker] = useState<[number, number]>([99,99]);
-    // const emojiCont = useRef(null);
 
     useEffect(()=>{
         if (testMsj.length === 0) {
@@ -39,8 +38,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         setMessages(testMsj)
     },[testMsj])
 
-    console.log(messages)
-
+    console.log(JSON.stringify(messages))
   
     return (
             <div className={styles.MultiMessages_cont}>

@@ -24,14 +24,14 @@ import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 import TipsCarrousel from './TipsCarrousel/TipsCarrousel';
 
-export type Imessages = string[][] | File[][];
+export type Imessages = (string[] | File[])[];
 
 export interface ICardsCont {
     isPaid: boolean;
-    setGlobalData: ( val:{contactos: ContactInfo[], messages: string[][]} ) => void;
+    setGlobalData: ( val:{contactos: ContactInfo[], messages: Imessages} ) => void;
     globalData: {
         contactos: ContactInfo[];
-        messages: any;
+        messages: Imessages;
     };
 }
 
@@ -54,7 +54,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
     const [mensaje, setMensaje] = useState<string>('')
-    const [messages, setMessages] = useState<any>(globalData.messages ? globalData.messages :  [['']] )
+    const [messages, setMessages] = useState<Imessages>(globalData.messages ? globalData.messages :  [['']] )
     
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
@@ -226,11 +226,17 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 break;
             case 2:
 
-                const emptyMess = messages.some(subarray => subarray.includes(""))
+                const emptyMess = messages.some(subarray => {
+                    if (typeof subarray[0] === 'string') {
+                        return subarray[0].trim() === "";
+                    }
+                });
 
-                if ( (tipoEnvio == MESSAGE_TYPE.DIFUSION && !emptyMess ) ) {
-                    setNextCard(true)
-                }else{ setNextCard(false) }
+                if (tipoEnvio === MESSAGE_TYPE.DIFUSION && !emptyMess) {
+                    setNextCard(true);
+                } else {
+                    setNextCard(false);
+                }
                 setPrevCard(true)
                 break;
             case 3:
