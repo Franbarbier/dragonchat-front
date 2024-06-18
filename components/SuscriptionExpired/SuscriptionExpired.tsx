@@ -31,6 +31,7 @@ const SuscriptionExpired: React.FC<{}> = ({ }) => {
                         <li><img src="cierto.png"/>Sistema antiblocker.</li>
                         <li><img src="cierto.png"/>Entregabilidad del 100%.</li>
                         <li><img src="cierto.png"/>Mensajes ilimitados.</li>
+                        <li style={{"opacity":"0.7"}}><img src="cierto.png"/>Adjuntar archivos en los envíos. (próximamente)</li>
                         <li style={{"color":"#b5b5b5"}}><img src="cierto.png"/>Enviar archivos. (próximamente)</li>
                         <li style={{"color":"#b5b5b5"}}><img src="cierto.png"/>Creador de Secuencias. (próximamente)</li>
                         <li style={{"color":"#b5b5b5"}}><img src="cierto.png"/>Base de Contactos. (próximamente)</li>
