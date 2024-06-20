@@ -9,6 +9,7 @@ import Maintenance from '../components/Maintenance/Maintenance';
 import ModalContainer from '../components/ModalContainer/ModalContainer';
 import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
 import Notification, { INotification } from '../components/Notification/Notification';
+import SuscriptionExpired from '../components/SuscriptionExpired/SuscriptionExpired';
 import CardsCont, { ContactInfo } from '../components/cards/CardsContFree';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from '../constants/index';
@@ -20,11 +21,12 @@ import EditUserProfile from './user/edit';
 interface IDashProps {
   stripe: null | number,
   isPaid: boolean,
-  maintenance: boolean
+  maintenance: boolean,
+  suscriptionExpired: boolean
 }
 
 
-const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) => {
+const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance, suscriptionExpired }) => {
 
   // syncing
   if (CookiesJS.get("syncTime")) window.location.href = "/syncing";
@@ -103,6 +105,7 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
 
       <Loader loading={loading} />
       <Notification {...notification} />
+      {suscriptionExpired && <SuscriptionExpired /> }
     </section>
   );
 };
@@ -118,7 +121,6 @@ export async function getServerSideProps({ req, res }) {
 
   const responseText = decodeURIComponent(cookies.get(LOGIN_COOKIE));
   const accessToken = JSON.parse(responseText).access_token
-
 
 
   if (cookies.get(STRIPE_COOKIE)) {
@@ -140,7 +142,6 @@ export async function getServerSideProps({ req, res }) {
 
     if (handleChangePlan.isPaid == true) {
       cookies.set(STRIPE_COOKIE, null, { expires: new Date(0) });
-      // no encontre como eliminarla asique la seteo con un null y ya expirada
       stripeStatus = 200
     }
   }
@@ -176,7 +177,11 @@ export async function getServerSideProps({ req, res }) {
   }
 
 
-  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
+  // Check suscription status
+  // if expired
+  const suscriptionExpired = false;
+
+  return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid ? data?.subscription?.isPaid : false , maintenance : maint, suscriptionExpired : true } };
 
 
 }

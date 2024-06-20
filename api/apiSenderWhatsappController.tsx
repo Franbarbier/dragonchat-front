@@ -30,6 +30,8 @@ const apiSenderWhatsappController = {
     try {
       const payload = { user, name, messages, phone, timeBetween };
 
+      console.log(payload)
+
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`,
         payload,
