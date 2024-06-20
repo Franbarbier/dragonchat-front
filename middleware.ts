@@ -45,8 +45,6 @@ export async function middleware(req: NextRequest, _) {
 
       resDataQr = await dataConnection.json();
 
-      console.log(resDataQr, 'resDataQr')
-
     } catch (error) {
       // Si es 412 conexion no establecida, cualquier otro: error
     }
