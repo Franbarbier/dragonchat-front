@@ -5,6 +5,7 @@ import styles from './ModalIpblocker.module.css';
 
 
 
+
 const ModalIpblocker: React.FC< {setModalip: (val:boolean) => void  }> = ({ setModalip }) => {
 
   function wppLink(number, message) {
