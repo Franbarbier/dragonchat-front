@@ -1,6 +1,6 @@
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import CardTitle from '../cards/CardTitle/CardTitle';
-import styles from './ModalIPblocker.module.css';
+import styles from './ModalIPBlocker.module.css';
 
 
 
