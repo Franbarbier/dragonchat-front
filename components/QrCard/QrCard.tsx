@@ -38,7 +38,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid, setM
             
             setLoadingQr(false);
 
-            console.log(dataConnect)
             
             if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
