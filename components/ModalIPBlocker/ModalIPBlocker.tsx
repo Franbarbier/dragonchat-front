@@ -23,9 +23,9 @@ const ModalIpblocker: React.FC< {setModalip: (val:boolean) => void  }> = ({ setM
 return (
         <div className={styles.modal_ipblocker}>
             <div>
-                <CardTitle text="Parece que ya tienes una cuenta" />
+                <CardTitle text="Parece que ya tienes una cuenta vinculada" />
                 <div>
-                  <p>Nos alegra que desees formar parte de nuestra comunidad. Queremos recordarte que cada cuenta en DragonChat es estrictamente personal. No está permitido registrar múltiples cuentas.<br/> Si no tenias otra cuenta en uso, por favor contacta a soporte.</p>
+                  <p>Nos alegra que desees formar parte de nuestra comunidad. Queremos recordarte que cada cuenta en DragonChat es estrictamente personal. No está permitido vincular múltiples cuentas.<br/> Si no tenias otra cuenta en uso, por favor contacta a soporte.</p>
                   <div>
                     <div>
                         <CustomColorBtn
