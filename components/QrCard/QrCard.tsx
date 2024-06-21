@@ -55,6 +55,8 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
             }
     
             if (dataConnect?.data?.phoneConnected == true) {
+                
+                
                 setActiveQr("null")
                 setConnectionSuccess(true);
                 setNotification({
