@@ -949,6 +949,9 @@ padding-left: 8px;
     width: 1em;
     margin-right: 9px;
 }
+.pausarEnvio span{
+    color: white;
+}
 .footerBtns{
     display: flex;
     justify-content: space-between;
@@ -969,6 +972,10 @@ padding-left: 8px;
 .footerBtns>div{
     width: 48%;
     height: 100%;
+}
+/* CSS hasta que aparezca otro boton en vez de "importar csv" */
+#card1 .footerBtns>div{
+    width: 100%;
 }
 
 

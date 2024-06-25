@@ -118,6 +118,13 @@
     font-size: 0.8em;
     text-align: center;
 }
+.shieldInputsCont>div span{
+    font-size: 0.7em;
+    text-align: center;
+    width: 70%;
+    display: block;
+    margin: 3% auto 1%;
+}
 
 /* Chrome, Safari, Edge, Opera */
 .shieldInputsCont input::-webkit-outer-spin-button, .shieldInputsCont input::-webkit-inner-spin-button {

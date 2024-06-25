@@ -39,6 +39,13 @@
     display: inline-block;
     margin-left: 11px;
 }
+/* .MultiMessages_cont ul li>strong{
+    padding: 4px 5px;
+    background: var(--newViolet);
+    border-radius: 4px;
+    display: inline-block;
+    cursor: pointer;
+} */
 .MultiMessages_cont li input{
     width: 5em;
     padding: 2px 8px;

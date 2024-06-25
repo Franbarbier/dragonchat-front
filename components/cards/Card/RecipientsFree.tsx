@@ -311,7 +311,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                             }
                             </div>
                         </div>
-                        <div>
+                        {/* <div>
                             <CustomColorBtn
                                 type="submit"
                                 text="Importar CSV"
@@ -321,7 +321,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                                 onClick={()=>{handleRenderModal(true)}}
                                 disable={ activeCard != 1 }
                             />
-                        </div>
+                        </div> */}
                     </div>
                     
 
