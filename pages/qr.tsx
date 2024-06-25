@@ -9,6 +9,7 @@ import Loader2 from "../components/Loader/Loader2";
 import MainCont from "../components/MainCont/MainCont";
 import Maintenance from "../components/Maintenance/Maintenance";
 import ModalContainer from "../components/ModalContainer/ModalContainer";
+import ModalIpblocker from "../components/ModalIPBlocker/ModalIPBlocker";
 import ModalPasatePro from "../components/ModalPasatePro/ModalPasatePro";
 import ModalUpgradePlan from "../components/ModalUpgradePlan/ModalUpgradePlan";
 import Notification, { INotification } from '../components/Notification/Notification';
@@ -39,6 +40,7 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
   const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [modalStripe, setModalStripe] = useState<null | number>(stripeCookie)
 
+  const [modalIP, setModalIP] = useState<boolean>(false)
 
   const [notification, setNotification] = useState<INotification>({
     status : STATUS.SUCCESS,
@@ -75,8 +77,8 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
                 animate={{ opacity: 1, top: '45vh', left:50,  transition: { delay: 0.7 } }}
                 exit={{ opacity: 0, top: '45vh'}}
               >
-                <MainCont width={isMobile ? 90 : 40} >
-                  <QrCard notification={notification} setNotification={setNotification} isPaid={isPaid}/>
+                <MainCont width={isMobile ? 90 : 30} >
+                  <QrCard setModalIP={setModalIP} notification={notification} setNotification={setNotification} isPaid={isPaid}/>
                 </MainCont>
 
               </motion.div>
@@ -122,6 +124,11 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
                         </ModalContainer>
                     </div>
                 </div>
+            }
+            {modalIP &&
+              <ModalContainer addedClass='modal_ipblocker' closeModal={() => { setModalIP(false) }}>
+                <ModalIpblocker setModalip={setModalIP} />
+              </ModalContainer>
             }
         </>
       ) :

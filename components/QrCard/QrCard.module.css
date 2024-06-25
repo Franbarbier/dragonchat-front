@@ -192,6 +192,20 @@
    87%  {transform: translateX(-53%) ;}
    100%   {transform: translateX(-47%) ;}
  }
+
+ .qrIcon{
+    display: block;
+    margin: auto;
+ }
+
+ @media (min-width: 768px) {
+
+    .qrGenBtn{
+        width: 70%;
+        margin: 10% auto 2%;
+
+    }
+}
 /* if mobile */
 @media (max-width: 768px) {
     .qrSteps{
