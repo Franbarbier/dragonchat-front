@@ -247,6 +247,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       delayBetween
     );
 
+    console.log("res-send-message", userInfo.user_id, sentMessage)
+
     onSuccess();
     
 

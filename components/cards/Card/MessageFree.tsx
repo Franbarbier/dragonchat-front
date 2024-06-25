@@ -54,7 +54,6 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
     }
 
 
-
     useEffect(()=>{
         if (activeCard == idCard) {
             document.addEventListener('keydown', handleEnter);
