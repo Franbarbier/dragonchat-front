@@ -1,5 +1,4 @@
 import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
-import CardTitle from '../cards/CardTitle/CardTitle';
 import styles from './ModalIPBlocker.module.css';
 
 
@@ -24,9 +23,11 @@ const ModalIpblocker: React.FC< {setModalip: (val:boolean) => void  }> = ({ setM
 return (
         <div className={styles.modal_ipblocker}>
             <div>
-                <CardTitle text="Parece que ya tienes una cuenta vinculada" />
+                <h3>Parece que ya tienes una cuenta vinculada.</h3>
                 <div>
-                  <p>Nos alegra que desees formar parte de nuestra comunidad. Queremos recordarte que cada cuenta en DragonChat es estrictamente personal. No está permitido vincular múltiples cuentas.<br/> Si no tenias otra cuenta en uso, por favor contacta a soporte.</p>
+                  <p>¡Hola! ¿Cómo estás? Nos encanta que quieras aprovechar al máximo DragonChat.</p>
+                  <p>Recuerda que con DragonChat 2.0 puedes enviar mensajes ilimitados, enviar mensajes múltiples, compartir archivos y utilizar una función que te ayudará a calentar tus líneas de WhatsApp para evitar bloqueos en nuevas líneas.
+                  </p>
                   <div>
                     <div>
                         <CustomColorBtn
@@ -39,18 +40,19 @@ return (
                         />
                       </div>
                       <div>
-                        <a href={whatsappLink} target="_blank">
                           <CustomColorBtn
                             type="submit"
-                            text="SOPORTE"
-                            backgroundColorInit="#724cdf"
-                            backgroundColorEnd="#3a94fe"
-                            borderColor="#5573f0"
-                            onClick={()=>{}}
+                            text="DRAGONCHAT 2.0"
+                            backgroundColorInit={ "#c21c3b" }
+                            backgroundColorEnd={ "#f9bd4f" }
+                            borderColor={ "#e17846"}
+                            onClick={()=>{
+                              window.location.href  = '/checkout'
+                            }}
                           />
-                        </a>
                       </div>
                   </div>
+                      <p>Si no tienes otra cuenta en uso, por favor, <a href={whatsappLink} target="_blank"><strong><u>contacta a soporte.</u></strong></a></p>
                 </div>
             </div>
         </div>
