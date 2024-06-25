@@ -4,7 +4,7 @@ import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from "./TimerSync.module.css";
 
 const TimerSync = () => {
-  const [timer, setTimer] = useState("05:00");
+  const [timer, setTimer] = useState("01:00");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,7 +33,7 @@ const TimerSync = () => {
 
   function getTimeLeftUntilHour() {
     const syncTime = new Date(Cookies.get("syncTime"));
-    const in5 = new Date(syncTime.getTime() + 300000);
+    const in5 = new Date(syncTime.getTime() + 60000);
     return in5.getTime() - new Date().getTime();
   }
 
@@ -42,7 +42,7 @@ const TimerSync = () => {
     <div className={styles.timerCont}>
       <CardTitle text="Sincronizando" />
       <p>
-        Perfecto! Aguarda 5 minutos para asegurarnos que Whatsapp terminó de
+        Perfecto! Aguarda 1 minuto para asegurarnos que Whatsapp terminó de
         sincronizarse a tu dispositivo
       </p>
 
