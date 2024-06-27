@@ -9,7 +9,7 @@ import Maintenance from '../components/Maintenance/Maintenance';
 import ModalContainer from '../components/ModalContainer/ModalContainer';
 import ModalUpgradePlan from '../components/ModalUpgradePlan/ModalUpgradePlan';
 import Notification, { INotification } from '../components/Notification/Notification';
-import CardsCont, { ContactInfo } from '../components/cards/CardsContFree';
+import CardsCont, { ContactInfo, Imessages } from '../components/cards/CardsContFree';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from '../constants/index';
 import { API_ROUTES, STATUS } from '../enums';
@@ -32,7 +32,7 @@ const Dash: NextPageWithLayout<IDashProps> = ({ stripe, isPaid, maintenance }) =
   const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [modalStripe, setModalStripe] = useState<null | number>(stripe)
 
-  const [globalData, setGlobalData] = useState<{contactos : ContactInfo[],  messages : string[][]} >({contactos : [{nombre: '', numero: ''}], messages : [['']]});   
+  const [globalData, setGlobalData] = useState<{contactos : ContactInfo[],  messages : Imessages} >({contactos : [{nombre: '', numero: ''}], messages : [['']]});   
 
   const [loading, setLoading] = useState<boolean>(false)
   const [notification, setNotification] = useState<INotification>({

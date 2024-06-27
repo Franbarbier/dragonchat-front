@@ -30,7 +30,7 @@ export interface IFreeCard3 {
 
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
-  messages: string[][];
+  messages: any;
   setBlackList: (contactos: ContactInfo[]) => void;
 
   notification : INotification;
