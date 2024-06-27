@@ -229,6 +229,28 @@
     width: 20px;
 
 }
+.blockMulti{
+    position: relative;
+}
+.blockMulti>div{
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 90%;
+    /* transform: translateY(-50%); */
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.blockMulti>div>p{
+    width: 65%;
+    font-weight: 400;
+}
+.blockMulti>div>div{
+    width: 30%;
+}
+
 /* if mobile */
 @media (max-width: 768px){
     .svgBranch{
