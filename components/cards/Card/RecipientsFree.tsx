@@ -194,7 +194,35 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
         }
       };
 
-      
+    const scrollRef = useRef(null);
+    const handleScroll = () => {
+        if (scrollRef.current) {
+          const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+          console.log({
+            scrollTop,
+            isAtTop: scrollTop ,
+            isAtBottom: scrollTop + clientHeight ,
+          });
+        }
+      };
+      useEffect(() => {
+            if (finalList.length == 1) {
+                scrollRef.current.scrollTop = 0
+
+            }
+      },[finalList])
+    // useEffect(() => {
+    //     const scrollableElement = scrollRef.current as HTMLElement;
+    //     if (scrollableElement) {
+    //       scrollableElement.addEventListener('scroll', handleScroll);
+    //     }
+    //     return () => {
+    //       if (scrollableElement) {
+    //         scrollableElement.removeEventListener('scroll', handleScroll);
+    //       }
+    //     };
+    // }, []);
+
     return (
 
             <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
@@ -214,7 +242,9 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
                     </div>
                         
-                    <div className={`${styles.table_layout}`}
+                    <div ref={scrollRef} onScroll={(e)=>{
+                        console.log(e)
+                    }} className={`${styles.table_layout}`}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
