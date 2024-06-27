@@ -222,9 +222,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
                     </div>
                         
-                    <div ref={scrollRef} onScroll={(e)=>{
-                        console.log(e)
-                    }} className={`${styles.table_layout}`}
+                    <div ref={scrollRef} className={`${styles.table_layout}`}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
