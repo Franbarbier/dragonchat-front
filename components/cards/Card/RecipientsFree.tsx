@@ -194,34 +194,14 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
         }
       };
 
-    const scrollRef = useRef(null);
-    const handleScroll = () => {
-        if (scrollRef.current) {
-          const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
-          console.log({
-            scrollTop,
-            isAtTop: scrollTop ,
-            isAtBottom: scrollTop + clientHeight ,
-          });
-        }
-      };
+    const scrollRef = useRef<HTMLDivElement>(null);
+   
       useEffect(() => {
-            if (finalList.length == 1) {
+            if (finalList.length == 1 && scrollRef.current ) {
                 scrollRef.current.scrollTop = 0
 
             }
       },[finalList])
-    // useEffect(() => {
-    //     const scrollableElement = scrollRef.current as HTMLElement;
-    //     if (scrollableElement) {
-    //       scrollableElement.addEventListener('scroll', handleScroll);
-    //     }
-    //     return () => {
-    //       if (scrollableElement) {
-    //         scrollableElement.removeEventListener('scroll', handleScroll);
-    //       }
-    //     };
-    // }, []);
 
     return (
 
