@@ -32,6 +32,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         }
     },[messages])
 
+    console.log(messages)
 
 
     const emojiCont = useRef(null);
@@ -167,17 +168,18 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                                 <div className={`${styles.txtareaCont} ${styles.blockMulti}`}>
                                                                                     <textarea />
                                                                                     <div>
+                                                                                        <img src="/bloqueo-alternativo.png" width={'24px'}/>
                                                                                         <p>Pasate a 2.0 para desbloquear los multi mensajes</p>
                                                                                         <div>
 
                                                                                             <CustomColorBtn
                                                                                                 text="Pasar a 2.0"
-                                                                                                // ackgroundColorInit={ "#c21c3b" }
-                                                                                                // backgroundColorEnd={ "#f9bd4f" }
-                                                                                                // borderColor={ "#e17846"}
-                                                                                                backgroundColorInit="#724cdf"
-                                                                                                backgroundColorEnd="#3a94fe"
-                                                                                                borderColor="#5573f0"
+                                                                                                backgroundColorInit={ "#c21c3b" }
+                                                                                                backgroundColorEnd={ "#f9bd4f" }
+                                                                                                borderColor={ "#e17846"}
+                                                                                                // backgroundColorInit="#724cdf"
+                                                                                                // backgroundColorEnd="#3a94fe"
+                                                                                                // borderColor="#5573f0"
                                                                                                 onClick={()=>{ setModalPro(true) }}
                                                                                             />
                                                                                         </div>
