@@ -32,8 +32,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
         }
     },[messages])
 
-    console.log(messages)
-
 
     const emojiCont = useRef(null);
 

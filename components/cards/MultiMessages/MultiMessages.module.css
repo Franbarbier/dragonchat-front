@@ -245,7 +245,8 @@
     background: rgba(0, 0, 0, 0.9);
     border: 1px solid var(--amarillo);
     border-radius: 5px;
-    transform: scale(0.98);
+    transform: scale(0.985);
+    transform-origin: 50% 75%;
 }
 .blockMulti>div>p{
     padding: 0 4% 0 2.5% ;
