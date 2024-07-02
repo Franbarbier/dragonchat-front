@@ -18,7 +18,6 @@ const PricingTable: React.FC<IPricingTable> = ({ }) => {
             </div>
             <div>
                 <div className={styles.infoCont}>
-                    <h3>Continúa en la vanguardia de la mensajería</h3>
                     <ul>
                         <li><img src="cierto.png"/>Importar contactos .csv.</li>
                         <li><img src="cierto.png"/>Entregabilidad del 100%.</li>

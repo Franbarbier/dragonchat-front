@@ -1,7 +1,7 @@
 .PricingTableCont{
     width: 100%;
     height: 100%;
-    padding-top: 8em;
+    padding-top: 5em;
 }
 
 .PricingTableCont>div{
@@ -12,7 +12,7 @@
     color: #fff;
     font-size: 2.5em;
     text-align: center;
-    margin-bottom: 2em;
+    margin-bottom: 30px;
 
 }
 .pricingsCont{
@@ -63,4 +63,32 @@
     display: block;
     margin-bottom: 20px ;
     font-size: 14px;
+}
+.infoCont{
+}
+.infoCont>h3{
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.infoCont ul li{
+    /* margin-bottom: 15px; */
+    font-size: 0.9em;
+    font-weight: 400;
+    margin: 10px 20px;
+}
+.infoCont ul {
+    margin-bottom: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.infoCont ul img{
+    filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(14deg) brightness(165%) contrast(80%);
+    width: 14px;
+    margin: 0 10px 0 3px;
+}
+.infoCont ul span{
+    color: var(--amarillo);
 }
