@@ -179,6 +179,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           setSending(false);
           setDejarDeEnviar(true);
           dio500(false)
+          return;
 
         }else if (sentMessage?.response?.status == 410) {
           setSending(false);
@@ -192,11 +193,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             }
           });
           setTimeout(() => { window.location.href = ROUTES.QR; }, 1000);
-          dio500(false)
 
-        }else if(sentMessage?.response?.status == 500){
-          dio500(true)
         }
+        dio500(true)
       }
 
 
@@ -246,6 +245,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       userInfo.access_token,
       delayBetween
     );
+
+    console.log("res-send-message", userInfo.user_id, sentMessage)
 
     onSuccess();
     
