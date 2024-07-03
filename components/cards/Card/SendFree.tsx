@@ -158,6 +158,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         dio500(false)
 
       } else {
+
+
+        console.error("send-message-error", userInfo.user_id, sentMessage)
+
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.ERROR;
         
@@ -245,8 +249,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       userInfo.access_token,
       delayBetween
     );
-
-    console.log("res-send-message", userInfo.user_id, sentMessage)
 
     onSuccess();
     
