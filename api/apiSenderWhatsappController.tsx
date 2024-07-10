@@ -34,7 +34,11 @@ const apiSenderWhatsappController = {
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`,
         payload,
-        { headers: getHeadersVersion(authToken) }
+        { headers: {
+          "x-api-version": 2,
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "multipart/form-data",
+        } }
       );
       return response;
     } catch (error: any) {
