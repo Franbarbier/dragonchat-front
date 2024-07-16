@@ -26,15 +26,30 @@ const apiSenderWhatsappController = {
       return error;
     }
   },
-  sendMessage: async (user, name, messages, phone, authToken: string, timeBetween:number) => {
+  sendMessage: async (name, messages, phone, authToken: string, timeBetween:string, files:File[]) => {
     try {
-      const payload = { user, name, messages, phone, timeBetween };
-
+     
+      // form data payload
+      const formData = new FormData();
+      formData.append('name', `"${name}"`);
+      formData.append('phone', `"${phone}"`);
+      formData.append('timeBetween', timeBetween);
+      formData.append('messages', JSON.stringify(messages));
+      files.forEach((file, i) => {
+        formData.append(`files`, file);
+      });
+                              
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`,
-        payload,
-        { headers: getHeadersVersion(authToken) }
+        formData,
+        { headers: {
+          "x-api-version": 2,
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "multipart/form-data"
+        } }
       );
+
+      console.log(response)
       return response;
     } catch (error: any) {
       return error;
@@ -52,6 +67,7 @@ const apiSenderWhatsappController = {
       return error;
     }
   },
+
   getQR: async (authToken: string) => {
     try {
       const response = await axios.get(

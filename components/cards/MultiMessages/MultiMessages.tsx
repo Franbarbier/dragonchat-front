@@ -18,10 +18,12 @@ export interface IMultiMessages {
     setDelayBetween : (val: number) => void;
     isPaid: boolean;
     setModalPro : (modalPro: boolean) => void;
+    setFilesSelected : (val: File[]) => void;
+    filesSelected: File[];
 }
 
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro, setFilesSelected, filesSelected }) => {
    
     const [testMsj, setTestMsj] = useState<any>(messages)
 
@@ -35,10 +37,11 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
 
 
     useEffect(()=>{
+        console.log(testMsj)
         setMessages(testMsj)
     },[testMsj])
 
-    console.log(JSON.stringify(messages))
+
   
     return (
             <div className={styles.MultiMessages_cont}>
@@ -93,6 +96,8 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         message={message}
                                                                         setNotification={setNotification}
                                                                         notification={notification}
+                                                                        setFilesSelected={setFilesSelected}
+                                                                        filesSelected={filesSelected}
                                                                     />
                                                                    
                                                                 </div>

@@ -55,6 +55,8 @@ export interface IFreeCard3 {
   errorCounter : number;
   setErrorCounter : (val: number) => void;
 
+  filesSelected: File[];
+
 }
 
 
@@ -87,7 +89,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   setModalPro,
   delayBetween,
   errorCounter,
-  setErrorCounter
+  setErrorCounter,
+  filesSelected
 
 }) => {
   let idCard = 3;
@@ -239,12 +242,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     let newCurrent = globalName(currentMessage)
 
     const sentMessage = await apiSenderWhatsappController.sendMessage(
-      userInfo.user_id,
       destinatario.nombre,
       newCurrent,
       validationCode(destinatario.numero),
       userInfo.access_token,
-      delayBetween
+      `${delayBetween}`,
+      filesSelected
     );
 
     onSuccess();

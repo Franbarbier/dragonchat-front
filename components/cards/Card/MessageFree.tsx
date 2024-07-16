@@ -26,10 +26,13 @@ export interface IFreeCard2 {
 
     delayBetween : number;
     setDelayBetween : (val: number) => void;
+
+    setFilesSelected : (val: File[]) => void;
+    filesSelected : File[];
 }
 
 
-const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, delayBetween, setDelayBetween, setShowTips, setModalPro }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, delayBetween, setDelayBetween, setShowTips, setModalPro, setFilesSelected, filesSelected }) => {
 
     let idCard = 2;
 
@@ -80,7 +83,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
                 </div>
                 <div>
                     </div>
-                    <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween} isPaid={isPaid} setModalPro={setModalPro}/>
+                    <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween} isPaid={isPaid} setModalPro={setModalPro} setFilesSelected={setFilesSelected} filesSelected={filesSelected} />
 
             </div>
 

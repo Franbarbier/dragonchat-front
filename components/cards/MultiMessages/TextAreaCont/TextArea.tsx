@@ -20,11 +20,13 @@ export interface ITextAreaCont {
     message : string[];
     setNotification : (val: INotification) => void;
     notification : INotification;
+    setFilesSelected : (val: File[]) => void;
+    filesSelected : File[];
 
 }
 
 
-const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, testMsj, message, setNotification, notification }) => {
+const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, testMsj, message, setNotification, notification, setFilesSelected, filesSelected }) => {
    
 
     const [showPicker, setShowPicker] = useState<boolean>(false);
@@ -88,25 +90,28 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
         } 
       };
 
-      
+    const fileChange = (e) => {
+            const filename = e.target.files ? e.target.files[0] : null;
+            setHasFile(filename);
+
+            const base64FileName = btoa(e.target.files[0].name)
+            const formattedFileName = `[file] ${base64FileName}`;
+            
+            let newMessages = [...testMsj];
+            let fileName = formattedFileName
+            newMessages[index][j] =  fileName;
+            setTestMsj(newMessages);
+            
+            let newfiles = [...filesSelected];
+            newfiles.push(e.target.files[0]);
+            setFilesSelected(newfiles);
+
+            console.log( e.target.files )
+            const newBlob = new Blob([testMsj[0]], { type: testMsj[0].type });
+
+    }
 
 
-    // console.log(JSON.stringify(testMsj[0]))
-
-    // const [fileContent, setFileContent] = useState('');
-
-    // const FileReaderComponent = (file) => {
-      
-    //     const handleFileChange = (event) => {
-    //       const file = event.target.files[0];
-    //       if (file) {
-    //         const reader = new FileReader();
-    //         reader.onload = (e) => {
-    //           setFileContent(file);
-    //         };
-    //         reader.readAsText(file);
-    //       }
-    //     };
 
     return (<div key={`keyItem-${index}-${j}`}>
                 <motion.div className={styles.txtareaCont}
@@ -155,18 +160,7 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                                 ref={addFileBtn}
                                 onClick={(e) => { handleClick(e) }}
                                 onMouseDown={handleFakeClick}
-                                onChange={(e) => {
-                                    const filename = e.target.files ? e.target.files[0] : null;
-                                    setHasFile(filename);
-                                    let newMessages = [...testMsj];
-                                    newMessages[index][j] =  e.target.files ? e.target.files[0] : null;
-                                    setTestMsj(newMessages);
-
-                                    const newBlob = new Blob([testMsj[0]], { type: testMsj[0].type });
-    
-                                    console.log(newBlob);
-
-                                }}
+                                onChange={(e) => { fileChange(e) }}
                                 />
                         </label>
 

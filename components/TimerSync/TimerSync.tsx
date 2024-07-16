@@ -33,7 +33,7 @@ const TimerSync = () => {
 
   function getTimeLeftUntilHour() {
     const syncTime = new Date(Cookies.get("syncTime"));
-    const in5 = new Date(syncTime.getTime() + 300000);
+    const in5 = new Date(syncTime.getTime() + 60000);
     return in5.getTime() - new Date().getTime();
   }
 

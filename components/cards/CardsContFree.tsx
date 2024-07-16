@@ -53,9 +53,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [contactos, setContactos] = useState<ContactInfo[]>(globalData.contactos ? globalData.contactos : [{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
-    const [mensaje, setMensaje] = useState<string>('')
     const [messages, setMessages] = useState<Imessages>(globalData.messages ? globalData.messages :  [['']] )
-    
+    const [filesSelected, setFilesSelected] = useState<File[]>([])
+
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
     const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
@@ -346,7 +346,7 @@ useEffect(() => {
         setBlackList([])
         setErrorCounter(0)
     }
-
+console.log(filesSelected)
     return (
         <div>
             {!isPaid && <FreeBanner setModalPro={ ()=>{setModalPro(true)} }/>}
@@ -385,6 +385,7 @@ useEffect(() => {
                         delayBetween={delayBetween}
                         errorCounter={errorCounter}
                         setErrorCounter={setErrorCounter}
+                        filesSelected={filesSelected}
                     />
 
                     <FreeCard1 
@@ -418,6 +419,8 @@ useEffect(() => {
                         setModalPro={setModalPro}
                         delayBetween={delayBetween}
                         setDelayBetween={setDelayBetween}
+                        setFilesSelected={setFilesSelected}
+                        filesSelected={filesSelected}
                     />
 
                     
