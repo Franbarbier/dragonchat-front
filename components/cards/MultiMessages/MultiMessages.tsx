@@ -37,7 +37,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
 
 
     useEffect(()=>{
-        console.log(testMsj)
         setMessages(testMsj)
     },[testMsj])
 

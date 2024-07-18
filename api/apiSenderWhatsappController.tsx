@@ -49,7 +49,6 @@ const apiSenderWhatsappController = {
         } }
       );
 
-      console.log(response)
       return response;
     } catch (error: any) {
       return error;

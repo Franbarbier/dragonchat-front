@@ -12,7 +12,7 @@ import { INotification } from '../../../Notification/Notification';
 export interface ITextAreaCont {
     index: number;
     j : number;
-    msj : string | File;
+    msj : string;
     setTestMsj : (val: any) => void;
     showPicker : number[];
     setShowPicker : (val: [number, number]) => void;
@@ -97,20 +97,33 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
             const base64FileName = btoa(e.target.files[0].name)
             const formattedFileName = `[file] ${base64FileName}`;
             
+            
             let newMessages = [...testMsj];
             let fileName = formattedFileName
             newMessages[index][j] =  fileName;
             setTestMsj(newMessages);
-            
+
             let newfiles = [...filesSelected];
             newfiles.push(e.target.files[0]);
             setFilesSelected(newfiles);
-
-            console.log( e.target.files )
-            const newBlob = new Blob([testMsj[0]], { type: testMsj[0].type });
-
     }
 
+    const fileDecode = (fileNombre) => {
+
+        if (fileNombre.startsWith("[file] ")) {
+            try {
+                let fileNameDec = fileNombre.replace("[file] ", "");
+                return  atob(fileNameDec);
+              } catch (e) {
+                return fileNombre;
+              }
+        }else{
+            return fileNombre;
+        }
+        // check if can be decoded with atob
+        
+
+    }
 
 
     return (<div key={`keyItem-${index}-${j}`}>
@@ -122,7 +135,7 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
 
                     
                     <textarea placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`}
-                        value={typeof msj === "string" ? msj : msj?.name}
+                        value={fileDecode(msj)}
                         onChange={(e) => {
                             let newMessages = [...testMsj];
                             const thisArr = newMessages[index];
@@ -180,11 +193,10 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
 
                     
 
-                    
-                    {hasFile && 
+                    {msj.startsWith("[file] ") && 
                             <div className={styles.fileName}>
                                 <img src="/clips-de-papel.png" width={"12px"} />
-                                <span>{hasFile.name}</span>
+                                <span>{fileDecode(msj)}</span>
                                 <p
                                     onClick={() => {
                                         setHasFile(null);
@@ -199,16 +211,28 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                     
 
                     <img src="/close.svg" width={"12px"} onClick={()=>{
+                        
+                                            let newMessages = [...testMsj];
+                                            const thisArr = newMessages[index]
+                                            
+                                            // remove object that has the prop "name" that match the file name
+                                            let newfiles = [...filesSelected];
+                                            const fileInd = newfiles.findIndex((file) => file.name === fileDecode( thisArr[j]));
 
-                        let newMessages = [...testMsj];
-                        const thisArr = newMessages[index]
-                        thisArr.splice(j, 1);
+                                            if (fileInd !== -1) {
+                                                newfiles.splice(fileInd, 1);
+                                            }
+                                            setFilesSelected(newfiles);
 
-                        if (thisArr.length == 0) { newMessages.splice(index, 1); }
-                        setFileAttached(null)
-                        setHasFile(null)
-                        setTestMsj(newMessages);
-                        }} className={`${styles.deleteVariacion} ${styles.icons}`}
+                                            thisArr.splice(j, 1);
+
+                                    
+                                            if (thisArr.length == 0) { newMessages.splice(index, 1); }
+                                            setFileAttached(null)
+                                            setHasFile(null)
+                                            setTestMsj(newMessages);
+                                    }}
+                                className={`${styles.deleteVariacion} ${styles.icons}`}
                     />
                 </motion.div>
 

@@ -341,12 +341,14 @@ useEffect(() => {
         });
         setContactos(newArray)
         setMessages([['']])
+        setFilesSelected([])
         setSendingState(SENDING_STATE.INIT)
         setModalFinish(false)
         setBlackList([])
         setErrorCounter(0)
     }
-console.log(filesSelected)
+
+
     return (
         <div>
             {!isPaid && <FreeBanner setModalPro={ ()=>{setModalPro(true)} }/>}
