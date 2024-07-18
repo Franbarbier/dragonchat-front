@@ -8,15 +8,16 @@ import Picker from "emoji-picker-react";
 import { useEffect, useRef, useState } from 'react';
 import { STATUS } from '../../../../enums';
 import { INotification } from '../../../Notification/Notification';
+import { Imessages } from '../../CardsContFree';
 
 export interface ITextAreaCont {
     index: number;
     j : number;
     msj : string;
-    setTestMsj : (val: any) => void;
+    setTestMsj : (val: Imessages) => void;
     showPicker : number[];
     setShowPicker : (val: [number, number]) => void;
-    testMsj : any;
+    testMsj : Imessages;
     message : string[];
     setNotification : (val: INotification) => void;
     notification : INotification;
@@ -108,6 +109,28 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
             setFilesSelected(newfiles);
     }
 
+    const deleteMessage = (index, j) => {
+        let newMessages = [...testMsj];
+        const thisArr = newMessages[index]
+        
+        // remove object that has the prop "name" that match the file name
+        let newfiles = [...filesSelected];
+        const fileInd = newfiles.findIndex((file) => file.name === fileDecode( thisArr[j]));
+
+        if (fileInd !== -1) {
+            newfiles.splice(fileInd, 1);
+        }
+        setFilesSelected(newfiles);
+
+        thisArr.splice(j, 1);
+
+
+        if (thisArr.length == 0) { newMessages.splice(index, 1); }
+        setFileAttached(null)
+        setHasFile(null)
+        setTestMsj(newMessages);
+    }
+
     const fileDecode = (fileNombre) => {
 
         if (fileNombre.startsWith("[file] ")) {
@@ -119,9 +142,7 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
               }
         }else{
             return fileNombre;
-        }
-        // check if can be decoded with atob
-        
+        }        
 
     }
 
@@ -209,31 +230,9 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                             </div>
                     }
                     
+                    <img src="/close.svg" width={"12px"} onClick={()=>{ deleteMessage(index, j); }} className={`${styles.deleteVariacion} ${styles.icons}`} />
 
-                    <img src="/close.svg" width={"12px"} onClick={()=>{
-                        
-                                            let newMessages = [...testMsj];
-                                            const thisArr = newMessages[index]
-                                            
-                                            // remove object that has the prop "name" that match the file name
-                                            let newfiles = [...filesSelected];
-                                            const fileInd = newfiles.findIndex((file) => file.name === fileDecode( thisArr[j]));
 
-                                            if (fileInd !== -1) {
-                                                newfiles.splice(fileInd, 1);
-                                            }
-                                            setFilesSelected(newfiles);
-
-                                            thisArr.splice(j, 1);
-
-                                    
-                                            if (thisArr.length == 0) { newMessages.splice(index, 1); }
-                                            setFileAttached(null)
-                                            setHasFile(null)
-                                            setTestMsj(newMessages);
-                                    }}
-                                className={`${styles.deleteVariacion} ${styles.icons}`}
-                    />
                 </motion.div>
 
         </div>

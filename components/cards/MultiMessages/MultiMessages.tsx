@@ -7,10 +7,11 @@ import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
 
+import { Imessages } from '../CardsContFree';
 import TextAreaCont from './TextAreaCont/TextArea';
 
-export interface IMultiMessages {
-    messages : any;
+ interface IMultiMessages {
+    messages : Imessages;
     setMessages : (message: string[][]) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
@@ -25,7 +26,7 @@ export interface IMultiMessages {
 
 const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro, setFilesSelected, filesSelected }) => {
    
-    const [testMsj, setTestMsj] = useState<any>(messages)
+    const [testMsj, setTestMsj] = useState<Imessages>(messages)
 
     const [showPicker, setShowPicker] = useState<[number, number]>([99,99]);
 

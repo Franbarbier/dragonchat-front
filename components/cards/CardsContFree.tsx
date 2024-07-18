@@ -24,7 +24,7 @@ import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 import TipsCarrousel from './TipsCarrousel/TipsCarrousel';
 
-export type Imessages = (string[] | File[])[];
+export type Imessages = string[][];
 
 export interface ICardsCont {
     isPaid: boolean;

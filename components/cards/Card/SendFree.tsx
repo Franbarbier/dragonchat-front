@@ -11,7 +11,7 @@ import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import Loader2 from "../../Loader/Loader2";
 import { INotification } from "../../Notification/Notification";
 import CardTitle from "../CardTitle/CardTitle";
-import { ContactInfo } from "../CardsContFree";
+import { ContactInfo, Imessages } from "../CardsContFree";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import CardStructure from "./CardStructure";
 import styles from "./FreeCard.module.css";
@@ -30,7 +30,7 @@ export interface IFreeCard3 {
 
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
-  messages: any;
+  messages:  Imessages;
   setBlackList: (contactos: ContactInfo[]) => void;
 
   notification : INotification;
