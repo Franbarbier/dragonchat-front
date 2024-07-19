@@ -1,12 +1,15 @@
 
 import Cookies from "cookies";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import Header from "../components/Header/Header";
 import Loader from "../components/Loader/Loader";
+import Loader2 from "../components/Loader/Loader2";
 import MainCont from "../components/MainCont/MainCont";
 import Maintenance from "../components/Maintenance/Maintenance";
 import ModalContainer from "../components/ModalContainer/ModalContainer";
+import ModalIpblocker from "../components/ModalIPBlocker/ModalIPBlocker";
 import ModalPasatePro from "../components/ModalPasatePro/ModalPasatePro";
 import ModalUpgradePlan from "../components/ModalUpgradePlan/ModalUpgradePlan";
 import Notification, { INotification } from '../components/Notification/Notification';
@@ -19,6 +22,7 @@ import { API_ROUTES, STATUS } from "../enums";
 import useDeviceType from "../utils/checkDevice";
 import { decrypt } from "../utils/crypto";
 import { NextPageWithLayout } from "./page";
+import EditUserProfile from "./user/edit";
 
 // set type for IQr
 interface IQr {
@@ -30,11 +34,13 @@ interface IQr {
 const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
   const [queue, setQueue] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false)
+  const [loading2, setLoading2] = useState<boolean>(false)
 
   const [modalPro, setModalPro] = useState<boolean>(false)
-
+  const [openSettings, setOpenSettings] = useState<boolean>(false)
   const [modalStripe, setModalStripe] = useState<null | number>(stripeCookie)
 
+  const [modalIP, setModalIP] = useState<boolean>(false)
 
   const [notification, setNotification] = useState<INotification>({
     status : STATUS.SUCCESS,
@@ -54,17 +60,57 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
       {maintenance && <Maintenance setLoading={setLoading} />}
       
       <Loader loading={loading} />
+      <Loader2 loading={loading2} />
       <Notification {...notification} />
 
-      <Header openSettings={false} setOpenSettings={()=> {return false;} } isPaid={isPaid} qr={true}/>
+
+      <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
       <WppBtn />
       {queue == 0 ? (
         <>
-          <MainCont width={isMobile ? 90 : 40} style={ isMobile ? {'top' : "55%" } : {'top' : "50%" }  }>
+
+            <AnimatePresence>
+            { !openSettings &&
+              <motion.div
+                key="qr-cont"
+                initial={{ opacity: 0, translateY: 0, left:50 }}
+                animate={{ opacity: 1, top: '45vh', left:50,  transition: { delay: 0.7 } }}
+                exit={{ opacity: 0, top: '45vh'}}
+              >
+                <MainCont width={isMobile ? 90 : 30} >
+                  <QrCard setModalIP={setModalIP} notification={notification} setNotification={setNotification} isPaid={isPaid}/>
+                </MainCont>
+
+              </motion.div>
+            }
+
+            {openSettings &&(
+              <motion.div
+                key="settings-cont"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1, transition: { delay: 0.7 } }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div style={{
+                  'width': '100vw',
+                  'height': '100vh',
+                  'position': 'relative',
+                  'marginTop': '5%'
+                }}
+                >
+                  <EditUserProfile 
+                    setLoading={setLoading2} 
+                    notification={notification} 
+                    setNotification={setNotification}
+                  />
+                </div>
+              </motion.div>
+            )}
             
-              <QrCard notification={notification} setNotification={setNotification} isPaid={isPaid}/>
+            </AnimatePresence>
+            
            
-          </MainCont>
           {modalStripe == 200 &&
               <ModalContainer addedClass='modal_plan' closeModal={() => { setModalStripe(1) }}>
                 <ModalUpgradePlan setModalStripe={setModalStripe} />
@@ -78,6 +124,11 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
                         </ModalContainer>
                     </div>
                 </div>
+            }
+            {modalIP &&
+              <ModalContainer addedClass='modal_ipblocker' closeModal={() => { setModalIP(false) }}>
+                <ModalIpblocker setModalip={setModalIP} />
+              </ModalContainer>
             }
         </>
       ) :
@@ -166,6 +217,5 @@ export async function getServerSideProps({req, res}) {
 
 
   return  { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid ? data?.subscription?.isPaid : false, maintenance : maint } }
-  
   
   }

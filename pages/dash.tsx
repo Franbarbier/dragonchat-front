@@ -158,7 +158,7 @@ export async function getServerSideProps({ req, res }) {
       }
     });
     const responseData = await getData.json();
-
+    
     if (responseData.subscription && responseData.subscription.isPaid === undefined) {
       data.subscription.isPaid = false;
     }else{

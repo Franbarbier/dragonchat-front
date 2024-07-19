@@ -40,7 +40,7 @@ export interface IFreeCard3 {
   setActiveShield: (active: boolean) => void;
   setModalFinish: (mod: boolean) => void;
   setRenderDialog : (render: boolean) => void;
-  timer : number;
+  timer : [number, number];
   bloques : number;
   pausa : number;
   
@@ -112,7 +112,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   const userInfo = JSON.parse(Cookie.get("dragonchat_login") || "{}");
   
   useEffect(() => {
-      if (timer == 3 && bloques == 0 && pausa == 0) {
+      if (timer[1] == 3 && bloques == 0 && pausa == 0) {
         setActiveShield(false)
       }
   },[modalShieldOptions])
@@ -161,6 +161,10 @@ const FreeCard3: React.FC<IFreeCard3> = ({
         dio500(false)
 
       } else {
+
+
+        console.error("send-message-error", userInfo.user_id, sentMessage)
+
         let newContacts = [...contactos];
         newContacts[count].estado = STATUS.ERROR;
         
@@ -182,6 +186,7 @@ const FreeCard3: React.FC<IFreeCard3> = ({
           setSending(false);
           setDejarDeEnviar(true);
           dio500(false)
+          return;
 
         }else if (sentMessage?.response?.status == 410) {
           setSending(false);
@@ -195,11 +200,9 @@ const FreeCard3: React.FC<IFreeCard3> = ({
             }
           });
           setTimeout(() => { window.location.href = ROUTES.QR; }, 1000);
-          dio500(false)
 
-        }else if(sentMessage?.response?.status == 500){
-          dio500(true)
         }
+        dio500(true)
       }
 
 
@@ -210,8 +213,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       // Sistema de delays, que chequea si el escudo esta activo y si es asi, aplica los delays correspondientes
       let delay = 3 //min
       if (activeShield){
-        delay = timer
-        
+        delay = Math.floor(Math.random() * (timer[0] - timer[1] + 1) + timer[1])
+
         if (listCounter % bloques == bloques-1 && listCounter != 0) {
           delay = delay + (pausa * 60)
         }
