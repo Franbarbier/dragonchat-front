@@ -112,6 +112,12 @@ export default Dash;
 
 
 export async function getServerSideProps({ req, res }) {
+
+  const forwarded = req.headers["x-forwarded-for"]
+  const ip = forwarded ? forwarded.split(/, /)[0] :  req.socket.remoteAddress
+ 
+  console.log("Test IP", ip )
+  
   
   const cookies = new Cookies(req, res);
   var stripeStatus: null | number = null
