@@ -98,6 +98,8 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         notification={notification}
                                                                         setFilesSelected={setFilesSelected}
                                                                         filesSelected={filesSelected}
+                                                                        isPaid={isPaid}
+                                                                        setModalPro={setModalPro}
                                                                     />
                                                                    
                                                                 </div>

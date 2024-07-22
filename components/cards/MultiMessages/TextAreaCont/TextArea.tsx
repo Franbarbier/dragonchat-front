@@ -23,11 +23,12 @@ export interface ITextAreaCont {
     notification : INotification;
     setFilesSelected : (val: File[]) => void;
     filesSelected : File[];
-
+    isPaid : boolean;
+    setModalPro : (val: boolean) => void;
 }
 
 
-const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, testMsj, message, setNotification, notification, setFilesSelected, filesSelected }) => {
+const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, testMsj, message, setNotification, notification, setFilesSelected, filesSelected, isPaid, setModalPro }) => {
    
 
     const [showPicker, setShowPicker] = useState<boolean>(false);
@@ -67,6 +68,12 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
       };
 
       const handleClick = (e) => {
+
+        if (!isPaid) {
+            setModalPro(true);
+            e.preventDefault();
+            return false;
+        }
 
         const originalEvent = e;
         
