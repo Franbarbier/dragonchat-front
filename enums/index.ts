@@ -43,11 +43,13 @@ export enum API_RESPONSES {
 export enum HTTP_HEADERS_KEYS {
   CONTENT_TYPE = 'Content-Type',
   ACCEPT = 'Accept',
+  API_VERSION = 'x-api-version',
   AUTHORIZATION = 'Authorization',
 };
 
 export enum HTTP_HEADERS_VALUES {
   APLICATION_JSON = 'application/json',
+  APLICATION_FORMDATA = 'multipart/form-data',
   BEARER = 'Bearer',
 };
 export enum MESSAGE_TYPE {

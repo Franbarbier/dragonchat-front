@@ -2,6 +2,7 @@ import axios from 'axios';
 import Router from 'next/router';
 import { API_GATEWAY_URL } from '../constants/index';
 import { API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from '../enums';
+import { getIp } from '../utils/getIp';
 
 
 const getHeaders = (authToken: string) => ({
@@ -49,6 +50,10 @@ const apiUserController = {
     },
     login: async (email, password) => {
         try {
+            let ip = await getIp();
+            // set ip in local storage
+            localStorage.setItem("ip", ip);
+
             const payload = { mail: email, password: password };
             const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.LOGIN}`, payload);
             return response;
@@ -82,6 +87,8 @@ const apiUserController = {
                     "Authorization": `Bearer ${accessToken}`,
                 }
             });
+
+            
             
         return response;
     },

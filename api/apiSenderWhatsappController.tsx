@@ -40,8 +40,20 @@ const apiSenderWhatsappController = {
           "Content-Type": "multipart/form-data",
         } }
       );
+
+      const tuqui = { headers: {
+        "x-api-version": 2,
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "multipart/form-data",
+      } }
+      // const lala = getNewHeaders(authToken, "form_data", 2)
+      // console.log(tuqui , lala)
+
+      console.log(response)
+
       return response;
     } catch (error: any) {
+      console.log(error)
       return error;
     }
   },

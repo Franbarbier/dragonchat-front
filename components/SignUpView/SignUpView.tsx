@@ -138,6 +138,14 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
     }, [setFormData]);
 
 
+    useEffect(() => {
+        if (userExists) {
+            handleNotification(STATUS.ERROR, "El mail ingresado ya esta registrado.");
+
+        }
+        
+    },[userExists])
+
 
     return (
         <div className={styles.signUpViewCont}>
