@@ -1,13 +1,11 @@
 import axios from 'axios';
 import Router from 'next/router';
 import { API_GATEWAY_URL } from '../constants/index';
-import { API_ROUTES, HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES, ROUTES } from '../enums';
+import { API_ROUTES, HTTP_HEADERS_VALUES, ROUTES } from '../enums';
 import { getIp } from '../utils/getIp';
+import { getNewHeaders } from './headers';
 
 
-const getHeaders = (authToken: string) => ({
-    [HTTP_HEADERS_KEYS.AUTHORIZATION]: `${HTTP_HEADERS_VALUES.BEARER} ${authToken}`,
-});
 
 const apiUserController = {
     signUp: async ({ name, mail, pass, confirmPass, number, code }, setUserExists, stripe_data) => {
@@ -20,10 +18,7 @@ const apiUserController = {
             }
 
             const response = await axios.post(`${API_GATEWAY_URL}${API_ROUTES.SIGN_UP}`, payload, {
-                headers: {
-                    [HTTP_HEADERS_KEYS.ACCEPT]: HTTP_HEADERS_VALUES.APLICATION_JSON,
-                    [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON,
-                }
+                headers: getNewHeaders( { content: HTTP_HEADERS_VALUES.APLICATION_JSON, accept : HTTP_HEADERS_VALUES.APLICATION_JSON } )
             });
 
             if (response.status == 201) {
@@ -42,7 +37,7 @@ const apiUserController = {
     },
     getData: async (authToken: string) => {
         try {
-            const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, { headers: getHeaders(authToken) });
+            const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.GET_DATA}`, { headers:  getNewHeaders( { authToken } ) });
             return response
         } catch (error: any) {
             return error
@@ -65,27 +60,27 @@ const apiUserController = {
             "Content-Type": "application/json",
         });
         headers.append("Authorization", `Bearer ${authToken}`);
-        const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.LOGOUT}`, { headers: getHeaders(authToken) });
+        const response = await axios.get(`${API_GATEWAY_URL}${API_ROUTES.LOGOUT}`, { headers: getNewHeaders( { authToken } ) });
         return response;
     },
     edit: async (accessToken, name, email, password, passwordConfirmation, number, code) => {
 
 
+        let payload = {
+            name,
+            mail: email,
+            phone: number,
+            code_area: code
+        }
+        if (password.length > 0 && passwordConfirmation.length > 0) {
+            payload['password'] = password;
+            payload['password_confirmation'] = passwordConfirmation;
+        }
+
         const response = await axios.put(
-            `${API_GATEWAY_URL}${API_ROUTES.EDIT}`,
+            `${API_GATEWAY_URL}${API_ROUTES.EDIT}`, payload ,
             {
-                name,
-                mail: email,
-                password: password,
-                password_confirmation: passwordConfirmation,
-                phone: number,
-                code_area: code
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`,
-                }
+                headers: getNewHeaders( { authToken : accessToken, content : HTTP_HEADERS_VALUES.APLICATION_JSON } )
             });
 
             
@@ -97,7 +92,7 @@ const apiUserController = {
             const response = await axios.post(
                 `${API_GATEWAY_URL}${API_ROUTES.SEND_MAIL}`,
                 { mail },
-                { headers: { [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON, } },
+                { headers: getNewHeaders({ content: HTTP_HEADERS_VALUES.APLICATION_JSON }) },
             );
 
             if (response.status >= 200 || response.status <= 299) {
@@ -117,7 +112,7 @@ const apiUserController = {
             const response = await axios.post<{ message: string, success: boolean }>(
                 `${API_GATEWAY_URL}${API_ROUTES.CHECK_CODE}`,
                 { code },
-                { headers: { [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON, } },
+                { headers: getNewHeaders({ content: HTTP_HEADERS_VALUES.APLICATION_JSON }) },
             );
 
             if (response.data?.success) {
@@ -135,7 +130,7 @@ const apiUserController = {
             const response = await axios.post(
                 `${API_GATEWAY_URL}${API_ROUTES.CHANGE_PASS}`,
                 { code, password, password_confirmation },
-                { headers: { [HTTP_HEADERS_KEYS.CONTENT_TYPE]: HTTP_HEADERS_VALUES.APLICATION_JSON, } },
+                { headers: getNewHeaders({ content: HTTP_HEADERS_VALUES.APLICATION_JSON }) },
             );
 
             if (response.data?.success) {
@@ -154,9 +149,7 @@ const apiUserController = {
                     "product_id": stripe_data.product_id
                 },
                 {
-                    headers: {
-                        "Authorization": `Bearer ${accessToken}`,
-                    }
+                    headers: getNewHeaders({ authToken: accessToken })
                 }
             );
 

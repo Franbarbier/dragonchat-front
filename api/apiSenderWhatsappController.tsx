@@ -9,7 +9,7 @@ const apiSenderWhatsappController = {
     try {
       const response = await axios.delete(
         `${API_GATEWAY_URL}${API_ROUTES.DISCONNECT}`,
-        { headers: getNewHeaders(authToken) }
+        { headers: getNewHeaders({authToken}) }
       );
       
       
@@ -34,7 +34,7 @@ const apiSenderWhatsappController = {
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`,
         formData,
-        { headers: getNewHeaders(authToken, HTTP_HEADERS_VALUES.APLICATION_FORMDATA, 2) }
+        { headers: getNewHeaders({authToken, content:  HTTP_HEADERS_VALUES.APLICATION_FORMDATA, api_version : 2}) }
       );
 
 
@@ -49,7 +49,7 @@ const apiSenderWhatsappController = {
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.CONNECT}`,
         {},
-        { headers: getNewHeaders(authToken) }
+        { headers: getNewHeaders({authToken}) }
       );
       return response;
     } catch (error: any) {
@@ -61,7 +61,7 @@ const apiSenderWhatsappController = {
     try {
       const response = await axios.get(
         `${API_GATEWAY_URL}${API_ROUTES.GET_QR}`,
-        { headers:getNewHeaders(authToken)}
+        { headers:getNewHeaders({authToken})}
       );
       return response;
     } catch (error: any) {
@@ -72,7 +72,7 @@ const apiSenderWhatsappController = {
     try {
       const response = await axios.get(
         `${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`,
-        { headers: getNewHeaders(authToken) }
+        { headers: getNewHeaders({authToken}) }
       );
       return response;
     } catch (error: any) {

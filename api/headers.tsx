@@ -2,8 +2,15 @@
 
 import { HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES } from "../enums";
 
+type IHeaders = {
+    authToken?: string,
+    content?:string,
+    api_version?:number,
+    accept?:string
+}
 
-export const getNewHeaders = (authToken?: string, content?:string, api_version?:number) => {
+
+export const getNewHeaders = ({ authToken, content, api_version, accept }: IHeaders) => {
     
     let header = {}
 
@@ -24,9 +31,6 @@ export const getNewHeaders = (authToken?: string, content?:string, api_version?:
     if (api_version){
         header[HTTP_HEADERS_KEYS.API_VERSION] = api_version
     }
-
-
-    
 
     return header
     
