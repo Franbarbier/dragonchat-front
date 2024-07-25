@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { STATUS } from '../../../enums';
 
@@ -7,10 +7,11 @@ import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
 
-import Picker from "emoji-picker-react";
+import { Imessages } from '../CardsContFree';
+import TextAreaCont from './TextAreaCont/TextArea';
 
-export interface IMultiMessages {
-    messages : string[][];
+ interface IMultiMessages {
+    messages : Imessages;
     setMessages : (message: string[][]) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
@@ -18,13 +19,16 @@ export interface IMultiMessages {
     setDelayBetween : (val: number) => void;
     isPaid: boolean;
     setModalPro : (modalPro: boolean) => void;
+    setFilesSelected : (val: File[]) => void;
+    filesSelected: File[];
 }
 
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro, setFilesSelected, filesSelected }) => {
    
-    const [testMsj, setTestMsj] = useState<string[][]>(messages)
+    const [testMsj, setTestMsj] = useState<Imessages>(messages)
 
+    const [showPicker, setShowPicker] = useState<[number, number]>([99,99]);
 
     useEffect(()=>{
         if (testMsj.length === 0) {
@@ -33,35 +37,10 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     },[messages])
 
 
-
-    const emojiCont = useRef(null);
-
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (emojiCont.current && !(emojiCont.current as Element).contains(event.target as Node)) {
-                setShowPicker([99,99]);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [emojiCont]);
-
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
 
-    const [showPicker, setShowPicker] = useState<[number, number]>([99,99]);
-
-    const onEmojiClick = (event) => {
-        
-        let newMessages = [...testMsj];
-        const thisArr = newMessages[showPicker[0]]
-        thisArr[showPicker[1]] = thisArr[showPicker[1]] + event.emoji;
-        newMessages[showPicker[0]] = thisArr;
-        setTestMsj(newMessages);
-
-        setShowPicker([99,99]);
-    };
 
   
     return (
@@ -105,60 +84,24 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         message.length >= 0 && (
                                                         message.map((msj, j)=>{
                                                             return (
-                                                                <div key={`mensaje${index}-var${j}`}>
-                                                                    <>
-                                                                    <motion.div className={styles.txtareaCont}
-                                                                            initial={{ opacity: 0, y : 50 }}
-                                                                            animate={{ opacity: 1, y : 0 }}>
-                                                                        <img src="/var_linea.svg" alt="" className={styles.svgBranch} />
-
-                                                                        
-                                                                        <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
-                                                                            let newMessages = [...testMsj];
-                                                                            const thisArr = newMessages[index]
-                                                                            thisArr[j] = e.target.value;
-                                                                            newMessages[index] = thisArr;
-                                                                            setTestMsj(newMessages);
-                                                                            
-                                                                        } }
-                                                                        rows={1}
-                                                                        />
-                                                                        
-                                                                    </motion.div>
-                                                                        <img src="/close.svg" width={"12px"} onClick={()=>{
-
-                                                                            let newMessages = [...testMsj];
-                                                                            const thisArr = newMessages[index]
-                                                                            thisArr.splice(j, 1);
-
-                                                                            if (thisArr.length == 0) { newMessages.splice(index, 1); }
-                                                                                    
-                                                                            setTestMsj(newMessages);
-                                                                        }} className={styles.deleteVariacion} />
-
-
-                                                                        
-                                                                        <img
-                                                                            className={styles.emojiIcon}
-                                                                            src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
-                                                                            onClick={() => setShowPicker([index, j])}
-                                                                        />
-                                                                        {(j == showPicker[1] && index == showPicker[0])  && (
-                                                                            <div className={styles.pickerCont} ref={emojiCont}>
-                                                                                <Picker onEmojiClick={onEmojiClick} />
-
-                                                                            </div>
-                                                                        )}
-                                                                        { testMsj[index][0] != "" && 
-                                                                            <img className={styles.newVaracion} onClick={()=>{
-                                                                                const newArray = [...testMsj];
-                                                                                newArray[index] = [...message, ``];
-                                                                                setTestMsj(newArray);
-                                                                            }} title='Agregar variacion'
-                                                                            src="./fork.png"   />                                                                        
-                                                                        }
-
-                                                                        </>
+                                                                <div key={`mensaje${index}-var${j}`} className={styles.varsCont}>
+                                                                    <TextAreaCont
+                                                                        msj={msj}
+                                                                        index={index}
+                                                                        j={j}
+                                                                        testMsj={testMsj}
+                                                                        setTestMsj={setTestMsj}
+                                                                        showPicker={showPicker}
+                                                                        setShowPicker={setShowPicker}
+                                                                        message={message}
+                                                                        setNotification={setNotification}
+                                                                        notification={notification}
+                                                                        setFilesSelected={setFilesSelected}
+                                                                        filesSelected={filesSelected}
+                                                                        isPaid={isPaid}
+                                                                        setModalPro={setModalPro}
+                                                                    />
+                                                                   
                                                                 </div>
                                                             )
                                                         } )
@@ -169,9 +112,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
 
                                                 </div>
                                             
-
-                                                </motion.div>
-
+                                            </motion.div>
                                                
                                         </>
                                         </div>

@@ -38,20 +38,18 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid, setM
             
             setLoadingQr(false);
 
-            
             if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
             }else{
-                console.error("send-message-error", dataConnect)
 
                 if (dataConnect == 428 || dataConnect == 412 || dataConnect == 417) {
                     count417++;
                     setLoadingQr(true);
                     if(count417 == 40){
                         stopIteration()
-                        return false
+                        return false;
                     }
-                }else if( dataConnect.response.status == 423){
+                }else if( dataConnect?.response?.status == 423){
                     setModalIP(true)
                     stopIteration()
                     return false

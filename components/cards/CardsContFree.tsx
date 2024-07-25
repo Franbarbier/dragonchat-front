@@ -24,12 +24,14 @@ import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 import TipsCarrousel from './TipsCarrousel/TipsCarrousel';
 
+export type Imessages = string[][];
+
 export interface ICardsCont {
     isPaid: boolean;
-    setGlobalData: ( val:{contactos: ContactInfo[], messages: string[][]} ) => void;
+    setGlobalData: ( val:{contactos: ContactInfo[], messages: Imessages} ) => void;
     globalData: {
         contactos: ContactInfo[];
-        messages: string[][];
+        messages: Imessages;
     };
 }
 
@@ -43,7 +45,6 @@ export interface ContactInfo {
 }
 
 
-
 const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) => {
 
 
@@ -52,9 +53,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [contactos, setContactos] = useState<ContactInfo[]>(globalData.contactos ? globalData.contactos : [{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
-    const [mensaje, setMensaje] = useState<string>('')
-    const [messages, setMessages] = useState<string[][]>(globalData.messages ? globalData.messages : [['']])
-    
+    const [messages, setMessages] = useState<Imessages>(globalData.messages ? globalData.messages :  [['']] )
+    const [filesSelected, setFilesSelected] = useState<File[]>([])
+
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
     const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
@@ -225,11 +226,17 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 break;
             case 2:
 
-                const emptyMess = messages.some(subarray => subarray.includes(""))
+                const emptyMess = messages.some(subarray => {
+                    if (typeof subarray[0] === 'string') {
+                        return subarray[0].trim() === "";
+                    }
+                });
 
-                if ( (tipoEnvio == MESSAGE_TYPE.DIFUSION && !emptyMess ) ) {
-                    setNextCard(true)
-                }else{ setNextCard(false) }
+                if (tipoEnvio === MESSAGE_TYPE.DIFUSION && !emptyMess) {
+                    setNextCard(true);
+                } else {
+                    setNextCard(false);
+                }
                 setPrevCard(true)
                 break;
             case 3:
@@ -334,11 +341,13 @@ useEffect(() => {
         });
         setContactos(newArray)
         setMessages([['']])
+        setFilesSelected([])
         setSendingState(SENDING_STATE.INIT)
         setModalFinish(false)
         setBlackList([])
         setErrorCounter(0)
     }
+
 
     return (
         <div>
@@ -378,6 +387,7 @@ useEffect(() => {
                         delayBetween={delayBetween}
                         errorCounter={errorCounter}
                         setErrorCounter={setErrorCounter}
+                        filesSelected={filesSelected}
                     />
 
                     <FreeCard1 
@@ -411,6 +421,8 @@ useEffect(() => {
                         setModalPro={setModalPro}
                         delayBetween={delayBetween}
                         setDelayBetween={setDelayBetween}
+                        setFilesSelected={setFilesSelected}
+                        filesSelected={filesSelected}
                     />
 
                     

@@ -3,9 +3,10 @@
     flex-direction: column;
 
 }
-.MultiMessages>div{
+.MultiMessages>div:first-child{
     overflow-y: auto;
     height: 48vh;
+    padding-bottom: 7vh;
 }
 
 .delayBetCont{
@@ -35,7 +36,7 @@
     margin-left: 5%;
     line-height: 17px;
 }
-.MultiMessages_cont li>div:last-child{
+.MultiMessages_cont>div>ul li>div:last-child{
     display: inline-block;
     margin-left: 11px;
 }
@@ -58,44 +59,111 @@
 .messages_cont{
     position: relative;
 }
+.messages_cont>div{
+    width: 100%;
+}
 
 
 .messages_cont>div>div{
     position: relative;
-    margin: 9px 0;
+}
+
+.addFileBtn{
+    /* max-width: 98%; */
+    background: transparent;
+    opacity: 0.7;
+    margin: 1% auto;
+    display: block;
+    cursor: pointer;
+}
+.addFileBtn:hover{
+    opacity: 1;
+}
+.addFileBtn>label{
+    border: 1px white dashed;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    width: 98%;
+    margin: auto;
+    cursor: pointer;
+    padding: 4px 20px;
+    height: 100%;
+}
+.addFileBtn>label>button{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+.addFileBtn>label>img{
+    margin-right: 5px;
+}
+.fileName{
+    display: flex;
+    position: absolute;
+    top: 1px;
+    left: calc(1px + 1%);
+    padding: 5%;
+    background: var(--borders);
+    width: calc(98% - 2px);
+    height: calc(100% - 2px);
+    border-radius: 5px;
+    align-items: center;
+
+}
+.fileName>span{
+    margin-left: 5px;
+    font-size: 0.9em;
 }
 .newVaracion{
-    position: absolute;
-    right: 15%;
-    background-color: transparent;
-    border: transparent;
-    width: 22px;
-    cursor: pointer;
-    opacity: 0.4;
-    top: 50%;
-    transform: translateY(-50%);
-    filter: invert(1);
     transform: rotate(90deg) translateX(-50%);
+    right: calc(5% + (25px + 10px) * 3);
+
 }
 .newVaracion img{ 
+    filter: invert(1);
     width: 100%;
 }
 .messages_cont .deleteVariacion{
+    right: 5%;
+}
+.messages_cont .attachFileIcon{
+    right: calc(5% + (25px + 10px) * 2);
+
+}
+.emojiIcon, .fileName p{
+    right: calc(5% + (25px + 10px) * 1);
+}
+.emojiIcon>img{
+    width: 16px;
+}
+.icons, .fileName p{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    right: 5%;
     border: 1px solid #fff;
     padding: 4px;
-    border-radius: 10px;
-    width: 22px;
+    border-radius: 30px;
+    width: 25px;
+    height: 25px;
     opacity: 0.4;
+    text-align: center;
+}
+.messages_cont>div>div:first-child>div{
+    width: 100%!important;
+    margin-left: 0!important;
+    margin-top: 6%;
 }
 .messages_cont>div>div>div{
     margin-left: 10%;
     width: 90%;
+    position: relative;
+    margin-top: 2%;
 }
+
 .messages_cont textarea{
     margin: auto;
     background-color: var(--newPink);
@@ -104,16 +172,29 @@
     border-radius: 6px;
     padding: 22px 18px;
     font-size: 0.85em;
-    padding-right: 25%;
+    padding-right: 30%;
     color: white;
     resize: none;
     width: 98%;
     outline: none;
     scroll-behavior: smooth;
-    height: calc( 1.4em + 45px)!important;
+    min-height: calc(2.6em + 45px) !important;
+    height: calc(1.4em + 45px) !important;
 
 }
-
+.MultiMessages:first-child>div>div>div .txtareaCont:after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid var(--newPink);
+    transform: rotate(-62deg);
+    top: -4%;
+    left: 0%;
+}
 /* Styles specifically for Mozilla Firefox */
 @-moz-document url-prefix() {
     .messages_cont textarea{
@@ -144,26 +225,26 @@
 }
 
 
-.messages_cont>div>div:hover .newVaracion, .messages_cont>div>div:hover .deleteVariacion, .messages_cont>div>div:hover .emojiIcon{
+.icons{
     opacity: 0.7;
 }
-.newVaracion:hover, .deleteVariacion:hover,.emojiIcon:hover{
+.icons:hover, .fileName p:hover{
     opacity: 1!important;
 }
 .svgBranch{
     position: absolute;
     width: auto;
-    height: 70px;
-    right: 85%;
-    top: -62%;
+    height: 11vh;
+    right: 91%;
+    bottom: 43%;
     transform: translateY(0);
     z-index: -1;
+    -webkit-user-select: none;
+    -moz-user-select: none;
     user-select: none;
+
 }
-.messages_cont>div>div:first-child>div{
-    width: 100%;
-    margin-left: 0!important;
-}
+
 .messages_cont>div>div:first-child .svgBranch{ display: none; }
 
 .messages_cont textarea::placeholder{
@@ -218,21 +299,12 @@
     z-index: 9;
     width: auto!important;
 }
-.emojiIcon{
-    filter: invert(1);
-    position: absolute;
-    right: 24%;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0.4;
-    cursor: pointer;
-    width: 20px;
 
-}
 /* if mobile */
 @media (max-width: 768px){
     .svgBranch{
-        right: 78%;
+        right: 86%;
+        height: 11vh;
     }
     .MultiMessages_cont li{ 
         font-size: 0.65em;
