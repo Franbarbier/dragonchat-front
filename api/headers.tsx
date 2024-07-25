@@ -1,6 +1,7 @@
 
 
 import { HTTP_HEADERS_KEYS, HTTP_HEADERS_VALUES } from "../enums";
+import { getIp } from "../utils/getIp";
 
 type IHeaders = {
     authToken?: string,
@@ -13,6 +14,8 @@ type IHeaders = {
 export const getNewHeaders = ({ authToken, content, api_version, accept }: IHeaders) => {
     
     let header = {}
+
+    header['client_ip'] = localStorage.getItem('ip') || getIp()
 
     if (authToken) {
         header[HTTP_HEADERS_KEYS.AUTHORIZATION] = `${HTTP_HEADERS_VALUES.BEARER} ${authToken}`
@@ -32,6 +35,7 @@ export const getNewHeaders = ({ authToken, content, api_version, accept }: IHead
         header[HTTP_HEADERS_KEYS.API_VERSION] = api_version
     }
 
+    console.log(header)
     return header
     
 };
