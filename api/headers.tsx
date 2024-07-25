@@ -15,7 +15,7 @@ export const getNewHeaders = ({ authToken, content, api_version, accept }: IHead
     
     let header = {}
 
-    header['client_ip'] = localStorage.getItem('ip') || getIp()
+    header['Client_ip'] = localStorage.getItem('ip') || getIp()
 
     if (authToken) {
         header[HTTP_HEADERS_KEYS.AUTHORIZATION] = `${HTTP_HEADERS_VALUES.BEARER} ${authToken}`
@@ -39,21 +39,3 @@ export const getNewHeaders = ({ authToken, content, api_version, accept }: IHead
     return header
     
 };
-
-
-export function areObjectsEqual(objA, objB) {
-    const keysA = Object.keys(objA);
-    const keysB = Object.keys(objB);
-  
-    if (keysA.length !== keysB.length) {
-      return false;
-    }
-  
-    for (let key of keysA) {
-      if (objA[key] !== objB[key]) {
-        return false;
-      }
-    }
-  
-    return true;
-  }
