@@ -74,7 +74,6 @@ const apiSenderWhatsappController = {
         `${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`,
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
-      console.log(response)
       return response;
     } catch (error: any) {
 
