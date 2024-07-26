@@ -64,7 +64,8 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
       <Loader2 loading={loading2} />
       <Notification {...notification} />
 
-      <FreeBanner setModalPro={()=>{setModalPro(true)} } text="Error de Vinculacion? Pasate a DragonChat 2.0 para tener 100% de conectividad." />
+      {!isPaid && <FreeBanner setModalPro={()=>{setModalPro(true)} } text="Error de Vinculacion? Pasate a DragonChat 2.0 para tener 100% de conectividad." /> }
+      
 
 
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
