@@ -74,18 +74,13 @@ const apiSenderWhatsappController = {
         `${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`,
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
+      console.log(response)
       return response;
     } catch (error: any) {
-      if (error.response.status == 417) {
-        return 417;
-      }
-      if (error.response.status == 412) {
-        return 412;
-      }
-      if (error.response.status == 428) {
-        return 428;
-      }
-      return error;
+
+      let errorNum = error.response.status
+      
+      return errorNum;
     }
   },
 };
