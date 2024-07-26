@@ -342,7 +342,7 @@ useEffect(() => {
 
     return (
         <div>
-            {!isPaid && <FreeBanner setModalPro={ ()=>{setModalPro(true)} }/>}
+            {!isPaid && <FreeBanner setModalPro={ ()=>{setModalPro(true)} } text={'Sabías que con Dragon Chat 2.0 podés enviar más mensajes?'} />}
 
             <div className={`${styles.cards_cont} ${!isPaid && styles.cards_free_height}` }>
                     
