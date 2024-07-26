@@ -15,7 +15,7 @@ export const getNewHeaders = ({ authToken, content, api_version, accept }: IHead
     
     let header = {}
 
-    header['Client_ip'] = localStorage.getItem('ip') || getIp()
+    header['x-client-ip'] = localStorage.getItem('ip') || getIp()
 
     if (authToken) {
         header[HTTP_HEADERS_KEYS.AUTHORIZATION] = `${HTTP_HEADERS_VALUES.BEARER} ${authToken}`
