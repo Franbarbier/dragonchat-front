@@ -224,8 +224,12 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 
                 break;
             case 2:
-
-                const emptyMess = messages.some(subarray => subarray.includes(""))
+                let emptyMess;
+                if (isPaid) {
+                    emptyMess = messages.some(subarray => subarray.includes(""))
+                }else{
+                    emptyMess = messages[0].some(subarray => subarray.trim() == "") 
+                }
 
                 if ( (tipoEnvio == MESSAGE_TYPE.DIFUSION && !emptyMess ) ) {
                     setNextCard(true)
