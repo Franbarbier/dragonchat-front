@@ -7,6 +7,7 @@ const getHeaders = (authToken: string) => ({
   Authorization: `Bearer ${authToken}`,
 });
 
+
 const getHeadersVersion = (authToken: string) => ({
   "x-api-version": 1,
   Authorization: `Bearer ${authToken}`,
@@ -34,7 +35,7 @@ const apiSenderWhatsappController = {
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`,
         payload,
-        { headers: getHeadersVersion(authToken) }
+        { headers:  getHeadersVersion(authToken) }
       );
       return response;
     } catch (error: any) {
@@ -72,16 +73,10 @@ const apiSenderWhatsappController = {
       );
       return response;
     } catch (error: any) {
-      if (error.response.status == 417) {
-        return 417;
-      }
-      if (error.response.status == 412) {
-        return 412;
-      }
-      if (error.response.status == 428) {
-        return 428;
-      }
-      return error;
+
+      let errorNum = error.response.status
+      
+      return errorNum;
     }
   },
 };

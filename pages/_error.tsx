@@ -24,6 +24,7 @@ const Err404: NextPageWithLayout<{ statusCode, err }> = ({ statusCode, err }) =>
         textTransform: 'uppercase',
         textAlign: 'center',
     }
+    
     console.error(`Error with status code: ${statusCode}`, err);
 
     return (
