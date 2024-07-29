@@ -50,7 +50,6 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
 
             if ( nextCard ) setActiveCard(activeCard+1)           
         } 
-
     }
 
 
