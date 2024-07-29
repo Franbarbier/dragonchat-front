@@ -25,8 +25,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
-    isPaid=false
-
     useEffect(()=>{
         if (testMsj.length === 0) {
             setTestMsj([[""]])
