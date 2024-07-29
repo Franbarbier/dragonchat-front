@@ -11,7 +11,6 @@ export interface ICardStructure {
 
 const CardStructure: React.FC<ICardStructure> = ({ children, id_card, activeCard, isPaid, setModalPro }) => {
 
-
     return (
         <div className={`${styles.card} ${styles['numberCard'+activeCard]} ${activeCard == id_card && styles.active}`} id={`${styles['card'+id_card]}`} key={`card${id_card}`}>
             <img src="/trama-car.svg" className={`${styles.tramaBottom} ${styles.tramas}`} />
