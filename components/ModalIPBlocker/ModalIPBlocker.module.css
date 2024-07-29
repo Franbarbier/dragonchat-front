@@ -1,0 +1,17 @@
+.modal_ipblocker h3{
+    text-align: center;
+    margin: 5% 0;
+}
+.modal_ipblocker p{
+    text-align: center;
+    margin: 5% 0;
+    font-weight: 300;
+}
+.modal_ipblocker>div>div>div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal_ipblocker>div>div>div>div{
+    width: 48%;
+}

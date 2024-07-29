@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { EVENT_KEY } from '../../../enums';
 import OrangeBtn from '../../OrangeBtn/OrangeBtn';
 import CardTitle from '../CardTitle/CardTitle';
 import styles from './ModalShieldOptions.module.css';
@@ -6,8 +7,8 @@ import styles from './ModalShieldOptions.module.css';
 export interface IModalShieldOptions {
     
     setModalShieldOptions : (modal: boolean) => void;
-    timer : number
-    setTimer : (val:number) => void;
+    timer : [number, number];
+    setTimer : (val:[number,number]) => void;
     bloques : number
     setBloques : (val:number) => void;
     pausa : number
@@ -19,18 +20,20 @@ export interface IModalShieldOptions {
 
 // interface contactosArr extends Array<ContactInfo>{}
 
-const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOptions, timer=3, setTimer, bloques=0, setBloques,
+const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOptions, timer=[20,25], setTimer, bloques=0, setBloques,
     pausa=0, setPausa, setActiveShield }) => {
     
     
     const inputRef = useRef<HTMLInputElement>(null);
     const inputRef2 = useRef<HTMLInputElement>(null);
     const inputRef3 = useRef<HTMLInputElement>(null);
+    const inputRef4 = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         inputRef?.current?.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
         inputRef2?.current?.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
         inputRef3?.current?.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
+        inputRef4?.current?.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
     },[])
 
 
@@ -51,6 +54,26 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOption
             return false;
         }
     }
+
+    function guardarSetting() {
+        
+        setTimer([ Number.isNaN(parseInt(inputRef3.current!.value) ) ? 3 : parseInt(inputRef3.current!.value), Number.isNaN(parseInt(inputRef3.current!.value) ) ? 3 : parseInt(inputRef4.current!.value)] );  
+        setPausa( Number.isNaN(parseInt(inputRef2.current!.value) ) ? 0 : parseInt(inputRef2.current!.value) );  
+        setBloques( Number.isNaN(parseInt(inputRef.current!.value) ) ? 0 : parseInt(inputRef.current!.value) );
+        setActiveShield(true)
+        setModalShieldOptions(false); 
+    }
+
+    function handleEnter(event) {
+        if (event.key == EVENT_KEY.ENTER ) guardarSetting()
+    }
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleEnter);
+        return () => {
+            document.removeEventListener("keydown", handleEnter);
+        };
+    });
 
     return (
         <div className={styles.ModalShieldOptions_cont}>
@@ -154,35 +177,66 @@ const ModalShieldOptions: React.FC<IModalShieldOptions> = ({setModalShieldOption
                         </div>
                         <div>
                             <h6>PAUSA ENTRE DESTINATARIOS (segundos)</h6>
+                            
+
+                            <span>Una pausa aleatoria entre:</span>
                             <div>
                                 <div onClick={()=> {  
                                      if (parseInt(inputRef3.current!.value) > 3) {
-                                        inputRef3.current!.value = ( parseInt(inputRef3.current!.value) - 1).toString()
+                                        setTimer( [parseInt(inputRef3.current!.value) - 1, timer[1]])
                                     }
                                  }}>
                                     <span>-</span>
                                 </div>
-                                <input id="timer" ref={inputRef3} type="number" defaultValue={timer} min={3} 
-                                    onInput={ (e)=>{  handleChangeValue(inputRef3, parseInt(e.currentTarget.value)) } }
+                                <input
+                                id="timer" ref={inputRef3} type="number" value={timer[0]} min={3} 
+                                    onInput={ (e)=>{  setTimer([parseInt(e.currentTarget.value), timer[1]]) } }
+                                    onBlur={ (e)=>{
+                                        if (e.currentTarget.value == "" || parseInt(e.currentTarget.value) < 3) {
+                                            setTimer([3, timer[1]])
+                                        }
+                                    } }
                                 />
                                 <div onClick={ ()=> {
                                         if (inputRef3.current!.value == "" ) {
-                                            inputRef3.current!.value = "3"
+                                            setTimer([3, timer[1]])
                                         }else{
-                                            inputRef3.current!.value = ( parseInt(inputRef3.current!.value) + 1).toString()
+                                            setTimer( [parseInt(inputRef3.current!.value) + 1, timer[1]] )
+                                        }}}>
+                                    <span >+</span>
+                                </div>
+                            </div>
+                            {/* Segundo timer */}
+                            <span>y:</span>
+                            <div>
+                                <div onClick={()=> {  
+                                     if (parseInt(inputRef4.current!.value) > 3) {
+                                        setTimer([timer[0] , parseInt(inputRef4.current!.value) - 1])
+                                    }
+                                 }}>
+                                    <span>-</span>
+                                </div>
+                                <input
+                                id="timer" ref={inputRef4} type="number" value={timer[1]} min={3} 
+                                    onInput={ (e)=>{  setTimer([timer[0] ,parseInt(e.currentTarget.value)]) } }
+                                    onBlur={ (e)=>{
+                                        if (e.currentTarget.value == "" || parseInt(e.currentTarget.value) < 3) {
+                                            setTimer([ timer[0], 3])
+                                        }
+                                    } }
+                                />
+                                <div onClick={ ()=> {
+                                        if (inputRef4.current!.value == "" ) {
+                                            setTimer([timer[0] ,3])
+                                        }else{
+                                            setTimer( [timer[0] ,parseInt(inputRef4.current!.value) + 1])
                                         }}}>
                                     <span >+</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <OrangeBtn text={'Activar'} onClick={ ()=>{ 
-                        setTimer( Number.isNaN(parseInt(inputRef3.current!.value) ) ? 3 : parseInt(inputRef3.current!.value) );  
-                        setPausa( Number.isNaN(parseInt(inputRef2.current!.value) ) ? 0 : parseInt(inputRef2.current!.value) );  
-                        setBloques( Number.isNaN(parseInt(inputRef.current!.value) ) ? 0 : parseInt(inputRef.current!.value) );
-                        setActiveShield(true)
-                        setModalShieldOptions(false); 
-                    } } />
+                    <OrangeBtn text={'Activar'} onClick={ ()=>{ guardarSetting() } } />
                     
 
                 </div>

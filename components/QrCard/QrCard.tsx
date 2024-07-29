@@ -4,19 +4,20 @@ import { useEffect, useState } from 'react';
 import apiSenderWhatsappController from '../../api/apiSenderWhatsappController';
 import { LOGIN_COOKIE } from '../../constants/index';
 import { ROUTES, STATUS } from '../../enums';
+import CustomColorBtn from '../CustomColorBtn/CustomColorBtn';
 import Loader from '../Loader/Loader';
 import { INotification } from '../Notification/Notification';
-import OrangeBtn from '../OrangeBtn/OrangeBtn';
 import CardTitle from "../cards/CardTitle/CardTitle";
 import styles from './QrCard.module.css';
 
 export interface IQrCard {
     notification: INotification,
     setNotification: (notification: INotification) => void,
-    isPaid: boolean
+    isPaid: boolean,
+    setModalIP : (modalIP: boolean) => void
 }
 
-const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) => {
+const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid, setModalIP}) => {
     const [loadingQr, setLoadingQr] = useState<boolean>(false);
     const [activeQr, setActiveQr] = useState<string | null>(null);
     const [ connectionSuccess, setConnectionSuccess ] = useState<boolean>(false);
@@ -36,10 +37,13 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
             const dataConnect = await apiSenderWhatsappController.isConnected(accessToken)
             
             setLoadingQr(false);
+
             
             if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
             }else{
+                console.error("send-message-error", dataConnect)
+
                 if (dataConnect == 428 || dataConnect == 412 || dataConnect == 417) {
                     count417++;
                     setLoadingQr(true);
@@ -47,14 +51,20 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
                         stopIteration()
                         return false
                     }
-                }
-                else{
+                }else if( dataConnect.response.status == 423){
+                    setModalIP(true)
+                    stopIteration()
+                    return false
+                
+                }else{
                     stopIteration()
                 }
                 
             }
     
             if (dataConnect?.data?.phoneConnected == true) {
+                
+                
                 setActiveQr("null")
                 setConnectionSuccess(true);
                 setNotification({
@@ -178,9 +188,23 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid }) =>
                     </div>
                 )}
                 {!activeQr && (
-                    <div style={{ "opacity": loadingQr ? "0.3" : "1" }}>
-                        <OrangeBtn text={ !loadingQr ? "Generar QR" : "Generando QR"} onClick={handleIsConnected} />
+                    <>
+                    <img src="escaneo-de-codigo-qr.png" className={styles.qrIcon} />
+                    <div className={styles.qrGenBtn} style={{ "opacity": loadingQr ? "0.3" : "1" }}>
+
+                        <CustomColorBtn
+                            type="submit"
+                            text={ !loadingQr ? "Generar QR" : "Generando QR"} 
+                            backgroundColorInit={ "#c21c3b" }
+                            backgroundColorEnd={ "#f9bd4f" }
+                            borderColor={ "#e17846"}
+                            onClick={() => {
+                                handleIsConnected()
+                            }}
+                            disable={ loadingQr }
+                      />
                     </div>
+                    </>
                 )}
             </div>
 

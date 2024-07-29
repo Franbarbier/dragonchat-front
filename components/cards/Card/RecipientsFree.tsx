@@ -206,7 +206,9 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
             
 
             <div className={styles.card_container} >
-                <CardTitle text={isPaid ? `${finalList.length - 1} Destinatarios` : "VERSION 1.0"} />
+                    <CardTitle text={isPaid ? `${finalList.length - 1} Destinatarios` : "VERSION 1.0"} />
+                    
+                    {!isPaid && <p>Esta versión cuenta con un límite de 25 mensajes por día.</p>}
 
                     <div style={{'margin': 'auto', 'width': '88%'}}>
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
@@ -220,9 +222,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                         
                     <div className={`${styles.grilla_oficial} ${isDragging && styles.draggedIcon }`} ref={grillaOficial}>
                         {finalList.map((elementInArray, index) => ( 
-                                
-                                <div className={`${styles.row_table} ${elementInArray.repeated !== undefined ? (elementInArray.repeated === 1 ? styles.firstRepeated : styles.repeated) : ''}`} key={`recipient${index}`} >
-
+                            <div className={`${styles.row_table} ${elementInArray.repeated !== undefined ? (elementInArray.repeated === 1 ? styles.firstRepeated : styles.repeated) : ''}`} key={`recipient${index}`} >
                                     <div key={`row${index}`}>
                                     { finalList.length - 1 !=  index ?
                                         <aside onClick={ (e)=>{ setSelection(e, index) } } className={ `${elementInArray.selected && styles.rowSelected} `  }>
@@ -233,7 +233,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                                         :
                                         <div></div>
                                     }
-                                    <div className={styles.celda_table} onContextMenu={(e)=>handleContextMenu(e, 'nombre', index)}>
+                                    <div className={`${styles.celda_table} ${(elementInArray.nombre == "" && index != finalList.length-1) && styles.emptyField}`} onContextMenu={(e)=>handleContextMenu(e, 'nombre', index)} >
                                         <textarea
                                             rows={1}
                                             onInput={ (e)=>{formatList(e, 'nombre', index)} }
@@ -242,7 +242,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                                             onFocus={()=> setIsInputFocused(true)}
                                         />
                                     </div>
-                                    <div className={styles.celda_table} onContextMenu={(e)=>handleContextMenu(e, 'numero', index)}>
+                                    <div  className={`${styles.celda_table} ${(elementInArray.numero == "" && index != finalList.length-1) && styles.emptyField}`} onContextMenu={(e)=>handleContextMenu(e, 'numero', index)}>
                                         <textarea
                                             rows={1}
                                             onInput={ (e)=>{ formatList(e, 'numero', index) } }
@@ -311,7 +311,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                             }
                             </div>
                         </div>
-                        <div>
+                        {/* <div>
                             <CustomColorBtn
                                 type="submit"
                                 text="Importar CSV"
@@ -321,7 +321,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                                 onClick={()=>{handleRenderModal(true)}}
                                 disable={ activeCard != 1 }
                             />
-                        </div>
+                        </div> */}
                     </div>
                     
 

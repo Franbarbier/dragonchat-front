@@ -12,7 +12,6 @@ const ProBtn: React.FC<IProBtn> = ({ onClick }) => {
     return (
         <div className={styles.pasate_cont}>
             <button onClick={()=>{
-                // setModalRef(true)
                 onClick(true)
             }}>
                 <img src="upgrade.png" />
