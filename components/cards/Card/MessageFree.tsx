@@ -30,7 +30,6 @@ export interface IFreeCard2 {
 
 const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, delayBetween, setDelayBetween, setShowTips, setModalPro }) => {
 
-    isPaid = false;
     let idCard = 2;
 
     useEffect(()=>{
