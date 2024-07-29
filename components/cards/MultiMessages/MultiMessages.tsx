@@ -21,10 +21,11 @@ export interface IMultiMessages {
 }
 
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid=false, setModalPro }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
+    isPaid=false
 
     useEffect(()=>{
         if (testMsj.length === 0) {
