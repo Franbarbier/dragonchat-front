@@ -16,6 +16,7 @@ import Notification, { INotification } from '../components/Notification/Notifica
 import QrCard from "../components/QrCard/QrCard";
 import QrWaitingRoom from "../components/QrWaitingRoom/QrWaitingRoom";
 import WppBtn from "../components/WppBtn/WppBtn";
+import FreeBanner from "../components/cards/FreeBanner/FreeBanner";
 import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
 import { API_GATEWAY_URL, LOGIN_COOKIE, MAINTENANCE_FREE, MAINTENANCE_PREMIUM, STRIPE_COOKIE } from "../constants/index";
 import { API_ROUTES, STATUS } from "../enums";
@@ -62,6 +63,9 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
       <Loader loading={loading} />
       <Loader2 loading={loading2} />
       <Notification {...notification} />
+
+      {!isPaid && <FreeBanner setModalPro={()=>{setModalPro(true)} } text="Error de Vinculacion? Pasate a DragonChat 2.0 para tener 100% de conectividad." /> }
+      
 
 
       <Header openSettings={openSettings} setOpenSettings={setOpenSettings} isPaid={isPaid}/>
@@ -130,6 +134,7 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
                 <ModalIpblocker setModalip={setModalIP} />
               </ModalContainer>
             }
+
         </>
       ) :
         <QrWaitingRoom queue={queue} />
