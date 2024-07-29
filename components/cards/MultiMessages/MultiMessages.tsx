@@ -21,7 +21,7 @@ export interface IMultiMessages {
 }
 
 
-const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro }) => {
+const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid=false, setModalPro }) => {
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
@@ -105,7 +105,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         message.map((msj, j)=>{
                                                             return (
                                                                 <div key={`mensaje${index}-var${j}`}>
-                                                                    {!isPaid && index == 0 ?
+                                                                    {(!isPaid && index == 0) || isPaid ?
                                                                     <>
                                                                     <motion.div className={styles.txtareaCont}
                                                                             initial={{ opacity: 0, y : 50 }}
