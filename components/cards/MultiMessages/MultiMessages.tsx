@@ -25,7 +25,6 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
-
     useEffect(()=>{
         if (testMsj.length === 0) {
             setTestMsj([[""]])
@@ -105,7 +104,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         message.map((msj, j)=>{
                                                             return (
                                                                 <div key={`mensaje${index}-var${j}`}>
-                                                                    {!isPaid && index == 0 ?
+                                                                    {(!isPaid && index == 0) || isPaid ?
                                                                     <>
                                                                     <motion.div className={styles.txtareaCont}
                                                                             initial={{ opacity: 0, y : 50 }}

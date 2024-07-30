@@ -134,6 +134,7 @@ const Qr: NextPageWithLayout<IQr> = ({ stripeCookie, isPaid, maintenance }) => {
                 <ModalIpblocker setModalip={setModalIP} />
               </ModalContainer>
             }
+
         </>
       ) :
         <QrWaitingRoom queue={queue} />
