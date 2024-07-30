@@ -73,9 +73,7 @@ const apiSenderWhatsappController = {
       );
       return response;
     } catch (error: any) {
-
       let errorNum = error.response.status
-      
       return errorNum;
     }
   },
