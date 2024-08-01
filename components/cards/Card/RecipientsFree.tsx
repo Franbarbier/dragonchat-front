@@ -194,7 +194,15 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
         }
       };
 
-      
+    const scrollRef = useRef<HTMLDivElement>(null);
+   
+      useEffect(() => {
+            if (finalList.length == 1 && scrollRef.current ) {
+                scrollRef.current.scrollTop = 0
+
+            }
+      },[finalList])
+
     return (
 
             <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
@@ -214,7 +222,7 @@ const FreeCard1: React.FC<IFreeCard1> = ({ isPaid, activeCard, setContactos, han
                      <HeaderRow campos={["NOMBRE", "NUMERO"]} />
                     </div>
                         
-                    <div className={`${styles.table_layout}`}
+                    <div ref={scrollRef} className={`${styles.table_layout}`}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}

@@ -1,4 +1,3 @@
-version: '3'
 services:
   dragonchat-front:
     image: dragonchat-front:${IMAGE_TAG}
@@ -7,12 +6,8 @@ services:
     restart: unless-stopped
     ports:
       - $PORT:$PORT
-    environment:
-      - PORT=$PORT
-      - NEXT_PUBLIC_API_SENDER_SOCKET_URL=$NEXT_PUBLIC_API_SENDER_SOCKET_URL
-      - NEXT_PUBLIC_API_SENDER_URL=$NEXT_PUBLIC_API_SENDER_URL
-      - NEXT_PUBLIC_API_USER_URL=$NEXT_PUBLIC_API_USER_URL
-      - NEXT_PUBLIC_LOGIN_COOKIE_NAME=$NEXT_PUBLIC_LOGIN_COOKIE_NAME
+    env_file:
+      - .env
     networks:
           mynet: {}
 

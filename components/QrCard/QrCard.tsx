@@ -42,7 +42,6 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid, setM
             if (dataConnect?.data?.qrCode && dataConnect?.data?.qrCode.trim() !== "") {
                 setActiveQr(dataConnect?.data?.qrCode);
             }else{
-                console.error("send-message-error", dataConnect)
 
                 if (dataConnect == 428 || dataConnect == 412 || dataConnect == 417) {
                     count417++;
@@ -51,7 +50,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid, setM
                         stopIteration()
                         return false
                     }
-                }else if( dataConnect.response.status == 423){
+                }else if( dataConnect == 423){
                     setModalIP(true)
                     stopIteration()
                     return false
