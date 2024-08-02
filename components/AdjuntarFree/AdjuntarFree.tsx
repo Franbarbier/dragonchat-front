@@ -59,7 +59,7 @@ const AdjuntarFree: React.FC<IAdjuntarFree> = ({ setTuto, tuto }) => {
                 </aside>
                <aside style={{'display': show ? 'block' : 'none' }} className={styles.adjuntar_info}>
                     <p>
-                         Agregamos la posibilidad de adjuntar archivos a tus mensajes. Los usuarios de DragonChat 1.0 van a tener esta funcionalidad disponible durante Agosto. Luego solo estará disponible para los usuarios 2.0.
+                         Agregamos la posibilidad de adjuntar archivos a tus mensajes. Los usuarios de DragonChat 1.0 van a tener esta funcionalidad disponible hasta el 15 de Agosto. Luego solo estará disponible para los usuarios 2.0.
                     </p>
                     <img src="/adjuntar_help.png" alt="adjuntar_help" style={{"height": "auto", "maxWidth":"100%" }} />
                </aside>
