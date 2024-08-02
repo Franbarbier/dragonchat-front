@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
-import { ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
+import { ADJUNTAR_FREE, ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
 import { COOKIES_SETTINGS, EVENT_KEY, MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
+import AdjuntarFree from '../AdjuntarFree/AdjuntarFree';
 import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import CopyPasteTuto from '../CopyPasteTuto/CopyPasteTuto';
@@ -88,6 +89,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     
     const [copyPasteTutorial, setCopyPasteTutorial] = useState<string | null>(null);
     const [antiBlockerTuto, setAntiBlockerTuto] = useState<string | null>(null);
+    const [adjuntarFreeMsj, setAdjuntarFreeMsj] = useState<string | null>(null);
+
     const [nextCard, setNextCard] = useState<boolean>(false)
     const [prevCard, setPrevCard] = useState<boolean>(false)
 
@@ -307,7 +310,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
         if (Cookies.get(COPYPASTE_TUTO) != COOKIES_SETTINGS.NUNCA) setCopyPasteTutorial("")
     }, [])
 
-useEffect(() => {
+    useEffect(() => {
         if (antiBlockerTuto == COOKIES_SETTINGS.NUNCA) {
             Cookies.set(ANTIBLOCKER_TUTO, COOKIES_SETTINGS.NUNCA, { expires: 200 })
         }
@@ -316,10 +319,22 @@ useEffect(() => {
         }
     }, [antiBlockerTuto])
 
+    useEffect(() => {
+        if (adjuntarFreeMsj == COOKIES_SETTINGS.NUNCA) {
+            Cookies.set(ADJUNTAR_FREE, COOKIES_SETTINGS.NUNCA, { expires: 200 })
+        }
+        if (adjuntarFreeMsj == COOKIES_SETTINGS.DESP || adjuntarFreeMsj == COOKIES_SETTINGS.NUNCA) {
+            setAdjuntarFreeMsj(null)
+        }
+
+    }, [adjuntarFreeMsj])
     
     useEffect(() => {
         if (activeCard == 2) {
-            setTimeout(() => {
+
+        if (Cookies.get(ADJUNTAR_FREE) != COOKIES_SETTINGS.NUNCA) setAdjuntarFreeMsj("")
+            
+        setTimeout(() => {
                 setHintMessage(true)
             }, 300);
         }else{
@@ -329,6 +344,9 @@ useEffect(() => {
             if (Cookies.get(ANTIBLOCKER_TUTO) != COOKIES_SETTINGS.NUNCA) setAntiBlockerTuto("")
         }
     }, [activeCard])
+
+
+
 
     
     function nuevaDifusion() {
@@ -519,6 +537,8 @@ useEffect(() => {
 
             {copyPasteTutorial != null && <CopyPasteTuto setTuto={setCopyPasteTutorial} /> }
             {antiBlockerTuto != null && <AntiBlockerTuto setTuto={setAntiBlockerTuto } /> }
+
+            {!isPaid && adjuntarFreeMsj != null &&  (<AdjuntarFree setTuto={setAdjuntarFreeMsj} tuto={adjuntarFreeMsj} />) }
             
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
            
