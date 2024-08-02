@@ -69,11 +69,11 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
 
       const handleClick = (e) => {
 
-        if (!isPaid) {
-            setModalPro(true);
-            e.preventDefault();
-            return false;
-        }
+        // if (!isPaid) {
+        //     setModalPro(true);
+        //     e.preventDefault();
+        //     return false;
+        // }
 
         const originalEvent = e;
         
@@ -188,7 +188,7 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                         </div>
                     )}
                 
-                    { j === 0  && (
+                    {!isPaid && j === 0  && (
                         <>
                             <label className={`${styles.attachFileIcon} ${styles.icons}`} htmlFor={`attach${index}${j}`}>
                             <img

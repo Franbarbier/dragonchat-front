@@ -69,6 +69,9 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
     })
 
 
+    
+
+
     return (
         <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
             <>
