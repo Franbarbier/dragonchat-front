@@ -327,10 +327,6 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
             setAdjuntarFreeMsj(null)
         }
 
-        console.log(adjuntarFreeMsj)
-
-        console.log( Cookies.get(ADJUNTAR_FREE))
-
     }, [adjuntarFreeMsj])
     
     useEffect(() => {
