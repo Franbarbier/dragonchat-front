@@ -7,6 +7,7 @@ const getHeaders = (authToken: string) => ({
   Authorization: `Bearer ${authToken}`,
 });
 
+
 const getHeadersVersion = (authToken: string) => ({
   "x-api-version": 1,
   Authorization: `Bearer ${authToken}`,
@@ -86,7 +87,7 @@ const apiSenderWhatsappController = {
       );
       return response;
     } catch (error: any) {
-      
+
       let errorNum = error.response.status
       
       return errorNum;

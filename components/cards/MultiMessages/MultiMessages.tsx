@@ -1,8 +1,5 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-
-
-
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 

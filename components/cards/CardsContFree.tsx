@@ -229,22 +229,28 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 break;
             case 2:
 
-                // const emptyMess1 = messages.some(subarray => {
-                //     if (typeof subarray[0] === 'string') {
-                //         return subarray[0].trim() === "";
-                //     }
-                // });
+                const emptyMess = messages.some(subarray => {
+                    if (typeof subarray[0] === 'string') {
+                        return subarray[0].trim() === "";
+                    }
+                });
+                // // let emptyMess;
+                // // if (isPaid) {
+                // //     emptyMess = messages.some(subarray => subarray.includes(""))
+                // // }else{
+                // //     emptyMess = messages[0].some(subarray => subarray.trim() == "") 
+                // // }
 
-                let emptyMess;
-                if (isPaid) {
-                    emptyMess = messages.some(subarray => subarray.includes(""))
-                }else{
-                    emptyMess = messages.some(subarray => {
-                            if (typeof subarray[0] === 'string') {
-                                return subarray[0].trim() === "";
-                            }
-                        });
-                }
+                // let emptyMess;
+                // if (isPaid) {
+                //     emptyMess = messages.some(subarray => subarray.includes(""))
+                // }else{
+                //     emptyMess = messages.some(subarray => {
+                //             if (typeof subarray[0] === 'string') {
+                //                 return subarray[0].trim() === "";
+                //             }
+                //         });
+                // }
 
 
                 if (tipoEnvio === MESSAGE_TYPE.DIFUSION && !emptyMess) {
@@ -381,7 +387,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
 
     return (
         <div>
-            {!isPaid && <FreeBanner setModalPro={ ()=>{setModalPro(true)} }/>}
+            {!isPaid && <FreeBanner setModalPro={ ()=>{setModalPro(true)} } text={'Sabías que con Dragon Chat 2.0 podés enviar más mensajes?'} />}
 
             <div className={`${styles.cards_cont} ${!isPaid && styles.cards_free_height}` }>
                     

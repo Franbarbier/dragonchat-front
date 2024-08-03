@@ -7,6 +7,7 @@ import styles from '../MultiMessages.module.css';
 import Picker from "emoji-picker-react";
 import { useEffect, useRef, useState } from 'react';
 import { STATUS } from '../../../../enums';
+import CustomColorBtn from '../../../CustomColorBtn/CustomColorBtn';
 import { INotification } from '../../../Notification/Notification';
 import { Imessages } from '../../CardsContFree';
 
@@ -157,13 +158,39 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
     }
 
 
+
     return (<div key={`keyItem-${index}-${j}`}>
+
+        { (!isPaid && index > 0) ?
+                <>
+                    <div>
+                        <div className={`${styles.txtareaCont} ${styles.blockMulti}`}>
+                            <textarea />
+                            <div>
+                                <img src="/bloqueo-alternativo.png" width={'24px'}/>
+                                <p>Pasate a 2.0 para desbloquear los multi mensajes</p>
+                                <div>
+
+                                    <CustomColorBtn
+                                        text="Pasar a 2.0"
+                                        backgroundColorInit={ "#c21c3b" }
+                                        backgroundColorEnd={ "#f9bd4f" }
+                                        borderColor={ "#e17846"}
+                                        onClick={()=>{ setModalPro(true) }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+                
+
+                :
                 <motion.div className={styles.txtareaCont}
                         initial={{ opacity: 0, y : 50 }}
                         animate={{ opacity: 1, y : 0 }}>
 
                     <img src="/var_linea.svg" alt="" className={styles.svgBranch} />
-
                     
                     <textarea placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`}
                         value={fileDecode(msj)}
@@ -245,6 +272,8 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
 
 
                 </motion.div>
+
+}
 
         </div>
         )
