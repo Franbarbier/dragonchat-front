@@ -229,11 +229,23 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 break;
             case 2:
 
-                const emptyMess = messages.some(subarray => {
-                    if (typeof subarray[0] === 'string') {
-                        return subarray[0].trim() === "";
-                    }
-                });
+                // const emptyMess1 = messages.some(subarray => {
+                //     if (typeof subarray[0] === 'string') {
+                //         return subarray[0].trim() === "";
+                //     }
+                // });
+
+                let emptyMess;
+                if (isPaid) {
+                    emptyMess = messages.some(subarray => subarray.includes(""))
+                }else{
+                    emptyMess = messages.some(subarray => {
+                            if (typeof subarray[0] === 'string') {
+                                return subarray[0].trim() === "";
+                            }
+                        });
+                }
+
 
                 if (tipoEnvio === MESSAGE_TYPE.DIFUSION && !emptyMess) {
                     setNextCard(true);

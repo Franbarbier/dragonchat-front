@@ -114,6 +114,9 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
             let newfiles = [...filesSelected];
             newfiles.push(e.target.files[0]);
             setFilesSelected(newfiles);
+        
+            console.log(newMessages[index][j])
+            console.log(e.target.files[0])
     }
 
     const deleteMessage = (index, j) => {
@@ -218,6 +221,7 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                         }
                         </>
                     )}
+
 
                     
 

@@ -7,9 +7,9 @@ import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
 
+import Picker from "emoji-picker-react";
 import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { Imessages } from '../CardsContFree';
-import TextAreaCont from './TextAreaCont/TextArea';
 
 export interface IMultiMessages {
     messages : string[][];
@@ -108,9 +108,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         message.map((msj, j)=>{
                                                             return (
                                                                 <div key={`mensaje${index}-var${j}`}  className={styles.varsCont}>
-                                                                    {!(isPaid && index == 0 ) || isPaid?
-                                                                    <>
-                                                                    <TextAreaCont
+                                                                    {/* <TextAreaCont
                                                                         msj={msj}
                                                                         index={index}
                                                                         j={j}
@@ -125,8 +123,61 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         filesSelected={filesSelected}
                                                                         isPaid={isPaid}
                                                                         setModalPro={setModalPro}
-                                                                    />
-                                                                    
+                                                                    /> */}
+                                                                    {!isPaid && index == 0 ?
+                                                                    <>
+                                                                    <motion.div className={styles.txtareaCont}
+                                                                            initial={{ opacity: 0, y : 50 }}
+                                                                            animate={{ opacity: 1, y : 0 }}>
+                                                                        <img src="/var_linea.svg" alt="" className={styles.svgBranch} />
+
+                                                                        <textarea value={ msj }
+                                                                        placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`}
+                                                                        onChange={ (e)=>{
+                                                                            let newMessages = [...testMsj];
+                                                                            const thisArr = newMessages[index]
+                                                                            thisArr[j] = e.target.value;
+                                                                            newMessages[index] = thisArr;
+                                                                            setTestMsj(newMessages);
+                                                                            
+                                                                        } }
+                                                                        rows={1} />
+                                                                
+                                                                        
+                                                                    </motion.div>
+                                                                        <img src="/close.svg" width={"12px"} onClick={()=>{
+
+                                                                            let newMessages = [...testMsj];
+                                                                            const thisArr = newMessages[index]
+                                                                            thisArr.splice(j, 1);
+
+                                                                            if (thisArr.length == 0) { newMessages.splice(index, 1); }
+                                                                                    
+                                                                            setTestMsj(newMessages);
+                                                                        }} className={styles.deleteVariacion} />
+
+
+                                                                        
+                                                                        <img
+                                                                            className={styles.emojiIcon}
+                                                                            src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
+                                                                            onClick={() => setShowPicker([index, j])}
+                                                                        />
+                                                                        {(j == showPicker[1] && index == showPicker[0])  && (
+                                                                            <div className={styles.pickerCont} ref={emojiCont}>
+                                                                                <Picker onEmojiClick={onEmojiClick} />
+
+                                                                            </div>
+                                                                        )}
+                                                                        { testMsj[index][0] != "" && 
+                                                                            <img className={styles.newVaracion} onClick={()=>{
+                                                                                const newArray = [...testMsj];
+                                                                                newArray[index] = [...message, ``];
+                                                                                setTestMsj(newArray);
+                                                                            }} title='Agregar variacion'
+                                                                            src="./fork.png"   />                                                                        
+                                                                        }
+
                                                                         </>
                                                                         :
                                                                         <>
