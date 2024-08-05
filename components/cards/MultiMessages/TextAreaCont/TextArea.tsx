@@ -208,6 +208,7 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                         <img
                             src="./sonriente.png"
                             onClick={() => setShowPicker(true)}
+                            title='Insertar emoji'
                         />
                     </div>
 
@@ -217,6 +218,20 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                             <Picker onEmojiClick={onEmojiClick} />
                         </div>
                     )}
+                    { testMsj[index][0] != "" &&
+                        <div  className={`${styles.newVaracion} ${styles.icons}`} 
+                            onClick={()=>{
+                                const newArray = [...testMsj];
+                                newArray[index] = [...message, ``];
+                                setTestMsj(newArray);
+                            }}
+                            title='Agregar variacion'
+                        >
+
+                            <img src="./fork.png"/>                                                                        
+                        </div>
+
+                    }
                 
                     {!isPaid && j === 0  && (
                         <>
@@ -228,24 +243,13 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                                 hidden
                                 type="file"
                                 id={`attach${index}${j}`}
+                                title='Adjuntar archivo'
                                 ref={addFileBtn}
                                 onClick={(e) => { handleClick(e) }}
                                 onMouseDown={handleFakeClick}
                                 onChange={(e) => { fileChange(e) }}
                                 />
                         </label>
-
-                        { testMsj[index][0] != "" &&
-                            <div  className={`${styles.newVaracion} ${styles.icons}`} >
-
-                                <img onClick={()=>{
-                                    const newArray = [...testMsj];
-                                    newArray[index] = [...message, ``];
-                                    setTestMsj(newArray);
-                                }} title='Agregar variacion'
-                                src="./fork.png"   />                                                                        
-                            </div>
-                        }
                         </>
                     )}
 
@@ -268,7 +272,7 @@ const TextAreaCont: React.FC<ITextAreaCont> = ({ index, j, msj, setTestMsj, test
                             </div>
                     }
                     
-                    <img src="/close.svg" width={"12px"} onClick={()=>{ deleteMessage(index, j); }} className={`${styles.deleteVariacion} ${styles.icons}`} />
+                    <img src="/close.svg" width={"12px"} onClick={()=>{ deleteMessage(index, j); }} className={`${styles.deleteVariacion} ${styles.icons}`} title='Eliminar mensaje' />
 
 
                 </motion.div>

@@ -30,6 +30,7 @@ const apiSenderWhatsappController = {
   sendMessage: async (name, messages, phone, authToken: string, timeBetween:string, files:File[]) => {
     try {
      
+      console.log(files, messages )
       // form data payload
       const formData = new FormData();
       formData.append('name', `"${name}"`);
@@ -39,7 +40,7 @@ const apiSenderWhatsappController = {
       files.forEach((file, i) => {
         formData.append(`files`, file);
       });
-                              
+
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`,
         formData,
