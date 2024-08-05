@@ -30,7 +30,6 @@ const apiSenderWhatsappController = {
   sendMessage: async (name, messages, phone, authToken: string, timeBetween:string, files:File[]) => {
     try {
      
-      console.log(files, messages )
       // form data payload
       const formData = new FormData();
       formData.append('name', `"${name}"`);
