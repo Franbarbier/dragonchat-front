@@ -1,17 +1,15 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-
-import { STATUS } from '../../../enums';
-
+import { useEffect, useRef, useState } from 'react';
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
 
+import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 import { Imessages } from '../CardsContFree';
 import TextAreaCont from './TextAreaCont/TextArea';
 
- interface IMultiMessages {
-    messages : Imessages;
+export interface IMultiMessages {
+    messages : string[][];
     setMessages : (message: string[][]) => void;
     notification : INotification;
     setNotification : (notification: INotification) => void;
@@ -25,7 +23,6 @@ import TextAreaCont from './TextAreaCont/TextArea';
 
 
 const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification, messages, setMessages, delayBetween, setDelayBetween, isPaid, setModalPro, setFilesSelected, filesSelected }) => {
-   
     const [testMsj, setTestMsj] = useState<Imessages>(messages)
 
     const [showPicker, setShowPicker] = useState<[number, number]>([99,99]);
@@ -37,10 +34,33 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
     },[messages])
 
 
+    const emojiCont = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (emojiCont.current && !(emojiCont.current as Element).contains(event.target as Node)) {
+                setShowPicker([99,99]);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [emojiCont]);
+
     useEffect(()=>{
         setMessages(testMsj)
     },[testMsj])
 
+
+    const onEmojiClick = (event) => {
+        
+        let newMessages = [...testMsj];
+        const thisArr = newMessages[showPicker[0]]
+        thisArr[showPicker[1]] = thisArr[showPicker[1]] + event.emoji;
+        newMessages[showPicker[0]] = thisArr;
+        setTestMsj(newMessages);
+
+        setShowPicker([99,99]);
+    };
 
   
     return (
@@ -84,7 +104,9 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         message.length >= 0 && (
                                                         message.map((msj, j)=>{
                                                             return (
-                                                                <div key={`mensaje${index}-var${j}`} className={styles.varsCont}>
+                                                                <div key={`mensaje${index}-var${j}`}  className={styles.varsCont}>
+                                                                    {!(isPaid && index == 0 ) || isPaid?
+                                                                    <>
                                                                     <TextAreaCont
                                                                         msj={msj}
                                                                         index={index}
@@ -101,7 +123,34 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         isPaid={isPaid}
                                                                         setModalPro={setModalPro}
                                                                     />
-                                                                   
+                                                                    
+                                                                        </>
+                                                                        :
+                                                                        <>
+                                                                            <div>
+                                                                                <div className={`${styles.txtareaCont} ${styles.blockMulti}`}>
+                                                                                    <textarea />
+                                                                                    <div>
+                                                                                        <img src="/bloqueo-alternativo.png" width={'24px'}/>
+                                                                                        <p>Pasate a 2.0 para desbloquear los multi mensajes</p>
+                                                                                        <div>
+
+                                                                                            <CustomColorBtn
+                                                                                                text="Pasar a 2.0"
+                                                                                                backgroundColorInit={ "#c21c3b" }
+                                                                                                backgroundColorEnd={ "#f9bd4f" }
+                                                                                                borderColor={ "#e17846"}
+                                                                                                // backgroundColorInit="#724cdf"
+                                                                                                // backgroundColorEnd="#3a94fe"
+                                                                                                // borderColor="#5573f0"
+                                                                                                onClick={()=>{ setModalPro(true) }}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                        }
                                                                 </div>
                                                             )
                                                         } )
@@ -112,7 +161,9 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
 
                                                 </div>
                                             
-                                            </motion.div>
+
+                                                </motion.div>
+
                                                
                                         </>
                                         </div>
@@ -123,19 +174,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                             </div>
                         </div>
                         <div className={`${styles.agregarMultiMensaje} ${messages.length > 4 && styles.noMoreMsjs}`} onClick={()=> {
-                                if (isPaid) {
-                                    if (messages.length < 5) { setTestMsj([...testMsj, [""]]) }
-                                }else{
-                                    setNotification({
-                                        status: STATUS.ALERT,
-                                        render: true,
-                                        message: 'Para agregar más mensajes debes tener una cuenta premium. Leer mas?',
-                                        modalReturn: (val) => {
-                                            if (val) { setModalPro(true)  }
-                                            setNotification({...notification, render : false})
-                                        }
-                                    })
-                                }
+                            if (messages.length < 5) { setTestMsj([...testMsj, [""]]) }
                         }}>
                             <img src="/close.svg" />
                         </div>

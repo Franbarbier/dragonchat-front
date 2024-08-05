@@ -49,7 +49,7 @@ const QrCard: React.FC<IQrCard> = ({ setNotification, notification, isPaid, setM
                         stopIteration()
                         return false;
                     }
-                }else if( dataConnect?.response?.status == 423){
+                }else if( dataConnect == 423){
                     setModalIP(true)
                     stopIteration()
                     return false

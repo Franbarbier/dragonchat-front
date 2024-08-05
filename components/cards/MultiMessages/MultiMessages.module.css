@@ -100,6 +100,19 @@
 .addFileBtn>label>img{
     margin-right: 5px;
 }
+.icons, .fileName p{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border: 1px solid #fff;
+    padding: 4px;
+    border-radius: 30px;
+    width: 25px;
+    height: 25px;
+    opacity: 0.4;
+    text-align: center;
+}
 .fileName{
     display: flex;
     position: absolute;
@@ -119,7 +132,7 @@
 }
 .newVaracion{
     transform: rotate(90deg) translateX(-50%);
-    right: calc(5% + (25px + 10px) * 3);
+    right: calc(5% + (25px + 10px) * 2);
 
 }
 .newVaracion img{ 
@@ -130,7 +143,7 @@
     right: 5%;
 }
 .messages_cont .attachFileIcon{
-    right: calc(5% + (25px + 10px) * 2);
+    right: calc(5% + (25px + 10px) * 3);
 
 }
 .emojiIcon, .fileName p{
@@ -139,19 +152,7 @@
 .emojiIcon>img{
     width: 16px;
 }
-.icons, .fileName p{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    border: 1px solid #fff;
-    padding: 4px;
-    border-radius: 30px;
-    width: 25px;
-    height: 25px;
-    opacity: 0.4;
-    text-align: center;
-}
+
 .messages_cont>div>div:first-child>div{
     width: 100%!important;
     margin-left: 0!important;
@@ -298,6 +299,34 @@
     position: absolute;
     z-index: 9;
     width: auto!important;
+}
+
+
+.blockMulti{
+    position: relative;
+}
+.blockMulti>div{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    padding: 5%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid var(--amarillo);
+    border-radius: 5px;
+    transform: scale(0.985);
+    transform-origin: 50% 75%;
+}
+.blockMulti>div>p{
+    padding: 0 4% 0 2.5% ;
+    font-weight: 400;
+}
+.blockMulti>div>div{
+    width: 30%;
 }
 
 /* if mobile */
