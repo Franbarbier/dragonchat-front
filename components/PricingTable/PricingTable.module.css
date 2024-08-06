@@ -1,0 +1,94 @@
+.PricingTableCont{
+    width: 100%;
+    height: 100%;
+    padding-top: 5em;
+}
+
+.PricingTableCont>div{
+    width: 55%;
+    margin: auto;
+}
+.PricingTableCont>div>div>h2{
+    color: #fff;
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 30px;
+
+}
+.pricingsCont{
+    display: flex;
+    justify-content: space-between;
+}
+.pricingsCont>div{
+    width: 30%;
+    padding: 5%;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0.8;
+    cursor: pointer;
+}
+.pricingsCont>div:hover{
+    opacity: 1;
+    transform: scale(1.04);
+}
+.pricingsCont h5{
+    color: #fff;
+    font-size: 1.1em;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+.pricingsCont p{
+    color: #fff;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+.precio{
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+.precio h3{
+    font-size: 3em;
+    margin: 0 3px;
+
+}
+.precio h6{
+    font-size: 0.9em;
+    transform: translateY(15%);
+}
+.pricingsCont span{
+    display: block;
+    margin-bottom: 20px ;
+    font-size: 14px;
+}
+.infoCont{
+}
+.infoCont>h3{
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.infoCont ul li{
+    /* margin-bottom: 15px; */
+    font-size: 0.9em;
+    font-weight: 400;
+    margin: 10px 20px;
+}
+.infoCont ul {
+    margin-bottom: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.infoCont ul img{
+    filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(14deg) brightness(165%) contrast(80%);
+    width: 14px;
+    margin: 0 10px 0 3px;
+}
+.infoCont ul span{
+    color: var(--amarillo);
+}

@@ -138,13 +138,18 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       return;
     }
 
-
     let currentMessage:string[] = []
 
-    for(let i = 0; i < messages.length; i++){
-      const stringIndex = count % messages[i].length;   
-      currentMessage.push(messages[i][stringIndex])
+    if (isPaid) {
+      for(let i = 0; i < messages.length; i++){
+        const stringIndex = count % messages[i].length;   
+        currentMessage.push(messages[i][stringIndex])
+      }
+    }else{
+        const stringIndex = count % messages[0].length;   
+        currentMessage.push(messages[0][stringIndex])
     }
+
 
     let newContacts = [...contactos];
 
@@ -249,8 +254,6 @@ const FreeCard3: React.FC<IFreeCard3> = ({
       userInfo.access_token,
       delayBetween
     );
-
-    console.log("res-send-message", userInfo.user_id, sentMessage)
 
     onSuccess();
     

@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
-import { STATUS } from '../../../enums';
 
 import { INotification } from '../../Notification/Notification';
 import styles from './MultiMessages.module.css';
 
 
 import Picker from "emoji-picker-react";
+import CustomColorBtn from '../../CustomColorBtn/CustomColorBtn';
 
 export interface IMultiMessages {
     messages : string[][];
@@ -25,13 +25,11 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
    
     const [testMsj, setTestMsj] = useState<string[][]>(messages)
 
-
     useEffect(()=>{
         if (testMsj.length === 0) {
             setTestMsj([[""]])
         }
     },[messages])
-
 
 
     const emojiCont = useRef(null);
@@ -106,14 +104,16 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                         message.map((msj, j)=>{
                                                             return (
                                                                 <div key={`mensaje${index}-var${j}`}>
+                                                                    {(!isPaid && index == 0) || isPaid ?
                                                                     <>
                                                                     <motion.div className={styles.txtareaCont}
                                                                             initial={{ opacity: 0, y : 50 }}
                                                                             animate={{ opacity: 1, y : 0 }}>
                                                                         <img src="/var_linea.svg" alt="" className={styles.svgBranch} />
 
-                                                                        
-                                                                        <textarea value={ msj } placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`} onChange={ (e)=>{
+                                                                        <textarea value={ msj }
+                                                                        placeholder={`Mensaje #${index+1} - Variacion #${j + 1}`}
+                                                                        onChange={ (e)=>{
                                                                             let newMessages = [...testMsj];
                                                                             const thisArr = newMessages[index]
                                                                             thisArr[j] = e.target.value;
@@ -121,8 +121,8 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                             setTestMsj(newMessages);
                                                                             
                                                                         } }
-                                                                        rows={1}
-                                                                        />
+                                                                        rows={1} />
+                                                                
                                                                         
                                                                     </motion.div>
                                                                         <img src="/close.svg" width={"12px"} onClick={()=>{
@@ -159,6 +159,32 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                                                                         }
 
                                                                         </>
+                                                                        :
+                                                                        <>
+                                                                            <div>
+                                                                                <div className={`${styles.txtareaCont} ${styles.blockMulti}`}>
+                                                                                    <textarea />
+                                                                                    <div>
+                                                                                        <img src="/bloqueo-alternativo.png" width={'24px'}/>
+                                                                                        <p>Pasate a 2.0 para desbloquear los multi mensajes</p>
+                                                                                        <div>
+
+                                                                                            <CustomColorBtn
+                                                                                                text="Pasar a 2.0"
+                                                                                                backgroundColorInit={ "#c21c3b" }
+                                                                                                backgroundColorEnd={ "#f9bd4f" }
+                                                                                                borderColor={ "#e17846"}
+                                                                                                // backgroundColorInit="#724cdf"
+                                                                                                // backgroundColorEnd="#3a94fe"
+                                                                                                // borderColor="#5573f0"
+                                                                                                onClick={()=>{ setModalPro(true) }}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                        }
                                                                 </div>
                                                             )
                                                         } )
@@ -182,19 +208,7 @@ const MultiMessages: React.FC<IMultiMessages> = ({ notification, setNotification
                             </div>
                         </div>
                         <div className={`${styles.agregarMultiMensaje} ${messages.length > 4 && styles.noMoreMsjs}`} onClick={()=> {
-                                if (isPaid) {
-                                    if (messages.length < 5) { setTestMsj([...testMsj, [""]]) }
-                                }else{
-                                    setNotification({
-                                        status: STATUS.ALERT,
-                                        render: true,
-                                        message: 'Para agregar más mensajes debes tener una cuenta premium. Leer mas?',
-                                        modalReturn: (val) => {
-                                            if (val) { setModalPro(true)  }
-                                            setNotification({...notification, render : false})
-                                        }
-                                    })
-                                }
+                            if (messages.length < 5) { setTestMsj([...testMsj, [""]]) }
                         }}>
                             <img src="/close.svg" />
                         </div>
