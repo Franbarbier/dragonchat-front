@@ -67,6 +67,9 @@ const SignUp: NextPageWithLayout<GralProps> = (GralProps) => {
 
 export default SignUp;
 
+
+
+
 SignUp.getLayout = (page) => {
     return (
         <PrimaryLayout>
@@ -79,6 +82,7 @@ export async function getServerSideProps({ req, res }) {
 
     const cookies = new Cookies(req, res);
     var cookieStr = undefined
+
     if (cookies.get(STRIPE_COOKIE)) {
         cookieStr = cookies.get(STRIPE_COOKIE)
     }

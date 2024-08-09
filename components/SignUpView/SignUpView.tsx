@@ -38,9 +38,6 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
         formData.pass !== '' && formData.confirmPass !== '' ? formData.confirmPass === formData.pass : true
     ), [formData.pass, formData.confirmPass]);
 
-    useEffect(() => {
-        setLoading(false)
-    }, [userExists]);
 
     useEffect(() => {
         Router.prefetch("/login");
@@ -137,6 +134,14 @@ const SignUpView: React.FC<ISignUpView> = ({ stripe_data, setNotification, notif
         setFormData(prev => ({ ...prev, [field]: value }))
     }, [setFormData]);
 
+
+    useEffect(() => {
+        if (userExists) {
+            handleNotification(STATUS.ERROR, "El mail ingresado ya esta registrado.");
+        }
+        setLoading(false);
+        
+    },[userExists])
 
 
     return (

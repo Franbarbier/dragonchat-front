@@ -1,26 +1,17 @@
 import axios from "axios";
 import { API_GATEWAY_URL } from "../constants/index";
-import { API_ROUTES } from "../enums";
+import { API_ROUTES, HTTP_HEADERS_VALUES } from "../enums";
+import { getNewHeaders } from "./headers";
 
-const getHeaders = (authToken: string) => ({
-  "Content-Type": "application/json",
-  Authorization: `Bearer ${authToken}`,
-});
-
-
-const getHeadersVersion = (authToken: string) => ({
-  "x-api-version": 1,
-  Authorization: `Bearer ${authToken}`,
-  "Content-Type": "application/json",
-});
 
 const apiSenderWhatsappController = {
   disconnect: async (authToken: string) => {
     try {
       const response = await axios.delete(
         `${API_GATEWAY_URL}${API_ROUTES.DISCONNECT}`,
-        { headers: getHeaders(authToken) }
+        { headers: getNewHeaders({authToken}) }
       );
+      
       
       return response;
     } catch (error) {
@@ -43,15 +34,13 @@ const apiSenderWhatsappController = {
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.SEND_MSG}`,
         formData,
-        { headers: {
-          "x-api-version": 2,
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "multipart/form-data"
-        } }
+        { headers: getNewHeaders({authToken, content:  HTTP_HEADERS_VALUES.APLICATION_FORMDATA, api_version : 2}) }
       );
+
 
       return response;
     } catch (error: any) {
+      console.log(error)
       return error;
     }
   },
@@ -60,7 +49,7 @@ const apiSenderWhatsappController = {
       const response = await axios.post(
         `${API_GATEWAY_URL}${API_ROUTES.CONNECT}`,
         {},
-        { headers: { Authorization: `Bearer ${authToken}` } }
+        { headers: getNewHeaders({authToken}) }
       );
       return response;
     } catch (error: any) {
@@ -72,7 +61,7 @@ const apiSenderWhatsappController = {
     try {
       const response = await axios.get(
         `${API_GATEWAY_URL}${API_ROUTES.GET_QR}`,
-        { headers: { Authorization: `Bearer ${authToken}` } }
+        { headers:getNewHeaders({authToken})}
       );
       return response;
     } catch (error: any) {
@@ -83,7 +72,7 @@ const apiSenderWhatsappController = {
     try {
       const response = await axios.get(
         `${API_GATEWAY_URL}${API_ROUTES.IS_CONNECTED}`,
-        { headers: { Authorization: `Bearer ${authToken}` } }
+        { headers: getNewHeaders({authToken}) }
       );
       return response;
     } catch (error: any) {
