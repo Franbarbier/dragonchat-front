@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
-import { ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
+import { ADJUNTAR_FREE, ANTIBLOCKER_TUTO, COPYPASTE_TUTO } from '../../constants/index';
 import { COOKIES_SETTINGS, EVENT_KEY, MESSAGE_TYPE, SENDING_STATE, STATUS } from '../../enums/index';
 import useDeviceType from '../../utils/checkDevice';
+import AdjuntarFree from '../AdjuntarFree/AdjuntarFree';
 import AntiBlockerTuto from '../AntiBlockerTuto/AntiBlockerTuto';
 import BoxDialog from '../BoxDialog/BoxDialog';
 import CopyPasteTuto from '../CopyPasteTuto/CopyPasteTuto';
@@ -24,12 +25,14 @@ import ModalImportContacts from './ModalImportContacts/ModalImportContacts';
 import ModalShieldOptions from './ModalShieldOptions/ModalShieldOptions';
 import TipsCarrousel from './TipsCarrousel/TipsCarrousel';
 
+export type Imessages = string[][];
+
 export interface ICardsCont {
     isPaid: boolean;
-    setGlobalData: ( val:{contactos: ContactInfo[], messages: string[][]} ) => void;
+    setGlobalData: ( val:{contactos: ContactInfo[], messages: Imessages} ) => void;
     globalData: {
         contactos: ContactInfo[];
-        messages: string[][];
+        messages: Imessages;
     };
 }
 
@@ -43,7 +46,6 @@ export interface ContactInfo {
 }
 
 
-
 const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) => {
 
 
@@ -52,9 +54,9 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     const [contactos, setContactos] = useState<ContactInfo[]>(globalData.contactos ? globalData.contactos : [{nombre: '', numero: ''}])
     const [finalList, setFinalList] = useState<ContactInfo[]>([])
     
-    const [mensaje, setMensaje] = useState<string>('')
-    const [messages, setMessages] = useState<string[][]>(globalData.messages ? globalData.messages : [['']])
-    
+    const [messages, setMessages] = useState<Imessages>(globalData.messages ? globalData.messages :  [['']] )
+    const [filesSelected, setFilesSelected] = useState<File[]>([])
+
     const [tipoEnvio, setTipoEnvio] = useState<MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION>(MESSAGE_TYPE.DIFUSION)
 
     const [selectedSecuence, setSelectedSecuence] = useState<ISecuence | null>(null)
@@ -87,6 +89,8 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
     
     const [copyPasteTutorial, setCopyPasteTutorial] = useState<string | null>(null);
     const [antiBlockerTuto, setAntiBlockerTuto] = useState<string | null>(null);
+    const [adjuntarFreeMsj, setAdjuntarFreeMsj] = useState<string | null>(null);
+
     const [nextCard, setNextCard] = useState<boolean>(false)
     const [prevCard, setPrevCard] = useState<boolean>(false)
 
@@ -224,16 +228,22 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
                 
                 break;
             case 2:
+
                 let emptyMess;
                 if (isPaid) {
                     emptyMess = messages.some(subarray => subarray.includes(""))
                 }else{
-                    emptyMess = messages[0].some(subarray => subarray.trim() == "") 
+                    if (messages.length > 0) {
+                        emptyMess = messages[0].includes("")
+                    }
+                }
+            
+                if (tipoEnvio === MESSAGE_TYPE.DIFUSION && !emptyMess) {
+                    setNextCard(true);
+                } else {
+                    setNextCard(false);
                 }
 
-                if ( (tipoEnvio == MESSAGE_TYPE.DIFUSION && !emptyMess ) ) {
-                    setNextCard(true)
-                }else{ setNextCard(false) }
                 setPrevCard(true)
                 break;
             case 3:
@@ -304,7 +314,7 @@ const CardsCont: React.FC<ICardsCont> = ({ isPaid, setGlobalData, globalData }) 
         if (Cookies.get(COPYPASTE_TUTO) != COOKIES_SETTINGS.NUNCA) setCopyPasteTutorial("")
     }, [])
 
-useEffect(() => {
+    useEffect(() => {
         if (antiBlockerTuto == COOKIES_SETTINGS.NUNCA) {
             Cookies.set(ANTIBLOCKER_TUTO, COOKIES_SETTINGS.NUNCA, { expires: 200 })
         }
@@ -313,10 +323,22 @@ useEffect(() => {
         }
     }, [antiBlockerTuto])
 
+    useEffect(() => {
+        if (adjuntarFreeMsj == COOKIES_SETTINGS.NUNCA) {
+            Cookies.set(ADJUNTAR_FREE, COOKIES_SETTINGS.NUNCA, { expires: 200 })
+        }
+        if (adjuntarFreeMsj == COOKIES_SETTINGS.DESP || adjuntarFreeMsj == COOKIES_SETTINGS.NUNCA) {
+            setAdjuntarFreeMsj(null)
+        }
+
+    }, [adjuntarFreeMsj])
     
     useEffect(() => {
         if (activeCard == 2) {
-            setTimeout(() => {
+
+        if (Cookies.get(ADJUNTAR_FREE) != COOKIES_SETTINGS.NUNCA) setAdjuntarFreeMsj("")
+            
+        setTimeout(() => {
                 setHintMessage(true)
             }, 300);
         }else{
@@ -326,6 +348,9 @@ useEffect(() => {
             if (Cookies.get(ANTIBLOCKER_TUTO) != COOKIES_SETTINGS.NUNCA) setAntiBlockerTuto("")
         }
     }, [activeCard])
+
+
+
 
     
     function nuevaDifusion() {
@@ -338,11 +363,13 @@ useEffect(() => {
         });
         setContactos(newArray)
         setMessages([['']])
+        setFilesSelected([])
         setSendingState(SENDING_STATE.INIT)
         setModalFinish(false)
         setBlackList([])
         setErrorCounter(0)
     }
+
 
     return (
         <div>
@@ -382,6 +409,7 @@ useEffect(() => {
                         delayBetween={delayBetween}
                         errorCounter={errorCounter}
                         setErrorCounter={setErrorCounter}
+                        filesSelected={filesSelected}
                     />
 
                     <FreeCard1 
@@ -415,6 +443,8 @@ useEffect(() => {
                         setModalPro={setModalPro}
                         delayBetween={delayBetween}
                         setDelayBetween={setDelayBetween}
+                        setFilesSelected={setFilesSelected}
+                        filesSelected={filesSelected}
                     />
 
                     
@@ -511,6 +541,8 @@ useEffect(() => {
 
             {copyPasteTutorial != null && <CopyPasteTuto setTuto={setCopyPasteTutorial} /> }
             {antiBlockerTuto != null && <AntiBlockerTuto setTuto={setAntiBlockerTuto } /> }
+
+            {!isPaid && adjuntarFreeMsj != null &&  (<AdjuntarFree setTuto={setAdjuntarFreeMsj} tuto={adjuntarFreeMsj} />) }
             
            <Notification status={notification.status} message={notification.message} modalReturn={notification.modalReturn} render={notification.render} />
            

@@ -11,7 +11,7 @@ import CustomColorBtn from "../../CustomColorBtn/CustomColorBtn";
 import Loader2 from "../../Loader/Loader2";
 import { INotification } from "../../Notification/Notification";
 import CardTitle from "../CardTitle/CardTitle";
-import { ContactInfo } from "../CardsContFree";
+import { ContactInfo, Imessages } from "../CardsContFree";
 import HeaderRow from "../HeaderRow/HeaderRow";
 import CardStructure from "./CardStructure";
 import styles from "./FreeCard.module.css";
@@ -30,7 +30,7 @@ export interface IFreeCard3 {
 
   sendingState: SENDING_STATE;
   setSendingState: (state: SENDING_STATE) => void;
-  messages: string[][];
+  messages:  Imessages;
   setBlackList: (contactos: ContactInfo[]) => void;
 
   notification : INotification;
@@ -54,6 +54,8 @@ export interface IFreeCard3 {
   delayBetween : number;
   errorCounter : number;
   setErrorCounter : (val: number) => void;
+
+  filesSelected: File[];
 
 }
 
@@ -87,7 +89,8 @@ const FreeCard3: React.FC<IFreeCard3> = ({
   setModalPro,
   delayBetween,
   errorCounter,
-  setErrorCounter
+  setErrorCounter,
+  filesSelected
 
 }) => {
   let idCard = 3;
@@ -247,12 +250,12 @@ const FreeCard3: React.FC<IFreeCard3> = ({
     let newCurrent = globalName(currentMessage)
 
     const sentMessage = await apiSenderWhatsappController.sendMessage(
-      userInfo.user_id,
       destinatario.nombre,
       newCurrent,
       validationCode(destinatario.numero),
       userInfo.access_token,
-      delayBetween
+      `${delayBetween}`,
+      filesSelected
     );
 
     onSuccess();

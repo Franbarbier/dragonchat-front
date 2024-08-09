@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { EVENT_KEY, MESSAGE_TYPE, STATUS } from '../../../enums';
 import { INotification } from '../../Notification/Notification';
 import CardTitle from '../CardTitle/CardTitle';
+import { Imessages } from '../CardsContFree';
 import { IChat, ISecuence } from '../ConversationPremium/ConversationPremium';
 import MultiMessages from '../MultiMessages/MultiMessages';
 import CardStructure from './CardStructure';
@@ -15,7 +16,7 @@ export interface IFreeCard2 {
     notification : INotification;
     tipoEnvio : string;
     setTipoEnvio : (tab: MESSAGE_TYPE.DIFUSION | MESSAGE_TYPE.CONVERSACION) => void;
-    messages : string[][];
+    messages : Imessages;
     setMessages : (mensajes: string[][]) => void;
     isPaid: boolean;
     nextCard : boolean;
@@ -25,10 +26,13 @@ export interface IFreeCard2 {
 
     delayBetween : number;
     setDelayBetween : (val: number) => void;
+
+    setFilesSelected : (val: File[]) => void;
+    filesSelected : File[];
 }
 
 
-const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, delayBetween, setDelayBetween, setShowTips, setModalPro }) => {
+const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBreadcrumb, notification, setNotification, tipoEnvio, setTipoEnvio, messages, setMessages, isPaid, nextCard, setActiveCard, delayBetween, setDelayBetween, setShowTips, setModalPro, setFilesSelected, filesSelected }) => {
 
     let idCard = 2;
 
@@ -65,6 +69,9 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
     })
 
 
+    
+
+
     return (
         <CardStructure id_card={idCard} activeCard={activeCard} isPaid={isPaid} setModalPro={setModalPro}>
             <>
@@ -79,7 +86,7 @@ const FreeCard2: React.FC<IFreeCard2> = ({ activeCard, selectedSecuence, setBrea
                 </div>
                 <div>
                     </div>
-                    <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween} isPaid={isPaid} setModalPro={setModalPro}/>
+                    <MultiMessages messages={messages} setMessages={setMessages} notification={notification} setNotification={setNotification} delayBetween={delayBetween} setDelayBetween={setDelayBetween} isPaid={isPaid} setModalPro={setModalPro} setFilesSelected={setFilesSelected} filesSelected={filesSelected} />
 
             </div>
 
