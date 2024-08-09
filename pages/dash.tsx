@@ -164,7 +164,7 @@ export async function getServerSideProps({ req, res }) {
     });
     const responseData = await getData.json();
     
-    if (responseData.subscription && responseData.subscription.isPaid === undefined) {
+    if ((responseData.subscription && responseData.subscription.isPaid === undefined) || !responseData.subscription) {
       data.subscription.isPaid = false;
     }else{
       data = responseData
@@ -173,15 +173,11 @@ export async function getServerSideProps({ req, res }) {
   } catch (error) {
   }
 
-  if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) {
-    maint = true
-  }
-  if ( data?.subscription?.isPaid == true && MAINTENANCE_PREMIUM ) {
-      maint = true
-  }
+  if (data?.subscription?.isPaid == false && MAINTENANCE_FREE) { maint = true }
+  if ( data?.subscription?.isPaid == true && MAINTENANCE_PREMIUM ) {  maint = true }
+  
 
   return { props: { stripe : stripeStatus, isPaid : data?.subscription?.isPaid, maintenance : maint } };
-
 
 }
 
